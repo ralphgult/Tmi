@@ -178,6 +178,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                 } else if (phone.length() != 11) {
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 } else {
+                    Log.e("info","phone number ======== " + phone);
                     SMSSDK.getVerificationCode("+86", phone);
                 }
                 break;
