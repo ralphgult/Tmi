@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_my_address"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background_white"
-    tools:context="com.hyphenate.chatuidemo.tm.ui.MyAddressActivity">
+    android:background="@color/background_white">
     <RelativeLayout
         android:id="@+id/yx_fgt_conversation_top_layout"
         android:layout_width="match_parent"
@@ -16,7 +14,7 @@
             android:id="@+id/my_address_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/ease_back"/>
 
         <TextView
