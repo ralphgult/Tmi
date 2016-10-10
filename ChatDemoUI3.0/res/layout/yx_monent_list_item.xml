@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/yx_common_color_white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+
+    <!--顶部布局 begin-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/yx_monent_top_head_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:id="@+id/yx_monent_top_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textSize="16sp"
+                tools:text="小明" />
+
+            <TextView
+                android:id="@+id/yx_monent_top_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/text_dark_grey"
+                android:textSize="14sp"
+                tools:text="2016-01-22" />
+
+            <LinearLayout
+                android:id="@+id/yx_monent_status_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <!--<TextView-->
+                    <!--android:id="@+id/yx_comment_resend_tv"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/yx_monent_resend_text"-->
+                    <!--android:textColor="@color/yx_monent_resend_text_color"-->
+                    <!--android:textSize="16sp" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/yx_comment_del_tv"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/youxue_common_25"-->
+                    <!--android:text="@string/yx_monent_del"-->
+                    <!--android:textColor="@color/yx_warn_color_red"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:visibility="gone" />-->
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/yx_monent_top_del"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/delete_expression" />-->
+    </LinearLayout>
+    <!--顶部布局 end-->
+
+    <!--中间评论内容、图片布局 begin-->
+    <TextView
+        android:id="@+id/yx_monent_content_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:gravity="top|left"
+        android:lineSpacingMultiplier="1.2"
+        android:ellipsize="end"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"
+        android:visibility="visible"
+        android:textColorLink="@color/text_blue"
+        tools:text="去博物馆参观，金条真是不虚此行，同学们也学到了很多课外知识。"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/forward_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/gray_888"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/forward_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="top|left"
+            android:lineSpacingMultiplier="1.2"
+            android:ellipsize="end"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            android:textColorLink="@color/text_blue"
+            android:visibility="gone"
+            />
+
+        <GridView
+            android:id="@+id/yx_monent_content_gv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnWidth="70dp"
+            android:gravity="left"
+            android:horizontalSpacing="5dp"
+            android:listSelector="@color/gray_888"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+    <!--中间评论内容、图片布局 end-->
+
+    <!--转发、点赞、评论图标布局 begin-->
+    <LinearLayout
+        android:id="@+id/yx_moment_list_item_bottom_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/yx_monent_bottom_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textColor="@color/text_dark_grey"
+            android:textSize="16sp"
+            tools:text="2小时前" />
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/yx_monent_bottom_forward_img"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@drawable/yx_find_monent_forward_selector" />-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/yx_monent_bottom_like_layout"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--&gt;-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/yx_monent_bottom_like_img"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/yx_find_monent_like_selector" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/yx_monent_bottom_like_number"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:textColor="@color/text_dark_grey"-->
+                    <!--android:textSize="16sp"-->
+                    <!--tools:text="aaa" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/yx_monent_bottom_comment_layout"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/yx_monent_bottom_comment_img"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/yx_find_monent_comment_selector" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/yx_monent_bottom_comment_number"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:textColor="@color/text_dark_grey"-->
+                    <!--android:textSize="16sp"-->
+                    <!--tools:text="aaa" />-->
+
+            <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/yx_monent_bottom_height_view_iv"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/background_white" />
+
+    <!--转发、点赞、评论图标布局 end-->
+
+
+</LinearLayout>

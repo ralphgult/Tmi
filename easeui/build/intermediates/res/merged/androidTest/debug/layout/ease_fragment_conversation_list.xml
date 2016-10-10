@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hyphenate="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg"
+    android:orientation="vertical">
+
+	<!--<com.hyphenate.easeui.widget.EaseTitleBar -->
+	    <!--android:id="@+id/title_bar"-->
+	    <!--android:layout_width="match_parent"-->
+	    <!--android:layout_height="wrap_content"-->
+	    <!--hyphenate:titleBarTitle="@string/session"-->
+	    <!--/>-->
+	<RelativeLayout
+		android:id="@+id/yx_fgt_conversation_top_layout"
+		android:layout_width="match_parent"
+		android:layout_height="45dp"
+		android:background="@drawable/tm_huihua_title_bar">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:paddingLeft="45dp"
+		android:paddingRight="45dp"
+		android:orientation="horizontal"
+		android:gravity="center"
+		>
+
+		<ImageView
+			android:id="@+id/tm_top_liaotian_iv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:src="@drawable/tm_huihua_liaotian_pressed"
+			/>
+		<ImageView
+			android:id="@+id/tm_top_haoyou_iv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:src="@drawable/tm_huihua_haoyou_normal" />
+			/>
+
+	</LinearLayout>
+	</RelativeLayout>
+
+	<include layout="@layout/ease_search_bar" />
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fl_error_item"
+        >
+    </FrameLayout>
+
+
+    <com.hyphenate.easeui.widget.EaseConversationList
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        hyphenate:cvsListPrimaryTextSize="16sp"
+         />
+
+</LinearLayout>

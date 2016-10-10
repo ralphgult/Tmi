@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_my_address"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white"
+    tools:context="com.hyphenate.chatuidemo.tm.ui.MyAddressActivity">
+    <RelativeLayout
+        android:id="@+id/yx_fgt_conversation_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+        <ImageView
+            android:id="@+id/my_address_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ease_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我的地址"
+            android:textColor="@color/background_white"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/my_address_add_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/background_white"
+            android:text="添加"/>
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/my_address_lsit_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

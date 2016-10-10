@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_farmer_center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+
+        <ImageView
+            android:id="@+id/farmer_center_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ease_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="三农中心"
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/farmer_center_ok_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="完成"
+            android:textColor="@color/background_white"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/farmer_center_head_rv"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="@color/background_white"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="三农Logo"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/em_empty_photo" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+
+            <TextView
+                android:id="@+id/farmer_center_fengcai_tv"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:gravity="center_vertical"
+                android:text="三农风采"
+                android:textColor="#4e4e4e"
+                android:textSize="16sp" />
+
+            <GridView
+                android:id="@+id/farmer_center_pics_gv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="5dp"
+                android:visibility="gone"></GridView>
+
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+
+            <RelativeLayout
+                android:id="@+id/farmer_center_name_text_rv"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:id="@+id/farmer_center_name_text_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="三农名称"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/farmer_center_name_tv"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/farmer_center_name_arrow_iv"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="right"
+                    tools:text="多少克录"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/farmer_center_name_arrow_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+
+            <RelativeLayout
+                android:id="@+id/farmer_center_sign_rv"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:id="@+id/farmer_center_sign_text_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="三农说明"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/farmer_center_sign_tv"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/farmer_center_sign_arrow_iv"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="right"
+                    android:hint="未设置"
+                    tools:text="多少克拉夫捡垃圾了多少积分垃圾是的链接发来的撒娇楼上的加拉记录"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/farmer_center_sign_arrow_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <LinearLayout
+                android:id="@+id/farmer_center_qr_ly"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="@color/background_white"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="三农二维码"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/em_empty_photo" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

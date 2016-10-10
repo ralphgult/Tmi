@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg"
+    android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp"
+            android:background="@drawable/tm_huihua_title_bar">
+
+            <ImageView
+                android:id="@+id/tm_top_person_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/tm_geren_pressed" />
+
+            <ImageView
+                android:id="@+id/tm_top_comp_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/tm_qiye_norm" />
+
+            <ImageView
+                android:id="@+id/tm_top_farmer_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/tm_sannong_normal" />
+
+        </LinearLayout>
+    <!--个人界面按钮-->
+    <LinearLayout
+        android:id="@+id/tm_person_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tm_person_notice_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_1"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="T觅资讯"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+
+        <TextView
+            android:id="@+id/tm_person_moment_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_2"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="朋友圈"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+
+        <TextView
+            android:id="@+id/tm_person_local_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_3"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="附近的人"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <View
+            style="@style/tm_common_divide_line_whitebg"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tm_person_scan_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_4"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="扫一扫"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+
+        <TextView
+            android:id="@+id/tm_person_myscore_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_5"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="我的积分"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+    </LinearLayout>
+    <!--企业界面按钮-->
+    <LinearLayout
+        android:id="@+id/tm_comp_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tm_comp_notice_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_1"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="T觅资讯"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+
+        <TextView
+            android:id="@+id/tm_comp_goods_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_my_2"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="企业产品服务管理"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+
+        <TextView
+            android:id="@+id/tm_comp_order_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_my_4"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="企业订单管理"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+    </LinearLayout>
+    <!--三农界面按钮-->
+    <LinearLayout
+        android:id="@+id/tm_farmer_ly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tm_farmer_notice_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_1"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="T觅资讯"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+
+        <TextView
+            android:id="@+id/tm_farmer_goods_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_my_3"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="三农产品服务管理"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+
+        <TextView
+            android:id="@+id/tm_farmer_order_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/tm_my_4"
+            android:drawablePadding="12dp"
+            android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="三农订单管理"
+            android:textColor="@color/yx_context_function_color"
+            android:textSize="16sp" />
+
+        <View style="@style/tm_common_divide_line_whitebg" />
+    </LinearLayout>
+</LinearLayout>

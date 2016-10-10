@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="tm_common_divide_line_whitebg">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#b5b5b6</item>
+    </style>
+    <style name="tm_common_divide_line_whitebg_width">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/btn_white_pressed</item>
+    </style>
+    <style name="tm_common_divide_line_whitebg_height">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/btn_white_pressed</item>
+    </style>
+    <style name="tm_common_divide_line_main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">5px</item>
+        <item name="android:background">#FFA500</item>
+    </style>
+
+
+
+</resources>

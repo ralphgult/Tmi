@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="oohla-android-common-1.1.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/oohla-android-common-1.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white">
+    <RelativeLayout
+        android:id="@+id/yx_fgt_conversation_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+        <ImageView
+            android:id="@+id/setting_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ease_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="设置"
+            android:textColor="@color/background_white"
+            android:textSize="20sp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
+            <LinearLayout
+                android:id="@+id/setting_btn_msgsetting"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@color/background_white"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_black"
+                    android:text="消息设置"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
+            <LinearLayout
+                android:id="@+id/setting_btn_cleanmsg"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@color/background_white"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_black"
+                    android:text="清空消息记录"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
+            <LinearLayout
+                android:id="@+id/setting_btn_modifypwd"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@color/background_white"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_black"
+                    android:text="修改密码"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
+            <LinearLayout
+                android:id="@+id/setting_btn_cleancache"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@color/background_white"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_black"
+                    android:text="清理缓存"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
+            <LinearLayout
+                android:id="@+id/setting_btn_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@color/background_white"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_black"
+                    android:text="意见反馈"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
+            <LinearLayout
+                android:id="@+id/setting_btn_about"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@color/background_white"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_black"
+                    android:text="关于"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
+            <LinearLayout
+                android:id="@+id/setting_btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:background="@color/background_white"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="#ff0000"
+                    android:text="退出登录"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
