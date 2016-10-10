@@ -10,7 +10,6 @@ import com.hyphenate.tmdemo.R;
 
 public class HeadBigActivity extends Activity {
     private ImageView head_iv;
-    private ImageView back_iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
