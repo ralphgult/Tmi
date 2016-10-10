@@ -15,7 +15,7 @@
             android:id="@+id/person_center_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/ease_back"/>
 
         <TextView
@@ -36,6 +36,7 @@
             android:textSize="15sp"
             android:textColor="@color/background_white"/>
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -98,6 +99,9 @@
                 android:visibility="gone">
             </GridView>
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+
             <RelativeLayout
                 android:id="@+id/person_center_sign_text_rv"
                 android:layout_width="match_parent"
@@ -134,8 +138,6 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/youxue_common_btn_icon_arrow"/>
             </RelativeLayout>
-
-            <View style="@style/tm_common_divide_line_whitebg_width" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
