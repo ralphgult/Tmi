@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/yx_common_color_white">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/yx_aty_guide_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/yx_aty_guide_cricles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/yx_aty_guide_cricle_fst_iv"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:background="@drawable/yx_welcome_selector_point_5_dp_white_shap" />
+
+        <ImageView
+            android:id="@+id/yx_aty_guide_cricle_sec_iv"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/yx_welcome_selector_point_5_dp_gray_shap" />
+
+        <ImageView
+            android:id="@+id/yx_aty_guide_cricle_thr_iv"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:background="@drawable/yx_welcome_selector_point_5_dp_gray_shap" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/aty_guide_getin_btn"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/yx_aty_guide_cricles"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="@drawable/yx_guide_button_selector"
+        android:layout_marginBottom="15dp"
+        android:text="进入应用"
+        android:textColor="#81ac48"
+        android:visibility="visible" />
+</RelativeLayout>
