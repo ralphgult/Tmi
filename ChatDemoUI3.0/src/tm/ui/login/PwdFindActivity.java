@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -156,13 +157,13 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                 String ver = sms_edt.getText().toString().trim();
                 String pwd = pwd_edt.getText().toString().trim();
                 String pwdConfirm = pwdConfirm_edt.getText().toString().trim();
-                if (phone.equals("")) {
+                if (TextUtils.isEmpty(phone)) {
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
-                } else if (ver.equals("")) {
+                } else if (TextUtils.isEmpty(ver)) {
                     Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
-                } else if (pwd.equals("")) {
+                } else if (TextUtils.isEmpty(pwd)) {
                     Toast.makeText(this, "请输入新密码", Toast.LENGTH_SHORT).show();
-                } else if (pwdConfirm.equals("")) {
+                } else if (TextUtils.isEmpty(pwdConfirm)) {
                     Toast.makeText(this, "请输入确认密码", Toast.LENGTH_SHORT).show();
                 } else if (!pwd.equals(pwdConfirm)) {
                     Toast.makeText(this, "两次密码数据不一致，请重新输入", Toast.LENGTH_SHORT).show();
@@ -173,7 +174,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.findpwd_getsms_tv:
-                if (phone.equals("")) {
+                if (TextUtils.isEmpty(phone)) {
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
                 } else if (phone.length() != 11) {
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();

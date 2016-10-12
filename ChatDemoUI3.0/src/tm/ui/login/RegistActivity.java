@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -157,13 +158,13 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 String ver = sms_edt.getText().toString().trim();
                 pwd = pwd_edt.getText().toString().trim();
                 String pwdConfirm = pwdConfirm_edt.getText().toString().trim();
-                if (userName.equals("")) {
+                if (TextUtils.isEmpty(userName)) {
                     Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
-                } else if (ver.equals("")) {
+                } else if (TextUtils.isEmpty(ver)) {
                     Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
-                } else if (pwd.equals("")) {
+                } else if (TextUtils.isEmpty(pwd)) {
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
-                } else if (pwdConfirm.equals("")) {
+                } else if (TextUtils.isEmpty(pwdConfirm)) {
                     Toast.makeText(this, "请输入确认密码", Toast.LENGTH_SHORT).show();
                 } else if (!pwd.equals(pwdConfirm)) {
                     Toast.makeText(this, "两次密码数据不一致，请重新输入", Toast.LENGTH_SHORT).show();
@@ -175,7 +176,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.regist_getsms_tv:
                 userName = phone_edt.getText().toString().trim();
-                if (userName.equals("")) {
+                if (TextUtils.isEmpty(userName)) {
                     Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
                 } else if (userName.length() != 11) {
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
