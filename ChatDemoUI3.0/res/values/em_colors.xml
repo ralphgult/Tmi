@@ -54,4 +54,10 @@
 
     <color name="getsms_wait_color">#B3B3B3</color>
     <color name="getsms_normal_color">#ae7efc</color>
+
+    <color name="viewfinder_frame">#ff000000</color>
+    <color name="viewfinder_laser">#ae7efc</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
 </resources>
