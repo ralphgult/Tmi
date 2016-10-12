@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.hyphenate.tmdemo.R;
 
 import tm.ui.tmi.TmiNoticeActivity;
+import tm.utils.ViewUtil;
+import tm.widget.zxing.activity.CaptureActivity;
 
 
 /**
@@ -115,12 +117,9 @@ public class TmFragment extends Fragment implements View.OnClickListener {
                     }
                 }
                 break;
-//            case R.id.tm_person_notice_tv:
-//            case R.id.tm_comp_notice_tv:
-//            case R.id.tm_farmer_notice_tv:
-//                Intent intentNotice = new Intent(this.getActivity(), TmiNoticeActivity.class);
-//                this.startActivity(intentNotice);
-//                break;
+            case R.id.tm_person_scan_tv:
+                ViewUtil.jumpToOtherActivity(this.getActivity(), CaptureActivity.class);
+                break;
             default:
                 Toast.makeText(this.getActivity(),"正在开发中...",Toast.LENGTH_SHORT).show();
                 break;
