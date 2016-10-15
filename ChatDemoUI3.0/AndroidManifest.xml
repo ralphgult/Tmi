@@ -550,7 +550,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name="tm.ui.tmi.ProductManageActivity" />
         <activity
-            android:name="tm.welcome.GuideActivity"
+            android:name="tm.ui.welcome.GuideActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
         <activity
