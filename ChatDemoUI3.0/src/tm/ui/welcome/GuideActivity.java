@@ -1,7 +1,9 @@
 package tm.ui.welcome;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -43,6 +45,11 @@ public class GuideActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //获取SharedPreferences对象
+        SharedPreferences sharedPre=this.getSharedPreferences("config", this.MODE_PRIVATE);
+        //获取Editor对象
+        sharedPre.edit().putBoolean("hasOpened", true).commit();
+
         setContentView(R.layout.yx_activity_guide_layout);
         mViewPager = (ViewPager) findViewById(R.id.yx_aty_guide_viewpager);
         initView();
