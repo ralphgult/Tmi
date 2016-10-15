@@ -1,6 +1,7 @@
 package com.hyphenate.tmdemo.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import tm.ui.welcome.GuideActivity;
 public class SplashActivity extends BaseActivity {
     private RelativeLayout rootLayout;
     private TextView versionText;
+    private SharedPreferences sharedPre;
+    private boolean hasOpened;
 
     private static final int sleepTime = 2000;
 
@@ -24,7 +27,9 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         setContentView(R.layout.em_activity_splash);
         super.onCreate(arg0);
-
+        //获取SharedPreferences对象
+        sharedPre=this.getSharedPreferences("config", this.MODE_PRIVATE);
+        hasOpened = sharedPre.getBoolean("hasOpened",false);
         rootLayout = (RelativeLayout) findViewById(R.id.splash_root);
         versionText = (TextView) findViewById(R.id.tv_version);
 
@@ -55,11 +60,14 @@ public class SplashActivity extends BaseActivity {
                         //enter main screen
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         finish();
-                    } else {
+                    } else if(!hasOpened){
                         Thread.sleep(sleepTime);
                         startActivity(new Intent(SplashActivity.this, GuideActivity.class));
 
                         finish();
+                    }else{
+                        Thread.sleep(sleepTime);
+                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
