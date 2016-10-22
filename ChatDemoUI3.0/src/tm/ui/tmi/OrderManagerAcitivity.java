@@ -145,8 +145,8 @@ public class OrderManagerAcitivity extends Activity implements View.OnClickListe
                     if (kindList.get(i).getId() == v.getId()) {
                         countList.get(i).setTextColor(Color.parseColor("#a161fb"));
                         textList.get(i).setTextColor(Color.parseColor("#a161fb"));
+                        mAdapter.setType(i);
                         mAdapter.resetData(getDatas());
-                        mAdapter.notify();
                     } else {
                         countList.get(i).setTextColor(Color.parseColor("#4e4e4e"));
                         textList.get(i).setTextColor(Color.parseColor("#4e4e4e"));
@@ -164,6 +164,7 @@ public class OrderManagerAcitivity extends Activity implements View.OnClickListe
         map.put("name", "冰粽礼盒，60g*8");
         map.put("price", "79.0");
         map.put("num", "1");
+        map.put("status", "1");
         map.put("reason", "货物与实物不符");
         list.add(map);
         map = new HashMap<>();
@@ -171,6 +172,7 @@ public class OrderManagerAcitivity extends Activity implements View.OnClickListe
         map.put("name", "冰粽礼盒，60g*8");
         map.put("price", "79.0");
         map.put("num", "1");
+        map.put("status", "9");
         map.put("reason", "宝贝破损");
         list.add(map);
         return list;
