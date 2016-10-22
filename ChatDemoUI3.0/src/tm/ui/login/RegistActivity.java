@@ -32,87 +32,87 @@ import tm.http.Config;
 import tm.http.NetFactory;
 
 
-public class RegistActivity extends BaseActivity /*implements View.OnClickListener*/ {
-//    private final int REGIST_SUCESS = 1;
-//    private final int REGIST_EXIST = -1;
-//    private final int GET_SMS = 12;
-//    private final int GET_SMS_FAIL = 13;
-//
-//    private EditText phone_edt;
-//    private EditText sms_edt;
-//    private TextView getSms_tv;
-//    private EditText pwd_edt;
-//    private ImageView back_tv;
-//    private TextView confirm_iv;
-//    private EditText pwdConfirm_edt;
-//    private String phone;
-//    private String pwd;
+public class RegistActivity extends BaseActivity implements View.OnClickListener {
+    private final int REGIST_SUCESS = 1;
+    private final int REGIST_EXIST = -1;
+    private final int GET_SMS = 12;
+    private final int GET_SMS_FAIL = 13;
+
+    private EditText phone_edt;
+    private EditText sms_edt;
+    private TextView getSms_tv;
+    private EditText pwd_edt;
+    private ImageView back_tv;
+    private TextView confirm_iv;
+    private EditText pwdConfirm_edt;
+    private String phone;
+    private String pwd;
 //    private EventHandler eh;
-//    private int i = 59;
-//    private boolean isCheck;
-//    private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            if (null != msg.obj) {
-//                Log.e("info", "result = " + ((Map) msg.obj).toString());
-//                String result = ((Map) msg.obj).toString();
-//                JSONObject object = null;
-//                try {
-//                    object = new JSONObject(result);
-//                    int resultCode = object.getInt("authId");
-//                    if (resultCode == REGIST_SUCESS) {
-//                        Toast.makeText(RegistActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
-//                        RegistActivity.this.finish();
-//                    } else if (resultCode == REGIST_EXIST) {
-//                        Toast.makeText(RegistActivity.this, "该手机号已经被注册", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        Toast.makeText(RegistActivity.this, "系统错误，请稍后再试", Toast.LENGTH_SHORT).show();
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                switch (msg.what) {
-//                    case GET_SMS:
-//                        Toast.makeText(RegistActivity.this, "验证码已发送，请注意查看信息", Toast.LENGTH_SHORT).show();
-//                        getSms_tv.setTextColor(getResources().getColor(R.color.getsms_wait_color));
-//                        postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
-//                                getSms_tv.setClickable(true);
-//                            }
-//                        }, 60000);
-//                        break;
-//                    case GET_SMS_FAIL:
-//                        if(isCheck) {
-//                            Toast.makeText(RegistActivity.this, "验证码错误，请重新获取", Toast.LENGTH_SHORT).show();
-//                            getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
-//                            getSms_tv.setClickable(true);
-//                            break;
-//                        }
-//                        Toast.makeText(RegistActivity.this, "当日获取验证码次数已用完", Toast.LENGTH_SHORT).show();
-//                        break;
-//                }
-//            }
-//        }
-//    };
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_regist);
-//        init();
-//        initView();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
+    private int i = 59;
+    private boolean isCheck;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (null != msg.obj) {
+                Log.e("info", "result = " + ((Map) msg.obj).toString());
+                String result = ((Map) msg.obj).toString();
+                JSONObject object = null;
+                try {
+                    object = new JSONObject(result);
+                    int resultCode = object.getInt("authId");
+                    if (resultCode == REGIST_SUCESS) {
+                        Toast.makeText(RegistActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
+                        RegistActivity.this.finish();
+                    } else if (resultCode == REGIST_EXIST) {
+                        Toast.makeText(RegistActivity.this, "该手机号已经被注册", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RegistActivity.this, "系统错误，请稍后再试", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                switch (msg.what) {
+                    case GET_SMS:
+                        Toast.makeText(RegistActivity.this, "验证码已发送，请注意查看信息", Toast.LENGTH_SHORT).show();
+                        getSms_tv.setTextColor(getResources().getColor(R.color.getsms_wait_color));
+                        postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
+                                getSms_tv.setClickable(true);
+                            }
+                        }, 60000);
+                        break;
+                    case GET_SMS_FAIL:
+                        if(isCheck) {
+                            Toast.makeText(RegistActivity.this, "验证码错误，请重新获取", Toast.LENGTH_SHORT).show();
+                            getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
+                            getSms_tv.setClickable(true);
+                            break;
+                        }
+                        Toast.makeText(RegistActivity.this, "当日获取验证码次数已用完", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_regist);
+        init();
+        initView();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
 //        SMSSDK.unregisterEventHandler(eh);
-//    }
-//
-//    private void init() {
+    }
+
+    private void init() {
 //        SMSSDK.initSDK(this, "15ad624441feb", "5c0ead0ca6ccbd06cb1997398e14bba5");
 //        eh = new EventHandler() {
 //            @Override
@@ -140,65 +140,65 @@ public class RegistActivity extends BaseActivity /*implements View.OnClickListen
 //            }
 //        };
 //        SMSSDK.registerEventHandler(eh);
-//    }
-//
-//    private void initView() {
-//        back_tv = (ImageView) findViewById(R.id.regist_back);
-//        confirm_iv = (TextView) findViewById(R.id.regist_confirm);
-//        phone_edt = (EditText) findViewById(R.id.regist_phone_edt);
-//        sms_edt = (EditText) findViewById(R.id.regist_sms_edt);
-//        pwd_edt = (EditText) findViewById(R.id.regist_pwd_edt);
-//        getSms_tv = (TextView) findViewById(R.id.regist_getsms_tv);
-//        pwdConfirm_edt = (EditText) findViewById(R.id.regist_pwd_confirm_edt);
-//        getSms_tv.setOnClickListener(this);
-//        back_tv.setOnClickListener(this);
-//        confirm_iv.setOnClickListener(this);
-//    }
-//
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.regist_back:
-//                this.finish();
-//                break;
-//            case R.id.regist_confirm:
-//                phone = phone_edt.getText().toString().trim();
-//                String ver = sms_edt.getText().toString().trim();
-//                pwd = pwd_edt.getText().toString().trim();
-//                String pwdConfirm = pwdConfirm_edt.getText().toString().trim();
-//                if (TextUtils.isEmpty(phone)) {
-//                    Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
-//                } else if (TextUtils.isEmpty(ver)) {
-//                    Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
-//                } else if (TextUtils.isEmpty(pwd)) {
-//                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
-//                } else if (TextUtils.isEmpty(pwdConfirm)) {
-//                    Toast.makeText(this, "请输入确认密码", Toast.LENGTH_SHORT).show();
-//                } else if (!pwd.equals(pwdConfirm)) {
-//                    Toast.makeText(this, "两次密码数据不一致，请重新输入", Toast.LENGTH_SHORT).show();
-//                } else if (phone.length() != 11) {
-//                    Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    isCheck = true;
+    }
+
+    private void initView() {
+        back_tv = (ImageView) findViewById(R.id.regist_back);
+        confirm_iv = (TextView) findViewById(R.id.regist_confirm);
+        phone_edt = (EditText) findViewById(R.id.regist_phone_edt);
+        sms_edt = (EditText) findViewById(R.id.regist_sms_edt);
+        pwd_edt = (EditText) findViewById(R.id.regist_pwd_edt);
+        getSms_tv = (TextView) findViewById(R.id.regist_getsms_tv);
+        pwdConfirm_edt = (EditText) findViewById(R.id.regist_pwd_confirm_edt);
+        getSms_tv.setOnClickListener(this);
+        back_tv.setOnClickListener(this);
+        confirm_iv.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.regist_back:
+                this.finish();
+                break;
+            case R.id.regist_confirm:
+                phone = phone_edt.getText().toString().trim();
+                String ver = sms_edt.getText().toString().trim();
+                pwd = pwd_edt.getText().toString().trim();
+                String pwdConfirm = pwdConfirm_edt.getText().toString().trim();
+                if (TextUtils.isEmpty(phone)) {
+                    Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(ver)) {
+                    Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(pwd)) {
+                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(pwdConfirm)) {
+                    Toast.makeText(this, "请输入确认密码", Toast.LENGTH_SHORT).show();
+                } else if (!pwd.equals(pwdConfirm)) {
+                    Toast.makeText(this, "两次密码数据不一致，请重新输入", Toast.LENGTH_SHORT).show();
+                } else if (phone.length() != 11) {
+                    Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+                } else {
+                    isCheck = true;
 //                    SMSSDK.submitVerificationCode("+86", phone, ver);
-//                }
-//                break;
-//            case R.id.regist_getsms_tv:
-//                phone = phone_edt.getText().toString().trim();
-//                if (TextUtils.isEmpty(phone)) {
-//                    Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
-//                } else if (phone.length() != 11) {
-//                    Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
-//                } else {
+                }
+                break;
+            case R.id.regist_getsms_tv:
+                phone = phone_edt.getText().toString().trim();
+                if (TextUtils.isEmpty(phone)) {
+                    Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
+                } else if (phone.length() != 11) {
+                    Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+                } else {
 //                    SMSSDK.getVerificationCode("+86", phone);
-//                }
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    protected void onStop() {
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onStop() {
 //        SMSSDK.unregisterEventHandler(eh);
-//        super.onStop();
-//    }
+        super.onStop();
+    }
 }
