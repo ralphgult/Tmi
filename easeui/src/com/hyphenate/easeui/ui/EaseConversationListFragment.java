@@ -279,9 +279,9 @@ public class EaseConversationListFragment extends EaseBaseFragment{
     @Override
     public void onResume() {
         super.onResume();
-        if (!hidden) {
+//        if (!hidden) {
             refresh();
-        }
+//        }
     }
     
     @Override
