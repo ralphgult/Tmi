@@ -22,7 +22,10 @@ public class Config {
     public static String URL_GET_RECOMMEND_USERS=ROOT_HOST_NAME+"/CBDParkingMSs/recommend";//获取推荐列表接口
     public static String URL_GET_NEARLY_USERS=ROOT_HOST_NAME+"/CBDParkingMSs/near";//获取附近列表接口
     public static String URL_GET_TS_USERS=ROOT_HOST_NAME+"/CBDParkingMSs/ts";//获取本地特色列表接口
-    public static String URL_GET_USER_HOME=ROOT_HOST_NAME+"/CBDParkingMSs/personal";//获取个人首页接口
+    public static String URL_GET_USER_HOME=ROOT_HOST_NAME+"/CBDParkingMSs/mood/personal";//获取个人首页接口
+    public static String URL_GET_QIYE_HOME=ROOT_HOST_NAME+"/CBDParkingMSs/goods/homepage";//获取企业首页接口
+    public static String URL_GET_SANNONG_HOME=ROOT_HOST_NAME+"/CBDParkingMSs/mood/farmPersonal";//获取三农首页接口
+    public static String URL_GET_SEARCH_HOME=ROOT_HOST_NAME+"/CBDParkingMSs/searchRecommend";//获取热荐搜索接口
     public static String URL_REDGIST = ROOT_HOST_NAME+"/CBDParkingMSs/regist";
     public static String URL_FIND_PASSWORD = ROOT_HOST_NAME+"/CBDParkingMSs/updatePwd";
 
