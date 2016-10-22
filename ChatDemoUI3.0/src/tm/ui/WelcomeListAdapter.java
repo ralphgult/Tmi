@@ -71,6 +71,9 @@ public class WelcomeListAdapter extends BaseAdapter {
     public long getItemId(int arg0) {
         return Long.parseLong(list.get(arg0).get("userid").toString());
     }
+    public String getItemName(int arg0) {
+        return list.get(arg0).get("userName").toString();
+    }
 
     @Override
     public View getView(int index, View view, ViewGroup parent) {

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.tmdemo.R;
 import com.hyphenate.tmdemo.ui.BaseActivity;
 
@@ -22,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tm.entity.ResourcesBean;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.ui.home.Adapter.BenditeseAdapter;
@@ -44,7 +42,6 @@ public class BenditeseActivity extends BaseActivity {
         setContentView(R.layout.tm_bendi_lv);
         init();
         position=getIntent().getExtras().getInt("position");
-        Log.e("info","position=222="+position);
         LoadData(position+1);
     }
 
@@ -97,6 +94,7 @@ public class BenditeseActivity extends BaseActivity {
     protected void setData(Map map) {
         try {
             JSONObject obj =new JSONObject(map.toString());
+            Log.e("info","map==本地特色="+map);
             JSONArray objList = obj.getJSONArray("rows");
             for (int i = 0; i < objList.length(); i++) {
                 JSONObject jo = objList.getJSONObject(i);
@@ -120,12 +118,5 @@ public class BenditeseActivity extends BaseActivity {
     public void back(View view) {
         finish();
     }
-//    public List<ResourcesBean> getData() {
-//        ArrayList<ResourcesBean> list = new ArrayList<ResourcesBean>();
-//        ResourcesBean bean1 = new ResourcesBean();
-//        bean1.mResourcesName="郭德纲打野";
-//        list.add(0, bean1);
-//        return list;
-//    }
 
 }

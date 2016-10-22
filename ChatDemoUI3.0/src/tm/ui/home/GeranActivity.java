@@ -2,6 +2,7 @@ package tm.ui.home;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -9,20 +10,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyphenate.tmdemo.R;
 import com.hyphenate.tmdemo.ui.BaseActivity;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import tm.http.Config;
 import tm.http.NetFactory;
@@ -50,6 +48,27 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private ArrayList<Map> list = new ArrayList<Map>();
     private TextView tv_title;
     private TextView tv_gxqm;
+    private TextView tv_qymc;
+    private TextView tv_grqianming;
+    private TextView tv_qiyeshuoming;
+    private TextView tv_yuanjia;
+    private TextView tv_yuanjia2;
+    private TextView tv_dianpu;
+    private LinearLayout lv_geren1;
+    private LinearLayout lv_geren2;
+    private LinearLayout lv_geren3;
+    private LinearLayout lv_geren4;
+    private LinearLayout lv_qiye;
+    private LinearLayout lv_dianpu;
+    private LinearLayout lv_qiye_line;
+    private TextView tv_name;
+    private TextView tv_time;
+    private TextView tv_look;
+    private TextView tv_num;
+    private TextView tv_comment;
+    private TextView tv_content;
+    private LinearLayout wwww;
+    private int  type=0;
     private ImageLoaders imageLoaders = new ImageLoaders(this,
             new imageLoaderListener());
 
@@ -74,7 +93,35 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void init() {
+        tv_name = (TextView)findViewById(R.id.yx_monent_top_name);
+        tv_time = (TextView)findViewById(R.id.yx_monent_top_time);
+        tv_look = (TextView)findViewById(R.id.yx_monent_content_look);
+        tv_num = (TextView)findViewById(R.id.yx_monent_bottom_like_number);
+        tv_comment = (TextView)findViewById(R.id.yx_monent_bottom_comment_number);
+        tv_content = (TextView)findViewById(R.id.yx_monent_content);
+        wwww = (LinearLayout)findViewById(R.id.tm_botton_ly);
+        wwww.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(GeranActivity.this,"该功能正在开发中。。。",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         tv_gxqm = (TextView)findViewById(R.id.tm_zhuye_gexing);
+        tv_qymc = (TextView)findViewById(R.id.tm_zhuye_qiyename);
+        tv_grqianming = (TextView)findViewById(R.id.tm_zhuye_gx);
+        tv_qiyeshuoming = (TextView)findViewById(R.id.tm_zhuye_qiyeshuoming);
+        lv_qiye = (LinearLayout)findViewById(R.id.tm_zhuye_qiye);
+        tv_dianpu = (TextView)findViewById(R.id.tm_zhuye_geren);
+        lv_geren1 = (LinearLayout)findViewById(R.id.tm_geren1);
+        lv_geren2 = (LinearLayout)findViewById(R.id.tm_geren2);
+        lv_geren3 = (LinearLayout)findViewById(R.id.tm_geren3);
+        lv_geren4 = (LinearLayout)findViewById(R.id.tm_geren4);
+        lv_dianpu = (LinearLayout)findViewById(R.id.tm_dianpu);
+        lv_qiye_line = (LinearLayout)findViewById(R.id.tm_qiye_line);
+        tv_yuanjia = (TextView)findViewById(R.id.tm_zhuye_yuanjia);
+        tv_yuanjia2 = (TextView)findViewById(R.id.tm_zhuye_yuanjia2);
+
         tv_title = (TextView)findViewById(R.id.tm_shouye_top_tv);
         img_pic1 = (ImageView) findViewById(R.id.img_pic1);
         img_pic2 = (ImageView) findViewById(R.id.img_pic2);
@@ -118,18 +165,22 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 txt1.setTextColor(Color.parseColor("#a161fb"));
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
                 txt3.setTextColor(Color.parseColor("#8c8c8c"));
-
+                type=0;
+                LoadData();
                 break;
             case R.id.shouye_top2:
                 txt2.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
                 txt3.setTextColor(Color.parseColor("#8c8c8c"));
-
+                type=1;
+                LoadData2();
                 break;
             case R.id.shouye_top3:
                 txt3.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
+                type=2;
+                LoadData3();
                 break;
             default:
                 break;
@@ -143,144 +194,293 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
 
     public void back(View view) {
         finish();
-    }private void setData(Map map) {
-        list.clear();
-//        String result = map.get("result").toString();
-        try {
-            JSONObject objects =new JSONObject(map.toString());
-//            JSONObject objects = new JSONObject(result);
-            JSONObject user1 = objects.getJSONObject("user1");
-            String nickname = user1.getString("nickname");
-            String userphoto = user1.getString("userphoto");
-            if (!nickname.equals("")) {
-                tv_title.setText(nickname);
-            } else {
-                tv_title.setText("个人主页");
-            }
-            tv_gxqm.setText(user1.getString("caption"));
-            JSONArray news = user1.getJSONArray("news");
-
-            for (int i = 0; i < news.length(); i++) {
-                JSONObject jsonNew = news.getJSONObject(i);
-                Map mapNew = new TreeMap();
-                mapNew.put("id", jsonNew.getString("id"));
-                mapNew.put("desc", jsonNew.getString("desc"));
-                mapNew.put("name", nickname);
-                mapNew.put("photo", userphoto);
-                mapNew.put("view_count", jsonNew.getString("view_count"));
-                mapNew.put("comment_count", jsonNew.getString("comment_count"));
-                mapNew.put("photos", jsonNew.getString("photos"));
-                list.add(mapNew);
-            }
-            JSONArray photos = user1.getJSONArray("photos");
-            if (photos != null && photos.length() != 0) {
-                if (photos.length() <= 3) {
-//                    ll_pic1.setVisibility(View.VISIBLE);
-//                    ll_pic2.setVisibility(View.GONE);
-                    for (int i = 0; i < photos.length(); i++) {
-                        switch (i) {
-                            case 0:
-                                imageLoaders.loadImage(img_pic1, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            case 1:
-                                imageLoaders.loadImage(img_pic2, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            case 2:
-                                imageLoaders.loadImage(img_pic3, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    if (photos.length() == 1) {
-                        img_pic1.setVisibility(View.VISIBLE);
-                        img_pic2.setVisibility(View.INVISIBLE);
-                        img_pic3.setVisibility(View.INVISIBLE);
-                    } else if (photos.length() == 2) {
-                        img_pic1.setVisibility(View.VISIBLE);
-                        img_pic2.setVisibility(View.VISIBLE);
-                        img_pic3.setVisibility(View.INVISIBLE);
-                    } else if (photos.length() == 3) {
-                        img_pic1.setVisibility(View.VISIBLE);
-                        img_pic2.setVisibility(View.VISIBLE);
-                        img_pic3.setVisibility(View.VISIBLE);
-                    }
-                } else {
-//                    ll_pic1.setVisibility(View.VISIBLE);
-//                    ll_pic2.setVisibility(View.VISIBLE);
-                    for (int i = 0; i < photos.length(); i++) {
-                        switch (i) {
-                            case 0:
-                                imageLoaders.loadImage(img_pic1, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            case 1:
-                                imageLoaders.loadImage(img_pic2, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            case 2:
-                                imageLoaders.loadImage(img_pic3, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            case 3:
-                                imageLoaders.loadImage(img_pic4, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            case 4:
-                                imageLoaders.loadImage(img_pic5, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            case 5:
-                                imageLoaders.loadImage(img_pic6, photos
-                                        .getJSONObject(i).getString("url"));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    img_pic1.setVisibility(View.VISIBLE);
-                    img_pic2.setVisibility(View.VISIBLE);
-                    img_pic3.setVisibility(View.VISIBLE);
-                    if (photos.length() == 4) {
-                        img_pic4.setVisibility(View.VISIBLE);
-                        img_pic5.setVisibility(View.INVISIBLE);
-                        img_pic6.setVisibility(View.INVISIBLE);
-                    } else if (photos.length() == 5) {
-                        img_pic4.setVisibility(View.VISIBLE);
-                        img_pic5.setVisibility(View.VISIBLE);
-                        img_pic6.setVisibility(View.INVISIBLE);
-                    } else if (photos.length() == 6) {
-                        img_pic4.setVisibility(View.VISIBLE);
-                        img_pic5.setVisibility(View.VISIBLE);
-                        img_pic6.setVisibility(View.VISIBLE);
-                    }
-                }
-            } else {
-//                ll_pic1.setVisibility(View.GONE);
-//                ll_pic2.setVisibility(View.GONE);
-                img_pic1.setVisibility(View.GONE);
-                img_pic2.setVisibility(View.GONE);
-                img_pic3.setVisibility(View.GONE);
-                img_pic4.setVisibility(View.GONE);
-                img_pic5.setVisibility(View.GONE);
-                img_pic6.setVisibility(View.GONE);
-            }
-
-        } catch (JSONException e) {
-        }
-//        resetHeight(adapter, lv_person1, 1);
     }
+    private void setData(Map map) {
+        tv_grqianming.setVisibility(View.VISIBLE);
+        tv_qymc.setVisibility(View.GONE);
+        lv_qiye.setVisibility(View.GONE);
+        lv_dianpu.setVisibility(View.GONE);
+        lv_geren1.setVisibility(View.VISIBLE);
+        lv_geren2.setVisibility(View.VISIBLE);
+        lv_geren3.setVisibility(View.VISIBLE);
+        lv_geren4.setVisibility(View.VISIBLE);
+        lv_qiye_line.setVisibility(View.GONE);
+        tv_dianpu.setText("个人动态");
+        tv_title.setText("王鹏飞");
+        tv_gxqm.setText("求有销售团队的企业老板资源");
+        tv_name.setText("王鹏飞");
+        tv_time.setText("10.2  20:35");
+        tv_look.setText("2");
+        tv_num.setText("5");
+        tv_comment.setText("4");
+        tv_content.setText("天下事抬不过一个理字，为什么这么多人觉得口才胜过事实。");
 
+//        list.clear();
+//        try {
+//            JSONObject objects =new JSONObject(map.toString());
+//            JSONArray objList = objects.getJSONArray("rows");
+//              String nickname = objects.getString("userName");
+//            if (!nickname.equals("")) {
+//                tv_title.setText(nickname);
+//            } else {
+//                tv_title.setText("个人主页");
+//            }
+//            tv_gxqm.setText(objects.getString("caption"));
+//            JSONArray news = objects.getJSONArray("rows");
+//
+//            for (int i = 0; i < news.length(); i++) {
+//                JSONObject jsonNew = news.getJSONObject(i);
+//                tv_name.setText(jsonNew.optString("userName"));
+//                tv_time.setText(jsonNew.optString("create_date"));
+//                tv_look.setText(jsonNew.optString("seeCount"));
+//                tv_num.setText(jsonNew.optString("mpsCount"));
+//                tv_comment.setText(jsonNew.optString("mcCount"));
+//                tv_content.setText(jsonNew.optString("mood_content"));
+//            }
+//            JSONArray photos = objects.getJSONArray("top");
+//            if (photos != null && photos.length() != 0) {
+//                if (photos.length() <= 3) {
+//                    for (int i = 0; i < photos.length(); i++) {
+//                        switch (i) {
+//                            case 0:
+//                                imageLoaders.loadImage(img_pic1, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 1:
+//                                imageLoaders.loadImage(img_pic2, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 2:
+//                                imageLoaders.loadImage(img_pic3, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }
+//                    if (photos.length() == 1) {
+//                        img_pic1.setVisibility(View.VISIBLE);
+//                        img_pic2.setVisibility(View.INVISIBLE);
+//                        img_pic3.setVisibility(View.INVISIBLE);
+//                    } else if (photos.length() == 2) {
+//                        img_pic1.setVisibility(View.VISIBLE);
+//                        img_pic2.setVisibility(View.VISIBLE);
+//                        img_pic3.setVisibility(View.INVISIBLE);
+//                    } else if (photos.length() == 3) {
+//                        img_pic1.setVisibility(View.VISIBLE);
+//                        img_pic2.setVisibility(View.VISIBLE);
+//                        img_pic3.setVisibility(View.VISIBLE);
+//                    }
+//                } else {
+//                    for (int i = 0; i < photos.length(); i++) {
+//                        switch (i) {
+//                            case 0:
+//                                imageLoaders.loadImage(img_pic1, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 1:
+//                                imageLoaders.loadImage(img_pic2, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 2:
+//                                imageLoaders.loadImage(img_pic3, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 3:
+//                                imageLoaders.loadImage(img_pic4, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 4:
+//                                imageLoaders.loadImage(img_pic5, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 5:
+//                                imageLoaders.loadImage(img_pic6, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }
+//                    img_pic1.setVisibility(View.VISIBLE);
+//                    img_pic2.setVisibility(View.VISIBLE);
+//                    img_pic3.setVisibility(View.VISIBLE);
+//                    if (photos.length() == 4) {
+//                        img_pic4.setVisibility(View.VISIBLE);
+//                        img_pic5.setVisibility(View.INVISIBLE);
+//                        img_pic6.setVisibility(View.INVISIBLE);
+//                    } else if (photos.length() == 5) {
+//                        img_pic4.setVisibility(View.VISIBLE);
+//                        img_pic5.setVisibility(View.VISIBLE);
+//                        img_pic6.setVisibility(View.INVISIBLE);
+//                    } else if (photos.length() == 6) {
+//                        img_pic4.setVisibility(View.VISIBLE);
+//                        img_pic5.setVisibility(View.VISIBLE);
+//                        img_pic6.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            } else {
+//                img_pic1.setVisibility(View.GONE);
+//                img_pic2.setVisibility(View.GONE);
+//                img_pic3.setVisibility(View.GONE);
+//                img_pic4.setVisibility(View.GONE);
+//                img_pic5.setVisibility(View.GONE);
+//                img_pic6.setVisibility(View.GONE);
+//            }
+//
+//        } catch (JSONException e) {
+//        }
+    }
+    private void setData2(Map map) {
+        tv_qymc.setVisibility(View.VISIBLE);
+        lv_dianpu.setVisibility(View.VISIBLE);
+        tv_grqianming.setVisibility(View.GONE);
+        lv_qiye_line.setVisibility(View.VISIBLE);
+        lv_geren1.setVisibility(View.GONE);
+        lv_geren2.setVisibility(View.GONE);
+        lv_geren3.setVisibility(View.GONE);
+        lv_geren4.setVisibility(View.GONE);
+        lv_qiye.setVisibility(View.VISIBLE);
+        tv_gxqm.setText("西域美农");
+        tv_title.setText("西域美农");
+        tv_qiyeshuoming.setText("一切皆有可能");
+        tv_dianpu.setText("店铺商品");
+        tv_yuanjia.setText("￥:50.2");
+        tv_yuanjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        tv_yuanjia2.setText("￥:85.4");
+        tv_yuanjia2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//        list.clear();
+//        try {
+//            JSONObject objects =new JSONObject(map.toString());
+//            JSONArray objList = objects.getJSONArray("rows");
+//            String nickname = objects.getString("userName");
+//            if (!nickname.equals("")) {
+//                tv_title.setText(nickname);
+//            } else {
+//                tv_title.setText("企业主页");
+//            }
+//            tv_gxqm.setText(objects.getString("caption"));
+//            JSONArray news = objects.getJSONArray("rows");
+//
+//            for (int i = 0; i < news.length(); i++) {
+//                JSONObject jsonNew = news.getJSONObject(i);
+//                tv_name.setText(jsonNew.optString("userName"));
+//                tv_time.setText(jsonNew.optString("create_date"));
+//                tv_look.setText(jsonNew.optString("seeCount"));
+//                tv_num.setText(jsonNew.optString("mpsCount"));
+//                tv_comment.setText(jsonNew.optString("mcCount"));
+//                tv_content.setText(jsonNew.optString("mood_content"));
+//            }
+//            JSONArray photos = objects.getJSONArray("top");
+//            if (photos != null && photos.length() != 0) {
+//                if (photos.length() <= 3) {
+//                    for (int i = 0; i < photos.length(); i++) {
+//                        switch (i) {
+//                            case 0:
+//                                imageLoaders.loadImage(img_pic1, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 1:
+//                                imageLoaders.loadImage(img_pic2, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 2:
+//                                imageLoaders.loadImage(img_pic3, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }
+//                    if (photos.length() == 1) {
+//                        img_pic1.setVisibility(View.VISIBLE);
+//                        img_pic2.setVisibility(View.INVISIBLE);
+//                        img_pic3.setVisibility(View.INVISIBLE);
+//                    } else if (photos.length() == 2) {
+//                        img_pic1.setVisibility(View.VISIBLE);
+//                        img_pic2.setVisibility(View.VISIBLE);
+//                        img_pic3.setVisibility(View.INVISIBLE);
+//                    } else if (photos.length() == 3) {
+//                        img_pic1.setVisibility(View.VISIBLE);
+//                        img_pic2.setVisibility(View.VISIBLE);
+//                        img_pic3.setVisibility(View.VISIBLE);
+//                    }
+//                } else {
+//                    for (int i = 0; i < photos.length(); i++) {
+//                        switch (i) {
+//                            case 0:
+//                                imageLoaders.loadImage(img_pic1, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 1:
+//                                imageLoaders.loadImage(img_pic2, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 2:
+//                                imageLoaders.loadImage(img_pic3, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 3:
+//                                imageLoaders.loadImage(img_pic4, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 4:
+//                                imageLoaders.loadImage(img_pic5, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            case 5:
+//                                imageLoaders.loadImage(img_pic6, photos
+//                                        .getJSONObject(i).getString("mpThumbnail"));
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }
+//                    img_pic1.setVisibility(View.VISIBLE);
+//                    img_pic2.setVisibility(View.VISIBLE);
+//                    img_pic3.setVisibility(View.VISIBLE);
+//                    if (photos.length() == 4) {
+//                        img_pic4.setVisibility(View.VISIBLE);
+//                        img_pic5.setVisibility(View.INVISIBLE);
+//                        img_pic6.setVisibility(View.INVISIBLE);
+//                    } else if (photos.length() == 5) {
+//                        img_pic4.setVisibility(View.VISIBLE);
+//                        img_pic5.setVisibility(View.VISIBLE);
+//                        img_pic6.setVisibility(View.INVISIBLE);
+//                    } else if (photos.length() == 6) {
+//                        img_pic4.setVisibility(View.VISIBLE);
+//                        img_pic5.setVisibility(View.VISIBLE);
+//                        img_pic6.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            } else {
+//                img_pic1.setVisibility(View.GONE);
+//                img_pic2.setVisibility(View.GONE);
+//                img_pic3.setVisibility(View.GONE);
+//                img_pic4.setVisibility(View.GONE);
+//                img_pic5.setVisibility(View.GONE);
+//                img_pic6.setVisibility(View.GONE);
+//            }
+//
+//        } catch (JSONException e) {
+//        }
+    }
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
+            Log.e("info","type--------"+type);
+            Log.e("info","map===个人主页====msg.what===="+msg.what);
             switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:
                     Map map = (Map) msg.obj;
                     Log.e("info","map===个人主页========"+map);
-                    setData(map);
+                    if(type==0){
+                        setData(map);
+                    }else if(type==1){
+                        setData2(map);
+                    }else if(type == 2){
+                        setData2(map);
+                    }
+
 //                    setData_qy(map);
 //                    setData_sn(map);
                     break;
@@ -295,6 +495,25 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         }
 
     };
+//    Handler qiyehandler = new Handler() {
+//        public void handleMessage(android.os.Message msg) {
+//            Log.e("info","map===企业====msg.what===="+msg.what);
+//            switch (msg.what) {
+//                case ConstantsHandler.EXECUTE_SUCCESS:
+//                    Map map = (Map) msg.obj;
+//                    Log.e("info","map===企业========"+map);
+//                    setData(map);
+//                    break;
+//                case ConstantsHandler.EXECUTE_FAIL:
+//                    break;
+//                case ConstantsHandler.ConnectTimeout:
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//
+//    };
 
     public void LoadData() {
         List<NameValuePair> list = new ArrayList<NameValuePair>();
@@ -302,5 +521,21 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 "id")));
         NetFactory.instance().commonHttpCilent(handler, this,
                 Config.URL_GET_USER_HOME, list);
+    }
+    public void LoadData2() {
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        list.add(new BasicNameValuePair("userId", getIntent().getStringExtra(
+                "id")));
+        list.add(new BasicNameValuePair("page", "1"));
+        list.add(new BasicNameValuePair("num", "15"));
+        NetFactory.instance().commonHttpCilent(handler, this,
+                Config.URL_GET_QIYE_HOME, list);
+    }
+    public void LoadData3() {
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        list.add(new BasicNameValuePair("userId", getIntent().getStringExtra(
+                "id")));
+        NetFactory.instance().commonHttpCilent(handler, this,
+                Config.URL_GET_SANNONG_HOME, list);
     }
 }

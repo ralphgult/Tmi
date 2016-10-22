@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,11 +21,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
-import com.hyphenate.chat.EMLocationMessageBody;
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.tmdemo.R;
 
 import org.apache.http.NameValuePair;
@@ -41,8 +37,6 @@ import java.util.List;
 import java.util.Map;
 
 import tm.entity.ResourcesBean;
-import tm.entity.UserBean;
-import tm.http.AppCfg;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.ui.WelcomeListAdapter;
@@ -94,6 +88,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     private  double lng;
     static BDLocation lastLocation = null;
     private int type=0;
+    private int stype=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,15 +104,11 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("本地特色");
                 type=0;
-//                if(type==0){
+                if(stype==1){
                     huihua_gridview.setVisibility(View.VISIBLE);
                     refreshListView.setVisibility(View.GONE);
                     LoadData1();
-//                }else{
-//                    huihua_gridview.setVisibility(View.GONE);
-//                    refreshListView.setVisibility(View.VISIBLE);
-//                    LoadData3();
-//                }
+                }
                 break;
             case R.id.btn_2://企业
                 btn_2.setImageResource(R.drawable.tm_qiye_pressed);
@@ -125,11 +116,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("资讯");
                 type=1;
-                if(type==0){
-                    huihua_gridview.setVisibility(View.VISIBLE);
-                    refreshListView.setVisibility(View.GONE);
-                    LoadData1();
-                }else{
+                if(stype==1){
                     huihua_gridview.setVisibility(View.GONE);
                     refreshListView.setVisibility(View.VISIBLE);
                     LoadData3();
@@ -140,12 +127,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_pressed);
                 txt3.setText("扶植农业");
-                type=1;
-                if(type==0){
-                    huihua_gridview.setVisibility(View.VISIBLE);
-                    refreshListView.setVisibility(View.GONE);
-                    LoadData1();
-                }else{
+                type=2;
+                if(stype==1){
                     huihua_gridview.setVisibility(View.GONE);
                     refreshListView.setVisibility(View.VISIBLE);
                     LoadData3();
@@ -155,6 +138,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 txt1.setTextColor(Color.parseColor("#a161fb"));
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
                 txt3.setTextColor(Color.parseColor("#8c8c8c"));
+                stype=0;
                 currentClick=1;
                 refreshListView.setVisibility(View.VISIBLE);
                 huihua_gridview.setVisibility(View.GONE);
@@ -164,18 +148,25 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 txt2.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
                 txt3.setTextColor(Color.parseColor("#8c8c8c"));
+                stype=0;
                 currentClick=2;
                 refreshListView.setVisibility(View.VISIBLE);
+                huihua_gridview.setVisibility(View.GONE);
                 LoadData2();
                 break;
             case R.id.ll_top3://本地特色
                 txt3.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
+                stype=1;
                 if(type==0){
                     huihua_gridview.setVisibility(View.VISIBLE);
                     refreshListView.setVisibility(View.GONE);
-                }else{
+                }else if(type==1){
+                    huihua_gridview.setVisibility(View.GONE);
+                    refreshListView.setVisibility(View.VISIBLE);
+                    LoadData3();
+                }else if(type==2){
                     huihua_gridview.setVisibility(View.GONE);
                     refreshListView.setVisibility(View.VISIBLE);
                     LoadData3();
@@ -183,6 +174,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 currentClick=3;
                 break;
             case R.id.btn_search:
+//                Toast.makeText(getContext(),"该功能正在开发中。。。",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
                 break;
@@ -214,6 +206,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         }
         Log.e("info","lat=11="+lat);
         Log.e("info","lng=11="+lng);
+        lat=34.19912;
+        lng=108.891236;
         SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
         String username=sharedPre.getString("username", "");
         List<NameValuePair> list = new ArrayList<NameValuePair>();
@@ -241,6 +235,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         }
         Log.e("info","lat=22="+lat);
         Log.e("info","lng=22="+lng);
+        lat=34.19912;
+        lng=108.891236;
         SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
         String username=sharedPre.getString("username", "");
         List<NameValuePair> list = new ArrayList<NameValuePair>();
@@ -269,6 +265,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         }
         Log.e("info","lat=22="+lat);
         Log.e("info","lng=22="+lng);
+        lat=34.19912;
+        lng=108.891236;
         SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
         String username=sharedPre.getString("username", "");
         List<NameValuePair> list = new ArrayList<NameValuePair>();
@@ -300,7 +298,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                     map_temp.put("name", jo.get("companyName")+"");
                     map_temp.put("photo", jo.get("companyLogo")+"");
                     map_temp.put("desc", jo.get("companyIntroduction")+"");
-                    map_temp.put("distance", jo.get("jl")+"公里之内");
+                    map_temp.put("distance", jo.get("jl")+"公里");
                     list.add(map_temp);
                 }
 //                if (pageitem < 15) {
