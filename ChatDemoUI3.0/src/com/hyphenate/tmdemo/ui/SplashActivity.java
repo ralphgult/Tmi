@@ -11,6 +11,7 @@ import com.hyphenate.tmdemo.DemoHelper;
 import com.hyphenate.tmdemo.R;
 
 import tm.ui.welcome.GuideActivity;
+import tm.utils.ViewUtil;
 
 /**
  * 开屏页
@@ -58,17 +59,18 @@ public class SplashActivity extends BaseActivity {
                             Thread.sleep(sleepTime - costTime);
                         }
                         //enter main screen
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+//                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        ViewUtil.jumpToOtherActivity(SplashActivity.this,MainActivity.class,true);
                         finish();
                     } /*else if(!hasOpened){
                         Thread.sleep(sleepTime);
-                        startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-
-                        finish();
+                        ViewUtil.jumpToOtherActivity(SplashActivity.this,GuideActivity.class,true);
                     }*/else{
                         Thread.sleep(sleepTime);
-                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+//                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                        ViewUtil.jumpToOtherActivity(SplashActivity.this,LoginActivity.class,true);
                     }
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

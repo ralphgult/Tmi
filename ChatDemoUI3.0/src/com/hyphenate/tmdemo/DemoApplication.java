@@ -13,16 +13,21 @@
  */
 package com.hyphenate.tmdemo;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.easemob.redpacketsdk.RedPacket;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class DemoApplication extends Application {
 
 	public static Context applicationContext;
 	private static DemoApplication instance;
+	private static List<Activity> mList = new LinkedList<Activity>();
 	// login user name
 	public final String PREF_USERNAME = "username";
 	
@@ -54,5 +59,23 @@ public class DemoApplication extends Application {
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(base);
 		MultiDex.install(this);
+	}
+	// add Activity
+	public void addActivity(Activity activity) {
+		mList.add(activity);
+	}
+
+	// 关闭每一个list内的activity
+	public void exit() {
+		try {
+			for (Activity activity : mList) {
+				if (activity != null)
+					activity.finish();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			System.exit(0);
+		}
 	}
 }
