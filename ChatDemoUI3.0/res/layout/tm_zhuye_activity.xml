@@ -136,8 +136,8 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:src="@drawable/default_pic"
-                    android:visibility="gone" />
+                    android:src="@drawable/tm_tupian3"
+                    android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/img_pic2"
@@ -145,8 +145,8 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:src="@drawable/default_pic"
-                    android:visibility="gone" />
+                    android:src="@drawable/tm_tupian3"
+                    android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/img_pic3"
@@ -154,8 +154,8 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:src="@drawable/default_pic"
-                    android:visibility="gone" />
+                    android:src="@drawable/tm_tupian3"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
@@ -218,11 +218,21 @@
         android:paddingBottom="10dp"
         >
         <TextView
+            android:id="@+id/tm_zhuye_gx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="#9A9A9A"
             android:text="个人签名"
+            />
+        <TextView
+            android:id="@+id/tm_zhuye_qiyename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#9A9A9A"
+            android:text="企业名称"
+            android:visibility="gone"
             />
         <TextView
             android:id="@+id/tm_zhuye_gexing"
@@ -232,7 +242,45 @@
             android:textColor="#4E4E4E"
             />
     </LinearLayout>
+     <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#dfdfdf" />
+     </LinearLayout>
+     <LinearLayout
+            android:id="@+id/tm_zhuye_qiye"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            >
+            <TextView
+                android:id="@+id/tm_zhuye_qism"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#9A9A9A"
+                android:text="企业说明"
+                />
+            <TextView
+                android:id="@+id/tm_zhuye_qiyeshuoming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#4E4E4E"
+                />
+        </LinearLayout>
     <LinearLayout
+        android:id="@+id/tm_qiye_line"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -252,6 +300,7 @@
         android:paddingBottom="10dp"
         >
         <TextView
+            android:id="@+id/tm_zhuye_geren"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -261,6 +310,7 @@
     </LinearLayout>
     <!--顶部布局 begin-->
     <LinearLayout
+        android:id="@+id/tm_geren1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
@@ -308,6 +358,7 @@
     </LinearLayout>
     <!--中间评论内容、图片布局 begin-->
      <LinearLayout
+         android:id="@+id/tm_geren2"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content">
          <TextView
@@ -324,6 +375,7 @@
      </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/tm_geren3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
@@ -408,8 +460,109 @@
 
         </LinearLayout>
     </LinearLayout>
+        <!--店铺商品-->
+     <LinearLayout
+         android:id="@+id/tm_dianpu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingLeft="20dp"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:id="@+id/tm_img_pic1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:padding="10dp"
+                    android:src="@drawable/tm_tupian1"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shangpin_black"
+                    android:textSize="16sp"
+                    android:text="送亲朋好友佳品。"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ff5821"
+                        android:textSize="16sp"
+                        android:text="￥:38.2"
+                        />
+                    <TextView
+                        android:id="@+id/tm_zhuye_yuanjia"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#6e6e6e"
+                        android:textSize="16sp"
+                        android:text="￥:50.2"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingLeft="20dp"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:id="@+id/tm_img_pic2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:padding="10dp"
+                    android:src="@drawable/tm_tupian2"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shangpin_black"
+                    android:textSize="16sp"
+                    android:text="皮薄柔软、仁大。"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ff5821"
+                        android:textSize="16sp"
+                        android:text="￥:42.5"
+                        />
+                    <TextView
+                        android:id="@+id/tm_zhuye_yuanjia2"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#6e6e6e"
+                        android:textSize="16sp"
+                        android:text="￥:50.2"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
    </LinearLayout>
     <LinearLayout
+        android:id="@+id/tm_geren4"
         android:layout_below="@+id/tm_zhuye_ly"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -421,6 +574,7 @@
             android:layout_weight="1"
             android:background="#dfdfdf" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_above="@+id/tm_botton_ly"
         android:layout_width="fill_parent"

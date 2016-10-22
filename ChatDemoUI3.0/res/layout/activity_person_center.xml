@@ -100,8 +100,6 @@
             </GridView>
             <View style="@style/tm_common_divide_line_whitebg_width" />
 
-            <View style="@style/tm_common_divide_line_whitebg_width" />
-
             <RelativeLayout
                 android:id="@+id/person_center_sign_text_rv"
                 android:layout_width="match_parent"
@@ -127,8 +125,7 @@
                     android:textColor="#4f4f4f"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:hint="未设置"
-                    tools:text="多少克拉夫捡垃圾了多少积分垃圾是的链接发来的撒娇楼上的加拉记录"/>
+                    android:text="因此画小插画也是个UI设计师要提高自己能力的方式之一"/>
                 <ImageView
                     android:id="@+id/person_center_sign_arrow_iv"
                     android:layout_width="wrap_content"
