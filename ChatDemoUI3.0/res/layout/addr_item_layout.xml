@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp">
+        <TextView
+            android:id="@+id/addr_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/text_all_black"
+            android:paddingLeft="15dp"
+            android:maxLength="7"
+            android:maxLines="1"
+            tools:text="张若欧"
+            />
+        <TextView
+            android:id="@+id/addr_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:textSize="16sp"
+            tools:text="15211455121"
+            android:textColor="@color/text_all_black"
+            android:layout_alignParentRight="true"
+            android:paddingRight="15dp"/>
+        <TextView
+            android:id="@+id/addr_addr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:layout_below="@+id/addr_name"
+            android:maxLines="1"
+            android:textSize="16sp"
+            tools:text="陕西省 西安市 雁塔区 丈八沟街道 锦业时代"
+            />
+        <View style="@style/tm_common_divide_line_whitebg_width"
+            android:layout_below="@+id/addr_addr"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addr_addr"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <Button
+                android:id="@+id/addr_btn_change"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/order_gray_edge_gb"
+                android:text="修改"
+                android:textColor="@color/common_bottom_bar_normal_bg"
+                android:textSize="14sp" />
+            <Button
+                android:id="@+id/addr_btn_delete"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/order_gray_edge_gb"
+                android:text="删除"
+                android:textColor="@color/common_bottom_bar_normal_bg"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
