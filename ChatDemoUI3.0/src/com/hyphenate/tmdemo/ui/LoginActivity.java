@@ -136,14 +136,16 @@ public class LoginActivity extends BaseActivity {
 		zhuce.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				LoginActivity.this.startActivity(new Intent(LoginActivity.this,RegistActivity.class));
+//				LoginActivity.this.startActivity(new Intent(LoginActivity.this,RegistActivity.class));
+				Toast.makeText(LoginActivity.this,"正在开发中...",Toast.LENGTH_SHORT).show();
 			}
 		});
 		findPwd = (TextView) findViewById(R.id.tm_wangjimima);
 		findPwd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				LoginActivity.this.startActivity(new Intent(LoginActivity.this,PwdFindActivity.class));
+//				LoginActivity.this.startActivity(new Intent(LoginActivity.this,PwdFindActivity.class));
+				Toast.makeText(LoginActivity.this,"正在开发中...",Toast.LENGTH_SHORT).show();
 			}
 		});
 

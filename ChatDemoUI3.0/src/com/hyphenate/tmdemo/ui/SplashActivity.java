@@ -60,12 +60,12 @@ public class SplashActivity extends BaseActivity {
                         //enter main screen
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         finish();
-                    } else if(!hasOpened){
+                    } /*else if(!hasOpened){
                         Thread.sleep(sleepTime);
                         startActivity(new Intent(SplashActivity.this, GuideActivity.class));
 
                         finish();
-                    }else{
+                    }*/else{
                         Thread.sleep(sleepTime);
                         startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     }

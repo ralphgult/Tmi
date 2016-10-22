@@ -58,7 +58,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import tm.system.App;
 import tm.ui.main.HuihuaFragment;
 
 @SuppressLint("NewApi")
@@ -90,7 +89,7 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		App.getInstance().addActivity(this);
+		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 		    String packageName = getPackageName();
 		    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);

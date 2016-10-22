@@ -21,6 +21,7 @@ import tm.ui.mine.MineOrderActivity;
 import tm.ui.mine.MyMessageActivity;
 import tm.ui.mine.MySoppingActivity;
 import tm.ui.setting.SettingActivity;
+import tm.utils.ViewUtil;
 
 /**
  * Created by Administrator on 2016/8/21.
@@ -81,9 +82,8 @@ public class MyFragment extends Fragment implements View.OnClickListener{
 //                startActivity(intent);
                 break;
             case R.id.mine_my_address_tv:
-                Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
-//                intent = new Intent(this.getActivity(), MyAddressActivity.class);
-//                startActivity(intent);
+//                Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
+                ViewUtil.jumpToOtherActivity(this.getActivity(),MyAddressActivity.class);
                 break;
             case R.id.mine_my_message_tv:
                 Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();

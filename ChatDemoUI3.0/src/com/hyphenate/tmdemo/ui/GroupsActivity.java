@@ -13,15 +13,6 @@
  */
 package com.hyphenate.tmdemo.ui;
 
-import java.util.List;
-
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
-import com.hyphenate.tmdemo.Constant;
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.adapter.GroupAdapter;
-import com.hyphenate.exceptions.HyphenateException;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +28,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
+import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.tmdemo.Constant;
+import com.hyphenate.tmdemo.R;
+import com.hyphenate.tmdemo.adapter.GroupAdapter;
+
+import java.util.List;
 
 public class GroupsActivity extends BaseActivity {
 	public static final String TAG = "GroupsActivity";
@@ -109,8 +109,8 @@ public class GroupsActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 1) {
 					// create a new group
-					Toast.makeText(GroupsActivity.this,"该功能正在开发中。。。",Toast.LENGTH_SHORT).show();
-//					startActivityForResult(new Intent(GroupsActivity.this, NewGroupActivity.class), 0);
+//					Toast.makeText(GroupsActivity.this,"该功能正在开发中。。。",Toast.LENGTH_SHORT).show();
+					startActivityForResult(new Intent(GroupsActivity.this, NewGroupActivity.class), 0);
 				} else if (position == 2) {
 					// join a public group
 					startActivityForResult(new Intent(GroupsActivity.this, PublicGroupsActivity.class), 0);

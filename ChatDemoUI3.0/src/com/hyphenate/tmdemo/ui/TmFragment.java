@@ -14,7 +14,10 @@ import android.widget.Toast;
 
 import com.hyphenate.tmdemo.R;
 
+import tm.ui.tmi.MomentsActivity;
+import tm.ui.tmi.OrderManagerAcitivity;
 import tm.ui.tmi.TmiNoticeActivity;
+import tm.utils.ViewTools;
 import tm.utils.ViewUtil;
 import tm.widget.zxing.activity.CaptureActivity;
 
@@ -44,8 +47,9 @@ public class TmFragment extends Fragment implements View.OnClickListener {
     private TextView tm_btn_farmer_goods_tv;//三农——商品
     private TextView tm_btn_farmer_order_tv;//三农——订单
 
-    ImageView[] tabs;
-    LinearLayout[] layouts;
+    private ImageView[] tabs;
+    private LinearLayout[] layouts;
+    private int type;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +89,10 @@ public class TmFragment extends Fragment implements View.OnClickListener {
         tm_title_comp_iv.setOnClickListener(this);
         tm_title_farmer_iv.setOnClickListener(this);
 
+        tm_btn_farmer_order_tv.setOnClickListener(this);
+        tm_btn_farmer_notice_tv.setOnClickListener(this);
+        tm_btn_farmer_goods_tv.setOnClickListener(this);
+
         tm_btn_person_notice_tv.setOnClickListener(this);
         tm_btn_person_moments_tv.setOnClickListener(this);
         tm_btn_person_local_tv.setOnClickListener(this);
@@ -95,17 +103,13 @@ public class TmFragment extends Fragment implements View.OnClickListener {
         tm_btn_comp_goods_tv.setOnClickListener(this);
         tm_btn_comp_order_tv.setOnClickListener(this);
 
-        tm_btn_farmer_notice_tv.setOnClickListener(this);
-        tm_title_comp_iv.setOnClickListener(this);
-        tm_title_farmer_iv.setOnClickListener(this);
-        tm_title_farmer_iv.setOnClickListener(this);
-
         tabs = new ImageView[]{tm_title_personal_iv, tm_title_comp_iv, tm_title_farmer_iv};
         layouts = new LinearLayout[]{tm_person_ly, tm_comp_ly, tm_farmer_ly};
     }
 
     @Override
     public void onClick(View v) {
+        Bundle bundle = null;
         switch (v.getId()) {
             case R.id.tm_top_person_iv:
             case R.id.tm_top_comp_iv:
@@ -119,6 +123,26 @@ public class TmFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.tm_person_scan_tv:
                 ViewUtil.jumpToOtherActivity(this.getActivity(), CaptureActivity.class);
+                break;
+            case R.id.tm_person_notice_tv:
+                type = 0;
+            case R.id.tm_comp_notice_tv:
+                type = 1;
+            case R.id.tm_farmer_notice_tv:
+                type = 2;
+                bundle = new Bundle();
+                bundle.putInt("type",type);
+                bundle.putBoolean("isMoment",false);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), MomentsActivity.class,bundle);
+                break;
+            case R.id.tm_person_moment_tv:
+                bundle = new Bundle();
+                bundle.putBoolean("isMoment", true);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), MomentsActivity.class,bundle);
+                break;
+            case R.id.tm_comp_order_tv:
+            case R.id.tm_farmer_order_tv:
+                ViewUtil.jumpToOtherActivity(this.getActivity(), OrderManagerAcitivity.class);
                 break;
             default:
                 Toast.makeText(this.getActivity(),"正在开发中...",Toast.LENGTH_SHORT).show();
