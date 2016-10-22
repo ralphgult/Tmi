@@ -90,11 +90,10 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		DemoApplication.getInstance().addActivity(this);
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-		    String packageName = getPackageName();
-		    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-			DemoApplication.getInstance().addActivity(this);
+			String packageName = getPackageName();
+			PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		    if (!pm.isIgnoringBatteryOptimizations(packageName)) {
 		        Intent intent = new Intent();
 		        intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
