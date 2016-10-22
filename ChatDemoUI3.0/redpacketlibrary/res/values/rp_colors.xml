@@ -27,6 +27,7 @@
     <color name="text_all_black">#000000</color>
     <color name="text_transparent_black">#90000000</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="shangpin_black">#333333</color>
 
     <!--CardView-->
     <!-- Background color for light CardView. -->
