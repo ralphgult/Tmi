@@ -63,8 +63,8 @@ public class MomentListAdapter extends BaseAdapter {
             vh.head_iv = (ImageView) view.findViewById(R.id.yx_monent_top_head_img);
             vh.name_tv = (TextView) view.findViewById(R.id.yx_monent_top_name);
             vh.time_tv = (TextView) view.findViewById(R.id.yx_monent_top_time);
-            vh.content_tv = (TextView) view.findViewById(R.id.yx_monent_content_text);
-            vh.pic_gv = (GridView) view.findViewById(R.id.yx_monent_content_gv);
+//            vh.content_tv = (TextView) view.findViewById(R.id.yx_monent_content_text);
+//            vh.pic_gv = (GridView) view.findViewById(R.id.yx_monent_content_gv);
         }else{
             view = convertView;
             vh = (ViewHolder)view.getTag();
