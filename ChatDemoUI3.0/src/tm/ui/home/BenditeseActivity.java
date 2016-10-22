@@ -66,7 +66,7 @@ public class BenditeseActivity extends BaseActivity {
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         list.add(new BasicNameValuePair("userId", username));
         list.add(new BasicNameValuePair("userType", userType+""));
-        list.add(new BasicNameValuePair("page", "1"));
+        list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
         NetFactory.instance().commonHttpCilent(handler, this,
                 Config.URL_GET_TS_USERS, list);
