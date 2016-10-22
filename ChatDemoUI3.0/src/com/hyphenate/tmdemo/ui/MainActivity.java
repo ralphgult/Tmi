@@ -255,7 +255,7 @@ public class MainActivity extends BaseActivity {
 			public void run() {	// refresh unread count
 				updateUnreadLabel();
 
-				if (currentTabIndex == 0) {
+				if (currentTabIndex == 1) {
 					// refresh conversation list
 					if (conversationListFragment != null) {
 						conversationListFragment.refresh();
@@ -281,7 +281,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 updateUnreadLabel();
-                if (currentTabIndex == 0) {
+                if (currentTabIndex == 1) {
                     if (conversationListFragment != null) {
                         conversationListFragment.refresh();
                     }
