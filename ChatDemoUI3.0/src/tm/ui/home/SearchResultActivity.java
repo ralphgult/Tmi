@@ -94,7 +94,7 @@ public class SearchResultActivity extends BaseActivity {
         list.add(new BasicNameValuePair("userId", ""+username));
         list.add(new BasicNameValuePair("wd", ""+lat));
         list.add(new BasicNameValuePair("jd", ""+lng));
-        list.add(new BasicNameValuePair("page", "1"));
+        list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
         list.add(new BasicNameValuePair("companyName", searchin));
         list.add(new BasicNameValuePair("type", "2"));

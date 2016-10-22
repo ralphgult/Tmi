@@ -214,7 +214,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         list.add(new BasicNameValuePair("userId", ""+username));
         list.add(new BasicNameValuePair("wd", ""+lat));
         list.add(new BasicNameValuePair("jd", ""+lng));
-        list.add(new BasicNameValuePair("page", "1"));
+        list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
         NetFactory.instance().commonHttpCilent(handler, getContext(),
                 Config.URL_GET_RECOMMEND_USERS, list);
@@ -243,7 +243,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         list.add(new BasicNameValuePair("userId", ""+username));
         list.add(new BasicNameValuePair("wd", ""+lat));
         list.add(new BasicNameValuePair("jd", ""+lng));
-        list.add(new BasicNameValuePair("page", "1"));
+        list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
         NetFactory.instance().commonHttpCilent(handler, getContext(),
                 Config.URL_GET_NEARLY_USERS, list);
@@ -273,7 +273,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         list.add(new BasicNameValuePair("userId", ""+username));
         list.add(new BasicNameValuePair("wd", ""+lat));
         list.add(new BasicNameValuePair("jd", ""+lng));
-        list.add(new BasicNameValuePair("page", "1"));
+        list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
         NetFactory.instance().commonHttpCilent(handler, getContext(),
                 Config.URL_GET_NEARLY_USERS, list);
