@@ -72,9 +72,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.mine_my_order_tv:
-                Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
-//                intent = new Intent(this.getActivity(), MineOrderActivity.class);
-//                startActivity(intent);
+                ViewUtil.jumpToOtherActivity(this.getActivity(),MineOrderActivity.class);
                 break;
             case R.id.mine_my_shopping_tv:
                 Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
@@ -82,7 +80,7 @@ public class MyFragment extends Fragment implements View.OnClickListener{
 //                startActivity(intent);
                 break;
             case R.id.mine_my_address_tv:
-//                Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
                 ViewUtil.jumpToOtherActivity(this.getActivity(),MyAddressActivity.class);
                 break;
             case R.id.mine_my_message_tv:
