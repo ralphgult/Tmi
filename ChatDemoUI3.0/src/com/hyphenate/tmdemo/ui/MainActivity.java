@@ -26,6 +26,7 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.tmdemo.Constant;
+import com.hyphenate.tmdemo.DemoApplication;
 import com.hyphenate.tmdemo.DemoHelper;
 import com.hyphenate.tmdemo.R;
 import com.hyphenate.tmdemo.db.InviteMessgeDao;
@@ -93,6 +94,7 @@ public class MainActivity extends BaseActivity {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 		    String packageName = getPackageName();
 		    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+			DemoApplication.getInstance().addActivity(this);
 		    if (!pm.isIgnoringBatteryOptimizations(packageName)) {
 		        Intent intent = new Intent();
 		        intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
