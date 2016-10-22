@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShSwitchView">
+        <attr name="tintColor" format="reference|color" />
+        <attr name="bgColor" format="reference|color"/>
+        <attr name="outerStrokeWidth" format="reference|dimension" />
+        <attr name="shadowSpace" format="reference|dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="JustifyTextView">
+        <attr name="showLines" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="BGASwipeItemLayout">
+        <attr name="bga_sil_swipeDirection" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+        <attr name="bga_sil_bottomMode" format="enum">
+            <enum name="pullOut" value="0" />
+            <enum name="layDown" value="1" />
+        </attr>
+        <attr name="bga_sil_springDistance" format="dimension" />
+        <attr name="bga_sil_swipeAble" format="boolean" />
+        <attr name="bga_sil_useAlpha" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="RippleView">
+        <attr name="rv_alpha" format="integer" />
+        <attr name="rv_framerate" format="integer"/>
+        <attr name="rv_rippleDuration" format="integer"/>
+        <attr name="rv_zoomDuration" format="integer" />
+        <attr name="rv_color" format="color" />
+        <attr name="rv_centered" format="boolean" />
+        <attr name="rv_type" format="enum">
+            <enum name="simpleRipple" value="0"/>
+            <enum name="doubleRipple" value="1"/>
+            <enum name="rectangle" value="2" />
+        </attr>
+        <attr name="rv_ripplePadding" format="dimension" />
+        <attr name="rv_zoom" format="boolean" />
+        <attr name="rv_zoomScale" format="float" />
+        <attr name="rv_forbidden" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="materialAnimatedSwitch">
+        <attr name="icon_release"
+            format="reference"/>
+        <attr name="icon_press"
+            format="reference"/>
+        <attr name="base_release_color"
+            format="color"/>
+        <attr name="base_press_color"
+            format="color"/>
+        <attr name="ball_release_color"
+            format="color"/>
+        <attr name="ball_press_color"
+            format="color"/>
+        <attr name="is_have_icon"
+            format="boolean"
+            />
+        <attr name="custom_width"
+            format="float"
+            />
+        <attr name="custom_height"
+            format="float"
+            />
+    </declare-styleable>
+
+    <declare-styleable name="WheelViewLayout">
+        <attr name="text_size"
+            format="float"
+            />
+        <attr name="item_color"
+            format="color"
+            ></attr>
+        <attr name="line_color"
+            format="color"
+            />
+        <attr name="center_text_color"
+            format="color"
+            />
+        <attr name="outer_text_color"
+            format="color"
+            />
+    </declare-styleable>
+
+    <declare-styleable name="RotateLoading">
+        <attr name="loading_width" format="dimension" />
+        <attr name="loading_color" format="color" />
+        <attr name="shadow_position" format="integer" />
+    </declare-styleable>
+
+</resources>
