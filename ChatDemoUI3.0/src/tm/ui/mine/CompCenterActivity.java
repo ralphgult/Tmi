@@ -1,6 +1,8 @@
 package tm.ui.mine;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
@@ -10,12 +12,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.WriterException;
+import com.hyphenate.tmdemo.Constant;
 import com.hyphenate.tmdemo.R;
 import com.hyphenate.tmdemo.ui.BaseActivity;
 
+import java.io.File;
+
 import tm.manager.PersonManager;
+import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
+import tm.widget.zxing.encoding.BitmapEncodUtil;
 
 public class CompCenterActivity extends BaseActivity implements View.OnClickListener {
     private ImageView back_iv;
@@ -77,7 +85,19 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 createDialog();
                 break;
             case R.id.comp_center_qr_ly:
-                Toast.makeText(this,"正在开发中...",Toast.LENGTH_SHORT).show();
+                if(!new File(Constant.QRCODE_FILE_PATH).exists()){
+                    try {
+                        SharedPreferences sharedPre=this.getSharedPreferences("config", this.MODE_PRIVATE);
+                        String userId = sharedPre.getString("username","");
+                        BitmapEncodUtil.createQRCode(userId,500);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("path","");
+                bundle.putString("filePath", Constant.QRCODE_FILE_PATH);
+                ViewUtil.jumpToOtherActivity(this,HeadBigActivity.class,bundle);
                 break;
         }
 

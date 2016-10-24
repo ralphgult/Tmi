@@ -1,6 +1,7 @@
 package tm.ui.tmi.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.hyphenate.tmdemo.R;
 import java.util.List;
 import java.util.Map;
 
+import tm.utils.ImageLoaders;
+
 /**
  * Created by RalphGult on 9/29/2016.
  */
@@ -27,6 +30,16 @@ public class MomentListAdapter extends BaseAdapter {
     private Context mContext;
     private boolean mIsMoment;
     private ImageAdapter mImageAdapter;
+
+    private ImageLoaders imageLoaders = new ImageLoaders(mContext,new imageLoaderListener());
+
+    public class imageLoaderListener implements ImageLoaders.ImageLoaderListener{
+
+        @Override
+        public void onImageLoad(View v, Bitmap bmp, String url) {
+            ((ImageView)v).setImageBitmap(bmp);
+        }
+    }
 
     public MomentListAdapter(Context context, boolean isMoment) {
         mContext = context;
@@ -82,7 +95,8 @@ public class MomentListAdapter extends BaseAdapter {
             vh = (ViewHolder) view.getTag();
         }
         vh.bottom.setVisibility(mIsMoment ? View.VISIBLE : View.GONE);
-        vh.head_iv.setImageURI(Uri.parse(dataList.get(position).get("headImg")));
+//        vh.head_iv.setImageURI(Uri.parse(dataList.get(position).get("headImg")));
+        imageLoaders.loadImage(vh.head_iv,dataList.get(position).get("headImg"));
         vh.name_tv.setText(dataList.get(position).get("name"));
         vh.time_tv.setText(dataList.get(position).get("time"));
         vh.content_tv.setText(dataList.get(position).get("content"));

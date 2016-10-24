@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hyphenate.tmdemo.R;
 
 import tm.ui.setting.SettingActivity;
+import tm.utils.ViewUtil;
 
 /**
  * Created by Administrator on 2016/8/21.
@@ -71,10 +72,9 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.fgt_mine_head_iv:
-                intent = new Intent();
-                intent.setClass(this.getActivity(),HeadBigActivity.class);
-                intent.putExtra("path","/storage/emulated/0/RM/res/icon/role/1006_head.png");
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putString("path","");
+                ViewUtil.jumpToOtherActivity(this.getActivity(),HeadBigActivity.class,bundle);
                 break;
         }
 
