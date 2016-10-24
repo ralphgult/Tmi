@@ -6,17 +6,37 @@
     android:background="@color/background_white"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/order_item_compname"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:textColor="@color/list_item_primary_color"
-        android:textSize="16sp"
-        tools:text="西域美农" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/order_item_compname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/list_item_primary_color"
+            android:textSize="16sp"
+            tools:text="西域美农" />
+        <TextView
+            android:id="@+id/order_item_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/list_item_primary_color"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"
+            tools:text="等待卖家付款" />
+
+    </RelativeLayout>
 
     <View style="@style/tm_common_divide_line_whitebg_width" />
 
@@ -109,6 +129,7 @@
     <View style="@style/tm_common_divide_line_whitebg_width" />
 
     <LinearLayout
+        android:id="@+id/order_manager_reason_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -142,7 +163,6 @@
             android:id="@+id/order_item_btn_third"
             android:layout_width="70dp"
             android:layout_height="30dp"
-            android:layout_marginRight="10dp"
             android:background="@drawable/order_gray_edge_gb"
             android:text="退款"
             android:visibility="gone"
@@ -152,7 +172,7 @@
             android:id="@+id/order_item_btn_left"
             android:layout_width="70dp"
             android:layout_height="30dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/order_gray_edge_gb"
             android:text="发货"
             android:textColor="@color/common_bottom_bar_normal_bg"
@@ -164,6 +184,7 @@
             android:layout_height="30dp"
             android:background="@drawable/order_red_edge_btn_bg"
             android:text="发货"
+            android:layout_marginLeft="10dp"
             android:textColor="#ff5821"
             android:textSize="14sp" />
     </LinearLayout>
