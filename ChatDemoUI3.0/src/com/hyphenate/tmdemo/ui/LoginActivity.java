@@ -182,8 +182,8 @@ public class LoginActivity extends BaseActivity {
 			return;
 		}
 		currentUsername = usernameEditText.getText().toString().trim();
-		currentPassword = passwordEditText.getText().toString().trim();
-
+//		currentPassword = passwordEditText.getText().toString().trim();
+		String	hxPassword ="tmi1q2w3e";
 
 		progressShow = true;
 		final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
@@ -209,7 +209,7 @@ public class LoginActivity extends BaseActivity {
 		final long start = System.currentTimeMillis();
 		// call login method
 		Log.d(TAG, "EMClient.getInstance().login");
-		EMClient.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
+		EMClient.getInstance().login(currentUsername, hxPassword, new EMCallBack() {
 
 			@Override
 			public void onSuccess() {
