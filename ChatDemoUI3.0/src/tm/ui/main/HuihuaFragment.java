@@ -88,7 +88,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     private  double lng;
     static BDLocation lastLocation = null;
     private int type=0;
-    private int stype=0;
+    private int stype=2;
+    private int rjtype=1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,10 +105,15 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("本地特色");
                 type=0;
+                rjtype=1;
                 if(stype==1){
                     huihua_gridview.setVisibility(View.VISIBLE);
                     refreshListView.setVisibility(View.GONE);
+//                    LoadData1();
+                }else if(stype==2){
                     LoadData1();
+                }else if(stype==3){
+                    LoadData2();
                 }
                 break;
             case R.id.btn_2://企业
@@ -116,10 +122,15 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("资讯");
                 type=1;
+                rjtype=2;
                 if(stype==1){
                     huihua_gridview.setVisibility(View.GONE);
                     refreshListView.setVisibility(View.VISIBLE);
                     LoadData3();
+                }else if(stype==2){
+                    LoadData1();
+                }else if(stype==3){
+                    LoadData2();
                 }
                 break;
             case R.id.btn_3://三农
@@ -128,17 +139,22 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_3.setImageResource(R.drawable.tm_sannong_pressed);
                 txt3.setText("扶植农业");
                 type=2;
+                rjtype=3;
                 if(stype==1){
                     huihua_gridview.setVisibility(View.GONE);
                     refreshListView.setVisibility(View.VISIBLE);
                     LoadData3();
+                }else if(stype==2){
+                    LoadData1();
+                }else if(stype==3){
+                    LoadData2();
                 }
                 break;
             case R.id.ll_top1://热荐
                 txt1.setTextColor(Color.parseColor("#a161fb"));
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
                 txt3.setTextColor(Color.parseColor("#8c8c8c"));
-                stype=0;
+                stype=2;
                 currentClick=1;
                 refreshListView.setVisibility(View.VISIBLE);
                 huihua_gridview.setVisibility(View.GONE);
@@ -148,7 +164,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 txt2.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
                 txt3.setTextColor(Color.parseColor("#8c8c8c"));
-                stype=0;
+                stype=3;
                 currentClick=2;
                 refreshListView.setVisibility(View.VISIBLE);
                 huihua_gridview.setVisibility(View.GONE);
@@ -216,6 +232,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         list.add(new BasicNameValuePair("jd", ""+lng));
         list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
+        Log.e("info","type===参数=热荐==="+rjtype);
+        list.add(new BasicNameValuePair("type", ""+rjtype));
         NetFactory.instance().commonHttpCilent(handler, getContext(),
                 Config.URL_GET_RECOMMEND_USERS, list);
 
@@ -245,6 +263,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         list.add(new BasicNameValuePair("jd", ""+lng));
         list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
+        Log.e("info","type===参数=附近==="+rjtype);
+        list.add(new BasicNameValuePair("type", ""+rjtype));
         NetFactory.instance().commonHttpCilent(handler, getContext(),
                 Config.URL_GET_NEARLY_USERS, list);
 
