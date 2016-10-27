@@ -604,15 +604,11 @@
             android:layout_weight="1"
             android:src="@drawable/tm_liaotian" />
         <ImageView
+            android:id="@+id/tm_addfriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/tm_addfriend" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/tm_delefriend" />
     </LinearLayout>
 
 </RelativeLayout>
