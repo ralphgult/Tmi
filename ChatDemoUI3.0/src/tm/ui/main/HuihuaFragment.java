@@ -290,7 +290,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
         String username=sharedPre.getString("username", "");
         List<NameValuePair> list = new ArrayList<NameValuePair>();
-        list.add(new BasicNameValuePair("userId", ""+username));
+        list.add(new BasicNameValuePair("userId", username));
         list.add(new BasicNameValuePair("wd", ""+lat));
         list.add(new BasicNameValuePair("jd", ""+lng));
         list.add(new BasicNameValuePair("page", "0"));
