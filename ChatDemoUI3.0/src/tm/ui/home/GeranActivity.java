@@ -1,5 +1,6 @@
 package tm.ui.home;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -70,6 +71,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout lv_qiye_line;
     private ImageView img_pic11;
     private ImageView img_pic22;
+    private ImageView addfriend;
 
 
     private TextView tv_name;
@@ -110,13 +112,13 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         tv_num = (TextView)findViewById(R.id.yx_monent_bottom_like_number);
         tv_comment = (TextView)findViewById(R.id.yx_monent_bottom_comment_number);
         tv_content = (TextView)findViewById(R.id.yx_monent_content);
-        wwww = (LinearLayout)findViewById(R.id.tm_botton_ly);
-        wwww.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(GeranActivity.this,"该功能正在开发中。。。",Toast.LENGTH_SHORT).show();
-            }
-        });
+//        wwww = (LinearLayout)findViewById(R.id.tm_botton_ly);
+//        wwww.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(GeranActivity.this,"该功能正在开发中。。。",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         tv_gxqm = (TextView)findViewById(R.id.tm_zhuye_gexing);
         tv_qymc = (TextView)findViewById(R.id.tm_zhuye_qiyename);
@@ -138,6 +140,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         tv_jianjie2 = (TextView)findViewById(R.id.tm_zhuye_jianjie2);
         img_pic11 = (ImageView) findViewById(R.id.tm_img_pic1);
         img_pic22 = (ImageView) findViewById(R.id.tm_img_pic2);
+        addfriend = (ImageView) findViewById(R.id.tm_addfriend);
 
 
         tv_title = (TextView)findViewById(R.id.tm_shouye_top_tv);
@@ -159,6 +162,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         yy_top1.setOnClickListener(this);
         yy_top2.setOnClickListener(this);
         yy_top3.setOnClickListener(this);
+        addfriend.setOnClickListener(this);
 
     }
     @Override
@@ -184,6 +188,20 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
                 type=2;
                 LoadData3();
+                break;
+            case R.id.tm_addfriend://添加好友
+                SharedPreferences sharedPre=this.getSharedPreferences("config",this.MODE_PRIVATE);
+                String username=sharedPre.getString("username", "");
+                Log.e("info","me==="+username);
+                Log.e("info","myid==="+getIntent().getStringExtra(
+                        "id"));
+                List<NameValuePair> list = new ArrayList<NameValuePair>();
+                list.add(new BasicNameValuePair("me",username ));
+//                list.add(new BasicNameValuePair("my", getIntent().getStringExtra(
+//                        "id")));
+                list.add(new BasicNameValuePair("my", "37"));
+                NetFactory.instance().commonHttpCilent(addhandler, this,
+                        Config.URL_GET_ADDFRIEND, list);
                 break;
             default:
                 break;
@@ -480,13 +498,44 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 case ConstantsHandler.EXECUTE_SUCCESS:
                     Map map = (Map) msg.obj;
                     Log.e("info","map===个人主页========"+map);
-                    if(type==0){
-                        setData(map);
-                    }else if(type==1){
-                        setData2(map);
-                    }else if(type == 2){
-                        setData2(map);
-                    }
+                        if(type==0){
+                            setData(map);
+                        }else if(type==1){
+                            setData2(map);
+                        }else if(type == 2){
+                            setData2(map);
+                        }
+                    break;
+                case ConstantsHandler.EXECUTE_FAIL:
+                    break;
+                case ConstantsHandler.ConnectTimeout:
+//                    AlertMsgL("超时");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    };
+    Handler addhandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            Log.e("info","type--------"+type);
+            Log.e("info","map===个人主页====msg.what===="+msg.what);
+            switch (msg.what) {
+                case ConstantsHandler.EXECUTE_SUCCESS:
+                    Map map = (Map) msg.obj;
+                    Log.e("info","map===个人主页========"+map);
+                    String authid=map.get("authId")+"";
+                    Log.e("info","map===个人主页=====authid==="+authid);
+                        if(authid.endsWith("1")){
+                            Toast.makeText(GeranActivity.this,"添加好友成功",Toast.LENGTH_SHORT).show();
+                        }else if(authid.endsWith("2")){
+                            Toast.makeText(GeranActivity.this,"已经是好友关系",Toast.LENGTH_SHORT).show();
+                        }else if(authid.endsWith("3")){
+                            Toast.makeText(GeranActivity.this,"添加失败，该用户不是环信用户",Toast.LENGTH_SHORT).show();
+                        }else if(authid.endsWith("4")){
+                            Toast.makeText(GeranActivity.this,"没有此用户",Toast.LENGTH_SHORT).show();
+                        }
                     break;
                 case ConstantsHandler.EXECUTE_FAIL:
                     break;
