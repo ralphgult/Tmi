@@ -27,6 +27,7 @@ public class Config {
     public static String URL_GET_QIYE_HOME=ROOT_HOST_NAME+"/CBDParkingMSs/goods/homepage";//获取企业首页接口
     public static String URL_GET_SEARCH_HOME=ROOT_HOST_NAME+"/CBDParkingMSs/searchRecommend";//获取热荐搜索接口
     public static String URL_GET_ADDFRIEND=ROOT_HOST_NAME+"/CBDParkingMSs/friends/addFriend";//添加好友接口
+    public static String URL_MOMENT = ROOT_HOST_NAME+"/CBDParkingMSs/mood/pyq";//朋友圈接口
     public static String URL_REDGIST = ROOT_HOST_NAME+"/CBDParkingMSs/regist";
     public static String URL_FIND_PASSWORD = ROOT_HOST_NAME+"/CBDParkingMSs/updatePwd";
 
