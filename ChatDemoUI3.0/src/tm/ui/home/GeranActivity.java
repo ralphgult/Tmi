@@ -164,21 +164,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.btn_1:
-//                btn_2.setImageResource(R.drawable.tm_qiye_norm);
-//                btn_1.setImageResource(R.drawable.tm_geren_pressed);
-//                btn_3.setImageResource(R.drawable.tm_sannong_normal);
-//                break;
-//            case R.id.btn_2:
-//                btn_2.setImageResource(R.drawable.tm_qiye_pressed);
-//                btn_1.setImageResource(R.drawable.tm_geren_normal);
-//                btn_3.setImageResource(R.drawable.tm_sannong_normal);
-//                break;
-//            case R.id.btn_3:
-//                btn_2.setImageResource(R.drawable.tm_qiye_norm);
-//                btn_1.setImageResource(R.drawable.tm_geren_normal);
-//                btn_3.setImageResource(R.drawable.tm_sannong_pressed);
-//                break;
             case R.id.shouye_top1:
                 txt1.setTextColor(Color.parseColor("#a161fb"));
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
@@ -360,14 +345,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_geren4.setVisibility(View.GONE);
         lv_qiye.setVisibility(View.VISIBLE);
 
-        try {
-            JSONObject objects =new JSONObject(map.toString());
-            JSONArray news = objects.getJSONArray("top");
-            Log.e("info","news=="+news);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
 //        tv_gxqm.setText("西域美农");
 //        tv_title.setText("西域美农");
 //        tv_qiyeshuoming.setText("一切皆有可能");
@@ -385,7 +362,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         } else {
             tv_title.setText("企业主页");
         }
-
         //企业签名
         tv_qiyeshuoming.setText(map.get("companyIntroduction") + "");
         tv_dianpu.setText("店铺商品");
@@ -401,128 +377,100 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         imageLoaders.loadImage(img_pic22, map.get("img2") + "");
         String top=  map.get("top")+"";
         Log.e("info","top==="+top);
+        try {
+            JSONArray     photos = new JSONArray(top);
+            if (photos != null && photos.length() != 0) {
+                if (photos.length() <= 3) {
+                    for (int i = 0; i < photos.length(); i++) {
+                        switch (i) {
+                            case 0:
+                                imageLoaders.loadImage(img_pic1, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            case 1:
+                                imageLoaders.loadImage(img_pic2, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            case 2:
+                                imageLoaders.loadImage(img_pic3, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (photos.length() == 1) {
+                        img_pic1.setVisibility(View.VISIBLE);
+                        img_pic2.setVisibility(View.INVISIBLE);
+                        img_pic3.setVisibility(View.INVISIBLE);
+                    } else if (photos.length() == 2) {
+                        img_pic1.setVisibility(View.VISIBLE);
+                        img_pic2.setVisibility(View.VISIBLE);
+                        img_pic3.setVisibility(View.INVISIBLE);
+                    } else if (photos.length() == 3) {
+                        img_pic1.setVisibility(View.VISIBLE);
+                        img_pic2.setVisibility(View.VISIBLE);
+                        img_pic3.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    for (int i = 0; i < photos.length(); i++) {
+                        switch (i) {
+                            case 0:
+                                imageLoaders.loadImage(img_pic1, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            case 1:
+                                imageLoaders.loadImage(img_pic2, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            case 2:
+                                imageLoaders.loadImage(img_pic3, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            case 3:
+                                imageLoaders.loadImage(img_pic4, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            case 4:
+                                imageLoaders.loadImage(img_pic5, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            case 5:
+                                imageLoaders.loadImage(img_pic6, photos
+                                        .getJSONObject(i).getString("imgUrl"));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    img_pic1.setVisibility(View.VISIBLE);
+                    img_pic2.setVisibility(View.VISIBLE);
+                    img_pic3.setVisibility(View.VISIBLE);
+                    if (photos.length() == 4) {
+                        img_pic4.setVisibility(View.VISIBLE);
+                        img_pic5.setVisibility(View.INVISIBLE);
+                        img_pic6.setVisibility(View.INVISIBLE);
+                    } else if (photos.length() == 5) {
+                        img_pic4.setVisibility(View.VISIBLE);
+                        img_pic5.setVisibility(View.VISIBLE);
+                        img_pic6.setVisibility(View.INVISIBLE);
+                    } else if (photos.length() == 6) {
+                        img_pic4.setVisibility(View.VISIBLE);
+                        img_pic5.setVisibility(View.VISIBLE);
+                        img_pic6.setVisibility(View.VISIBLE);
+                    }
+                }
+            } else {
+                img_pic1.setVisibility(View.GONE);
+                img_pic2.setVisibility(View.GONE);
+                img_pic3.setVisibility(View.GONE);
+                img_pic4.setVisibility(View.GONE);
+                img_pic5.setVisibility(View.GONE);
+                img_pic6.setVisibility(View.GONE);
+            }
 
-//        String[] strArray=top;
-//        Log.e("info","top=1=="+top[0]);
-
-//        try {
-//            JSONObject objects =new JSONObject(map.toString());
-//            Log.e("info","objects=="+objects);
-//            String nickname = objects.getString("companyName");
-//            Log.e("info","nickname=="+nickname);
-//            if (!nickname.equals("")) {
-//                tv_title.setText(nickname);
-//                tv_gxqm.setText(nickname);
-//            } else {
-//                tv_title.setText("企业主页");
-//            }
-//            tv_qiyeshuoming.setText(objects.getString("companyIntroduction"));
-//            JSONArray news = objects.getJSONArray("xq");
-//
-//            for (int i = 0; i < news.length(); i++) {
-//                JSONObject jsonNew = news.getJSONObject(i);
-////                tv_name.setText(jsonNew.optString("userName"));
-////                tv_time.setText(jsonNew.optString("create_date"));
-////                tv_look.setText(jsonNew.optString("seeCount"));
-////                tv_num.setText(jsonNew.optString("mpsCount"));
-////                tv_comment.setText(jsonNew.optString("mcCount"));
-////                tv_content.setText(jsonNew.optString("mood_content"));
-////                imageLoaders.loadImage(img_pic1, photos
-////                        .getJSONObject(i).getString("mpThumbnail"));
-//            }
-//            JSONArray photos = objects.getJSONArray("top");
-//            if (photos != null && photos.length() != 0) {
-//                if (photos.length() <= 3) {
-//                    for (int i = 0; i < photos.length(); i++) {
-//                        switch (i) {
-//                            case 0:
-//                                imageLoaders.loadImage(img_pic1, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            case 1:
-//                                imageLoaders.loadImage(img_pic2, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            case 2:
-//                                imageLoaders.loadImage(img_pic3, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            default:
-//                                break;
-//                        }
-//                    }
-//                    if (photos.length() == 1) {
-//                        img_pic1.setVisibility(View.VISIBLE);
-//                        img_pic2.setVisibility(View.INVISIBLE);
-//                        img_pic3.setVisibility(View.INVISIBLE);
-//                    } else if (photos.length() == 2) {
-//                        img_pic1.setVisibility(View.VISIBLE);
-//                        img_pic2.setVisibility(View.VISIBLE);
-//                        img_pic3.setVisibility(View.INVISIBLE);
-//                    } else if (photos.length() == 3) {
-//                        img_pic1.setVisibility(View.VISIBLE);
-//                        img_pic2.setVisibility(View.VISIBLE);
-//                        img_pic3.setVisibility(View.VISIBLE);
-//                    }
-//                } else {
-//                    for (int i = 0; i < photos.length(); i++) {
-//                        switch (i) {
-//                            case 0:
-//                                imageLoaders.loadImage(img_pic1, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            case 1:
-//                                imageLoaders.loadImage(img_pic2, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            case 2:
-//                                imageLoaders.loadImage(img_pic3, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            case 3:
-//                                imageLoaders.loadImage(img_pic4, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            case 4:
-//                                imageLoaders.loadImage(img_pic5, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            case 5:
-//                                imageLoaders.loadImage(img_pic6, photos
-//                                        .getJSONObject(i).getString("mpThumbnail"));
-//                                break;
-//                            default:
-//                                break;
-//                        }
-//                    }
-//                    img_pic1.setVisibility(View.VISIBLE);
-//                    img_pic2.setVisibility(View.VISIBLE);
-//                    img_pic3.setVisibility(View.VISIBLE);
-//                    if (photos.length() == 4) {
-//                        img_pic4.setVisibility(View.VISIBLE);
-//                        img_pic5.setVisibility(View.INVISIBLE);
-//                        img_pic6.setVisibility(View.INVISIBLE);
-//                    } else if (photos.length() == 5) {
-//                        img_pic4.setVisibility(View.VISIBLE);
-//                        img_pic5.setVisibility(View.VISIBLE);
-//                        img_pic6.setVisibility(View.INVISIBLE);
-//                    } else if (photos.length() == 6) {
-//                        img_pic4.setVisibility(View.VISIBLE);
-//                        img_pic5.setVisibility(View.VISIBLE);
-//                        img_pic6.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            } else {
-//                img_pic1.setVisibility(View.GONE);
-//                img_pic2.setVisibility(View.GONE);
-//                img_pic3.setVisibility(View.GONE);
-//                img_pic4.setVisibility(View.GONE);
-//                img_pic5.setVisibility(View.GONE);
-//                img_pic6.setVisibility(View.GONE);
-//            }
-//
-//        } catch (JSONException e) {
-//        }
+        } catch (JSONException e) {
+        }
     }
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -539,9 +487,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     }else if(type == 2){
                         setData2(map);
                     }
-
-//                    setData_qy(map);
-//                    setData_sn(map);
                     break;
                 case ConstantsHandler.EXECUTE_FAIL:
                     break;
@@ -554,25 +499,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         }
 
     };
-//    Handler qiyehandler = new Handler() {
-//        public void handleMessage(android.os.Message msg) {
-//            Log.e("info","map===企业====msg.what===="+msg.what);
-//            switch (msg.what) {
-//                case ConstantsHandler.EXECUTE_SUCCESS:
-//                    Map map = (Map) msg.obj;
-//                    Log.e("info","map===企业========"+map);
-//                    setData(map);
-//                    break;
-//                case ConstantsHandler.EXECUTE_FAIL:
-//                    break;
-//                case ConstantsHandler.ConnectTimeout:
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//
-//    };
 
     public void LoadData() {
         List<NameValuePair> list = new ArrayList<NameValuePair>();
