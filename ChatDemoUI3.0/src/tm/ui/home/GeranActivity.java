@@ -197,9 +197,9 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                         "id"));
                 List<NameValuePair> list = new ArrayList<NameValuePair>();
                 list.add(new BasicNameValuePair("me",username ));
-//                list.add(new BasicNameValuePair("my", getIntent().getStringExtra(
-//                        "id")));
-                list.add(new BasicNameValuePair("my", "37"));
+                list.add(new BasicNameValuePair("my", getIntent().getStringExtra(
+                        "id")));
+//                list.add(new BasicNameValuePair("my", "36"));
                 NetFactory.instance().commonHttpCilent(addhandler, this,
                         Config.URL_GET_ADDFRIEND, list);
                 break;
