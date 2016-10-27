@@ -30,6 +30,19 @@ android {
         multiDexEnabled true
     }
 
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                //这里修改apk文件名
+                def fileName = "tmsousou-1.0.1.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+
+
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
