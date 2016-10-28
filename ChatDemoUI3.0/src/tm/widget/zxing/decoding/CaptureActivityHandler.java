@@ -27,7 +27,7 @@ import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.util.Vector;
 

@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 public class TmiNoticeActivity extends Activity implements View.OnClickListener{
     private ImageView back_iv;

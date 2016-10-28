@@ -8,8 +8,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.BaseActivity;
+import com.xbh.tmi.R;
+import com.xbh.tmi.ui.BaseActivity;
 
 public class FarmerCenterActivity extends BaseActivity implements View.OnClickListener{
     private ImageView back;

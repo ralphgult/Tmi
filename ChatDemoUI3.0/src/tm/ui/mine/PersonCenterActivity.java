@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 
 public class PersonCenterActivity extends Activity implements View.OnClickListener{

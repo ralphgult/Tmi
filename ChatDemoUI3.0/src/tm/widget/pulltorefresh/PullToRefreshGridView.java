@@ -23,7 +23,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.GridView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import tm.widget.pulltorefresh.internal.EmptyViewMethodAccessor;
 

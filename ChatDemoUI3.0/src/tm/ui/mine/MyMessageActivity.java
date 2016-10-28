@@ -3,7 +3,7 @@ package tm.ui.mine;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 public class MyMessageActivity extends Activity {
 

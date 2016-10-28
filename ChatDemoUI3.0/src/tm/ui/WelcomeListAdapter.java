@@ -3,10 +3,6 @@ package tm.ui;
 /**
  * Created by meixi on 2016/8/30.
  */
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -19,7 +15,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import tm.utils.ImageLoaders;
 

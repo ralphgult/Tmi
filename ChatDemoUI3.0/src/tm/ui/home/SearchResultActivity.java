@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.BaseActivity;
+import com.xbh.tmi.R;
+import com.xbh.tmi.ui.BaseActivity;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,10 +27,8 @@ import java.util.Map;
 
 import tm.http.Config;
 import tm.http.NetFactory;
-import tm.ui.WelcomeListAdapter;
 import tm.ui.home.Adapter.SearchResultAdapter;
 import tm.utils.ConstantsHandler;
-import tm.widget.pulltorefresh.PullToRefreshListView;
 
 /**
  * Created by Administrator on 2016/10/12.

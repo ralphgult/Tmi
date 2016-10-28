@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

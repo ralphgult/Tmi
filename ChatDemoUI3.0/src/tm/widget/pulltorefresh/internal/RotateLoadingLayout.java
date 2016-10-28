@@ -23,7 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView.ScaleType;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import tm.widget.pulltorefresh.PullToRefreshBase.Mode;
 import tm.widget.pulltorefresh.PullToRefreshBase.Orientation;

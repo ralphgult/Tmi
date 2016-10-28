@@ -6,12 +6,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.util.List;
 import java.util.Map;
-
-import tm.ui.tmi.adapter.OrderAdapter;
 
 /**
  * Created by RalphGult on 2016/10/20.

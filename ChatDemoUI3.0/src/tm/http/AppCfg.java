@@ -3,14 +3,13 @@ package tm.http;
 /**
  * Created by Administrator on 2016/9/7.
  */
-import java.io.IOException;
-
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.hyphenate.tmdemo.DemoApplication;
+import com.xbh.tmi.DemoApplication;
+
+import java.io.IOException;
 
 import tm.entity.UserBean;
 

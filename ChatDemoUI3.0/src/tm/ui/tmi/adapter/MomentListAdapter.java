@@ -12,8 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.util.List;
 import java.util.Map;

@@ -3,7 +3,6 @@ package tm.ui.mine.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.util.ArrayMap;
-import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,15 +10,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.easemob.redpacketui.recyclerview.widget.RecyclerView;
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.util.List;
 import java.util.Map;
-
-import tm.entity.ResourcesBean;
-import tm.ui.main.adapter.BdtsAdapter;
-import tm.widget.lvdapter.viewholder.CustomCommonViewHolder;
 
 /**
  * Created by RalphGult on 9/29/2016.

@@ -3,8 +3,6 @@ package tm.ui.home.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import tm.entity.ResourcesBean;
 import tm.utils.ImageLoaders;
-import tm.widget.lvdapter.CommonAdapter;
-import tm.widget.lvdapter.viewholder.CustomCommonViewHolder;
 
 /**
  * Created by meixi on 2016/9/5.

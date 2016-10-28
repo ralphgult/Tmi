@@ -11,9 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.WriterException;
-import com.hyphenate.tmdemo.Constant;
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.BaseActivity;
+import com.xbh.tmi.Constant;
+import com.xbh.tmi.R;
+import com.xbh.tmi.ui.BaseActivity;
 
 import java.io.File;
 

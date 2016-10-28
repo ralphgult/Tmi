@@ -3,18 +3,15 @@ package tm.ui.tmi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

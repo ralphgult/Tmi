@@ -8,9 +8,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.tmdemo.DemoApplication;
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.LoginActivity;
+import com.xbh.tmi.DemoApplication;
+import com.xbh.tmi.R;
+import com.xbh.tmi.ui.LoginActivity;
 
 
 
