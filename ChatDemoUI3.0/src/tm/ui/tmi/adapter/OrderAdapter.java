@@ -1,7 +1,6 @@
 package tm.ui.tmi.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.hyphenate.tmdemo.R;
 
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 
 /**
  * Created by RalphGult on 2016/10/20.
