@@ -112,13 +112,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         tv_num = (TextView)findViewById(R.id.yx_monent_bottom_like_number);
         tv_comment = (TextView)findViewById(R.id.yx_monent_bottom_comment_number);
         tv_content = (TextView)findViewById(R.id.yx_monent_content);
-//        wwww = (LinearLayout)findViewById(R.id.tm_botton_ly);
-//        wwww.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(GeranActivity.this,"该功能正在开发中。。。",Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        wwww = (LinearLayout)findViewById(R.id.tm_botton_ly);
+
 
         tv_gxqm = (TextView)findViewById(R.id.tm_zhuye_gexing);
         tv_qymc = (TextView)findViewById(R.id.tm_zhuye_qiyename);
@@ -192,9 +187,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             case R.id.tm_addfriend://添加好友
                 SharedPreferences sharedPre=this.getSharedPreferences("config",this.MODE_PRIVATE);
                 String username=sharedPre.getString("username", "");
-                Log.e("info","me==="+username);
-                Log.e("info","myid==="+getIntent().getStringExtra(
-                        "id"));
                 List<NameValuePair> list = new ArrayList<NameValuePair>();
                 list.add(new BasicNameValuePair("me",username ));
                 list.add(new BasicNameValuePair("my", getIntent().getStringExtra(
@@ -519,14 +511,10 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     };
     Handler addhandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            Log.e("info","type--------"+type);
-            Log.e("info","map===个人主页====msg.what===="+msg.what);
             switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:
                     Map map = (Map) msg.obj;
-                    Log.e("info","map===个人主页========"+map);
                     String authid=map.get("authId")+"";
-                    Log.e("info","map===个人主页=====authid==="+authid);
                         if(authid.endsWith("1")){
                             Toast.makeText(GeranActivity.this,"添加好友成功",Toast.LENGTH_SHORT).show();
                         }else if(authid.endsWith("2")){
