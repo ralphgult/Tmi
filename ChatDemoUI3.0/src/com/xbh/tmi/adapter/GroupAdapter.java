@@ -11,9 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hyphenate.tmdemo.adapter;
-
-import java.util.List;
+package com.xbh.tmi.adapter;
 
 import android.content.Context;
 import android.text.Editable;
@@ -29,7 +27,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMGroup;
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
+
+import java.util.List;
 
 public class GroupAdapter extends ArrayAdapter<EMGroup> {
 

@@ -11,15 +11,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hyphenate.tmdemo.adapter;
+package com.xbh.tmi.adapter;
 
 import java.util.List;
 
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.db.InviteMessgeDao;
-import com.hyphenate.tmdemo.domain.InviteMessage;
-import com.hyphenate.tmdemo.domain.InviteMessage.InviteMesageStatus;
+import com.xbh.tmi.R;
+import com.xbh.tmi.db.InviteMessgeDao;
+import com.xbh.tmi.domain.InviteMessage;
+import com.xbh.tmi.domain.InviteMessage.InviteMesageStatus;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
