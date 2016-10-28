@@ -13,22 +13,14 @@
  */
 package com.hyphenate.tmdemo.ui;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.tmdemo.DemoApplication;
-import com.hyphenate.tmdemo.DemoHelper;
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.db.DemoDBManager;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -37,29 +29,35 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.tmdemo.DemoApplication;
+import com.hyphenate.tmdemo.DemoHelper;
+import com.hyphenate.tmdemo.R;
+import com.hyphenate.tmdemo.db.DemoDBManager;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQAuth;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import tm.entity.UserBean;
-import tm.http.AppCfg;
 import tm.http.Config;
 import tm.http.NetFactory;
-import tm.ui.login.PwdFindActivity;
-import tm.ui.login.RegistActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ViewTools;
-
-import android.os.Handler;
 
 /**
  * 登录界面
@@ -84,11 +82,20 @@ public class LoginActivity extends BaseActivity {
 	private ImageView loginWechat;
 	private ImageView loginWebo;
 	private ImageView loginQQ;
+
+
+	private UserInfo mInfo;
+	private Tencent mTencent;
+	public QQAuth mQQAuth;
+	public String mAppid = "1105535997";
+	public String openid ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//初始化QQSDK
+		mQQAuth = QQAuth.createInstance(mAppid, this.getApplicationContext());
+		mTencent = Tencent.createInstance(mAppid, this);
 
-		// enter the main activity if already logged in
 		if (DemoHelper.getInstance().isLoggedIn()) {
 			autoLogin = true;
 			startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -119,7 +126,8 @@ public class LoginActivity extends BaseActivity {
 		loginQQ.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(LoginActivity.this,"正在审核中...",Toast.LENGTH_SHORT).show();
+				onClickLogin();
+
 			}
 		});
 		addListeners();
@@ -172,7 +180,7 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	/**
-	 * login
+	 * 环信登录
 	 * 
 	 * @param
 	 */
@@ -182,7 +190,6 @@ public class LoginActivity extends BaseActivity {
 			return;
 		}
 		currentUsername = usernameEditText.getText().toString().trim();
-//		currentPassword = passwordEditText.getText().toString().trim();
 		String	hxPassword ="tmi1q2w3e";
 
 		progressShow = true;
@@ -199,15 +206,11 @@ public class LoginActivity extends BaseActivity {
 		pd.setMessage(getString(R.string.Is_landing));
 		pd.show();
 
-		// After logout，the DemoDB may still be accessed due to async callback, so the DemoDB will be re-opened again.
-		// close it before login to make sure DemoDB not overlap
         DemoDBManager.getInstance().closeDB();
 
-        // reset current user name before login
         DemoHelper.getInstance().setCurrentUserName(currentUsername);
         
 		final long start = System.currentTimeMillis();
-		// call login method
 		Log.d(TAG, "EMClient.getInstance().login");
 		EMClient.getInstance().login(currentUsername, hxPassword, new EMCallBack() {
 
@@ -219,18 +222,15 @@ public class LoginActivity extends BaseActivity {
 					pd.dismiss();
 				}
 
-				// ** manually load all local groups and conversation
 			    EMClient.getInstance().groupManager().loadAllGroups();
 			    EMClient.getInstance().chatManager().loadAllConversations();
 
-			    // update current user's display name for APNs
 				boolean updatenick = EMClient.getInstance().updateCurrentUserNick(
 						DemoApplication.currentUserNick.trim());
 				if (!updatenick) {
 					Log.e("LoginActivity", "update current user nick fail");
 				}
 
-				// get user's info (this should be get from App's server or 3rd party service)
 				DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
 
 				Intent intent = new Intent(LoginActivity.this,
@@ -284,33 +284,6 @@ public class LoginActivity extends BaseActivity {
 			Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
 			return;
 		}
-//		String userName = et_name.getText().toString();
-//		String passWord = et_password.getText().toString();
-//		if (userName.equals("")) {
-//			AlertMsgS("请输入用户名");
-//			et_name.findFocus();
-//			return;
-//		}
-//		if (passWord.equals("")) {
-//			AlertMsgS("请输入用户密码");
-//			et_password.findFocus();
-//			return;
-//		}
-
-//		progressShow = true;
-//		pd = new ProgressDialog(LoginActivity.this);
-//		pd.setCanceledOnTouchOutside(false);
-//		pd.setOnCancelListener(new OnCancelListener() {
-//
-//			@Override
-//			public void onCancel(DialogInterface dialog) {
-//				Log.d(this.getClass().getSimpleName(),
-//						"EMClient.getInstance().onCancel");
-//				progressShow = false;
-//			}
-//		});
-//		pd.setMessage("登录中……");
-//		pd.show();
 
 		currentUsername = usernameEditText.getText().toString().trim();
 		currentPassword = passwordEditText.getText().toString().trim();
@@ -322,12 +295,9 @@ public class LoginActivity extends BaseActivity {
 			Toast.makeText(this, R.string.Password_cannot_be_empty, Toast.LENGTH_SHORT).show();
 			return;
 		}
-		Log.e("info","currentUsername=="+currentUsername);
-		Log.e("info","currentPassword=="+currentPassword);
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		list.add(new BasicNameValuePair("userName", currentUsername));
 		list.add(new BasicNameValuePair("userPassword", currentPassword));
-//		list.add(new BasicNameValuePair("identify", ""));
 		NetFactory.instance().commonHttpCilent(login, this,
 				Config.URL_LOGIN_USER, list);
 	}
@@ -341,59 +311,20 @@ public class LoginActivity extends BaseActivity {
 					String authId = map.get("authId") + "";
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-//						UserBean user = new UserBean();
 						String uid=map.get("userId")+"";
 						saveLoginInfo(LoginActivity.this,uid);
-//						AppCfg._instance.setCurrentUser(user);
-//						AppCfg._instance.userName = currentUsername;
-//						AppCfg._instance.password = currentPassword;
-//						AppCfg._instance.userId=map.get("userId")+"";
-//						AppCfg._instance.save();
 						hxlogin();
 					}else{
 						Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
 					}
-//					try {
-//						result = URLDecoder.decode(result, "utf-8");
-//						JSONObject jo = new JSONObject(result);
-//						AppCfg._instance.userName = currentUsername;
-//						AppCfg._instance.password = currentPassword;
-//						AppCfg._instance.userId=jo.get("userId")+"";
-////					    AppCfg._instance.LoginType = "1";
-//						AppCfg._instance.save();
-//						UserBean user = new UserBean();
-//						user.init(jo);
-//						AppCfg._instance.setCurrentUser(user);
-//						DemoApplication.currentUserNick = user.getName();
-//					} catch (Exception e) {
-//					}
-//					MainActivity.userStateChange = true;
-//					AppCfg._instance.userName = currentUsername;
-//					AppCfg._instance.password = currentPassword;
-//					AppCfg._instance.userId=jo.get("userid")+"";
-////					AppCfg._instance.LoginType = "1";
-//					AppCfg._instance.save();
-//					loginHx();
 					hxlogin();
 					break;
 				case ConstantsHandler.EXECUTE_FAIL:
-
-//					pd.dismiss();
-//					map = (Map) msg.obj;
-//					String status = map.get("status").toString();
-//					if (status.equals("-200")) {
-////						AlertMsgL("密码错误");
-//					} else if (status.equals("-300")) {
-////						AlertMsgL("用户不存在");
-//					}
 					break;
 				case ConstantsHandler.ConnectTimeout:
-//					pd.dismiss();
-//					AlertMsgL("登录超时");
-//					Toast.makeText(this,"登录超时",Toast.LENGTH_SHORT).show();
+					Toast.makeText(LoginActivity.this,"登录超时",Toast.LENGTH_SHORT).show();
 					break;
 				default:
-//					pd.dismiss();
 					break;
 			}
 		}
@@ -449,5 +380,71 @@ public class LoginActivity extends BaseActivity {
 				}
 			}
 		});
+	}
+	public void onClickLogin() {
+		if (!mQQAuth.isSessionValid()) {
+			// 登录成功后返回监听
+			IUiListener listener = new BaseUiListener() {
+				@Override
+				protected void doComplete(JSONObject values) {
+					updateUserInfo();
+				}
+			};
+			mTencent.loginWithOEM(this, "all", listener, "10000144", "10000144", "xxxx");
+		}
+	}
+	private void updateUserInfo() {
+		if (mQQAuth != null && mQQAuth.isSessionValid()) {
+			IUiListener listener = new IUiListener() {
+				@Override
+				public void onComplete(final Object response) {
+				}
+
+				@Override
+				public void onCancel() {
+
+				}
+
+				@Override
+				public void onError(UiError arg0) {
+
+				}
+			};
+			mInfo = new UserInfo(this, mQQAuth.getQQToken());
+			mInfo.getUserInfo(listener);
+		}
+	}
+	private class BaseUiListener implements IUiListener {
+		@Override
+		public void onComplete(Object response) {
+			Log.e("lking", "返回值 = " + response.toString());
+			JSONObject json = (JSONObject) response;
+			try {
+				openid = json.getString("openid");
+				// 在这里进行登录操作
+				Log.e("lking", "登录操作");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			Log.e("lking", "openid2 = " + openid);
+		}
+		protected void doComplete(JSONObject values) {
+
+		}
+
+		@Override
+		public void onError(UiError e) {
+			Toast.makeText(LoginActivity.this, e.toString(), 1000).show();
+		}
+
+		@Override
+		public void onCancel() {
+			Toast.makeText(LoginActivity.this, "cancel", 1000).show();
+		}
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Tencent.onActivityResultData(requestCode, resultCode, data, new BaseUiListener());
 	}
 }
