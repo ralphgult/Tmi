@@ -25,6 +25,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +36,16 @@ import android.widget.Toast;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.DemoHelper;
 import com.xbh.tmi.R;
@@ -89,12 +100,20 @@ public class LoginActivity extends BaseActivity {
 	public QQAuth mQQAuth;
 	public String mAppid = "1105535997";
 	public String openid ;
+
+	public static final String APP_ID = "wx4c49c49a71bfb7df";
+	public static final String APP_SECRET = "fcef682cbaab83ea263658c7beb7ab44";
+	public static BaseResp resp;
+	private IWXAPI api;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//初始化QQSDK
 		mQQAuth = QQAuth.createInstance(mAppid, this.getApplicationContext());
 		mTencent = Tencent.createInstance(mAppid, this);
+		//初始化微信SDK
+		api = WXAPIFactory.createWXAPI(this, APP_ID, true);
+		api.registerApp(APP_ID);
 
 		if (DemoHelper.getInstance().isLoggedIn()) {
 			autoLogin = true;
@@ -114,7 +133,8 @@ public class LoginActivity extends BaseActivity {
 		loginWechat.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(LoginActivity.this,"正在审核中...",Toast.LENGTH_SHORT).show();
+				//需要签名打包才能使用
+				requestAuth();
 			}
 		});
 		loginWebo.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +198,78 @@ public class LoginActivity extends BaseActivity {
 			usernameEditText.setText(DemoHelper.getInstance().getCurrentUsernName());
 		}
 	}
+
+
+//微信登录方法
+	public void wechatLogin(View v) {
+		requestAuth();
+	}
+	private void requestAuth() {
+		SendAuth.Req req = new SendAuth.Req();
+		req.scope = "snsapi_userinfo";
+		req.state = "test_wechat_login";
+		api.sendReq(req);
+	}
+	private void getAccessToken(String code) {
+		HttpUtils httpUtils = new HttpUtils();
+		RequestParams params = new RequestParams();
+		params.addQueryStringParameter("appid", LoginActivity.APP_ID.trim());
+		params.addQueryStringParameter("secret", LoginActivity.APP_SECRET.trim());
+		params.addQueryStringParameter("code", code.trim());
+		params.addQueryStringParameter("grant_type", "authorization_code");
+		httpUtils.send(HttpRequest.HttpMethod.GET, "https://api.weixin.qq.com/sns/oauth2/access_token", params , new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				String result = responseInfo.result;
+				if(TextUtils.isEmpty(result))return;
+				Log.e("info", "token = "+result);
+				System.out.println("getAccessToken----->"+result);
+				try {
+					JSONObject json = new JSONObject(result);
+					if(json.has("access_token")&&json.has("openid")){
+						String access_token = json.getString("access_token");
+						String openid = json.getString("openid");
+						getWeChatUserInfo(access_token, openid);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	private void getWeChatUserInfo(String token, String openid) {
+		HttpUtils httpUtils = new HttpUtils();
+		RequestParams params = new RequestParams();
+		params.addQueryStringParameter("access_token", token);
+		params.addQueryStringParameter("openid", openid);
+		httpUtils.send(HttpRequest.HttpMethod.GET, "https://api.weixin.qq.com/sns/userinfo", params , new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				Log.e("info", "fanhuizhi = "+responseInfo.result);
+				//、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、在这里进行微信登录
+				try {
+					JSONObject json = new JSONObject(responseInfo.result);
+					String chatopenid = json.getString("openid");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+
+
 
 	/**
 	 * 环信登录
@@ -277,6 +369,10 @@ public class LoginActivity extends BaseActivity {
 		super.onResume();
 		if (autoLogin) {
 			return;
+		}
+		if(resp!=null){
+			System.out.println("onResume-->code-->"+((SendAuth.Resp) resp).code);
+			getAccessToken(((SendAuth.Resp) resp).code);
 		}
 	}
 	public void LoginMe() {
@@ -421,7 +517,7 @@ public class LoginActivity extends BaseActivity {
 			JSONObject json = (JSONObject) response;
 			try {
 				openid = json.getString("openid");
-				// 在这里进行登录操作
+				// ////////////////////////////////////////////////在这里进行登录操作
 				Log.e("lking", "登录操作");
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -434,12 +530,11 @@ public class LoginActivity extends BaseActivity {
 
 		@Override
 		public void onError(UiError e) {
-			Toast.makeText(LoginActivity.this, e.toString(), 1000).show();
+
 		}
 
 		@Override
 		public void onCancel() {
-			Toast.makeText(LoginActivity.this, "cancel", 1000).show();
 		}
 	}
 	@Override
