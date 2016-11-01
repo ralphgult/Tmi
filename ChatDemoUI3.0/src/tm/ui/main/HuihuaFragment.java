@@ -90,6 +90,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     private int type=0;
     private int stype=2;
     private int rjtype=1;
+    private int zxtype=1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,6 +105,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_pressed);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("本地特色");
+                zxtype=1;
                 type=0;
                 rjtype=1;
                 if(stype==1){
@@ -121,6 +123,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("资讯");
+                zxtype=2;
                 type=1;
                 rjtype=2;
                 if(stype==1){
@@ -138,6 +141,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_pressed);
                 txt3.setText("扶植农业");
+                zxtype=3;
                 type=2;
                 rjtype=3;
                 if(stype==1){
@@ -270,10 +274,9 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
 
     }
     /**
-     * 接口附近数据
+     * 接口资讯数据
      */
     public void LoadData3() {
-        Log.e("info","企业====");
         String serviceString = Context.LOCATION_SERVICE;// 获取的是位置服务
         LocationManager locationManager = (LocationManager) getContext().getSystemService(serviceString);// 调用getSystemService()方法来获取LocationManager对象
         //获取Location
@@ -295,8 +298,10 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         list.add(new BasicNameValuePair("jd", ""+lng));
         list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
+        Log.e("info","type===参数=资讯==="+zxtype);
+        list.add(new BasicNameValuePair("type", ""+zxtype));
         NetFactory.instance().commonHttpCilent(handler, getContext(),
-                Config.URL_GET_NEARLY_USERS, list);
+                Config.URL_GET_ZIXUN_HOME, list);
 
     }
     /**
