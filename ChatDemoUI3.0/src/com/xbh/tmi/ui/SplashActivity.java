@@ -9,6 +9,7 @@ import com.hyphenate.chat.EMClient;
 import com.xbh.tmi.R;
 import com.xbh.tmi.DemoHelper;
 
+import tm.ui.welcome.GuideActivity;
 import tm.utils.ViewUtil;
 
 /**
@@ -60,10 +61,10 @@ public class SplashActivity extends BaseActivity {
 //                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         ViewUtil.jumpToOtherActivity(SplashActivity.this,MainActivity.class,true);
                         finish();
-                    } /*else if(!hasOpened){
+                    } else if(!hasOpened){
                         Thread.sleep(sleepTime);
                         ViewUtil.jumpToOtherActivity(SplashActivity.this,GuideActivity.class,true);
-                    }*/else{
+                    }else{
                         Thread.sleep(sleepTime);
 //                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                         ViewUtil.jumpToOtherActivity(SplashActivity.this,LoginActivity.class,true);
