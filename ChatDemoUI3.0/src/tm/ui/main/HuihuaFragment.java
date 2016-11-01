@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,7 +61,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     private  ImageView btn_3;
     private BdtsAdapter gridViewAdapter;
     private StationaryGridView huihua_gridview;
-    private EditText btn_search;
+    private Button btn_search;
     LinearLayout ll_top1;
     LinearLayout ll_top2;
     LinearLayout ll_top3;
@@ -426,7 +427,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         btn_1 = (ImageView) getView().findViewById(R.id.btn_1);
         btn_2 = (ImageView) getView().findViewById(R.id.btn_2);
         btn_3 = (ImageView) getView().findViewById(R.id.btn_3);
-        btn_search = (EditText)getView().findViewById(R.id.btn_search);
+        btn_search = (Button)getView().findViewById(R.id.btn_search);
 
 
         ll_top1 = (LinearLayout) getView().findViewById(R.id.ll_top1);
