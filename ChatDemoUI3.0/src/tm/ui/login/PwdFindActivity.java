@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.tmdemo.DemoApplication;
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.BaseActivity;
-import com.hyphenate.tmdemo.ui.RegisterActivity;
+import com.xbh.tmi.DemoApplication;
+import com.xbh.tmi.R;
+import com.xbh.tmi.ui.BaseActivity;
+import com.xbh.tmi.ui.RegisterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

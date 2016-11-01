@@ -35,7 +35,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import tm.widget.pulltorefresh.ILoadingLayout;
 import tm.widget.pulltorefresh.PullToRefreshBase.Mode;

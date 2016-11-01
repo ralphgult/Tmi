@@ -30,7 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import tm.widget.pulltorefresh.PullToRefreshBase;
 

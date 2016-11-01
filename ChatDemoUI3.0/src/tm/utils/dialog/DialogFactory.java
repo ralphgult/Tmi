@@ -2,7 +2,7 @@ package tm.utils.dialog;
 
 import android.content.Context;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 
 public class DialogFactory {

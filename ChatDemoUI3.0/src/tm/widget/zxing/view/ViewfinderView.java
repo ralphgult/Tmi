@@ -26,7 +26,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.util.Collection;
 import java.util.HashSet;

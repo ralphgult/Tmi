@@ -44,7 +44,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 
 /**

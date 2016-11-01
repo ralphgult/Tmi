@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 
 /**

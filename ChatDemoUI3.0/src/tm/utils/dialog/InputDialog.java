@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

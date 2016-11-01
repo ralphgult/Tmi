@@ -17,7 +17,7 @@ import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import java.io.IOException;
 import java.util.Vector;

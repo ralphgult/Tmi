@@ -1,11 +1,9 @@
 package tm.ui.login;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,22 +12,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.BaseActivity;
+import com.xbh.tmi.R;
+import com.xbh.tmi.ui.BaseActivity;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 //import cn.smssdk.EventHandler;
 //import cn.smssdk.SMSSDK;
-import tm.http.Config;
-import tm.http.NetFactory;
 
 
 public class RegistActivity extends BaseActivity implements View.OnClickListener {

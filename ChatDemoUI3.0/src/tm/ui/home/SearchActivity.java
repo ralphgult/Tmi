@@ -2,14 +2,13 @@ package tm.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.BaseActivity;
+import com.xbh.tmi.R;
+import com.xbh.tmi.ui.BaseActivity;
 
 
 

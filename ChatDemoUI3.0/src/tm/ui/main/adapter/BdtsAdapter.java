@@ -9,7 +9,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 import tm.entity.ResourcesBean;
 import tm.utils.VolleyLoadPicture;
 import tm.widget.lvdapter.CommonAdapter;

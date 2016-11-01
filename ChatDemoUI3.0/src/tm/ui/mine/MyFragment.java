@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import tm.ui.setting.SettingActivity;
 import tm.utils.ViewUtil;

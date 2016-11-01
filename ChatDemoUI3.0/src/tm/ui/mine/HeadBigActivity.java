@@ -8,8 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.hyphenate.tmdemo.Constant;
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import tm.utils.ImageLoaders;
 

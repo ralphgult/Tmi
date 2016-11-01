@@ -3,7 +3,6 @@ package tm.ui.welcome;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -13,11 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import com.hyphenate.tmdemo.DemoHelper;
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.LoginActivity;
-import com.hyphenate.tmdemo.ui.MainActivity;
+import com.xbh.tmi.R;
+import com.xbh.tmi.DemoHelper;
+import com.xbh.tmi.ui.LoginActivity;
+import com.xbh.tmi.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;

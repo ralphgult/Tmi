@@ -3,7 +3,7 @@ package tm.ui.tmi;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 public class InformationActivity extends Activity {
 

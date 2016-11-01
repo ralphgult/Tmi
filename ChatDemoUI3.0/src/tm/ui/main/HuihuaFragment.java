@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
-import com.hyphenate.tmdemo.R;
+import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

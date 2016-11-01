@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.hyphenate.tmdemo.R;
-import com.hyphenate.tmdemo.ui.BaseActivity;
+import com.xbh.tmi.R;
+import com.xbh.tmi.ui.BaseActivity;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

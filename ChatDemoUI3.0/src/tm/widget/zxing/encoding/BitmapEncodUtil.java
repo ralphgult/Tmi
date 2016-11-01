@@ -1,9 +1,5 @@
 package tm.widget.zxing.encoding;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Hashtable;
-
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -13,7 +9,11 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.hyphenate.tmdemo.Constant;
+import com.xbh.tmi.Constant;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Hashtable;
 
 import tm.utils.ImageUtil;
 
