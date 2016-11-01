@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.hyphenate.tmdemo.widget.ContactItemView
+    <com.xbh.tmi.widget.ContactItemView
         android:id="@+id/application_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contactItemImage="@drawable/em_new_friends_icon"
         app:contactItemName="新的朋友" />
 
-    <com.hyphenate.tmdemo.widget.ContactItemView
+    <com.xbh.tmi.widget.ContactItemView
         android:id="@+id/group_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         app:contactItemName="群组"
         />
 
-    <com.hyphenate.tmdemo.widget.ContactItemView
+    <com.xbh.tmi.widget.ContactItemView
         android:id="@+id/chat_room_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:visibility="gone"
         />
 
-    <com.hyphenate.tmdemo.widget.ContactItemView
+    <com.xbh.tmi.widget.ContactItemView
         android:id="@+id/robot_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
