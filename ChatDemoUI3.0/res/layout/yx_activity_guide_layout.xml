@@ -22,6 +22,7 @@
             android:id="@+id/yx_aty_guide_cricle_fst_iv"
             android:layout_width="5dp"
             android:layout_height="5dp"
+            android:visibility="gone"
             android:background="@drawable/yx_welcome_selector_point_5_dp_white_shap" />
 
         <ImageView
@@ -30,12 +31,14 @@
             android:layout_height="5dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:visibility="gone"
             android:background="@drawable/yx_welcome_selector_point_5_dp_gray_shap" />
 
         <ImageView
             android:id="@+id/yx_aty_guide_cricle_thr_iv"
             android:layout_width="5dp"
             android:layout_height="5dp"
+            android:visibility="gone"
             android:background="@drawable/yx_welcome_selector_point_5_dp_gray_shap" />
     </LinearLayout>
 
