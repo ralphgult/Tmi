@@ -61,6 +61,10 @@
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustPan" />
 
+        <!-- 微信登录界面 -->
+        <activity android:name="com.xbh.tmi.wxapi.WXEntryActivity"
+                  android:exported="true"></activity>
+
         <!-- 开屏页 -->
         <activity
             android:name=".ui.SplashActivity"
