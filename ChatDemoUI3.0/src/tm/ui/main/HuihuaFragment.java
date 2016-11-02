@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.xbh.tmi.R;
@@ -335,6 +336,9 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
 //            }
         } catch (JSONException e) {
         }
+        Log.e("info","mtype=热荐=11="+rjtype);
+        listAdapter.setType(rjtype);
+        listAdapter.setHandler(addhandler);
         listAdapter.notifyDataSetChanged();
     }
 
@@ -355,6 +359,33 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                     break;
             }
         };
+    };
+    Handler addhandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case ConstantsHandler.EXECUTE_SUCCESS:
+                    Map map = (Map) msg.obj;
+                    String authid=map.get("authId")+"";
+                    if(authid.endsWith("1")){
+                        Toast.makeText(getContext(),"添加好友成功",Toast.LENGTH_SHORT).show();
+                    }else if(authid.endsWith("2")){
+                        Toast.makeText(getContext(),"已经是好友关系",Toast.LENGTH_SHORT).show();
+                    }else if(authid.endsWith("3")){
+                        Toast.makeText(getContext(),"添加失败，该用户不是环信用户",Toast.LENGTH_SHORT).show();
+                    }else if(authid.endsWith("4")){
+                        Toast.makeText(getContext(),"没有此用户",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case ConstantsHandler.EXECUTE_FAIL:
+                    break;
+                case ConstantsHandler.ConnectTimeout:
+//                    AlertMsgL("超时");
+                    break;
+                default:
+                    break;
+            }
+        }
+
     };
     /**
      *  初始化组件
@@ -531,21 +562,6 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
 
     }
 
-//    private void setView() {
-//        if (AppCfg.type.equals("1")) {
-//            btn_1.setBackgroundResource(R.drawable.shadow);
-//            btn_2.setBackground(null);
-//            btn_3.setBackground(null);
-//        } else if (AppCfg.type.equals("2")) {
-//            btn_2.setBackgroundResource(R.drawable.shadow);
-//            btn_1.setBackground(null);
-//            btn_3.setBackground(null);
-//        } else if (AppCfg.type.equals("3")) {
-//            btn_3.setBackgroundResource(R.drawable.shadow);
-//            btn_2.setBackground(null);
-//            btn_1.setBackground(null);
-//        }
-//    }
 
     public List<ResourcesBean> getData() {
         ArrayList<ResourcesBean> list = new ArrayList<ResourcesBean>();
