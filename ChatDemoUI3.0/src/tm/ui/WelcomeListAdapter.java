@@ -4,6 +4,7 @@ package tm.ui;
  * Created by meixi on 2016/8/30.
  */
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.Log;
@@ -17,10 +18,16 @@ import android.widget.TextView;
 
 import com.xbh.tmi.R;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import tm.http.Config;
+import tm.http.NetFactory;
 import tm.utils.ImageLoaders;
 
 
@@ -34,6 +41,9 @@ public class WelcomeListAdapter extends BaseAdapter {
     Context context;
     ArrayList<HashMap> list;
     Handler handler;
+    private int mtype;
+    private String mid;
+    private Handler mhandle;
 
 
     private ImageLoaders imageLoaders = new ImageLoaders(context,
@@ -74,7 +84,15 @@ public class WelcomeListAdapter extends BaseAdapter {
     public String getItemName(int arg0) {
         return list.get(arg0).get("userName").toString();
     }
+    public int setType(int type) {
+        mtype=type;
+        return mtype;
+    }
 
+    public Handler setHandler(Handler add) {
+        mhandle=add;
+        return mhandle;
+    }
     @Override
     public View getView(int index, View view, ViewGroup parent) {
         ViewHolder holder = null;
@@ -87,12 +105,21 @@ public class WelcomeListAdapter extends BaseAdapter {
             holder.tv_desc = (TextView) view.findViewById(R.id.tv_desc);
             holder.tv_distances = (TextView) view.findViewById(R.id.tv_distances);
             holder.img_add = (ImageView) view.findViewById(R.id.img_add);
+            holder.img_guanzhu = (ImageView) view.findViewById(R.id.img_guanzhu);
+            holder.img_shipin = (ImageView) view.findViewById(R.id.img_shipin);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        //热荐判断视频、关注
+        if(mtype==1){
+            holder.img_guanzhu.setVisibility(View.VISIBLE);
+            holder.img_shipin.setVisibility(View.INVISIBLE);
+        }else{
+            holder.img_guanzhu.setVisibility(View.INVISIBLE);
+            holder.img_shipin.setVisibility(View.VISIBLE);
+        }
         holder.tv_title.setText(map.get("name")+"");
-        Log.e("info","map.get(\"name\")==="+map.get("name"));
         holder.tv_desc.setText(map.get("desc")+"");
         holder.tv_distances.setText(map.get("distance")+"");
         imageLoaders.loadImage(holder.img_pic, map.get("photo")+"");
@@ -108,6 +135,18 @@ public class WelcomeListAdapter extends BaseAdapter {
 //                }
             }
         });
+        holder.img_guanzhu.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPre=context.getSharedPreferences("config",context.MODE_PRIVATE);
+                String username=sharedPre.getString("username", "");
+                List<NameValuePair> list = new ArrayList<NameValuePair>();
+                list.add(new BasicNameValuePair("me",username ));
+                list.add(new BasicNameValuePair("my", map.get("userid")+""));
+                NetFactory.instance().commonHttpCilent(mhandle, context,
+                        Config.URL_GET_ADDFRIEND, list);
+            }
+        });
         return view;
     }
 
@@ -117,6 +156,8 @@ public class WelcomeListAdapter extends BaseAdapter {
         public TextView tv_desc;
         public TextView tv_distances;
         public ImageView img_add;
+        public ImageView img_guanzhu;
+        public ImageView img_shipin;
     }
 
 }
