@@ -93,7 +93,7 @@
             android:text="搜索关键字"
             android:textColor="#AAAAAA"
             android:textSize="16sp" />-->
-        <EditText
+        <Button
             android:id="@+id/btn_search"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
