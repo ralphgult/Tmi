@@ -210,6 +210,7 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/youxue_common_btn_icon_arrow" />
             </LinearLayout>
+            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
