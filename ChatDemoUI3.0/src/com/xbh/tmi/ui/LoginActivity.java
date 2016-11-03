@@ -62,11 +62,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.login.RegistActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ViewTools;
 
@@ -114,6 +120,8 @@ public class LoginActivity extends BaseActivity {
 		//初始化微信SDK
 		api = WXAPIFactory.createWXAPI(this, APP_ID, true);
 		api.registerApp(APP_ID);
+		//Mob平台授权，初始化微博
+		ShareSDK.initSDK(this);
 
 		if (DemoHelper.getInstance().isLoggedIn()) {
 			autoLogin = true;
@@ -133,21 +141,22 @@ public class LoginActivity extends BaseActivity {
 		loginWechat.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//需要签名打包才能使用
+				//微信登录 需要签名打包才能使用
 				requestAuth();
 			}
 		});
 		loginWebo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(LoginActivity.this,"正在审核中...",Toast.LENGTH_SHORT).show();
+				//微博登录方法调用
+				thirdSinaLogin();
 			}
 		});
 		loginQQ.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//QQ登录方法调用
 				onClickLogin();
-
 			}
 		});
 		addListeners();
@@ -242,31 +251,7 @@ public class LoginActivity extends BaseActivity {
 			}
 		});
 	}
-	private void getWeChatUserInfo(String token, String openid) {
-		HttpUtils httpUtils = new HttpUtils();
-		RequestParams params = new RequestParams();
-		params.addQueryStringParameter("access_token", token);
-		params.addQueryStringParameter("openid", openid);
-		httpUtils.send(HttpRequest.HttpMethod.GET, "https://api.weixin.qq.com/sns/userinfo", params , new RequestCallBack<String>() {
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-
-			}
-
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				Log.e("info", "fanhuizhi = "+responseInfo.result);
-				//、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、在这里进行微信登录
-				try {
-					JSONObject json = new JSONObject(responseInfo.result);
-					String chatopenid = json.getString("openid");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 
 
@@ -517,7 +502,7 @@ public class LoginActivity extends BaseActivity {
 			JSONObject json = (JSONObject) response;
 			try {
 				openid = json.getString("openid");
-				// ////////////////////////////////////////////////在这里进行登录操作
+				//在这里进行QQ登录操作*******************************************************************
 				Log.e("lking", "登录操作");
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -541,5 +526,59 @@ public class LoginActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		Tencent.onActivityResultData(requestCode, resultCode, data, new BaseUiListener());
+	}
+	private void getWeChatUserInfo(String token, String openid) {
+		HttpUtils httpUtils = new HttpUtils();
+		RequestParams params = new RequestParams();
+		params.addQueryStringParameter("access_token", token);
+		params.addQueryStringParameter("openid", openid);
+		httpUtils.send(HttpRequest.HttpMethod.GET, "https://api.weixin.qq.com/sns/userinfo", params , new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				Log.e("info", "fanhuizhi = "+responseInfo.result);
+				//在这里进行微信登录*********************************************************************
+				try {
+					JSONObject json = new JSONObject(responseInfo.result);
+					String chatopenid = json.getString("openid");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	/** 新浪微博授权、获取用户信息页面 */
+	private void thirdSinaLogin() {
+		//初始化新浪平台
+		Platform pf = ShareSDK.getPlatform(LoginActivity.this, SinaWeibo.NAME);
+		pf.SSOSetting(true);
+		//设置监听
+		pf.setPlatformActionListener(new PlatformActionListener() {
+
+			/** 新浪微博授权成功回调页面 */
+			@Override
+			public void onComplete(Platform platform, int action, HashMap<String, Object> hashMap) {
+				//在这里进行微博登录操作*******************************************************************
+				Log.e("info", "action = "+action);
+				Log.e("info", "uid = "+platform.getDb().getUserId());
+			}
+			/** 取消授权 */
+			@Override
+			public void onCancel(Platform platform, int action) {
+				Log.e("info", "Cancel = "+platform.getDb().getUserId());
+			}
+			/** 授权失败 */
+			@Override
+			public void onError(Platform platform, int action, Throwable t) {
+				Log.e("info", "Error = "+platform.getDb().getUserId());
+			}
+		});;
+		//获取登陆用户的信息，如果没有授权，会先授权，然后获取用户信息
+		pf.authorize();
 	}
 }
