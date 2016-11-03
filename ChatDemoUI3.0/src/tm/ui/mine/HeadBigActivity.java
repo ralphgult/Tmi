@@ -27,6 +27,8 @@ public class HeadBigActivity extends Activity {
             path = getIntent().getExtras().getString("filePath");
             if(!TextUtils.isEmpty(path)){
                 head_iv.setImageBitmap(BitmapFactory.decodeFile(path));
+            }else{
+                head_iv.setImageResource(R.drawable.head_default);
             }
         }
     }
