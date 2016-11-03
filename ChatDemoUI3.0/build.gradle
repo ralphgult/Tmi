@@ -8,14 +8,12 @@ buildscript {
     }
 }
 
-allprojects {
     repositories {
         jcenter()
-//        flatDir {
-//            dirs 'libs'
-//        }
+        flatDir {
+            dirs 'libs'
+        }
     }
-}
 
 apply plugin: 'com.android.application'
 
@@ -35,7 +33,7 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 //这里修改apk文件名
-                def fileName = "tmsousou-1.0.1.apk"
+                def fileName = "tmsousou1.0.1.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
@@ -78,10 +76,10 @@ android {
 dependencies {
     compile project(':redpacketlibrary')
     compile project(':EaseUI')
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile fileTree(dir:'libs', include: '*.aar')
-//    compile(name: 'SMSSDK-2.1.1', ext: 'aar')
-//    compile(name: 'SMSSDKGUI-2.1.1', ext: 'aar')
+    compile name: 'SMSSDK-2.1.2', ext: 'aar'
+//    compile name: 'SMSSDKGUI-2.1.1', ext: 'aar'
 //    compile('com.facebook.fresco:fresco:0.10.0')
 //    compile('com.facebook.fresco:imagepipeline-okhttp:0.10.0')
 //    compile('com.facebook.fresco:webpsupport:0.10.0')

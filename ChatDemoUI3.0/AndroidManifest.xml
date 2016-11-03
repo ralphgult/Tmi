@@ -9,9 +9,6 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="22"
         tools:overrideLibrary="com.easemob.redpacketui" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -388,11 +385,11 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!-- <activity -->
-        <!-- android:name="com.mob.tools.MobUIShell" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
-        <!-- android:windowSoftInputMode="stateHidden|adjustResize" /> -->
+         <activity
+         android:name="com.mob.tools.MobUIShell"
+         android:configChanges="keyboardHidden|orientation|screenSize"
+         android:theme="@android:style/Theme.Translucent.NoTitleBar"
+         android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="tm.ui.login.RegistActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -432,6 +429,18 @@
         <activity android:name="tm.ui.tmi.OrderManagerAcitivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity
+            android:name="tm.ui.setting.SetMessageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="tm.ui.setting.FeedbackActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="tm.ui.setting.AboutAcitivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- QQ登录 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -448,14 +457,8 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- 微博登录 -->
-        <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
+
+
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".receiver.StartServiceReceiver">
