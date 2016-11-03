@@ -72,9 +72,11 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.login.PwdFindActivity;
 import tm.ui.login.RegistActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ViewTools;
+import tm.utils.ViewUtil;
 
 /**
  * 登录界面
@@ -173,16 +175,16 @@ public class LoginActivity extends BaseActivity {
 		zhuce.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				LoginActivity.this.startActivity(new Intent(LoginActivity.this,RegistActivity.class));
-				Toast.makeText(LoginActivity.this,"正在开发中...",Toast.LENGTH_SHORT).show();
+				ViewUtil.jumpToOtherActivity(LoginActivity.this,RegistActivity.class);
+//				Toast.makeText(LoginActivity.this,"正在开发中...",Toast.LENGTH_SHORT).show();
 			}
 		});
 		findPwd = (TextView) findViewById(R.id.tm_wangjimima);
 		findPwd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				LoginActivity.this.startActivity(new Intent(LoginActivity.this,PwdFindActivity.class));
-				Toast.makeText(LoginActivity.this,"正在开发中...",Toast.LENGTH_SHORT).show();
+				ViewUtil.jumpToOtherActivity(LoginActivity.this,PwdFindActivity.class);
+//				Toast.makeText(LoginActivity.this,"正在开发中...",Toast.LENGTH_SHORT).show();
 			}
 		});
 
