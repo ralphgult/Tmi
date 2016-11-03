@@ -307,10 +307,7 @@ public class ImageLoaders {
 			return;
 		}
 
-		File dir = new File(mSavePath);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
+		initFile();
 
 		// 检测图片数量是否已经达到上限
 		checkMaxSaveImages();
@@ -331,7 +328,20 @@ public class ImageLoaders {
 			e.printStackTrace();
 		}
 	}
-
+	private void initFile() {
+		//为头像目录添加.nomedia文件，以便在图库不显示该目录下的文件
+		File nomedia = new File(mSavePath + File.separator + ".nomedia");
+		if (!nomedia.getParentFile().exists()) {
+			nomedia.getParentFile().mkdirs();
+		}
+		if (!nomedia.exists()) {
+			try {
+				nomedia.createNewFile();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	/**
 	 * 根据url返回文件名
 	 * 
