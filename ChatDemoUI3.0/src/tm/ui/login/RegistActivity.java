@@ -15,10 +15,20 @@ import android.widget.Toast;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.BaseActivity;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import tm.http.Config;
+import tm.http.NetFactory;
+import tm.utils.ViewUtil;
 
 //import cn.smssdk.EventHandler;
 //import cn.smssdk.SMSSDK;
@@ -39,7 +49,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     private EditText pwdConfirm_edt;
     private String phone;
     private String pwd;
-//    private EventHandler eh;
+    private EventHandler eh;
     private int i = 59;
     private boolean isCheck;
     private Handler handler = new Handler() {
@@ -54,7 +64,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                     int resultCode = object.getInt("authId");
                     if (resultCode == REGIST_SUCESS) {
                         Toast.makeText(RegistActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
-                        RegistActivity.this.finish();
+                        ViewUtil.backToOtherActivity(RegistActivity.this);
                     } else if (resultCode == REGIST_EXIST) {
                         Toast.makeText(RegistActivity.this, "该手机号已经被注册", Toast.LENGTH_SHORT).show();
                     } else {
@@ -77,13 +87,34 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                         }, 60000);
                         break;
                     case GET_SMS_FAIL:
-                        if(isCheck) {
-                            Toast.makeText(RegistActivity.this, "验证码错误，请重新获取", Toast.LENGTH_SHORT).show();
-                            getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
-                            getSms_tv.setClickable(true);
-                            break;
+                        switch (msg.arg1) {
+                            case 468:
+                                Toast.makeText(RegistActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 462:
+                            case 463:
+                            case 464:
+                            case 465:
+                            case 476:
+                            case 477:
+                            case 478:
+                                Toast.makeText(RegistActivity.this, "发送验证码次数达到上限", Toast.LENGTH_SHORT).show();
+                                getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
+                                getSms_tv.setClickable(true);
+                                break;
+                            case 467:
+                                Toast.makeText(RegistActivity.this, "校验验证码请求频繁", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                if(!isCheck) {
+                                    Toast.makeText(RegistActivity.this, "验证码获取失败,请重新获取", Toast.LENGTH_SHORT).show();
+                                    getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
+                                    getSms_tv.setClickable(true);
+                                }else{
+                                    Toast.makeText(RegistActivity.this, "校验验证码失败", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
                         }
-                        Toast.makeText(RegistActivity.this, "当日获取验证码次数已用完", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -101,37 +132,46 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onPause() {
         super.onPause();
-//        SMSSDK.unregisterEventHandler(eh);
+        SMSSDK.unregisterEventHandler(eh);
     }
 
     private void init() {
-//        SMSSDK.initSDK(this, "15ad624441feb", "5c0ead0ca6ccbd06cb1997398e14bba5");
-//        eh = new EventHandler() {
-//            @Override
-//            public void afterEvent(int event, int result, Object data) {
-//                if (result == SMSSDK.RESULT_COMPLETE) {
-//                    //回调完成
-//                    if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-//                        //提交验证码成功
-//                        // 设置HTTP POST请求参数必须用NameValuePair对象
-//                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-//                        params.add(new BasicNameValuePair("userName", phone));
-//                        params.add(new BasicNameValuePair("userPassword", pwd));
-//                        NetFactory.instance().commonHttpCilent(handler, RegistActivity.this,
-//                                Config.URL_REDGIST, params);
-//                    } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-//                        //获取验证码成功
-//                        handler.sendEmptyMessage(GET_SMS);
-//                    } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
-//                        //返回支持发送验证码的国家列表
-//                    }
-//                } else {
-//                    ((Throwable) data).printStackTrace();
-//                    handler.sendEmptyMessage(GET_SMS_FAIL);
-//                }
-//            }
-//        };
-//        SMSSDK.registerEventHandler(eh);
+        SMSSDK.initSDK(this, "15ad624441feb", "5c0ead0ca6ccbd06cb1997398e14bba5");
+        eh = new EventHandler() {
+            @Override
+            public void afterEvent(int event, int result, Object data) {
+                if (result == SMSSDK.RESULT_COMPLETE) {
+                    //回调完成
+                    if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                        //提交验证码成功
+                        // 设置HTTP POST请求参数必须用NameValuePair对象
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("userName", phone));
+                        params.add(new BasicNameValuePair("userPassword", pwd));
+                        NetFactory.instance().commonHttpCilent(handler, RegistActivity.this,
+                                Config.URL_REDGIST, params);
+                    } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                        //获取验证码成功
+                        handler.sendEmptyMessage(GET_SMS);
+                    } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
+                        //返回支持发送验证码的国家列表
+                    }
+                } else {
+                    try {
+                        String res   = data.toString();
+                        JSONObject object = new JSONObject(res.substring(res.indexOf(":") + 1,res.length()));
+                        Message msg = new Message();
+                        msg.what = GET_SMS_FAIL;
+                        msg.arg1 = object.getInt("status");
+                        handler.sendMessage(msg);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ((Throwable) data).printStackTrace();
+                }
+            }
+        };
+        SMSSDK.registerEventHandler(eh);
     }
 
     private void initView() {
@@ -172,7 +212,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 } else {
                     isCheck = true;
-//                    SMSSDK.submitVerificationCode("+86", phone, ver);
+                    SMSSDK.submitVerificationCode("+86", phone, ver);
                 }
                 break;
             case R.id.regist_getsms_tv:
@@ -182,7 +222,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 } else if (phone.length() != 11) {
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 } else {
-//                    SMSSDK.getVerificationCode("+86", phone);
+                    SMSSDK.getVerificationCode("+86", phone);
                 }
                 break;
         }
@@ -190,7 +230,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void onStop() {
-//        SMSSDK.unregisterEventHandler(eh);
+        SMSSDK.unregisterEventHandler(eh);
         super.onStop();
     }
 }

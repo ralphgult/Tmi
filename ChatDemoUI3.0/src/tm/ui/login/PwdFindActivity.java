@@ -1,8 +1,8 @@
 package tm.ui.login;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -16,15 +16,24 @@ import android.widget.Toast;
 import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.BaseActivity;
-import com.xbh.tmi.ui.RegisterActivity;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import tm.http.Config;
+import tm.http.NetFactory;
+import tm.utils.ViewUtil;
+
 public class PwdFindActivity extends BaseActivity implements View.OnClickListener{
-    private final int FINDPWD_SUCESS = 0;
+    private final int FINDPWD_SUCESS = 1;
     private final int GET_SMS = 12;
     private int Get_SMS_FAIL = 13;
 
@@ -37,7 +46,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
     private EditText pwdConfirm_edt;
     private String phone;
     private int timeCount;
-//    private EventHandler eh;
+    private EventHandler eh;
     private boolean isCheck;
 
     private Handler handler = new Handler() {
@@ -52,8 +61,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     int resultCode = object.getInt("authId");
                     if (resultCode == FINDPWD_SUCESS) {
                         Toast.makeText(PwdFindActivity.this, "修改密码成功，请重新登录", Toast.LENGTH_SHORT).show();
-                        PwdFindActivity.this.startActivity(new Intent(PwdFindActivity.this, RegisterActivity.class));
-                        DemoApplication.getInstance().exit();
+                        ViewUtil.backToOtherActivity(PwdFindActivity.this);
                     } else {
                         Toast.makeText(PwdFindActivity.this, "系统错误，请稍后再试", Toast.LENGTH_SHORT).show();
                     }
@@ -62,23 +70,36 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                 }
             } else if (msg.what == GET_SMS) {
                 Toast.makeText(PwdFindActivity.this, "验证码已发送，请注意查看信息", Toast.LENGTH_SHORT).show();
-                getSms_tv.setTextColor(getResources().getColor(R.color.getsms_wait_color));
-                getSms_tv.setClickable(false);
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+
+            } else if (msg.what == Get_SMS_FAIL) {
+                switch (msg.arg1) {
+                    case 468:
+                        Toast.makeText(PwdFindActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 462:
+                    case 463:
+                    case 464:
+                    case 465:
+                    case 476:
+                    case 477:
+                    case 478:
+                        Toast.makeText(PwdFindActivity.this, "发送验证码次数达到上限", Toast.LENGTH_SHORT).show();
                         getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
                         getSms_tv.setClickable(true);
-                    }
-                }, 60000);
-            } else if (msg.what == Get_SMS_FAIL) {
-                if(isCheck) {
-                    Toast.makeText(PwdFindActivity.this, "验证码错误，请重新获取", Toast.LENGTH_SHORT).show();
-                    getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
-                    getSms_tv.setClickable(true);
-                    return;
+                        break;
+                    case 467:
+                        Toast.makeText(PwdFindActivity.this, "校验验证码请求频繁", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        if(!isCheck) {
+                            Toast.makeText(PwdFindActivity.this, "验证码获取失败,请重新获取", Toast.LENGTH_SHORT).show();
+                            getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
+                            getSms_tv.setClickable(true);
+                        }else{
+                            Toast.makeText(PwdFindActivity.this, "校验验证码失败", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                 }
-                Toast.makeText(PwdFindActivity.this, "{当前手机号发送短信的数量超过限额", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -94,39 +115,49 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onPause() {
         super.onPause();
-//        SMSSDK.unregisterEventHandler(eh);
+        SMSSDK.unregisterEventHandler(eh);
     }
 
     private void init() {
         DemoApplication.getInstance().addActivity(this);
         timeCount = 60;
-//        SMSSDK.initSDK(this, "15ad624441feb", "5c0ead0ca6ccbd06cb1997398e14bba5");
-//        eh = new EventHandler() {
-//
-//            @Override
-//            public void afterEvent(int event, int result, Object data) {
-//
-//                if (result == SMSSDK.RESULT_COMPLETE) {
-//                    //回调完成
-//                    if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-//                        //提交验证码成功
-//                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-//                        params.add(new BasicNameValuePair("userName", phone_edt.getText().toString().trim()));
-//                        params.add(new BasicNameValuePair("userPassword", pwd_edt.getText().toString().trim()));
-//                        NetFactory.instance().commonHttpCilent(handler, PwdFindActivity.this,
-//                                Config.URL_REDGIST, params);
-//                    } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-//                        //获取验证码成功
-//                        handler.sendEmptyMessage(GET_SMS);
-//                    } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
-//                        //返回支持发送验证码的国家列表
-//                    }
-//                } else {
-//                    ((Throwable) data).printStackTrace();
-//                }
-//            }
-//        };
-//        SMSSDK.registerEventHandler(eh);
+        SMSSDK.initSDK(this, "15ad624441feb", "5c0ead0ca6ccbd06cb1997398e14bba5");
+        eh = new EventHandler() {
+
+            @Override
+            public void afterEvent(int event, int result, Object data) {
+
+                if (result == SMSSDK.RESULT_COMPLETE) {
+                    //回调完成
+                    if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                        //提交验证码成功
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("userName", phone_edt.getText().toString().trim()));
+                        params.add(new BasicNameValuePair("userPassword", pwd_edt.getText().toString().trim()));
+                        NetFactory.instance().commonHttpCilent(handler, PwdFindActivity.this,
+                                Config.URL_FIND_PASSWORD, params);
+                    } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                        //获取验证码成功
+                        handler.sendEmptyMessage(GET_SMS);
+                    } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
+                        //返回支持发送验证码的国家列表
+                    }
+                } else {
+                    try {
+                        String res   = data.toString();
+                        JSONObject object = new JSONObject(res.substring(res.indexOf(":") + 1,res.length()));
+                        Message msg = new Message();
+                        msg.what = Get_SMS_FAIL;
+                        msg.arg1 = object.getInt("status");
+                        handler.sendMessage(msg);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ((Throwable) data).printStackTrace();
+                }
+            }
+        };
+        SMSSDK.registerEventHandler(eh);
     }
 
     private void initView() {
@@ -167,7 +198,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 } else {
                     isCheck = true;
-//                    SMSSDK.submitVerificationCode("+86", phone, ver);
+                    SMSSDK.submitVerificationCode("+86", phone, ver);
                 }
                 break;
             case R.id.findpwd_getsms_tv:
@@ -178,7 +209,22 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("info","phone number ======== " + phone);
-//                    SMSSDK.getVerificationCode("+86", phone);
+                    SMSSDK.getVerificationCode("+86", phone);
+                    getSms_tv.setTextColor(getResources().getColor(R.color.getsms_wait_color));
+                    getSms_tv.setClickable(false);
+                    CountDownTimer timer = new CountDownTimer(60000,1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
+                            getSms_tv.setClickable(true);
+                        }
+                    };
+                    timer.start();
                 }
                 break;
         }
@@ -186,7 +232,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void onStop() {
-//        SMSSDK.unregisterEventHandler(eh);
+        SMSSDK.unregisterEventHandler(eh);
         super.onStop();
     }
 }
