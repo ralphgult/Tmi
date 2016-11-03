@@ -23,13 +23,6 @@ public class HeadBigActivity extends Activity {
         String path = getIntent().getExtras().getString("path");
         if (!TextUtils.isEmpty(path)) {
             imageLoaders.loadImage(head_iv,path);
-        }else {
-            path = getIntent().getExtras().getString("filePath");
-            if(!TextUtils.isEmpty(path)){
-                head_iv.setImageBitmap(BitmapFactory.decodeFile(path));
-            }else{
-                head_iv.setImageResource(R.drawable.head_default);
-            }
         }
     }
 
