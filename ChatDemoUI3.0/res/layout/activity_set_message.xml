@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_set_message"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yx_common_color_white"
+    android:orientation="vertical"
+    tools:context="tm.ui.setting.SetMessageActivity">
+    <RelativeLayout
+        android:id="@+id/yx_fgt_conversation_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+        <ImageView
+            android:id="@+id/setmsg_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ease_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="消息设置"
+            android:textColor="@color/background_white"
+            android:textSize="20sp"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="听筒播放语音消息"
+            android:textColor="@color/btn_gray_pressed"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/sound_swt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/yx_context_divide_line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="通知栏提示"
+            android:textColor="@color/btn_gray_pressed"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/statusbar_swt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:checked="true" />
+    </LinearLayout>
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="声音提示"
+            android:textColor="@color/btn_gray_pressed"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/ring_swt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:checked="true" />
+    </LinearLayout>
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="震动提示"
+            android:textColor="@color/btn_gray_pressed"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/viberate_swt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:checked="true" />
+    </LinearLayout>
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+</LinearLayout>

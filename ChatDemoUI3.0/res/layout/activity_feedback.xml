@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_feedback"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_white"
+    tools:context="tm.ui.setting.FeedbackActivity">
+
+    <RelativeLayout
+        android:id="@+id/feedback_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+
+        <ImageView
+            android:id="@+id/feedback_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ease_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="意见反馈"
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/feedback_edt"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/feedback_title"
+        android:layout_margin="10dp"
+        android:background="@drawable/feedback_edt_bg_shap"
+        android:gravity="top"
+        android:hint="请输入您的意见反馈"
+        android:padding="10dp"
+        android:textColor="@color/shangpin_black"
+        android:textColorHint="@color/btn_gray_pressed"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/feedback_edt"
+        android:layout_margin="10dp"
+        android:background="@drawable/tm_confirm_btn_seletor"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="提交"
+        android:textColor="@color/background_white"
+        android:textSize="16sp" />
+</RelativeLayout>
