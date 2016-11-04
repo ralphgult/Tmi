@@ -29,8 +29,10 @@ public class Config {
     public static String URL_GET_ADDFRIEND=ROOT_HOST_NAME+"/CBDParkingMSs/friends/addFriend";//添加好友接口
     public static String URL_GET_ZIXUN_HOME=ROOT_HOST_NAME+"/CBDParkingMSs/information";//添加主页资讯接口
     public static String URL_MOMENT = ROOT_HOST_NAME+"/CBDParkingMSs/mood/pyq";//朋友圈接口
-    public static String URL_REDGIST = ROOT_HOST_NAME+"/CBDParkingMSs/regist";
-    public static String URL_FIND_PASSWORD = ROOT_HOST_NAME+"/CBDParkingMSs/updatePwd";
+    public static String URL_REDGIST = ROOT_HOST_NAME+"/CBDParkingMSs/regist";//注册接口
+    public static String URL_FIND_PASSWORD = ROOT_HOST_NAME+"/CBDParkingMSs/updatePwd";//修改密码接口
+    public static String URL_GET_USER_POFILE = ROOT_HOST_NAME + "/CBDParkingMSs/info";//我的页面获取用户信息接口
+    public static String URL_GET_USRE_FACEWALL = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/faceScore";//获取用户颜值表
 
 
     public static void init(Context context) throws IOException {
