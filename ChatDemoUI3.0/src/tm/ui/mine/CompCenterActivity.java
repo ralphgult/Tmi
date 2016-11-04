@@ -76,7 +76,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 Toast.makeText(this,"修改成功",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.comp_center_head_rv:
-                Toast.makeText(this,"正在开发中...",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"正在调试中...",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.comp_center_name_rv:
             case R.id.comp_center_intur_rv:

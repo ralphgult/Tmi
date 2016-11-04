@@ -5,12 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.xbh.tmi.R;
 
 import tm.utils.ImageLoaders;
+import tm.utils.ViewUtil;
 
 public class HeadBigActivity extends Activity {
     private ImageView head_iv;
@@ -23,6 +25,9 @@ public class HeadBigActivity extends Activity {
         String path = getIntent().getExtras().getString("path");
         if (!TextUtils.isEmpty(path)) {
             imageLoaders.loadImage(head_iv,path);
+        }else if(!TextUtils.isEmpty(getIntent().getExtras().getString("filePath"))){
+            path = getIntent().getExtras().getString("filePath");
+            head_iv.setImageBitmap(BitmapFactory.decodeFile(path));
         }
     }
 
@@ -33,5 +38,13 @@ public class HeadBigActivity extends Activity {
         public void onImageLoad(View v, Bitmap bmp, String url) {
             ((ImageView)v).setImageBitmap(bmp);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            ViewUtil.backToOtherActivity(HeadBigActivity.this);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

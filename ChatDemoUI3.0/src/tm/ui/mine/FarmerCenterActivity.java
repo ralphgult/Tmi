@@ -50,7 +50,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                 Toast.makeText(this,"修改成功",Toast.LENGTH_SHORT).show();
                 break;
             default:
-                Toast.makeText(this,"正在开发中...",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"正在调试中...",Toast.LENGTH_SHORT).show();
                 break;
         }
     }

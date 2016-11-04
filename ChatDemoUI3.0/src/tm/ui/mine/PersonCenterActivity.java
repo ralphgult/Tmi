@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.oohla.android.utils.NetworkUtil;
 import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
@@ -31,9 +32,12 @@ import java.util.Map;
 
 import tm.http.Config;
 import tm.http.NetFactory;
-import tm.ui.tmi.adapter.ImageAdapter;
+import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
+import tm.utils.ViewUtil;
+import tm.utils.dialog.DialogFactory;
+import tm.utils.dialog.InputDialog;
 
 
 public class PersonCenterActivity extends Activity implements View.OnClickListener {
@@ -42,13 +46,15 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private TextView yanzhi;
     private RelativeLayout sign;
     private TextView ok;
-    private ImageAdapter mAdapter;
+    private FaceWallAdapter mAdapter;
     private String[] pathList;
     private ImageLoaders imageLoaders;
     private ImageView head_iv;
     private TextView sign_tv;
     private GridView gv;
-    private Map<String,String> mData;
+
+    private InputDialog signDialog;
+    private Map<String, String> mData;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -71,7 +77,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                 if (list.size() < 8) {
                                     list.add("0");
                                 }
-                            }else{
+                            } else {
                                 list.add("0");
                             }
                             pathList = new String[list.size()];
@@ -112,14 +118,13 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         if (!TextUtils.isEmpty(getIntent().getExtras().getString("caption"))) {
             sign_tv.setText(getIntent().getExtras().getString("caption"));
         }
-        Map<String, String> map = new HashMap<>();
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String userId = sharedPre.getString("username", "");
         if (!TextUtils.isEmpty(userId)) {
             list.add(new BasicNameValuePair("userId", userId));
-        }else{
-            Toast.makeText(this,"系统繁忙，请稍后再试...",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
             return;
         }
         NetFactory.instance().commonHttpCilent(mHandler, this,
@@ -135,7 +140,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         ok = (TextView) findViewById(R.id.person_center_ok_tv);
         head_iv = (ImageView) findViewById(R.id.person_center_head_iv);
         gv = (GridView) findViewById(R.id.person_center_pics_gv);
-        mAdapter = new ImageAdapter(this);
+        mAdapter = new FaceWallAdapter(this);
         ok.setOnClickListener(this);
         head.setOnClickListener(this);
         yanzhi.setOnClickListener(this);
@@ -151,11 +156,77 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 break;
             case R.id.person_center_ok_tv:
                 Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+                ViewUtil.backToOtherActivity(this);
+                break;
+            case R.id.person_center_sign_text_rv:
+//                createSignDialog();
+                Toast.makeText(this, "正在调试中...", Toast.LENGTH_SHORT).show();
                 break;
             default:
-                Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "正在调试中...", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private void createSignDialog() {
+        if (null == signDialog) {
+            signDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
+            signDialog.setTitleStr("个性签名");
+            signDialog.setInputDialogListener(new InputDialog.InputDialogListener() {
+                @Override
+                public void inputDialogCancle() {
+                    signDialog.closeDialog();
+                }
+
+                @Override
+                public void inputDialogSubmit(String inputText) {
+                    final String sign = sign_tv.getText().toString().trim();
+                    if (!TextUtils.isEmpty(sign)) {
+                        if (!NetworkUtil.isNetworkAvailable(PersonCenterActivity.this)) {
+                            Toast.makeText(PersonCenterActivity.this, "网络链接异常，请检查网络连接后重试...", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        List<NameValuePair> list = new ArrayList<NameValuePair>();
+                        SharedPreferences sharedPre = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
+                        String userId = sharedPre.getString("username", "");
+                        if (!TextUtils.isEmpty(userId)) {
+                            list.add(new BasicNameValuePair("userId", userId));
+                            list.add(new BasicNameValuePair("caption", sign));
+                        } else {
+                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        NetFactory
+                                .instance()
+                                .commonHttpCilent(
+                                        new Handler() {
+                                            @Override
+                                            public void handleMessage(Message msg) {
+                                                switch (msg.what) {
+                                                    case ConstantsHandler.EXECUTE_SUCCESS:
+                                                        Map map = (Map) msg.obj;
+                                                        Log.e("info", "map==" + map);
+                                                        String authId = map.get("state") + "";
+                                                        if (authId.equals("1")) {
+                                                            signDialog.closeDialog();
+                                                            sign_tv.setText(sign);
+                                                        } else {
+                                                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        break;
+                                                    case ConstantsHandler.EXECUTE_FAIL:
+                                                    case ConstantsHandler.ConnectTimeout:
+                                                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                                                        break;
+                                                }
+                                            }
+                                        }, PersonCenterActivity.this,
+                                        Config.URL_CHANGE_SIGN, list);
+                    }
+                }
+            });
+        }
+        signDialog.showDialog();
     }
 
     private class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
