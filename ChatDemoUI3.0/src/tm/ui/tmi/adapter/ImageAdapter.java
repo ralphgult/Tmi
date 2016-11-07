@@ -1,13 +1,24 @@
 package tm.ui.tmi.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.plus.model.moments.Moment;
 import com.xbh.tmi.R;
+
+import tm.ui.mine.HeadBigActivity;
+import tm.ui.mine.PersonCenterActivity;
+import tm.ui.tmi.MomentsActivity;
+import tm.utils.ImageLoaders;
+import tm.utils.ViewUtil;
 
 
 /**
@@ -18,14 +29,26 @@ public class ImageAdapter extends BaseAdapter {
     private String[] mPicList;
     private ViewHolder vh;
     private Context mContext;
+    private ImageLoaders imageLoaders;
 
-    public ImageAdapter(Context context){
+    public ImageAdapter(Context context) {
         mContext = context;
+        imageLoaders = new ImageLoaders(mContext, new imageLoaderListener());
     }
-    public void resetData(String[] picList){
+
+    private class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
+
+        @Override
+        public void onImageLoad(View v, Bitmap bmp, String url) {
+            ((ImageView) v).setImageBitmap(bmp);
+        }
+    }
+
+    public void resetData(String[] picList) {
         mPicList = picList;
         notifyDataSetChanged();
     }
+
     @Override
     public int getCount() {
         return mPicList.length;
@@ -42,7 +65,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
         if (convertView == null) {
             vh = new ViewHolder();
@@ -53,9 +76,18 @@ public class ImageAdapter extends BaseAdapter {
             view = convertView;
             vh = (ViewHolder) view.getTag();
         }
-        vh.pic.setImageURI(Uri.parse(mPicList[position]));
+        imageLoaders.loadImage(vh.pic, mPicList[position]);
+        vh.pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("path", mPicList[position]);
+                ViewUtil.jumpToOtherActivity((MomentsActivity) mContext, HeadBigActivity.class,bundle);
+            }
+        });
         return view;
     }
+
     static class ViewHolder {
         ImageView pic;
     }
