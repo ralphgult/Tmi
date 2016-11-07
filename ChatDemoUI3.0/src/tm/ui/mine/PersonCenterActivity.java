@@ -93,11 +93,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                         Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case ConstantsHandler.EXECUTE_FAIL:
-                case ConstantsHandler.ConnectTimeout:
-                    Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                    break;
                 default:
+                    Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
