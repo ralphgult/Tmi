@@ -44,7 +44,7 @@
             android:textColor="@color/btn_gray_pressed"
             android:textSize="16sp" />
 
-        <Switch
+        <com.hyphenate.easeui.widget.EaseSwitchButton
             android:id="@+id/sound_swt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -74,7 +74,7 @@
             android:textColor="@color/btn_gray_pressed"
             android:textSize="16sp" />
 
-        <Switch
+        <com.hyphenate.easeui.widget.EaseSwitchButton
             android:id="@+id/statusbar_swt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -102,7 +102,7 @@
             android:textColor="@color/btn_gray_pressed"
             android:textSize="16sp" />
 
-        <Switch
+        <com.hyphenate.easeui.widget.EaseSwitchButton
             android:id="@+id/ring_swt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -130,7 +130,7 @@
             android:textColor="@color/btn_gray_pressed"
             android:textSize="16sp" />
 
-        <Switch
+        <com.hyphenate.easeui.widget.EaseSwitchButton
             android:id="@+id/viberate_swt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
