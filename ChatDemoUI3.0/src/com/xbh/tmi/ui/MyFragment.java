@@ -140,28 +140,28 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 bundle.putString("comphead",mData.get("companyLogo"));
                 bundle.putString("compname",mData.get("companyName"));
                 bundle.putString("compinter", mData.get("companyIntroduction"));
-                ViewUtil.jumpToOtherActivity(this.getActivity(), CompCenterActivity.class);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), CompCenterActivity.class,bundle);
                 break;
             case R.id.mine_farmer_center_tv:
                 bundle = new Bundle();
                 bundle.putString("farmhead",mData.get("farmLogo"));
                 bundle.putString("farmname",mData.get("farmName"));
                 bundle.putString("farminter", mData.get("farmIntroduction"));
-                ViewUtil.jumpToOtherActivity(this.getActivity(), FarmerCenterActivity.class);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), FarmerCenterActivity.class,bundle);
                 break;
             case R.id.mine_my_order_tv:
                 ViewUtil.jumpToOtherActivity(this.getActivity(), MineOrderActivity.class);
                 break;
             case R.id.mine_my_shopping_tv:
-                Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "正在调试中...", Toast.LENGTH_SHORT).show();
 //                ViewUtil.jumpToOtherActivity(this.getActivity(),MySoppingActivity.class);
                 break;
             case R.id.mine_my_address_tv:
-                Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "正在调试中...", Toast.LENGTH_SHORT).show();
 //                ViewUtil.jumpToOtherActivity(this.getActivity(),MyAddressActivity.class);
                 break;
             case R.id.mine_my_message_tv:
-                Toast.makeText(this.getActivity(), "正在开发中...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "正在调试中...", Toast.LENGTH_SHORT).show();
 //                ViewUtil.jumpToOtherActivity(this.getActivity(),MyMessageActivity.class);
                 break;
             case R.id.fgt_mine_head_iv:

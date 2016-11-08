@@ -142,7 +142,7 @@ public class TmFragment extends Fragment implements View.OnClickListener {
                 ViewUtil.jumpToOtherActivity(this.getActivity(), OrderManagerAcitivity.class);
                 break;
             default:
-                Toast.makeText(this.getActivity(),"正在开发中...",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(),"正在调试中...",Toast.LENGTH_SHORT).show();
                 break;
         }
 
