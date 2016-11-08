@@ -27,4 +27,5 @@ public class Constant extends EaseConstant{
 	public static final String ACTION_CONTACT_CHANAGED = "action_contact_changed";
 
 	public static String QRCODE_FILE_PATH = "/mnt/sdcard/ImageLoader/cache/images/qrCode.jpg";
+	public static int IMAGE = 1;
 }
