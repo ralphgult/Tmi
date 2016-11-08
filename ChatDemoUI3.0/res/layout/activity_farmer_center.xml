@@ -65,6 +65,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/farmer_center_head_iv"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center_vertical"
@@ -96,16 +97,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:horizontalSpacing="5dp"
                 android:numColumns="4"
-                android:scrollbars="none"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="5dp"
-                android:visibility="gone"></GridView>
+                android:scrollbars="none"
+                android:verticalSpacing="5dp"/>
 
             <View style="@style/tm_common_divide_line_whitebg_width" />
 
@@ -208,10 +207,10 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/em_empty_photo" />
+                    android:src="@drawable/icon_qrcode" />
 
                 <ImageView
                     android:layout_width="wrap_content"
