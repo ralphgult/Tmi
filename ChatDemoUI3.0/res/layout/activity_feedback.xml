@@ -45,7 +45,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@+id/feedback_edt"
         android:layout_margin="10dp"
         android:background="@drawable/tm_confirm_btn_seletor"
