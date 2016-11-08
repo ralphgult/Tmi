@@ -1,6 +1,7 @@
 package tm.ui.mine.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.xbh.tmi.Constant;
 import com.xbh.tmi.R;
 
 import tm.ui.mine.HeadBigActivity;
@@ -68,23 +70,15 @@ public class FaceWallAdapter extends BaseAdapter {
             view = convertView;
             vh = (ViewHolder) view.getTag();
         }
-        if (!mPicList[position].equals("0")) {
-            imageLoaders.loadImage(vh.pic,mPicList[position]);
-        }else{
-            vh.pic.setImageResource(R.drawable.em_add);
-        }
-        vh.pic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mPicList[position].equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("path",mPicList[position]);
-                    ViewUtil.jumpToOtherActivity((PersonCenterActivity)mContext, HeadBigActivity.class);
-                }else{
-                    Toast.makeText(mContext,"添加图片",Toast.LENGTH_SHORT).show();
-                }
+        if (null != mPicList[position]) {
+            if (!mPicList[position].equals("0")) {
+                imageLoaders.loadImage(vh.pic,mPicList[position]);
+            }else{
+                vh.pic.setImageResource(R.drawable.em_add);
             }
-        });
+        }else{
+            vh.pic.setVisibility(View.GONE);
+        }
         return view;
     }
     static class ViewHolder {
