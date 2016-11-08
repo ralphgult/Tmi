@@ -43,6 +43,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
     private EditText pwd_edt;
     private ImageView back_tv;
     private TextView confirm_iv;
+    private TextView mAlter;
     private EditText pwdConfirm_edt;
     private String phone;
     private int timeCount;
@@ -167,10 +168,18 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
         sms_edt = (EditText) findViewById(R.id.findpwd_sms_edt);
         pwd_edt = (EditText) findViewById(R.id.findpwd_pwd_edt);
         getSms_tv = (TextView) findViewById(R.id.findpwd_getsms_tv);
+        mAlter = (TextView) findViewById(R.id.alter_pwd_title);
         pwdConfirm_edt = (EditText) findViewById(R.id.findpwd_pwd_confirm_edt);
         getSms_tv.setOnClickListener(this);
         back_tv.setOnClickListener(this);
         confirm_iv.setOnClickListener(this);
+
+        if(!TextUtils.isEmpty(this.getIntent().getExtras().toString())){
+            Bundle bundle = this.getIntent().getExtras();
+            String name = bundle.getString("name");
+            mAlter.setText(name);
+        }
+
     }
 
     @Override
