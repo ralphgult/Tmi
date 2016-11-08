@@ -328,7 +328,7 @@ public class ImageLoaders {
 			e.printStackTrace();
 		}
 	}
-	private void initFile() {
+	public static void initFile() {
 		//为头像目录添加.nomedia文件，以便在图库不显示该目录下的文件
 		File nomedia = new File(mSavePath + File.separator + ".nomedia");
 		if (!nomedia.getParentFile().exists()) {
