@@ -1,6 +1,8 @@
 package tm.ui.setting;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -33,6 +35,7 @@ public class SettingActivity extends Activity implements View.OnClickListener{
     private LinearLayout about_btn;
     private RemindDialog cleanMsgDialog;
     private RemindDialog cleanCacheDialog;
+    private RemindDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +69,7 @@ public class SettingActivity extends Activity implements View.OnClickListener{
                 ViewUtil.backToOtherActivity(this);
                 break;
             case R.id.setting_btn_logout:
-                EMClient.getInstance().logout(false);
-                ViewUtil.backToOtherActivity(this,LoginActivity.class);
-                DemoApplication.getInstance().exit();
+                createLayoutDialog();
                 break;
             case R.id.setting_btn_msgsetting:
                 ViewUtil.jumpToOtherActivity(this,SetMessageActivity.class);
@@ -80,8 +81,13 @@ public class SettingActivity extends Activity implements View.OnClickListener{
                 createCleanCacheDialog();
                 break;
             case R.id.setting_btn_modifypwd:
+                Intent intent =new Intent(SettingActivity.this,PwdFindActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("name", "修改密码");
+                intent.putExtras(bundle);
+                startActivity(intent);
 //                ViewUtil.jumpToOtherActivity(this, PwdFindActivity.class);
-                Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.setting_btn_feedback:
                 ViewUtil.jumpToOtherActivity(this,FeedbackActivity.class);
@@ -99,7 +105,27 @@ public class SettingActivity extends Activity implements View.OnClickListener{
         }
         return true;
     }
+    public void createLayoutDialog(){
+        if(null == alertDialog){
+            alertDialog = (RemindDialog) DialogFactory.createDialog(this,DialogFactory.DIALOG_TYPE_REMIND);
+            alertDialog.setGroupName("是否退出登录");
+            alertDialog.setPhotoDialogListener(new RemindDialog.RemindDialogListener() {
+                @Override
+                public void invita() {
+                    alertDialog.closeDialog();
+                }
 
+                @Override
+                public void remind() {
+                    EMClient.getInstance().logout(false);
+                    ViewUtil.backToOtherActivity(SettingActivity.this,LoginActivity.class);
+//                    DemoApplication.getInstance().exit();
+                    alertDialog.closeDialog();
+                }
+            });
+        }
+        alertDialog.showDialog();
+    }
     public void createCleanMsgDialog(){
         if(null == cleanMsgDialog){
             cleanMsgDialog = (RemindDialog) DialogFactory.createDialog(this,DialogFactory.DIALOG_TYPE_REMIND);
