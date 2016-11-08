@@ -13,9 +13,8 @@
             android:id="@+id/setting_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/ease_back"/>
-
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ease_back" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
