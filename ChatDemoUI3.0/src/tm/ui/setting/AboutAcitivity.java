@@ -20,12 +20,13 @@ public class AboutAcitivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_acitivity);
+        initView();
     }
     private void initView(){
         back = (ImageView) findViewById(R.id.about_back_iv);
         vc = (TextView) findViewById(R.id.version_tv);
         try {
-            vc.setText("V"+ this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName);
+            vc.setText("V"+ this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName+"\nT觅搜搜");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
