@@ -67,10 +67,14 @@ public class MomentsActivity extends Activity {
                                 map.put("time", obj.getString("create_date"));
                                 map.put("content", obj.getString("mood_content"));
                                 JSONArray arrayImg = obj.getJSONArray("mp");
-                                for (int j = 0; j < arrayImg.length(); j++) {
-                                    sb.append(arrayImg.getJSONObject(j).getString("mpName") + ",");
+                                if (null != arrayImg && arrayImg.length() > 0) {
+                                    for (int j = 0; j < arrayImg.length(); j++) {
+                                        sb.append(arrayImg.getJSONObject(j).getString("mpName") + ",");
+                                    }
+                                    map.put("pics", sb.substring(0, sb.length() - 1));
+                                }else{
+                                    map.put("pics", "");
                                 }
-                                map.put("pics", sb.substring(0, sb.length() - 1));
                                 map.put("like", obj.getString("countMps"));
                                 map.put("comment", obj.getString("countReply"));
                                 map.put("count", obj.getString("countBrowse"));

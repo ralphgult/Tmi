@@ -94,7 +94,6 @@ public class MomentListAdapter extends BaseAdapter {
             vh = (ViewHolder) view.getTag();
         }
         vh.bottom.setVisibility(mIsMoment ? View.VISIBLE : View.GONE);
-//        vh.head_iv.setImageURI(Uri.parse(dataList.get(position).get("headImg")));
         imageLoaders.loadImage(vh.head_iv,dataList.get(position).get("headImg"));
         vh.name_tv.setText(dataList.get(position).get("name"));
         vh.time_tv.setText(dataList.get(position).get("time"));
