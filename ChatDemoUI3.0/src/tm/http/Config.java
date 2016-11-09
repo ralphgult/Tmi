@@ -33,7 +33,7 @@ public class Config {
     public static String URL_FIND_PASSWORD = ROOT_HOST_NAME+"/CBDParkingMSs/updatePwd";//修改密码接口
     public static String URL_GET_USER_POFILE = ROOT_HOST_NAME + "/CBDParkingMSs/info";//我的页面获取用户信息接口
     public static String URL_GET_USRE_FACEWALL = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/faceScore";//获取用户颜值表
-    public static String URL_CHANGE_SIGN = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/updatemse";//修改信息
+    public static String URL_CHANGE_SIGN = ROOT_HOST_NAME + "/CBDParkingMSs/updatemse";//修改信息
     public static String URL_UPDATE_IMAGE = ROOT_HOST_NAME + "/CBDParkingMSs/updatePhoto";//上传头像
     public static String URL_CHANGE_INFO = ROOT_HOST_NAME + "/CBDParkingMSs/updatemse";//修改信息
 
