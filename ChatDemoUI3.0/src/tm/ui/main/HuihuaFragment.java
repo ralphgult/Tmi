@@ -325,7 +325,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                     map_temp.put("name", jo.get("companyName")+"");
                     map_temp.put("photo", jo.get("companyLogo")+"");
                     map_temp.put("desc", jo.get("companyIntroduction")+"");
-                    map_temp.put("distance", jo.get("jl")+"公里");
+                    Log.e("info","=distance===="+jo.get("jl")+"");
+                    map_temp.put("distance", jo.get("jl")+"");
                     list.add(map_temp);
                 }
 //                if (pageitem < 15) {
