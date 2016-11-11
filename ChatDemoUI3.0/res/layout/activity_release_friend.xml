@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+        <ImageView
+            android:id="@+id/release_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ease_back"/>
+
+        <TextView
+            android:id="@+id/release_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/background_white"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/release_center_ok_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:text="发表"
+            android:textSize="15sp"
+            android:textColor="@color/background_white"/>
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/release_edt"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="15dp"
+        android:background="@null"
+        android:fadeScrollbars="true"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="50dp"
+        android:gravity="top"
+        android:hint="今天又发生了什么有趣的事情，快来记录一下吧"
+        android:lineSpacingMultiplier="1.2"
+        android:maxLength="500"
+        android:scrollbars="vertical"
+        android:textCursorDrawable="@null"
+        android:textSize="16sp"/>
+
+
+    <GridView
+        android:id="@+id/release_add_img_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent"
+        android:clipChildren="true"
+        android:gravity="center"
+        android:horizontalSpacing="10dip"
+        android:numColumns="3"
+        android:padding="10dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dip"/>
+</LinearLayout>
