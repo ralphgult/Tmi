@@ -42,6 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/icon_iv"
         android:layout_centerHorizontal="true"
+        android:lineSpacingMultiplier="1.5"
+        android:gravity="center"
         android:layout_marginTop="10dp"
         android:textColor="@color/black_deep"
         android:textSize="16sp"
@@ -54,6 +56,8 @@
         android:textColor="@color/text_black"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.5"
         android:layout_marginBottom="20dp"
-        android:text="客服热线：xxx-xxxxxxxx"/>
+        android:text="电话：0913-2333376 \nEmail: wntckj@qq.com \n官网：www.tmsousou.com \n陕西渭南临渭区西二路创业创新基地813 \n渭南腾创信息科技有限公司 内容版权所有"/>
 </RelativeLayout>
