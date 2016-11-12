@@ -1,15 +1,31 @@
 package tm.ui.tmi;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xbh.tmi.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import tm.manager.PersonManager;
+import tm.ui.login.RegistActivity;
+import tm.ui.tmi.adapter.ImageAdapter;
 import tm.utils.ViewUtil;
 
 /**
@@ -23,15 +39,71 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
    private TextView mReleaseTxt;
    private EditText mEditText;
    private GridView mImgGridView;
+   private ImageAdapter mAdapter;
+   private String[] imgpaths;
+   private List<String> imgPathList;
+   private String content;
+   private Handler handler = new Handler(){
+      @Override
+      public void handleMessage(Message msg) {
+         if(msg.what == 1001){
+            Toast.makeText(ReleaseFriendActivity.this, "发布随笔成功", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.putExtra("publishFinish",1);
+            ViewUtil.backToActivityForResult(ReleaseFriendActivity.this,1,intent);
+         }else{
+            Toast.makeText(ReleaseFriendActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+         }
+      }
+   };
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_release_friend);
+      initData();
       initView();
 
    }
 
+   private void initData() {
+      mAdapter = new ImageAdapter(this,true);
+      imgPathList = new ArrayList<>();
+      imgPathList.add("0");
+      imgpaths = new String[9];
+      for (int i = 0; i < imgPathList.size(); i++) {
+         imgpaths[i] = imgPathList.get(i);
+      }
+      mAdapter.resetData(imgpaths);
+   }
+
+   public void setAdapterData(String imgPath) {
+      if(imgPathList.size() < 9) {
+         imgPathList.add(imgPathList.size() - 1,imgPath);
+      }else {
+         imgPathList.remove(imgPathList.size() - 1);
+         imgPathList.add(imgPath);
+      }
+      imgpaths = new String[9];
+      for (int i = 0; i < imgPathList.size(); i++) {
+         imgpaths[i] = imgPathList.get(i);
+      }
+      mAdapter.resetData(imgpaths);
+      setGridViewHight(mImgGridView);
+   }
+
+   public void delAdapterData(String imgPath) {
+      imgPathList.remove(imgPath);
+      if (imgPathList.size() == 8 && !imgPathList.contains("0")) {
+         imgPathList.add("0");
+      }
+      imgpaths = new String[9];
+      for (int i = 0; i < imgPathList.size(); i++) {
+         imgpaths[i] = imgPathList.get(i);
+      }
+      mAdapter.resetData(imgpaths);
+      setGridViewHight(mImgGridView);
+   }
    @Override
    public void onClick(View v) {
       switch (v.getId()){
@@ -40,8 +112,10 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
             break;
          case R.id.release_center_ok_tv://发表按钮
             //输入框内容获取
-            String release_edt = mEditText.getText().toString();
+            content = mEditText.getText().toString();
             //不同的接口的调用
+            AddMomentThread thread = new AddMomentThread();
+            thread.start();
             break;
       }
    }
@@ -53,6 +127,8 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
       mEditText = (EditText) findViewById(R.id.release_edt);
       mImgGridView = (GridView) findViewById(R.id.release_add_img_gridview);
       isRelease = getIntent().getExtras().getInt("ReleaseType");
+      mImgGridView.setAdapter(mAdapter);
+      setGridViewHight(mImgGridView);
       switch (isRelease) {
          case 1:
          case 2:
@@ -63,5 +139,62 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
             mTitleTxt.setText("朋友圈");
             break;
       }
+      mBackImg.setOnClickListener(this);
+      mReleaseTxt.setOnClickListener(this);
+   }
+
+   @Override
+   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      //获取图片路径
+      if (resultCode == Activity.RESULT_OK && data != null) {
+         Uri selectedImage = data.getData();
+         String[] filePathColumns = {MediaStore.Images.Media.DATA};
+         Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+         c.moveToFirst();
+         int columnIndex = c.getColumnIndex(filePathColumns[0]);
+         setAdapterData(c.getString(columnIndex));
+         c.close();
+      }
+   }
+   /**
+    * 设置图片显示GridView高度的方法
+    *
+    * @param view gridView的view对象
+    */
+   private void setGridViewHight(GridView view) {
+      ListAdapter adapter = view.getAdapter();
+      if (adapter.isEmpty()) {
+         //适配器为空
+         return;
+      }
+      ViewGroup.LayoutParams params = view.getLayoutParams();
+      int totalHeight = 0;
+      int size = adapter.getCount();
+      for (int i = 1; i <= size; i = i + 3) {
+         View listItem = adapter.getView(0, null, view);
+         listItem.measure(0, 0);
+         totalHeight = totalHeight + listItem.getMeasuredHeight() + 4;
+      }
+      params.height = totalHeight - 4;
+      view.setLayoutParams(params);
+   }
+
+   class AddMomentThread extends Thread{
+      @Override
+      public void run() {
+         if (imgPathList.contains("0")) {
+            imgPathList.remove("0");
+         }
+         PersonManager.publishMoment(content,imgPathList,handler);
+      }
+   }
+
+   @Override
+   public boolean onKeyDown(int keyCode, KeyEvent event) {
+      if (keyCode == KeyEvent.KEYCODE_BACK) {
+         ViewUtil.backToOtherActivity(this);
+      }
+      return super.onKeyDown(keyCode,event);
    }
 }
