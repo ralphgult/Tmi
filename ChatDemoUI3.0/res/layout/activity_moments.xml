@@ -26,7 +26,7 @@
             android:textColor="@color/background_white"
             android:textSize="20sp"/>
         <TextView
-            android:id="@+id/person_center_ok_tv"
+            android:id="@+id/moment_add_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

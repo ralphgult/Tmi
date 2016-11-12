@@ -4,9 +4,10 @@
     android:id="@+id/activity_regist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tm.ui.login.RegistActivity"
+    android:background="@color/background_white"
     android:orientation="vertical"
-    android:background="@color/background_white">
+    tools:context="tm.ui.login.RegistActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -40,17 +41,30 @@
     </RelativeLayout>
 
     <EditText
+        android:id="@+id/regist_nickname_edt"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/background_white"
+        android:gravity="center_vertical"
+        android:hint="请输入昵称"
+        android:paddingLeft="15dp"
+        android:textColor="@color/yx_context_function_color"
+        android:textColorHint="#a4a4a4"
+        android:textSize="16sp" />
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+
+    <EditText
         android:id="@+id/regist_phone_edt"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_centerVertical="true"
-        android:paddingLeft="15dp"
         android:background="@color/background_white"
         android:gravity="center_vertical"
         android:hint="请输入手机号"
         android:inputType="number"
-        android:textColorHint="#a4a4a4"
+        android:paddingLeft="15dp"
         android:textColor="@color/yx_context_function_color"
+        android:textColorHint="#a4a4a4"
         android:textSize="16sp" />
 
     <View style="@style/tm_common_divide_line_whitebg_width" />
@@ -59,59 +73,62 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@color/background_white">
+
         <EditText
             android:id="@+id/regist_sms_edt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_centerVertical="true"
-            android:paddingLeft="15dp"
+            android:layout_weight="1"
             android:background="@color/background_white"
             android:gravity="center_vertical"
             android:hint="请输入验证码"
-            android:textColorHint="#a4a4a4"
+            android:paddingLeft="15dp"
             android:textColor="@color/yx_context_function_color"
+            android:textColorHint="#a4a4a4"
             android:textSize="16sp" />
+
         <TextView
             android:id="@+id/regist_getsms_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="发送验证码"
-            android:textColor="#ae7efc"
             android:gravity="center"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:text="发送验证码"
+            android:textColor="#ae7efc" />
 
     </LinearLayout>
 
     <View style="@style/tm_common_divide_line_whitebg_width" />
 
     <EditText
-    android:id="@+id/regist_pwd_edt"
-    android:layout_width="match_parent"
-    android:layout_height="55dp"
-    android:layout_centerVertical="true"
-    android:paddingLeft="15dp"
-    android:background="@color/background_white"
-    android:gravity="center_vertical"
-    android:hint="请输入密码"
+        android:id="@+id/regist_pwd_edt"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_centerVertical="true"
+        android:background="@color/background_white"
+        android:gravity="center_vertical"
+        android:hint="请输入密码"
         android:inputType="textPassword"
-    android:textColorHint="#a4a4a4"
-    android:textColor="@color/yx_context_function_color"
-    android:textSize="16sp" />
+        android:paddingLeft="15dp"
+        android:textColor="@color/yx_context_function_color"
+        android:textColorHint="#a4a4a4"
+        android:textSize="16sp" />
 
     <View style="@style/tm_common_divide_line_whitebg_width" />
+
     <EditText
         android:id="@+id/regist_pwd_confirm_edt"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_centerVertical="true"
-        android:paddingLeft="15dp"
         android:background="@color/background_white"
         android:gravity="center_vertical"
         android:hint="请确认密码"
         android:inputType="textPassword"
-        android:textColorHint="#a4a4a4"
+        android:paddingLeft="15dp"
         android:textColor="@color/yx_context_function_color"
+        android:textColorHint="#a4a4a4"
         android:textSize="16sp" />
 
     <View style="@style/tm_common_divide_line_whitebg_width" />

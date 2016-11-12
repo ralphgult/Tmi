@@ -22,6 +22,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
             android:background="@drawable/ease_default_avatar"
             android:visibility="visible" />
 

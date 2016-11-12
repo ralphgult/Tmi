@@ -7,11 +7,11 @@
         android:id="@+id/image_item_iv"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:background="@drawable/em_default_image"
+        android:background="@color/gray_normal"
         android:layout_gravity="center"/>
 
     <ImageView
-        android:id="@+id/yx_common_img_only_gv_item_del_tv"
+        android:id="@+id/img_item_del_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
@@ -20,6 +20,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="2dp"
+        android:src="@drawable/em_search_clear_pressed"
         android:paddingTop="2dp"
         android:visibility="gone" />
 </FrameLayout>
