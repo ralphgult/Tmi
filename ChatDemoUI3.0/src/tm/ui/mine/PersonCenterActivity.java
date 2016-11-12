@@ -131,8 +131,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         mData = new HashMap<>();
         imageLoaders = new ImageLoaders(this, new imageLoaderListener());
         imageLoaders.loadImage(head_iv, getIntent().getExtras().getString("headPath"));
-        if (!TextUtils.isEmpty(getIntent().getExtras().getString("caption"))) {
-            sign_tv.setText(getIntent().getExtras().getString("caption"));
+        if (!TextUtils.isEmpty(getIntent().getExtras().getString("signed"))) {
+            sign_tv.setText(getIntent().getExtras().getString("signed"));
         }
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
@@ -271,7 +271,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                     case ConstantsHandler.EXECUTE_SUCCESS:
                                                         Map map = (Map) msg.obj;
                                                         Log.e("info", "map==" + map);
-                                                        String authId = map.get("state") + "";
+                                                        String authId = map.get("authId") + "";
                                                         if (authId.equals("1")) {
                                                             signDialog.closeDialog();
                                                             sign_tv.setText(inputText);
