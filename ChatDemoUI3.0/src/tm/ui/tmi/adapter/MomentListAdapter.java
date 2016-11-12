@@ -43,7 +43,7 @@ public class MomentListAdapter extends BaseAdapter {
     public MomentListAdapter(Context context, boolean isMoment) {
         mContext = context;
         mIsMoment = isMoment;
-        mImageAdapter = new ImageAdapter(mContext);
+        mImageAdapter = new ImageAdapter(mContext,false);
     }
 
     public void resetData(List<Map<String, String>> datas) {
