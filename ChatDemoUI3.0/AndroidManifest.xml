@@ -46,7 +46,6 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.hyphenate.chatuidemo.permission.MIPUSH_RECEIVE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -62,8 +61,9 @@
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 微信登录界面 -->
-        <activity android:name="com.xbh.tmi.wxapi.WXEntryActivity"
-                  android:exported="true"></activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
 
         <!-- 开屏页 -->
         <activity
@@ -87,8 +87,8 @@
         <!-- 注册 -->
         <activity
             android:name=".ui.RegisterActivity"
-            android:theme="@style/horizontal_slide"
             android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <!-- 聊天页面 -->
         <activity
@@ -385,11 +385,11 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-         <activity
-         android:name="com.mob.tools.MobUIShell"
-         android:configChanges="keyboardHidden|orientation|screenSize"
-         android:theme="@android:style/Theme.Translucent.NoTitleBar"
-         android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="tm.ui.login.RegistActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -425,10 +425,10 @@
             android:name="tm.widget.zxing.activity.CaptureActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <activity android:name="tm.ui.tmi.OrderManagerAcitivity"
+        <activity
+            android:name="tm.ui.tmi.OrderManagerAcitivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="tm.ui.setting.SetMessageActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -437,19 +437,21 @@
             android:name="tm.ui.setting.FeedbackActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <activity android:name="tm.ui.setting.AboutAcitivity"
+        <activity
+            android:name="tm.ui.setting.AboutAcitivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- QQ登录 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="1105353663" />
             </intent-filter>
         </activity>
@@ -458,7 +460,16 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <activity
+            android:name="tm.ui.tmi.ReleaseFriendActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
+        <activity
+            android:name="tm.ui.tmi.MomentDetilActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- 开机自启动服务 -->
         <receiver android:name=".receiver.StartServiceReceiver">
