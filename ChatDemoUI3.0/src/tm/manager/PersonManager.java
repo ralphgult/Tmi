@@ -1,13 +1,16 @@
 package tm.manager;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
+import com.xbh.tmi.DemoApplication;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -43,6 +46,7 @@ import internal.org.apache.http.entity.mime.content.ContentBody;
 import internal.org.apache.http.entity.mime.content.FileBody;
 import internal.org.apache.http.entity.mime.content.StringBody;
 import tm.http.Config;
+import tm.utils.ImageUtil;
 
 /**
  * Created by RalphGult on 8/29/2016.
@@ -70,7 +74,7 @@ public class PersonManager {
         HttpClient httpclient = new DefaultHttpClient();
         try {
             HttpPost httppost = new HttpPost(Config.URL_UPDATE_IMAGE);
-            FileBody bin = new FileBody(file);
+            FileBody bin = new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(),file.getPath()));
             MultipartEntity reqEntity = new MultipartEntity();
             reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
             reqEntity.addPart("userId", new StringBody(userId));
@@ -82,6 +86,50 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
 
+                if (null != handler) {
+                    if (object.getInt("authId") == 1) {
+                        handler.sendEmptyMessage(UPLOAD_HEADICON_SUCESS);
+                    }else{
+                        handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+            }
+        }
+    }
+
+    public static void publishMoment(String content, List<String> filePaths, Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            HttpPost httppost = new HttpPost(Config.URL_ADD_MOMENT);
+            FileBody bin = null;
+            File file = null;
+            for (String path : filePaths) {
+                file = new File(path);
+                bin = new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(),path));
+            }
+            MultipartEntity reqEntity = new MultipartEntity();
+            reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
+            SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", "")));
+            reqEntity.addPart("moodContent",new StringBody(content));
+            reqEntity.addPart("type", new StringBody("1"));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
                     if (object.getInt("authId") == 1) {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_SUCESS);
@@ -135,7 +183,7 @@ public class PersonManager {
                     if (null != result) {
                         Log.e("info", "result ======= " + result);
                         JSONObject object = new JSONObject(result);
-                        if (object.getInt("authId") == 0) {
+                        if (object.getInt("authId") == 1) {
                             //上传成功
                             Log.e("info","change Sucess");
                             if(null != handler){
