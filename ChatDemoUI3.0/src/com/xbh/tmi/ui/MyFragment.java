@@ -69,7 +69,6 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:
                     Map map = (Map) msg.obj;
-                    Log.e("info", "map==" + map);
                     String authId = map.get("state") + "";
                     if (authId.equals("1")) {
                         mData.putAll(map);
@@ -120,6 +119,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         public void onImageLoad(View v, Bitmap bmp, String url) {
             ((ImageView)v).setImageBitmap(bmp);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserInfo();
     }
 
     @Override
