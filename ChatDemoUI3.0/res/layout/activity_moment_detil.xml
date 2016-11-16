@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_moment_detil"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white"
+    tools:context="tm.ui.tmi.MomentDetilActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+
+        <ImageView
+            android:id="@+id/moment_detil_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ease_back" />
+
+        <TextView
+            android:id="@+id/moment_detil_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+    <include layout="@layout/yx_monent_list_item"/>
+    <View
+        style="@style/tm_common_divide_line_whitebg_width"/>
+    <ListView
+        android:id="@+id/reply_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:contextClickable="false"
+        android:divider="@null"/>
+</LinearLayout>
