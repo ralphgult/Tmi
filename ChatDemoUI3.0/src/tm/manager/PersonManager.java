@@ -1,48 +1,27 @@
 package tm.manager;
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
 
-import com.hyphenate.chat.EMClient;
 import com.xbh.tmi.DemoApplication;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
+import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
+import internal.org.apache.http.entity.mime.HttpMultipartMode;
 import internal.org.apache.http.entity.mime.MultipartEntity;
-import internal.org.apache.http.entity.mime.content.ContentBody;
 import internal.org.apache.http.entity.mime.content.FileBody;
 import internal.org.apache.http.entity.mime.content.StringBody;
 import tm.http.Config;
@@ -60,7 +39,10 @@ public class PersonManager {
     public static int TYPE_FARMINTOR = 3;
     public static int UPLOAD_HEADICON_SUCESS = 1001;
     public static int UPLOAD_HEADICON_ERROR = 1002;
-
+    private static int MOMENTLIKE_SECUSS = 2001;
+    private static int MOMENTLIKE_FAIL = 2002;
+    private static int MOMENTCOMMENT_SECUSS = 3001;
+    private static int MOMENTCOMMENT_FAIL = 3002;
 
 
     /**
@@ -74,10 +56,10 @@ public class PersonManager {
         HttpClient httpclient = new DefaultHttpClient();
         try {
             HttpPost httppost = new HttpPost(Config.URL_UPDATE_IMAGE);
-            FileBody bin = new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(),file.getPath()));
-            MultipartEntity reqEntity = new MultipartEntity();
+            FileBody bin = new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), file.getPath()));
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
             reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
-            reqEntity.addPart("userId", new StringBody(userId));
+            reqEntity.addPart("userId", new StringBody(userId, Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -89,7 +71,7 @@ public class PersonManager {
                 if (null != handler) {
                     if (object.getInt("authId") == 1) {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_SUCESS);
-                    }else{
+                    } else {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
                     }
                 }
@@ -107,22 +89,114 @@ public class PersonManager {
         }
     }
 
-    public static void publishMoment(String content, List<String> filePaths, Handler handler){
+    public static void momentLike(String momentId, Handler handler, int position) {
         HttpClient httpclient = new DefaultHttpClient();
         try {
-            HttpPost httppost = new HttpPost(Config.URL_ADD_MOMENT);
+            HttpPost httppost = new HttpPost(Config.URL_MOMENT_LIKE);
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+            SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("moodId", new StringBody(momentId, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("authId") == 1) {
+                        Message msg = new Message();
+                        msg.what = MOMENTLIKE_SECUSS;
+                        msg.arg1 = position;
+                        handler.sendMessage(msg);
+                    } else {
+                        handler.sendEmptyMessage(MOMENTLIKE_FAIL);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(MOMENTLIKE_FAIL);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+            }
+        }
+    }
+
+    public static void momentComment(String momentId, String content, Handler handler, int position) {
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            HttpPost httppost = new HttpPost(Config.URL_MOMENT_COMMENT);
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+            SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("moodId", new StringBody(momentId, Charset.forName("UTF-8")));
+            reqEntity.addPart("comment", new StringBody(content, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("authId") == 1) {
+                        Message msg = new Message();
+                        msg.what = MOMENTCOMMENT_SECUSS;
+                        msg.arg1 = position;
+                        msg.obj = content;
+                        handler.sendMessage(msg);
+                    } else {
+                        handler.sendEmptyMessage(MOMENTCOMMENT_FAIL);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(MOMENTCOMMENT_FAIL);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+            }
+        }
+    }
+
+    public static void publishMoment(String content, List<String> filePaths, int type, Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        String url = null;
+        int ty = -1;
+        switch (type) {
+            case 4:
+                url = Config.URL_ADD_MOMENT;
+                ty = 1;
+                break;
+            default:
+                url = Config.URL_ADD_INFOMATION;
+                ty = type;
+                break;
+        }
+        try {
+            HttpPost httppost = new HttpPost(url);
             FileBody bin = null;
             File file = null;
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
             for (String path : filePaths) {
                 file = new File(path);
-                bin = new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(),path));
+                bin = new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), path));
+                reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
             }
-            MultipartEntity reqEntity = new MultipartEntity();
-            reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
             SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
-            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", "")));
-            reqEntity.addPart("moodContent",new StringBody(content));
-            reqEntity.addPart("type", new StringBody("1"));
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("moodContent", new StringBody(content, Charset.forName("UTF-8")));
+            reqEntity.addPart("type", new StringBody(String.valueOf(ty), Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -133,7 +207,7 @@ public class PersonManager {
                 if (null != handler) {
                     if (object.getInt("authId") == 1) {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_SUCESS);
-                    }else{
+                    } else {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
                     }
                 }
@@ -152,66 +226,67 @@ public class PersonManager {
     }
 
     public static void updateTexts(String text, int type, Handler handler) {
-        String userId = EMClient.getInstance().getCurrentUser();
-        String key = null;
-        switch (type) {
-            case 0:
-                key = "companyName";
-                break;
-            case 1:
-                key = "companyIntroduction";
-                break;
-            case 2:
-                key = "farmName";
-                break;
-            case 3:
-                key = "farmIntroduction";
-                break;
-        }
-        if (null != text) {
-            HttpPost httpPost = new HttpPost(Config.URL_CHANGE_INFO);
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair(key, text));
-            params.add(new BasicNameValuePair("userId", userId));
-
-            HttpResponse httpResponse = null;
-            try {
-                httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
-                httpResponse = new DefaultHttpClient().execute(httpPost);
-                if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                    String result = EntityUtils.toString(httpResponse.getEntity());
-                    if (null != result) {
-                        Log.e("info", "result ======= " + result);
-                        JSONObject object = new JSONObject(result);
-                        if (object.getInt("authId") == 1) {
-                            //上传成功
-                            Log.e("info","change Sucess");
-                            if(null != handler){
-                                Message msg = new Message();
-                                msg.what = 1001;
-                                msg.arg1 = type;
-                                handler.sendMessage(msg);
-                            }
-                        } else {
-                            Log.e("info","change Sucess");
-                            if(null != handler){
-                                Message msg = new Message();
-                                msg.what = 1002;
-                                msg.arg1 = type;
-                                msg.obj = text;
-                                handler.sendMessage(msg);
-                            }
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            HttpPost httppost = new HttpPost(Config.URL_CHANGE_SIGN);
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+            String key = null;
+            switch (type) {
+                case 0:
+                    key = "companyName";
+                    break;
+                case 1:
+                    key = "companyIntroduction";
+                    break;
+                case 2:
+                    key = "farmName";
+                    break;
+                case 3:
+                    key = "farmIntroduction";
+                    break;
+            }
+            SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", "")));
+            reqEntity.addPart(key, new StringBody(text, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("authId") == 1) {
+                        //上传成功
+                        Log.e("info", "change Sucess");
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 2001;
+                            msg.arg1 = type;
+                            msg.obj = text;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        Log.e("info", "change Sucess");
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 2002;
+                            msg.arg1 = type;
+                            msg.obj = text;
+                            handler.sendMessage(msg);
                         }
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                if(null != handler){
-                    Message msg = new Message();
-                    msg.what = 1002;
-                    msg.arg1 = type;
-                    handler.sendMessage(msg);
-                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(1002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
             }
         }
     }
