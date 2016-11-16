@@ -63,6 +63,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     private String[] pathList;
     private FaceWallAdapter mAdapter;
     private GridView gv;
+    private int mType;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -111,34 +112,28 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                 case 1002:
                     Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
-            }
-        }
-    };
-    private Handler handlerText = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            String text = null;
-            switch (msg.arg1) {
-                case 2:
-                    text = "名称";
-                    if (msg.what == 1001) name_tv.setText((String) msg.obj);
+                case 2001:
+                    TextView tv = null;
+                    String text = null;
+                    if (msg.arg1 == 2) {
+                        tv = name_tv;
+                        text = "名称";
+                    }else{
+                        tv = intor_tv;
+                        text = "说明";
+                    }
+                    Toast.makeText(FarmerCenterActivity.this, "修改三农" + text + "成功", Toast.LENGTH_SHORT).show();
+                    tv.setText((String)msg.obj);
                     break;
-                case 3:
-                    text = "说明";
-                    if (msg.what == 1001) intor_tv.setText((String) msg.obj);
+                case 2002:
+                    Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
-            }
-            if (msg.what == 1001) {
-                Toast.makeText(FarmerCenterActivity.this, "修改三农" + text + "成功", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
             }
         }
     };
     private ImageView logo_iv;
     private PersonManager personManager;
     private InputDialog dialog;
-    private int viewId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +182,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         ok.setOnClickListener(this);
         String url = getIntent().getExtras().getString("farmhead");
         if (!TextUtils.isEmpty(url)) {
-            loaders.loadImage(logo, url);
+            loaders.loadImage(logo_iv, url);
         }
     }
 
@@ -201,8 +196,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        viewId = v.getId();
-        switch (viewId) {
+        switch (v.getId()) {
             case R.id.farmer_center_back_iv:
                 this.finish();
                 break;
@@ -216,9 +210,11 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.farmer_center_name_text_rv:
                 createDialog("请输入三农名称");
+                mType = 2;
                 break;
             case R.id.farmer_center_sign_rv:
                 createDialog("请输入三农说明");
+                mType = 3;
                 break;
             case R.id.farmer_center_qr_ly:
                 if (!new File(Constant.QRCODE_FILE_PATH).exists()) {
@@ -287,20 +283,20 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                 @Override
                 public void inputDialogSubmit(final String inputText) {
                     if (!TextUtils.isEmpty(inputText)) {
-                        switch (viewId) {
-                            case R.id.comp_center_name_rv:
+                        switch (mType) {
+                            case 2:
                                 new Thread() {
                                     @Override
                                     public void run() {
-                                        personManager.updateTexts(inputText, personManager.TYPE_FARMNAME, handlerText);
+                                        PersonManager.updateTexts(inputText, personManager.TYPE_FARMNAME, mHandler);
                                     }
                                 }.start();
                                 break;
-                            case R.id.comp_center_intur_rv:
+                            case 3:
                                 new Thread() {
                                     @Override
                                     public void run() {
-                                        personManager.updateTexts(inputText, personManager.TYPE_FARMINTOR, handlerText);
+                                        PersonManager.updateTexts(inputText, personManager.TYPE_FARMINTOR, mHandler);
                                     }
                                 }.start();
                                 break;
