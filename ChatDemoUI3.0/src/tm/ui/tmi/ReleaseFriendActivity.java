@@ -47,7 +47,13 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
       @Override
       public void handleMessage(Message msg) {
          if(msg.what == 1001){
-            Toast.makeText(ReleaseFriendActivity.this, "发布随笔成功", Toast.LENGTH_SHORT).show();
+            String text = null;
+            if (isRelease == 4) {
+               text = "发布随笔成功";
+            }else{
+               text = "发布资讯成功";
+            }
+            Toast.makeText(ReleaseFriendActivity.this, text, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.putExtra("publishFinish",1);
             ViewUtil.backToActivityForResult(ReleaseFriendActivity.this,1,intent);
@@ -186,7 +192,8 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
          if (imgPathList.contains("0")) {
             imgPathList.remove("0");
          }
-         PersonManager.publishMoment(content,imgPathList,handler);
+         PersonManager.publishMoment(content,imgPathList,isRelease,handler);
+
       }
    }
 
