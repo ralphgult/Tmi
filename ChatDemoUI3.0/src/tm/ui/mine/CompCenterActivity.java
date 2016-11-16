@@ -57,7 +57,6 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
     private TextView introText_tv;
     private LinearLayout qr_ly;
     private InputDialog dialog;
-    int viewId = 0;
     private PersonManager personManager;
     private ImageLoaders loaders;
     //调用系统相册-选择图片
@@ -66,10 +65,11 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
     private String imagePath;
     private String[] pathList;
     private FaceWallAdapter mAdapter;
-    private Handler mHandler = new Handler(){
+    private int mType;
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:
                     Map map = (Map) msg.obj;
                     Log.e("info", "map==" + map);
@@ -108,33 +108,28 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
                 case 1001:
-                    Toast.makeText(CompCenterActivity.this,"上传企业Logo成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CompCenterActivity.this, "上传企业Logo成功", Toast.LENGTH_SHORT).show();
                     headImage_iv.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                     break;
                 case 1002:
-                    Toast.makeText(CompCenterActivity.this,"系统繁忙，请稍后再试...",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
-            }
-        }
-    };
-    private Handler handlerText = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            String text = null;
-            switch (msg.arg1){
-                case 0:
-                    text = "名称";
-                    if(msg.what == 1001) nameText_tv.setText((String)msg.obj);
+                case 2001:
+                    TextView tv = null;
+                    String text = null;
+                    if (msg.arg1 == 0) {
+                        tv = nameText_tv;
+                        text = "名称";
+                    } else {
+                        tv = introText_tv;
+                        text = "说明";
+                    }
+                    Toast.makeText(CompCenterActivity.this, "修改企业" + text + "成功", Toast.LENGTH_SHORT).show();
+                    tv.setText((String) msg.obj);
                     break;
-                case 1:
-                    text = "说明";
-                    if(msg.what == 1001) introText_tv.setText((String)msg.obj);
+                case 2002:
+                    Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
-            }
-            if (msg.what == 1001) {
-                Toast.makeText(CompCenterActivity.this, "修改企业" + text + "成功", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -145,17 +140,18 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         setContentView(R.layout.activity_comp_center);
         personManager = new PersonManager();
         mAdapter = new FaceWallAdapter(this);
-        loaders = new ImageLoaders(this,new imageListener());
+        loaders = new ImageLoaders(this, new imageListener());
         initViews();
     }
 
-    class imageListener implements ImageLoaders.ImageLoaderListener{
+    class imageListener implements ImageLoaders.ImageLoaderListener {
 
         @Override
         public void onImageLoad(View v, Bitmap bmp, String url) {
-            ((ImageView)v).setImageBitmap(bmp);
+            ((ImageView) v).setImageBitmap(bmp);
         }
     }
+
     private void initViews() {
         back_iv = (ImageView) findViewById(R.id.comp_center_back_iv);
         confirm_tv = (TextView) findViewById(R.id.comp_center_ok_tv);
@@ -177,7 +173,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         qr_ly.setOnClickListener(this);
         String url = getIntent().getExtras().getString("comphead");
         if (!TextUtils.isEmpty(url)) {
-            loaders.loadImage(headImage_iv,url);
+            loaders.loadImage(headImage_iv, url);
         }
         pathList = new String[1];
         pathList[0] = "0";
@@ -201,13 +197,12 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        viewId = v.getId();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.comp_center_back_iv:
                 this.finish();
                 break;
             case R.id.comp_center_ok_tv:
-                Toast.makeText(this,"修改成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.comp_center_head_rv:
                 Intent intent = new Intent(Intent.ACTION_PICK,
@@ -216,33 +211,36 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.comp_center_name_rv:
                 createDialog("请输入企业名称");
+                mType = 0;
                 break;
             case R.id.comp_center_intur_rv:
                 createDialog("请输入企业介绍");
+                mType = 1;
                 break;
             case R.id.comp_center_qr_ly:
-                if(!new File(Constant.QRCODE_FILE_PATH).exists()){
+                if (!new File(Constant.QRCODE_FILE_PATH).exists()) {
                     try {
                         File file = new File(Constant.QRCODE_FILE_PATH);
-                        if(!file.getParentFile().exists()){
+                        if (!file.getParentFile().exists()) {
                             file.getParentFile().mkdirs();
                             ImageLoaders.initFile();
                         }
-                        SharedPreferences sharedPre=this.getSharedPreferences("config", this.MODE_PRIVATE);
-                        String userId = sharedPre.getString("username","");
-                        BitmapEncodUtil.createQRCode(userId,500);
+                        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
+                        String userId = sharedPre.getString("username", "");
+                        BitmapEncodUtil.createQRCode(userId, 500);
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
                 }
                 Bundle bundle = new Bundle();
-                bundle.putString("path","");
+                bundle.putString("path", "");
                 bundle.putString("filePath", Constant.QRCODE_FILE_PATH);
-                ViewUtil.jumpToOtherActivity(this,HeadBigActivity.class,bundle);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle);
                 break;
         }
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -258,12 +256,13 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
             if (requestCode == CHANGEHEAD) {
                 uploadPhotoThread thread = new uploadPhotoThread();
                 thread.start();
-            }else{
+            } else {
                 //TODO 上传风采图片
                 Toast.makeText(this, "正在调试中...", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
     class uploadPhotoThread extends Thread {
         @Override
         public void run() {
@@ -272,8 +271,9 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
             PersonManager.SubmitPost(new File(imagePath), userId, mHandler);
         }
     }
-    private void createDialog(String string){
-        if(null == dialog){
+
+    private void createDialog(String string) {
+        if (null == dialog) {
             dialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
             dialog.setEditTextHint(string);
             dialog.setInputDialogListener(new InputDialog.InputDialogListener() {
@@ -284,27 +284,27 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
 
                 @Override
                 public void inputDialogSubmit(final String inputText) {
-                    if(!TextUtils.isEmpty(inputText)){
-                        switch(viewId){
-                            case R.id.comp_center_name_rv:
-                                new Thread(){
+                    if (!TextUtils.isEmpty(inputText)) {
+                        switch (mType) {
+                            case 0:
+                                new Thread() {
                                     @Override
                                     public void run() {
-                                        personManager.updateTexts(inputText,personManager.TYPE_COMPNAME,handlerText);
+                                        personManager.updateTexts(inputText, personManager.TYPE_COMPNAME, mHandler);
                                     }
                                 }.start();
                                 break;
-                            case R.id.comp_center_intur_rv:
-                                new Thread(){
+                            case 1:
+                                new Thread() {
                                     @Override
                                     public void run() {
-                                        personManager.updateTexts(inputText,personManager.TYPE_COMPINTOR,handlerText);
+                                        personManager.updateTexts(inputText, personManager.TYPE_COMPINTOR, mHandler);
                                     }
                                 }.start();
                                 break;
                         }
                         dialog.closeDialog();
-                    }else{
+                    } else {
                         Toast.makeText(CompCenterActivity.this, "输入内容不能为空", Toast.LENGTH_SHORT).show();
                     }
                 }
