@@ -17,8 +17,8 @@ import android.os.Environment;
 
 public class Config {
     //    public static String ROOT_HOST_NAME="http://hsaiqs.xicp.net:20806";
-//    public static String ROOT_HOST_NAME="http://121.196.244.27:3003";
-    public static String ROOT_HOST_NAME = "http://192.168.1.101:8080";
+    public static String ROOT_HOST_NAME="http://121.196.244.27:3003";
+//    public static String ROOT_HOST_NAME = "http://192.168.1.101:8080";
 //        public static String ROOT_HOST_NAME="http://192.168.1.110:8080";
 
     public static String URL_LOGIN_USER = ROOT_HOST_NAME + "/CBDParkingMSs/login"; // 用户登录
@@ -40,6 +40,9 @@ public class Config {
     public static String URL_CHANGE_INFO = ROOT_HOST_NAME + "/CBDParkingMSs/updatemse";//修改信息
     public static String URL_GET_TMIMESSAGE = ROOT_HOST_NAME + "/CBDParkingMSs/mood/information";//获取T觅资讯列表
     public static String URL_ADD_MOMENT = ROOT_HOST_NAME + "/CBDParkingMSs/mood/addMood";//发布朋友圈
+    public static String URL_MOMENT_LIKE = ROOT_HOST_NAME + "/CBDParkingMSs/mood/addPraise";//朋友圈点赞
+    public static String URL_MOMENT_COMMENT = ROOT_HOST_NAME + "/CBDParkingMSs/mc/addComment";//朋友圈评论
+    public static String URL_ADD_INFOMATION = ROOT_HOST_NAME + "/CBDParkingMSs/mood/addInformation";//发布T觅资讯
 
 
     public static void init(Context context) throws IOException {
