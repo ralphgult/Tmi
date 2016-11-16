@@ -47,7 +47,9 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     private ImageView back_tv;
     private TextView confirm_iv;
     private EditText pwdConfirm_edt;
+    private EditText nickname_edt;
     private String phone;
+    private String nickName;
     private String pwd;
     private EventHandler eh;
     private int i = 59;
@@ -148,6 +150,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("userName", phone));
                         params.add(new BasicNameValuePair("userPassword", pwd));
+                        params.add(new BasicNameValuePair("nickname",nickName));
                         NetFactory.instance().commonHttpCilent(handler, RegistActivity.this,
                                 Config.URL_REDGIST, params);
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
@@ -182,6 +185,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         pwd_edt = (EditText) findViewById(R.id.regist_pwd_edt);
         getSms_tv = (TextView) findViewById(R.id.regist_getsms_tv);
         pwdConfirm_edt = (EditText) findViewById(R.id.regist_pwd_confirm_edt);
+        nickname_edt = (EditText) findViewById(R.id.regist_nickname_edt);
         getSms_tv.setOnClickListener(this);
         back_tv.setOnClickListener(this);
         confirm_iv.setOnClickListener(this);
@@ -195,10 +199,13 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.regist_confirm:
                 phone = phone_edt.getText().toString().trim();
+                nickName = nickname_edt.getText().toString().trim();
                 String ver = sms_edt.getText().toString().trim();
                 pwd = pwd_edt.getText().toString().trim();
                 String pwdConfirm = pwdConfirm_edt.getText().toString().trim();
-                if (TextUtils.isEmpty(phone)) {
+                if (TextUtils.isEmpty(nickName)) {
+                    Toast.makeText(this, "请输入昵称", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(phone)) {
                     Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(ver)) {
                     Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
