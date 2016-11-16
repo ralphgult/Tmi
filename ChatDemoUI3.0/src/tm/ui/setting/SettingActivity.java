@@ -81,13 +81,9 @@ public class SettingActivity extends Activity implements View.OnClickListener{
                 createCleanCacheDialog();
                 break;
             case R.id.setting_btn_modifypwd:
-                Intent intent =new Intent(SettingActivity.this,PwdFindActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("name", "修改密码");
-                intent.putExtras(bundle);
-                startActivity(intent);
-//                ViewUtil.jumpToOtherActivity(this, PwdFindActivity.class);
-//                Toast.makeText(this, "正在开发中...", Toast.LENGTH_SHORT).show();
+                ViewUtil.jumpToOtherActivity(this, PwdFindActivity.class);
                 break;
             case R.id.setting_btn_feedback:
                 ViewUtil.jumpToOtherActivity(this,FeedbackActivity.class);
@@ -119,7 +115,7 @@ public class SettingActivity extends Activity implements View.OnClickListener{
                 public void remind() {
                     EMClient.getInstance().logout(false);
                     ViewUtil.backToOtherActivity(SettingActivity.this,LoginActivity.class);
-//                    DemoApplication.getInstance().exit();
+                    DemoApplication.getInstance().exit();
                     alertDialog.closeDialog();
                 }
             });
