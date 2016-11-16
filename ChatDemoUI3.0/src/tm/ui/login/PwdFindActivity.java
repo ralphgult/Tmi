@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.BaseActivity;
+import com.xbh.tmi.ui.LoginActivity;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -62,7 +64,8 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     int resultCode = object.getInt("authId");
                     if (resultCode == FINDPWD_SUCESS) {
                         Toast.makeText(PwdFindActivity.this, "修改密码成功，请重新登录", Toast.LENGTH_SHORT).show();
-                        ViewUtil.backToOtherActivity(PwdFindActivity.this);
+                        ViewUtil.backToOtherActivity(PwdFindActivity.this, LoginActivity.class);
+                        DemoApplication.getInstance().exit();
                     } else {
                         Toast.makeText(PwdFindActivity.this, "系统错误，请稍后再试", Toast.LENGTH_SHORT).show();
                     }
@@ -186,7 +189,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.findpwd_back:
-                this.finish();
+                ViewUtil.backToOtherActivity(this);
                 break;
             case R.id.findpwd_confirm:
                 phone = phone_edt.getText().toString().trim();
@@ -237,6 +240,14 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            ViewUtil.backToOtherActivity(this);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
