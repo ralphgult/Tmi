@@ -36,7 +36,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="25dp"
                 android:background="@null"
-                android:hint="请输入用户名"
+                android:hint="请输入手机号"
                 android:textColorHint="#ceb6f3"
                 android:paddingLeft="10dip"
                 android:singleLine="true"

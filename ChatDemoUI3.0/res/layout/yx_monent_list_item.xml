@@ -80,13 +80,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
+            android:horizontalSpacing="2dp"
+            android:verticalSpacing="2dp"
             android:numColumns="3"
             android:visibility="gone"
             android:layout_marginTop="10dp"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/yx_monment_bottom_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

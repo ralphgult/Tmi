@@ -7,6 +7,7 @@
         android:id="@+id/image_item_iv"
         android:layout_width="110dp"
         android:layout_height="110dp"
+        android:scaleType="centerCrop"
         android:background="@color/gray_normal"
         android:layout_gravity="center"/>
 
