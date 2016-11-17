@@ -27,6 +27,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
@@ -760,4 +761,5 @@ public class ImageUtil {
         }
         return fileSaved;
     }
+
 }

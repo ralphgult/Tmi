@@ -2,6 +2,10 @@ package tm.utils;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ListAdapter;
 
 public class SysUtils {
 	/**
@@ -44,5 +48,26 @@ public class SysUtils {
 		}
 		return statusHeight;
 	}
-
+	/**
+	 * 设置图片显示GridView高度的方法
+	 *
+	 * @param view gridView的view对象
+	 */
+	public static void setGridViewHight(GridView view) {
+		ListAdapter adapter = view.getAdapter();
+		if (adapter.isEmpty()) {
+			//适配器为空
+			return;
+		}
+		ViewGroup.LayoutParams params = view.getLayoutParams();
+		int totalHeight = 0;
+		int size = adapter.getCount();
+		for (int i = 1; i <= size; i = i + 4) {
+			View listItem = adapter.getView(0, null, view);
+			listItem.measure(0, 0);
+			totalHeight = totalHeight + listItem.getMeasuredHeight() + 4;
+		}
+		params.height = totalHeight - 4;
+		view.setLayoutParams(params);
+	}
 }

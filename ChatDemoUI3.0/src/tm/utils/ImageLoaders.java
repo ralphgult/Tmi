@@ -32,6 +32,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.xbh.tmi.DemoApplication;
+import com.xbh.tmi.R;
+
 public class ImageLoaders {
 	// 调试
 	private final static String TAG = "Rock";
@@ -170,6 +173,8 @@ public class ImageLoaders {
 				} else  if (null != (bmp = getBitmapFromNet(url))){
 					Log.d(TAG, "find image in net url = " + url);
 					sendBitmapMessage(v, url, bmp);
+				}else {
+					sendBitmapMessage(v,url,BitmapFactory.decodeResource(DemoApplication.applicationContext.getResources(), R.drawable.default_pic));
 				}
 			}
 
