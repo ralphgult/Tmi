@@ -401,10 +401,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="tm.ui.tmi.TmiNoticeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
             android:name="tm.ui.tmi.MomentsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
