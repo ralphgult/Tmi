@@ -43,6 +43,11 @@ public class Config {
     public static String URL_MOMENT_LIKE = ROOT_HOST_NAME + "/CBDParkingMSs/mood/addPraise";//朋友圈点赞
     public static String URL_MOMENT_COMMENT = ROOT_HOST_NAME + "/CBDParkingMSs/mc/addComment";//朋友圈评论
     public static String URL_ADD_INFOMATION = ROOT_HOST_NAME + "/CBDParkingMSs/mood/addInformation";//发布T觅资讯
+    public static String URL_CHANGE_COMP_LOGO = ROOT_HOST_NAME + "/CBDParkingMSs/updateCompanyLogo";//修改企业Logo
+    public static String URL_CHANGE_FARM_LOGO = ROOT_HOST_NAME + "/CBDParkingMSs/updateFarmLogo";//修改三农Logo
+    public static String URL_CHANGE_FACEWALL = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/addFaceScore";//修改颜值表/企业风采/三农风采图片
+    public static String URL_DEL_FACEWALL = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/deleteFaceScore";//修改颜值表/企业风采/三农风采图片
+
 
 
     public static void init(Context context) throws IOException {
