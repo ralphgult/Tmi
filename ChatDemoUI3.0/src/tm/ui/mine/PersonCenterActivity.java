@@ -14,15 +14,18 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oohla.android.utils.NetworkUtil;
+import com.ta.utdid2.android.utils.SystemUtils;
 import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
@@ -44,6 +47,7 @@ import tm.manager.PersonManager;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
+import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
@@ -65,6 +69,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private static final int CHANGEHEAD = 1;
     private static final int WALLFACE = 2;
     private InputDialog signDialog;
+    private List<String> imgPath;
+    private List<Integer> idList;
     private Map<String, String> mData;
     private Handler mHandler = new Handler() {
         @Override
@@ -79,24 +85,23 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                             String str = "{\"faceScore\":" + map.get("faceScore") + "}";
                             JSONObject object = new JSONObject(str);
                             JSONArray array = object.getJSONArray("faceScore");
-                            List<String> list = new ArrayList<>();
+                            imgPath.clear();
+                            idList.clear();
                             if (array.length() > 0) {
                                 for (int i = 0; i < array.length(); i++) {
                                     object = array.getJSONObject(i);
-                                    list.add(object.getString("url"));
+                                    imgPath.add(object.getString("url"));
+                                    idList.add(object.getInt("fsId"));
                                 }
-                                if (list.size() < 8) {
-                                    list.add("0");
+                                if (imgPath.size() < 8) {
+                                    imgPath.add("0");
                                 }
                             } else {
-                                list.add("0");
+                                imgPath.add("0");
                             }
-                            pathList = new String[list.size()];
-                            for (int i = 0; i < list.size(); i++) {
-                                pathList[i] = list.get(i);
-                            }
-                            mAdapter.resetData(pathList);
+                            mAdapter.resetData(imgPath,idList);
                             gv.setAdapter(mAdapter);
+                            SysUtils.setGridViewHight(gv);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -114,6 +119,24 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 case 1002:
                     Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
+                case 2001:
+                case 3001:
+                    List<NameValuePair> list2 = new ArrayList<NameValuePair>();
+                    SharedPreferences sharedPre2 = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
+                    String userId2 = sharedPre2.getString("username", "");
+                    if (!TextUtils.isEmpty(userId2)) {
+                        list2.add(new BasicNameValuePair("userId", userId2));
+                        list2.add(new BasicNameValuePair("type", "1"));
+                    } else {
+                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    NetFactory.instance().commonHttpCilent(mHandler, PersonCenterActivity.this,
+                            Config.URL_GET_USRE_FACEWALL, list2);
+                    break;
+                default:
+                    Toast.makeText(PersonCenterActivity.this, "颜值图片上传失败，请稍后再试...", Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     };
@@ -129,6 +152,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
 
     private void setData() {
         mData = new HashMap<>();
+        imgPath = new ArrayList<>();
+        idList = new ArrayList<>();
         imageLoaders = new ImageLoaders(this, new imageLoaderListener());
         imageLoaders.loadImage(head_iv, getIntent().getExtras().getString("headPath"));
         if (!TextUtils.isEmpty(getIntent().getExtras().getString("signed"))) {
@@ -139,6 +164,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         String userId = sharedPre.getString("username", "");
         if (!TextUtils.isEmpty(userId)) {
             list.add(new BasicNameValuePair("userId", userId));
+            list.add(new BasicNameValuePair("type", "1"));
         } else {
             Toast.makeText(this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
             return;
@@ -159,10 +185,10 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!pathList[position].equals("0")) {
+                if (!imgPath.get(position).equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("path", pathList[position]);
-                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, HeadBigActivity.class);
+                    bundle.putString("path", imgPath.get(position));
+                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, HeadBigActivity.class,bundle);
                 } else {
                     Intent intent = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -171,10 +197,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
             }
         });
         mAdapter = new FaceWallAdapter(this);
-        pathList = new String[1];
-        pathList[0] = "0";
-        mAdapter.resetData(pathList);
-        gv.setAdapter(mAdapter);
+        mAdapter.setHandler(mHandler);
         ok.setOnClickListener(this);
         head.setOnClickListener(this);
         yanzhi.setOnClickListener(this);
@@ -219,8 +242,12 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 uploadPhotoThread thread = new uploadPhotoThread();
                 thread.start();
             }else{
-                //TODO 上传颜值表图片
-                Toast.makeText(this, "正在调试中...", Toast.LENGTH_SHORT).show();
+               new Thread(){
+                   @Override
+                   public void run() {
+                       PersonManager.uploadImgwall(imagePath,1,mHandler);
+                   }
+               }.start();
             }
         }
     }
@@ -230,7 +257,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         public void run() {
             SharedPreferences sharedPre = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
             String userId = sharedPre.getString("username", "");
-            PersonManager.SubmitPost(new File(imagePath), userId, mHandler);
+            PersonManager.SubmitPost(new File(imagePath), userId, 1,mHandler);
         }
     }
 

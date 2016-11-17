@@ -14,10 +14,12 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,8 @@ import com.xbh.tmi.Constant;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.BaseActivity;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,10 +40,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import tm.http.Config;
+import tm.http.NetFactory;
 import tm.manager.PersonManager;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
+import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
@@ -63,9 +70,10 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
     private static final int CHANGEHEAD = 1;
     private static final int WALLFACE = 2;
     private String imagePath;
-    private String[] pathList;
     private FaceWallAdapter mAdapter;
     private int mType;
+    private List<String> imgList;
+    private List<Integer> idList;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -79,24 +87,23 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                             String str = "{\"faceScore\":" + map.get("faceScore") + "}";
                             JSONObject object = new JSONObject(str);
                             JSONArray array = object.getJSONArray("faceScore");
-                            List<String> list = new ArrayList<>();
+                            imgList.clear();
+                            idList.clear();
                             if (array.length() > 0) {
                                 for (int i = 0; i < array.length(); i++) {
                                     object = array.getJSONObject(i);
-                                    list.add(object.getString("url"));
+                                    imgList.add(object.getString("url"));
+                                    idList.add(object.getInt("fsId"));
                                 }
-                                if (list.size() < 8) {
-                                    list.add("0");
+                                if (imgList.size() < 8) {
+                                    imgList.add("0");
                                 }
                             } else {
-                                list.add("0");
+                                imgList.add("0");
                             }
-                            pathList = new String[list.size()];
-                            for (int i = 0; i < list.size(); i++) {
-                                pathList[i] = list.get(i);
-                            }
-                            mAdapter.resetData(pathList);
+                            mAdapter.resetData(imgList, idList);
                             imgGri_gv.setAdapter(mAdapter);
+                            SysUtils.setGridViewHight(imgGri_gv);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -104,15 +111,9 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                         Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case ConstantsHandler.EXECUTE_FAIL:
-                    Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                    break;
                 case 1001:
                     Toast.makeText(CompCenterActivity.this, "上传企业Logo成功", Toast.LENGTH_SHORT).show();
                     headImage_iv.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-                    break;
-                case 1002:
-                    Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
                 case 2001:
                     TextView tv = null;
@@ -130,6 +131,24 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 case 2002:
                     Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
+                case 3001:
+                case 4001:
+                    List<NameValuePair> list = new ArrayList<NameValuePair>();
+                    SharedPreferences sharedPre = CompCenterActivity.this.getSharedPreferences("config", CompCenterActivity.this.MODE_PRIVATE);
+                    String userId = sharedPre.getString("username", "");
+                    if (!TextUtils.isEmpty(userId)) {
+                        list.add(new BasicNameValuePair("userId", userId));
+                        list.add(new BasicNameValuePair("type", "2"));
+                    } else {
+                        Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    NetFactory.instance().commonHttpCilent(mHandler, CompCenterActivity.this,
+                            Config.URL_GET_USRE_FACEWALL, list);
+                    break;
+                default:
+                    Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     };
@@ -138,10 +157,17 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comp_center);
+        init();
+        initViews();
+    }
+
+    private void init() {
+        imgList = new ArrayList<>();
+        idList = new ArrayList<>();
         personManager = new PersonManager();
         mAdapter = new FaceWallAdapter(this);
+        mAdapter.setHandler(mHandler);
         loaders = new ImageLoaders(this, new imageListener());
-        initViews();
     }
 
     class imageListener implements ImageLoaders.ImageLoaderListener {
@@ -175,17 +201,13 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         if (!TextUtils.isEmpty(url)) {
             loaders.loadImage(headImage_iv, url);
         }
-        pathList = new String[1];
-        pathList[0] = "0";
-        mAdapter.resetData(pathList);
-        imgGri_gv.setAdapter(mAdapter);
         imgGri_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!pathList[position].equals("0")) {
+                if (!imgList.get(position).equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("path", pathList[position]);
-                    ViewUtil.jumpToOtherActivity(CompCenterActivity.this, HeadBigActivity.class);
+                    bundle.putString("path", imgList.get(position));
+                    ViewUtil.jumpToOtherActivity(CompCenterActivity.this, HeadBigActivity.class,bundle);
                 } else {
                     Intent intent = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -193,6 +215,18 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 }
             }
         });
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        SharedPreferences sharedPre = CompCenterActivity.this.getSharedPreferences("config", CompCenterActivity.this.MODE_PRIVATE);
+        String userId = sharedPre.getString("username", "");
+        if (!TextUtils.isEmpty(userId)) {
+            list.add(new BasicNameValuePair("userId", userId));
+            list.add(new BasicNameValuePair("type", "2"));
+        } else {
+            Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        NetFactory.instance().commonHttpCilent(mHandler, CompCenterActivity.this,
+                Config.URL_GET_USRE_FACEWALL, list);
     }
 
     @Override
@@ -257,8 +291,12 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 uploadPhotoThread thread = new uploadPhotoThread();
                 thread.start();
             } else {
-                //TODO 上传风采图片
-                Toast.makeText(this, "正在调试中...", Toast.LENGTH_SHORT).show();
+                new Thread(){
+                    @Override
+                    public void run() {
+                        PersonManager.uploadImgwall(imagePath,2,mHandler);
+                    }
+                }.start();
             }
         }
     }
@@ -268,7 +306,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         public void run() {
             SharedPreferences sharedPre = CompCenterActivity.this.getSharedPreferences("config", CompCenterActivity.this.MODE_PRIVATE);
             String userId = sharedPre.getString("username", "");
-            PersonManager.SubmitPost(new File(imagePath), userId, mHandler);
+            PersonManager.SubmitPost(new File(imagePath), userId, 2, mHandler);
         }
     }
 

@@ -14,10 +14,12 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,8 @@ import com.xbh.tmi.Constant;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.BaseActivity;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,10 +40,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import tm.http.Config;
+import tm.http.NetFactory;
 import tm.manager.PersonManager;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
+import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
@@ -60,7 +67,8 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     private static final int CHANGEHEAD = 1;
     private static final int WALLFACE = 2;
     private String imagePath;
-    private String[] pathList;
+    private List<String> imgList;
+    private List<Integer> idList;
     private FaceWallAdapter mAdapter;
     private GridView gv;
     private int mType;
@@ -77,24 +85,23 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                             String str = "{\"faceScore\":" + map.get("faceScore") + "}";
                             JSONObject object = new JSONObject(str);
                             JSONArray array = object.getJSONArray("faceScore");
-                            List<String> list = new ArrayList<>();
+                            imgList.clear();
+                            idList.clear();
                             if (array.length() > 0) {
                                 for (int i = 0; i < array.length(); i++) {
                                     object = array.getJSONObject(i);
-                                    list.add(object.getString("url"));
+                                    imgList.add(object.getString("url"));
+                                    idList.add(object.getInt("fsId"));
                                 }
-                                if (list.size() < 8) {
-                                    list.add("0");
+                                if (imgList.size() < 8) {
+                                    imgList.add("0");
                                 }
                             } else {
-                                list.add("0");
+                                imgList.add("0");
                             }
-                            pathList = new String[list.size()];
-                            for (int i = 0; i < list.size(); i++) {
-                                pathList[i] = list.get(i);
-                            }
-                            mAdapter.resetData(pathList);
+                            mAdapter.resetData(imgList, idList);
                             gv.setAdapter(mAdapter);
+                            SysUtils.setGridViewHight(gv);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -102,15 +109,9 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                         Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case ConstantsHandler.EXECUTE_FAIL:
-                    Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                    break;
                 case 1001:
-                    Toast.makeText(FarmerCenterActivity.this, "上传企业Logo成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FarmerCenterActivity.this, "上传三农Logo成功", Toast.LENGTH_SHORT).show();
                     logo_iv.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-                    break;
-                case 1002:
-                    Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
                 case 2001:
                     TextView tv = null;
@@ -118,14 +119,29 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                     if (msg.arg1 == 2) {
                         tv = name_tv;
                         text = "名称";
-                    }else{
+                    } else {
                         tv = intor_tv;
                         text = "说明";
                     }
                     Toast.makeText(FarmerCenterActivity.this, "修改三农" + text + "成功", Toast.LENGTH_SHORT).show();
-                    tv.setText((String)msg.obj);
+                    tv.setText((String) msg.obj);
                     break;
-                case 2002:
+                case 3001:
+                case 4001:
+                    List<NameValuePair> list = new ArrayList<NameValuePair>();
+                    SharedPreferences sharedPre = FarmerCenterActivity.this.getSharedPreferences("config", FarmerCenterActivity.this.MODE_PRIVATE);
+                    String userId = sharedPre.getString("username", "");
+                    if (!TextUtils.isEmpty(userId)) {
+                        list.add(new BasicNameValuePair("userId", userId));
+                        list.add(new BasicNameValuePair("type", "3"));
+                    } else {
+                        Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    NetFactory.instance().commonHttpCilent(mHandler, FarmerCenterActivity.this,
+                            Config.URL_GET_USRE_FACEWALL, list);
+                    break;
+                default:
                     Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
             }
@@ -139,9 +155,12 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_center);
+        imgList = new ArrayList<>();
+        idList = new ArrayList<>();
         personManager = new PersonManager();
         loaders = new ImageLoaders(this, new imageLoaderListener());
         mAdapter = new FaceWallAdapter(this);
+        mAdapter.setHandler(mHandler);
         back = (ImageView) findViewById(R.id.farmer_center_back_iv);
         logo = (LinearLayout) findViewById(R.id.farmer_center_head_rv);
         logo_iv = (ImageView) findViewById(R.id.farmer_center_head_iv);
@@ -153,17 +172,13 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         intor_tv.setText(getIntent().getExtras().getString("farminter"));
         sign = (RelativeLayout) findViewById(R.id.farmer_center_sign_rv);
         gv = (GridView) findViewById(R.id.farmer_center_pics_gv);
-        pathList = new String[1];
-        pathList[0] = "0";
-        mAdapter.resetData(pathList);
-        gv.setAdapter(mAdapter);
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!pathList[position].equals("0")) {
+                if (!imgList.get(position).equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("path", pathList[position]);
-                    ViewUtil.jumpToOtherActivity(FarmerCenterActivity.this, HeadBigActivity.class);
+                    bundle.putString("path", imgList.get(position));
+                    ViewUtil.jumpToOtherActivity(FarmerCenterActivity.this, HeadBigActivity.class, bundle);
                 } else {
                     Intent intent = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -184,8 +199,19 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         if (!TextUtils.isEmpty(url)) {
             loaders.loadImage(logo_iv, url);
         }
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        SharedPreferences sharedPre = FarmerCenterActivity.this.getSharedPreferences("config", FarmerCenterActivity.this.MODE_PRIVATE);
+        String userId = sharedPre.getString("username", "");
+        if (!TextUtils.isEmpty(userId)) {
+            list.add(new BasicNameValuePair("userId", userId));
+            list.add(new BasicNameValuePair("type", "3"));
+        } else {
+            Toast.makeText(FarmerCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        NetFactory.instance().commonHttpCilent(mHandler, FarmerCenterActivity.this,
+                Config.URL_GET_USRE_FACEWALL, list);
     }
-
     class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
 
         @Override
@@ -243,7 +269,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //获取图片路径
-        if (requestCode == CHANGEHEAD && resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
             Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
@@ -254,9 +280,13 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
             if (requestCode == CHANGEHEAD) {
                 uploadPhotoThread thread = new uploadPhotoThread();
                 thread.start();
-            }else{
-                //TODO 上传凤采图片
-                Toast.makeText(this, "正在调试中...", Toast.LENGTH_SHORT).show();
+            } else {
+                new Thread(){
+                    @Override
+                    public void run() {
+                        PersonManager.uploadImgwall(imagePath,3,mHandler);
+                    }
+                }.start();
             }
         }
     }
@@ -266,7 +296,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         public void run() {
             SharedPreferences sharedPre = FarmerCenterActivity.this.getSharedPreferences("config", FarmerCenterActivity.this.MODE_PRIVATE);
             String userId = sharedPre.getString("username", "");
-            PersonManager.SubmitPost(new File(imagePath), userId, mHandler);
+            PersonManager.SubmitPost(new File(imagePath), userId, 3, mHandler);
         }
     }
 
