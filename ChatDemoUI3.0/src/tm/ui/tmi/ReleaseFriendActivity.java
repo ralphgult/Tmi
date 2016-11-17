@@ -26,6 +26,7 @@ import java.util.List;
 import tm.manager.PersonManager;
 import tm.ui.login.RegistActivity;
 import tm.ui.tmi.adapter.ImageAdapter;
+import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 
 /**
@@ -95,7 +96,7 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
          imgpaths[i] = imgPathList.get(i);
       }
       mAdapter.resetData(imgpaths);
-      setGridViewHight(mImgGridView);
+      SysUtils.setGridViewHight(mImgGridView);
    }
 
    public void delAdapterData(String imgPath) {
@@ -108,7 +109,7 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
          imgpaths[i] = imgPathList.get(i);
       }
       mAdapter.resetData(imgpaths);
-      setGridViewHight(mImgGridView);
+      SysUtils.setGridViewHight(mImgGridView);
    }
    @Override
    public void onClick(View v) {
@@ -134,7 +135,7 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
       mImgGridView = (GridView) findViewById(R.id.release_add_img_gridview);
       isRelease = getIntent().getExtras().getInt("ReleaseType");
       mImgGridView.setAdapter(mAdapter);
-      setGridViewHight(mImgGridView);
+      SysUtils.setGridViewHight(mImgGridView);
       switch (isRelease) {
          case 1:
          case 2:
@@ -162,28 +163,6 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
          setAdapterData(c.getString(columnIndex));
          c.close();
       }
-   }
-   /**
-    * 设置图片显示GridView高度的方法
-    *
-    * @param view gridView的view对象
-    */
-   private void setGridViewHight(GridView view) {
-      ListAdapter adapter = view.getAdapter();
-      if (adapter.isEmpty()) {
-         //适配器为空
-         return;
-      }
-      ViewGroup.LayoutParams params = view.getLayoutParams();
-      int totalHeight = 0;
-      int size = adapter.getCount();
-      for (int i = 1; i <= size; i = i + 3) {
-         View listItem = adapter.getView(0, null, view);
-         listItem.measure(0, 0);
-         totalHeight = totalHeight + listItem.getMeasuredHeight() + 4;
-      }
-      params.height = totalHeight - 4;
-      view.setLayoutParams(params);
    }
 
    class AddMomentThread extends Thread{

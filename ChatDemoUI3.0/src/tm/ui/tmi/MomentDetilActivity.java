@@ -34,6 +34,7 @@ import tm.manager.PersonManager;
 import tm.ui.tmi.adapter.ImageAdapter;
 import tm.ui.tmi.adapter.ReplyAdapter;
 import tm.utils.ImageLoaders;
+import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
@@ -181,7 +182,7 @@ public class MomentDetilActivity extends Activity {
                 mImgAdapter = new ImageAdapter(this, false);
                 mImgAdapter.resetData(pics.split(","));
                 pic_gv.setAdapter(mImgAdapter);
-                setGridViewHight(pic_gv);
+                SysUtils.setGridViewHight(pic_gv);
             } else {
                 pic_gv.setVisibility(View.GONE);
                 pick_single.setVisibility(View.VISIBLE);
@@ -227,28 +228,6 @@ public class MomentDetilActivity extends Activity {
         }
     }
 
-    /**
-     * 设置图片显示GridView高度的方法
-     *
-     * @param view gridView的view对象
-     */
-    private void setGridViewHight(GridView view) {
-        ListAdapter adapter = view.getAdapter();
-        if (adapter.isEmpty()) {
-            //适配器为空
-            return;
-        }
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        int totalHeight = 0;
-        int size = adapter.getCount();
-        for (int i = 1; i <= size; i = i + 3) {
-            View listItem = adapter.getView(0, null, view);
-            listItem.measure(0, 0);
-            totalHeight = totalHeight + listItem.getMeasuredHeight() + 4;
-        }
-        params.height = totalHeight - 4;
-        view.setLayoutParams(params);
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

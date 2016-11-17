@@ -30,6 +30,7 @@ import java.util.Map;
 import tm.manager.PersonManager;
 import tm.ui.mine.HeadBigActivity;
 import tm.utils.ImageLoaders;
+import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
@@ -151,7 +152,7 @@ public class MomentListAdapter extends BaseAdapter {
                 vh.pick_single.setVisibility(View.GONE);
                 mImageAdapter.resetData(pics.split(","));
                 vh.pic_gv.setAdapter(mImageAdapter);
-                setGridViewHight(vh.pic_gv);
+                SysUtils.setGridViewHight(vh.pic_gv);
             } else {
                 vh.pic_gv.setVisibility(View.GONE);
                 vh.pick_single.setVisibility(View.VISIBLE);
@@ -161,7 +162,7 @@ public class MomentListAdapter extends BaseAdapter {
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         bundle.putString("path",pics);
-                        ViewUtil.jumpToOtherActivity((Activity)mContext, HeadBigActivity.class);
+                        ViewUtil.jumpToOtherActivity((Activity)mContext, HeadBigActivity.class, bundle);
                     }
                 });
             }
@@ -186,28 +187,7 @@ public class MomentListAdapter extends BaseAdapter {
 
     }
 
-    /**
-     * 设置图片显示GridView高度的方法
-     *
-     * @param view gridView的view对象
-     */
-    private void setGridViewHight(GridView view) {
-        ListAdapter adapter = view.getAdapter();
-        if (adapter.isEmpty()) {
-            //适配器为空
-            return;
-        }
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        int totalHeight = 0;
-        int size = adapter.getCount();
-        for (int i = 1; i <= size; i = i + 3) {
-            View listItem = adapter.getView(0, null, view);
-            listItem.measure(0, 0);
-            totalHeight = totalHeight + listItem.getMeasuredHeight() + 4;
-        }
-        params.height = totalHeight - 4;
-        view.setLayoutParams(params);
-    }
+
 
     public void setLike(int position){
         String likes = dataList.get(position).get("likelist");

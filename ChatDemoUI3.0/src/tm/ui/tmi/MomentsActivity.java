@@ -80,7 +80,6 @@ public class MomentsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        datas.clear();
     }
 
     private void initViewAndListeners() {
