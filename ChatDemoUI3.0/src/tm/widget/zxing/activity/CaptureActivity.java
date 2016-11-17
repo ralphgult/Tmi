@@ -1,6 +1,7 @@
 package tm.widget.zxing.activity;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -8,23 +9,42 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.Vibrator;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.xbh.tmi.R;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
+import tm.http.Config;
+import tm.http.NetFactory;
+import tm.ui.mine.FarmerCenterActivity;
+import tm.utils.ConstantsHandler;
+import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.ConfirmDialog;
 import tm.utils.dialog.DialogFactory;
+import tm.utils.dialog.RemindDialog;
 import tm.widget.zxing.camera.CameraManager;
 import tm.widget.zxing.decoding.CaptureActivityHandler;
 import tm.widget.zxing.decoding.InactivityTimer;
@@ -47,8 +67,35 @@ public class CaptureActivity extends Activity implements Callback {
     private boolean playBeep;
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
-    private ConfirmDialog confirmDialog;
+    private RemindDialog confirmDialog;
     private ImageView back_btn;
+    private String resultString;
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case ConstantsHandler.EXECUTE_SUCCESS:
+                    Map map = (Map) msg.obj;
+                    Log.e("info", "map==" + map);
+                    String authId = map.get("authId") + "";
+                    if (authId.equals("1")) {
+                        Toast.makeText(CaptureActivity.this, "添加好友成功", Toast.LENGTH_SHORT).show();
+                        confirmDialog.closeDialog();
+                        ViewUtil.backToOtherActivity(CaptureActivity.this);
+                    } else if(authId.equals("2")) {
+                        Toast.makeText(CaptureActivity.this, "已经是好友关系", Toast.LENGTH_SHORT).show();
+                        confirmDialog.closeDialog();
+                        ViewUtil.backToOtherActivity(CaptureActivity.this);
+                    }else{
+                        Toast.makeText(CaptureActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+                    Toast.makeText(CaptureActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     /**
      * Called when the activity is first created.
@@ -120,15 +167,12 @@ public class CaptureActivity extends Activity implements Callback {
     public void handleDecode(Result result, Bitmap barcode) {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
-        String resultString = result.getText();
+        resultString = result.getText();
         //FIXME
         if (resultString.equals("")) {
-            createDialog("扫描失败，请重试");
-        } else if (resultString.length() != 11) {
-            createDialog("二维码不识别，请更换二维码");
+            Toast.makeText(CaptureActivity.this, "扫描失败，请重试", Toast.LENGTH_SHORT).show();
         } else {
-            createDialog("扫描出的结果为：" + resultString);
-            //TODO 请求添加好友的接口
+            createDialog("是否添加该用户为好友");
         }
     }
 
@@ -225,15 +269,28 @@ public class CaptureActivity extends Activity implements Callback {
     };
 
     private void createDialog(String text) {
-        confirmDialog = (ConfirmDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_CONFIRM);
-        confirmDialog.setmTipText(text);
-        confirmDialog.setConfirmDialogListener(new ConfirmDialog.ConfirmDialogListener() {
+        confirmDialog = (RemindDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_REMIND);
+        confirmDialog.setGroupName(text);
+        confirmDialog.setPhotoDialogListener(new RemindDialog.RemindDialogListener() {
             @Override
-            public void confirmDialogSubmit() {
+            public void invita() {
                 confirmDialog.closeDialog();
-                if (handler != null) {
-                    handler.restartPreviewAndDecode();
+            }
+
+            @Override
+            public void remind() {
+                List<NameValuePair> list = new ArrayList<NameValuePair>();
+                SharedPreferences sharedPre = CaptureActivity.this.getSharedPreferences("config", CaptureActivity.this.MODE_PRIVATE);
+                String userId = sharedPre.getString("username", "");
+                if (!TextUtils.isEmpty(userId)) {
+                    list.add(new BasicNameValuePair("me", userId));
+                    list.add(new BasicNameValuePair("my", resultString));
+                } else {
+                    Toast.makeText(CaptureActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                NetFactory.instance().commonHttpCilent(mHandler, CaptureActivity.this,
+                        Config.URL_GET_ADDFRIEND, list);
             }
         });
         confirmDialog.showDialog();
