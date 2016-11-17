@@ -8,6 +8,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_gravity="center"
+        android:scaleType="centerCrop"
         android:background="@color/gray_normal"/>
 
     <ImageView
@@ -17,11 +18,11 @@
         android:layout_gravity="right|top"
         android:scaleType="centerCrop"
         android:layout_marginTop="2dp"
+        android:src="@drawable/em_search_clear_pressed"
         android:layout_marginRight="5dp"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="2dp"
-        android:paddingTop="2dp"
-        android:visibility="gone" />
+        android:paddingTop="2dp" />
 
 </FrameLayout>
