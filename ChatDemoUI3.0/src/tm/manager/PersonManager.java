@@ -1,5 +1,6 @@
 package tm.manager;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -50,12 +52,25 @@ public class PersonManager {
      *
      * @param file    头像文件
      * @param userId  用户Id
+     * @param type    上传类型（1：头像；2：企业Logo；3：三农Logo）
      * @param handler handler
      */
-    public static void SubmitPost(File file, String userId, Handler handler) {
+    public static void SubmitPost(File file, String userId, int type, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
+        String url = null;
+        switch (type) {
+            case 1:
+                url = Config.URL_UPDATE_IMAGE;
+                break;
+            case 2:
+                url = Config.URL_CHANGE_COMP_LOGO;
+                break;
+            case 3:
+                url = Config.URL_CHANGE_FARM_LOGO;
+                break;
+        }
         try {
-            HttpPost httppost = new HttpPost(Config.URL_UPDATE_IMAGE);
+            HttpPost httppost = new HttpPost(url);
             FileBody bin = new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), file.getPath()));
             MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
             reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
@@ -246,7 +261,7 @@ public class PersonManager {
                     break;
             }
             SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
-            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", "")));
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
             reqEntity.addPart(key, new StringBody(text, Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
@@ -287,6 +302,99 @@ public class PersonManager {
             try {
                 httpclient.getConnectionManager().shutdown();
             } catch (Exception ignore) {
+            }
+        }
+    }
+
+    public static void uploadImgwall(String filePath, int type, Handler handler) {
+        File file = new File(filePath);
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_CHANGE_FACEWALL);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("type", new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
+            reqEntity.addPart("file", new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), file.getPath())));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        //上传成功
+                        Log.e("info", "change Sucess");
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 3001;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        Log.e("info", "change Fail");
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 3002;
+                            handler.sendMessage(msg);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(3002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
+    public static void delFaceWallPic(String imgPath, int id, Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_DEL_FACEWALL);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        try {
+            reqEntity.addPart("fsId", new StringBody(String.valueOf(id), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 4001;
+                            msg.arg1 = id;
+                            msg.obj = imgPath;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(4002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(4002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
             }
         }
     }
