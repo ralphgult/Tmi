@@ -147,8 +147,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 type=2;
                 rjtype=3;
                 if(stype==1){
-                    huihua_gridview.setVisibility(View.GONE);
-                    refreshListView.setVisibility(View.VISIBLE);
+                    huihua_gridview.setVisibility(View.VISIBLE);
+                    refreshListView.setVisibility(View.GONE);
                     LoadData3();
                 }else if(stype==2){
                     LoadData1();
@@ -189,9 +189,9 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                     refreshListView.setVisibility(View.VISIBLE);
                     LoadData3();
                 }else if(type==2){
-                    huihua_gridview.setVisibility(View.GONE);
-                    refreshListView.setVisibility(View.VISIBLE);
-                    LoadData3();
+                    huihua_gridview.setVisibility(View.VISIBLE);
+                    refreshListView.setVisibility(View.GONE);
+//                    LoadData3();
                 }
                 currentClick=3;
                 break;
@@ -597,6 +597,45 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         ResourcesBean bean8 = new ResourcesBean();
         bean8.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/B8FiDAGC*gLhxTP3TMPhEWCpPtvwnUHdeEakE4xa6ik!/b/dAoBAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(7, bean8);
+        return list;
+    }
+    public List<ResourcesBean> getNongyeData() {
+        ArrayList<ResourcesBean> list = new ArrayList<ResourcesBean>();
+        ResourcesBean bean1 = new ResourcesBean();
+        bean1.mImagePath = "http://a2.qpic.cn/psb?/V11UnAG03VjFP8/Kqe60mDcnFJoCeRbaMuFo6nXGXh0WbQU6cCGEnmL3o4!/b/dKkAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(0, bean1);
+
+        ResourcesBean bean2 = new ResourcesBean();
+        bean2.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/pP5QdGOb4iSTCLKdyc4k5pDIZQnjl4agKi3IWjlNinw!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(1, bean2);
+
+        ResourcesBean bean3 = new ResourcesBean();
+        bean3.mImagePath = "http://a1.qpic.cn/psb?/V11UnAG03VjFP8/dBPYaPgqt2zMfa00RaE3KbySMimPNDn4Ajsg2uNW6AA!/b/dCABAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(2, bean3);
+
+        ResourcesBean bean4 = new ResourcesBean();
+        bean4.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/oHOxNIJoPHyspeFLHpsapDk097ILaPYoQs9P1wlkBJw!/b/dPgAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(3, bean4);
+
+        ResourcesBean bean5 = new ResourcesBean();
+        bean5.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/BZAhlOjtyxJMgKHs9chaOe3piVhhhLgOb97X27oPXqg!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(4, bean5);
+
+        ResourcesBean bean6 = new ResourcesBean();
+        bean6.mImagePath = "http://a1.qpic.cn/psb?/V11UnAG03VjFP8/bvFWn1N4BoVW.IdE2kTaIaMUdFX*GOEfF1rAqN1bZVQ!/b/dLEAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(5, bean6);
+
+        ResourcesBean bean7 = new ResourcesBean();
+        bean7.mImagePath = "http://a1.qpic.cn/psb?/V11UnAG03VjFP8/fr8aTV.VpKGqcVSJ8acaYSINTExDwOWqTqkKIK0To3o!/b/dCABAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(6, bean7);
+
+        ResourcesBean bean8 = new ResourcesBean();
+        bean8.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/.oj.wukX68JcVZ9nwgcD4lGwphimk7TjAOUDE2HPnts!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(7, bean8);
+
+        ResourcesBean bean9 = new ResourcesBean();
+        bean9.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/Bc*gowycrqc75paI6qT5*ykjDdJ3PczlcB.ZgvRzHag!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        list.add(8, bean9);
         return list;
     }
 }
