@@ -113,6 +113,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 if(stype==1){
                     huihua_gridview.setVisibility(View.VISIBLE);
                     refreshListView.setVisibility(View.GONE);
+                    gridViewAdapter.resetDato(getData());
 //                    LoadData1();
                 }else if(stype==2){
                     LoadData1();
@@ -147,9 +148,12 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 type=2;
                 rjtype=3;
                 if(stype==1){
+//                    huihua_gridview.setVisibility(View.GONE);
+//                    refreshListView.setVisibility(View.VISIBLE);
+//                    LoadData3();
                     huihua_gridview.setVisibility(View.VISIBLE);
                     refreshListView.setVisibility(View.GONE);
-                    LoadData3();
+                    gridViewAdapter.resetDato(getNongyeData());
                 }else if(stype==2){
                     LoadData1();
                 }else if(stype==3){
@@ -184,19 +188,23 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 if(type==0){
                     huihua_gridview.setVisibility(View.VISIBLE);
                     refreshListView.setVisibility(View.GONE);
+                    gridViewAdapter.resetDato(getData());
                 }else if(type==1){
                     huihua_gridview.setVisibility(View.GONE);
                     refreshListView.setVisibility(View.VISIBLE);
                     LoadData3();
                 }else if(type==2){
+//                    huihua_gridview.setVisibility(View.GONE);
+//                    refreshListView.setVisibility(View.VISIBLE);
+//                    LoadData3();
                     huihua_gridview.setVisibility(View.VISIBLE);
                     refreshListView.setVisibility(View.GONE);
-//                    LoadData3();
+//                    gridViewAdapter.addData(getNongyeData());
+                    gridViewAdapter.resetDato(getNongyeData());
                 }
                 currentClick=3;
                 break;
             case R.id.btn_search:
-//                Toast.makeText(getContext(),"该功能正在开发中。。。",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
                 break;
