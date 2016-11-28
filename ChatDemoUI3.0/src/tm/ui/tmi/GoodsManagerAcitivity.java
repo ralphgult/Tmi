@@ -1,6 +1,7 @@
 package tm.ui.tmi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,7 +62,7 @@ public class GoodsManagerAcitivity extends Activity {
         String userId = sharedPre.getString("username", "");
         if (!TextUtils.isEmpty(userId)) {
             list.add(new BasicNameValuePair("userId", userId));
-            list.add(new BasicNameValuePair("num", "50"));
+            list.add(new BasicNameValuePair("num", "100"));
             list.add(new BasicNameValuePair("page", String.valueOf(page)));
         }
         NetFactory.instance().commonHttpCilent(new Handler() {
@@ -149,9 +150,16 @@ public class GoodsManagerAcitivity extends Activity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("type",mType);
-                ViewUtil.jumpToOtherActivity(GoodsManagerAcitivity.this,GoodsChangeActivity.class,bundle);
+                ViewUtil.jumpToOherActivityForResult(GoodsManagerAcitivity.this,GoodsChangeActivity.class,bundle,1);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1 && resultCode == 1){
+            getDataFormService(0);
+        }
     }
 
     private void createDialog(String string) {
@@ -195,22 +203,22 @@ public class GoodsManagerAcitivity extends Activity {
                 JSONArray momentList = object.getJSONArray("goods");
                 int size = momentList.length();
                 for (int i = 0; i < size; i++) {
-                    StringBuffer sb = new StringBuffer();
                     map = new HashMap<String, String>();
                     JSONObject obj = momentList.getJSONObject(i);
                     map.put("goodsId", obj.getString("goodsId"));
                     map.put("goodName", obj.getString("goodName"));
-                    map.put("goodImg", obj.getString("goodImg"));
+                    JSONArray array = obj.getJSONArray("img");
+                    StringBuffer sbPath = new StringBuffer();
+                    StringBuffer sbPid = new StringBuffer();
+                    for (int j = 0; j < array.length(); j++) {
+                        sbPath.append(array.getJSONObject(j).getString("goodImg"))
+                                .append(",");
+                        sbPid.append(array.getJSONObject(j).getString("giId"))
+                                .append(",");
+                    }
+                    map.put("imgs", sbPath.substring(0,sbPath.length() - 1));
+                    map.put("imgIds", sbPid.substring(0,sbPid.length() - 1));
                     map.put("createDate", obj.getString("createDate"));
-//                    JSONArray arrayImg = obj.getJSONArray("mp");
-//                    if (null != arrayImg && arrayImg.length() > 0) {
-//                        for (int j = 0; j < arrayImg.length(); j++) {
-//                            sb.append(arrayImg.getJSONObject(j).getString("mpName") + ",");
-//                        }
-//                        map.put("pics", sb.substring(0, sb.length() - 1));
-//                    } else {
-//                        map.put("pics", "");
-//                    }
                     map.put("currentPrice", obj.getString("currentPrice"));
                     map.put("originalPrice",  obj.getString("originalPrice"));
                     map.put("sales", obj.getString("sales"));

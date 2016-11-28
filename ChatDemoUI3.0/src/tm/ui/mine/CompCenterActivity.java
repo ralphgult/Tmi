@@ -237,6 +237,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.comp_center_ok_tv:
                 Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+                ViewUtil.backToOtherActivity(this);
                 break;
             case R.id.comp_center_head_rv:
                 Intent intent = new Intent(Intent.ACTION_PICK,

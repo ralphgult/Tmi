@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import tm.ui.tmi.GoodsChangeActivity;
+import tm.ui.tmi.GoodsManagerAcitivity;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
 
@@ -95,7 +97,7 @@ public class GoodsAdapter extends BaseAdapter {
             view = convertView;
             vh = (ViewHolder) view.getTag();
         }
-        loaders.loadImage(vh.head, dataList.get(position).get("goodImg"));
+        loaders.loadImage(vh.head, dataList.get(position).get("imgs").split(",")[0]);
         vh.name.setText(dataList.get(position).get("goodName"));
         vh.price.setText(dataList.get(position).get("price"));
         vh.num.setText("销量：" + dataList.get(position).get("sales") + "  库存：" + dataList.get(position).get("count"));
@@ -121,7 +123,17 @@ public class GoodsAdapter extends BaseAdapter {
         vh.see.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "预览", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("goodsId", dataList.get(position).get("goodsId"));
+                bundle.putString("goodName", dataList.get(position).get("goodName"));
+                bundle.putString("imgs", dataList.get(position).get("imgs"));
+                bundle.putString("imgIds", dataList.get(position).get("imgIds"));
+                bundle.putString("createDate", dataList.get(position).get("createDate"));
+                bundle.putString("currentPrice", dataList.get(position).get("currentPrice"));
+                bundle.putString("originalPrice",  dataList.get(position).get("originalPrice"));
+                bundle.putString("sales", dataList.get(position).get("sales"));
+                bundle.putString("count", dataList.get(position).get("count"));
+                ViewUtil.jumpToOtherActivity((GoodsManagerAcitivity)mContext, GoodsChangeActivity.class,bundle);
             }
         });
         return null;
