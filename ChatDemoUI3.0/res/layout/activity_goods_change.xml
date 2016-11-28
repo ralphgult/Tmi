@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_goods_detil"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_white"
+    tools:context="tm.ui.tmi.GoodsChangeActivity">
+    <RelativeLayout
+        android:id="@+id/goods_detil_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+
+        <ImageView
+            android:id="@+id/goods_detil_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ease_back" />
+
+        <TextView
+            android:id="@+id/goods_detil_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="企业产品服务管理"
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <GridView
+        android:id="@+id/goods_detil_gv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/goods_detil_title_layout"
+        android:horizontalSpacing="5dp"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp" />
+
+    <RelativeLayout
+        android:id="@+id/goods_detil_change_intr_rv"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@+id/goods_detil_gv"
+        android:background="@color/background_white"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:id="@+id/goods_detil_change_intr_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="商品描述"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/goods_detil_change_intr_text_tv"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/goods_detil_change_intor_arrow"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:hint="未设置"
+            android:maxLines="1"
+            android:textColor="#4f4f4f"
+            android:textSize="14sp"
+            tools:text="多少克录" />
+
+        <ImageView
+            android:id="@+id/goods_detil_change_intor_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:src="@drawable/youxue_common_btn_icon_arrow" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/goods_detil_change_price_rv"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@+id/goods_detil_change_intr_rv"
+        android:background="@color/background_white"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:id="@+id/goods_detil_change_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="价格"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/goods_detil_change_price_text_tv"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/goods_detil_change_price_arrow"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:hint="未设置"
+            android:maxLines="1"
+            android:textColor="#4f4f4f"
+            android:textSize="14sp"
+            tools:text="多少克录" />
+
+        <ImageView
+            android:id="@+id/goods_detil_change_price_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:src="@drawable/youxue_common_btn_icon_arrow" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/goods_detil_change_count_rv"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@+id/goods_detil_change_price_rv"
+        android:background="@color/background_white"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:id="@+id/goods_detil_change_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="库存"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/goods_detil_change_count_text_tv"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/goods_detil_change_count_arrow"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:hint="未设置"
+            android:maxLines="1"
+            android:textColor="#4f4f4f"
+            android:textSize="14sp"
+            tools:text="多少克录" />
+
+        <ImageView
+            android:id="@+id/goods_detil_change_count_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:src="@drawable/youxue_common_btn_icon_arrow" />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/goods_detil_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goods_detil_delete"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:textColor="@color/text_red_color"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:text="删除"/>
+        <View style="@style/tm_common_divide_line_whitebg_height"/>
+        <TextView
+            android:id="@+id/goods_detil_mange_save"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:textColor="@color/common_bottom_bar_normal_bg"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:text="保存"/>
+    </LinearLayout>
+    <View
+        style="@style/tm_common_divide_line_whitebg_width"
+        android:layout_above="@+id/goods_detil_bottom"/>
+</RelativeLayout>

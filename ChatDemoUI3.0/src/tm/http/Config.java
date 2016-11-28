@@ -47,7 +47,8 @@ public class Config {
     public static String URL_CHANGE_FARM_LOGO = ROOT_HOST_NAME + "/CBDParkingMSs/updateFarmLogo";//修改三农Logo
     public static String URL_CHANGE_FACEWALL = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/addFaceScore";//修改颜值表/企业风采/三农风采图片
     public static String URL_DEL_FACEWALL = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/deleteFaceScore";//修改颜值表/企业风采/三农风采图片
-
+    public static String URL_GET_GOODS_LIST = ROOT_HOST_NAME + "/CBDParkingMSs/goods/myGoods";//获取商品列表
+    public static String URL_ADD_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addGoods";//添加商品
 
 
     public static void init(Context context) throws IOException {
