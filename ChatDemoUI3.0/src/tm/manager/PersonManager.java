@@ -256,6 +256,9 @@ public class PersonManager {
             reqEntity.addPart("f", new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), imgs.get(0))));
             SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("originalPrice", new StringBody("0", Charset.forName("UTF-8")));
+            reqEntity.addPart("currentPrice", new StringBody(price, Charset.forName("UTF-8")));
+            reqEntity.addPart("count", new StringBody(count, Charset.forName("UTF-8")));
             reqEntity.addPart("goodName", new StringBody(intr, Charset.forName("UTF-8")));
             reqEntity.addPart("type", new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);

@@ -228,6 +228,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.farmer_center_ok_tv:
                 Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+                ViewUtil.backToOtherActivity(this);
                 break;
             case R.id.farmer_center_head_rv:
                 Intent intent = new Intent(Intent.ACTION_PICK,

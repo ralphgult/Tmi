@@ -45,7 +45,7 @@
     <ListView
         android:id="@+id/goods_manager_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/goods_manager_title_layout"
         android:layout_above="@+id/goods_manager_bottom"
         android:divider="@null"

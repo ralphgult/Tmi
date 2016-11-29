@@ -10,6 +10,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -51,6 +52,21 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     private String imagePath;
     private InputDialog dialog;
     private TextView mClickTextView;
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1001:
+                    Intent intent = new Intent();
+                    intent.putExtra("add","1");
+                    ViewUtil.backToActivityForResult(GoodsChangeActivity.this,1,intent);
+                    break;
+                case 1002:
+                    Toast.makeText(GoodsChangeActivity.this, "系统繁忙，请稍后重试", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,8 +169,13 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 if (null == data) {
                     //TODO 添加商品
                     if (checkContent()) {
-                        Toast.makeText(this, "添加商品", Toast.LENGTH_SHORT).show();
-//                        addGoods();
+//                        Toast.makeText(this, "添加商品", Toast.LENGTH_SHORT).show();
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                addGoods();
+                            }
+                        }.start();
                     }
                 } else {
                     //TODO 修改商品
@@ -219,21 +240,14 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         String name = mIntr_tv.getText().toString().trim();
         String price = mPrice_tv.getText().toString().trim();
         String count = mCount_tv.getText().toString().trim();
-        PersonManager.addGoods(name, price, count, mImgPathList, mType, new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1001:
-                        Toast.makeText(GoodsChangeActivity.this, "系统繁忙，请稍后重试", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent();
-                        intent.putExtra("add","1");
-                        ViewUtil.backToActivityForResult(GoodsChangeActivity.this,1,intent);
-                        break;
-                    case 1002:
-                        Toast.makeText(GoodsChangeActivity.this, "系统繁忙，请稍后重试", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        });
+        PersonManager.addGoods(name, price, count, mImgPathList, mType, mHandler);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            ViewUtil.backToOtherActivity(this);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
