@@ -326,8 +326,6 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         }
         try {
             JSONObject obj =new JSONObject(map.toString());
-//            int pageitem = obj.getInt("pageitem");
-//            if(pageitem>0){
                 JSONArray objList = obj.getJSONArray("rows");
                 for (int i = 0; i < objList.length(); i++) {
                     JSONObject jo = objList.getJSONObject(i);
@@ -336,7 +334,6 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                     map_temp.put("name", jo.get("companyName")+"");
                     map_temp.put("photo", jo.get("companyLogo")+"");
                     map_temp.put("desc", jo.get("companyIntroduction")+"");
-                    Log.e("info","=distance===="+jo.get("jl")+"");
                     map_temp.put("distance", jo.get("jl")+"");
                     list.add(map_temp);
                 }
@@ -403,10 +400,6 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
      *  初始化组件
      */
     private void LoadView() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            ((LinearLayout) getView().findViewById(R.id.ll)).setPadding(0,
-//                    SysUtils.getStatusHeight(getActivity()), 0, 0);
-//        }
         refreshListView = (PullToRefreshListView)getView().findViewById(R.id.lv_common);
         refreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         refreshListView
@@ -460,10 +453,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         huihua_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                startActivity(new Intent(getActivity(), BenditeseActivity.class));
                 Intent intent = new Intent(getActivity(), BenditeseActivity.class);
                 intent.putExtra("position",position );
-                Log.e("info","position=1="+position);
                 startActivity(intent);
             }
         });

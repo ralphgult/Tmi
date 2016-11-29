@@ -17,7 +17,7 @@
             android:id="@+id/img_pic"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/default_pic" />
 
         <LinearLayout
@@ -77,7 +77,7 @@
                 android:id="@+id/img_guanzhu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/tm_guanzhu_selector"
+                android:src="@drawable/tm_guanzhu_pressed"
                 android:layout_alignTop="@+id/img_add"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"

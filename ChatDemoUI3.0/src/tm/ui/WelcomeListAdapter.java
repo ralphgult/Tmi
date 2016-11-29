@@ -4,6 +4,7 @@ package tm.ui;
  * Created by meixi on 2016/8/30.
  */
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -15,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xbh.tmi.R;
+import com.xbh.tmi.ui.ChatActivity;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -56,12 +59,6 @@ public class WelcomeListAdapter extends BaseAdapter {
             iv.setImageBitmap(bmp);
         }
     }
-
-//    public WelcomeListAdapter(Context context, ArrayList<HashMap> list,Handler handler) {
-//        this.context = context;
-//        this.list = list;
-//        this.handler =handler;
-//    }
     public WelcomeListAdapter(Context context, ArrayList<HashMap> list) {
         this.context = context;
         this.list = list;
@@ -97,6 +94,8 @@ public class WelcomeListAdapter extends BaseAdapter {
     public View getView(int index, View view, ViewGroup parent) {
         ViewHolder holder = null;
         final Map map = list.get(index);
+        SharedPreferences sharedPre=context.getSharedPreferences("config",context.MODE_PRIVATE);
+        final String username=sharedPre.getString("username", "");
         if (view == null) {
             holder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.welcome_list_item,parent, false);
@@ -121,7 +120,6 @@ public class WelcomeListAdapter extends BaseAdapter {
         }
         holder.tv_title.setText(map.get("name")+"");
         holder.tv_desc.setText(map.get("desc")+"");
-        Log.e("info","=距离============"+map.get("distance")+"");
         if("0".equals(map.get("distance")+"")){
             holder.tv_distances.setText("未共享位置");
         }else{
@@ -133,24 +131,29 @@ public class WelcomeListAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View arg0) {
-//                if(handler!=null){
-//                    Message msg =new Message();
-//                    msg.what=100;
-//                    msg.obj=map.get("userid").toString();
-//                    handler.sendMessage(msg);
-//                }
+                if(username.equals(map.get("userid")+"")){
+                    Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("userid")+""));
             }
         });
+        final ViewHolder finalHolder = holder;
         holder.img_guanzhu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPre=context.getSharedPreferences("config",context.MODE_PRIVATE);
-                String username=sharedPre.getString("username", "");
+                finalHolder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_normal);
                 List<NameValuePair> list = new ArrayList<NameValuePair>();
                 list.add(new BasicNameValuePair("me",username ));
                 list.add(new BasicNameValuePair("my", map.get("userid")+""));
                 NetFactory.instance().commonHttpCilent(mhandle, context,
                         Config.URL_GET_ADDFRIEND, list);
+            }
+        });
+        holder.img_shipin.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"敬请期待!",Toast.LENGTH_SHORT).show();
             }
         });
         return view;

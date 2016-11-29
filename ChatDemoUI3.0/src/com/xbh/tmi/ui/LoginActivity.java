@@ -167,7 +167,6 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				LoginMe();
-//				hxlogin();
 			}
 		});
 		zhuce = (TextView) findViewById(R.id.tm_zhuce);
@@ -176,7 +175,6 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				ViewUtil.jumpToOtherActivity(LoginActivity.this,RegistActivity.class);
-//				Toast.makeText(LoginActivity.this,"正在开发中...",Toast.LENGTH_SHORT).show();
 			}
 		});
 		findPwd = (TextView) findViewById(R.id.tm_wangjimima);
@@ -184,7 +182,6 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				ViewUtil.jumpToOtherActivity(LoginActivity.this,PwdFindActivity.class);
-//				Toast.makeText(LoginActivity.this,"正在开发中...",Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -265,7 +262,7 @@ public class LoginActivity extends BaseActivity {
 	 */
 	public void hxlogin() {
 		if (!EaseCommonUtils.isNetWorkConnected(this)) {
-			Toast.makeText(this, R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "网络连接失败请稍后再试", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		currentUsername = usernameEditText.getText().toString().trim();
@@ -333,7 +330,7 @@ public class LoginActivity extends BaseActivity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						pd.dismiss();
-						Toast.makeText(getApplicationContext(), getString(R.string.Login_failed) + message,
+						Toast.makeText(getApplicationContext(), "登录失败",
 								Toast.LENGTH_SHORT).show();
 					}
 				});
@@ -371,11 +368,11 @@ public class LoginActivity extends BaseActivity {
 		currentUsername = usernameEditText.getText().toString().trim();
 		currentPassword = passwordEditText.getText().toString().trim();
 		if (TextUtils.isEmpty(currentUsername)) {
-			Toast.makeText(this, R.string.User_name_cannot_be_empty, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "用户名不能为空！", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		if (TextUtils.isEmpty(currentPassword)) {
-			Toast.makeText(this, R.string.Password_cannot_be_empty, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "密码不能为空！", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
@@ -400,7 +397,6 @@ public class LoginActivity extends BaseActivity {
 					}else{
 						Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
 					}
-					hxlogin();
 					break;
 				case ConstantsHandler.EXECUTE_FAIL:
 					break;
