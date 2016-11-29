@@ -1,14 +1,19 @@
 package tm.ui.login;
 
+import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,16 +28,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.utils.ViewUtil;
-
-//import cn.smssdk.EventHandler;
-//import cn.smssdk.SMSSDK;
-
 
 public class RegistActivity extends BaseActivity implements View.OnClickListener {
     private final int REGIST_SUCESS = 1;
@@ -54,6 +57,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     private EventHandler eh;
     private int i = 59;
     private boolean isCheck;
+    private int recLen = 60;
+    private CountDownTimer mTimer;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -79,14 +84,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 switch (msg.what) {
                     case GET_SMS:
                         Toast.makeText(RegistActivity.this, "验证码已发送，请注意查看信息", Toast.LENGTH_SHORT).show();
-                        getSms_tv.setTextColor(getResources().getColor(R.color.getsms_wait_color));
-                        postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
-                                getSms_tv.setClickable(true);
-                            }
-                        }, 60000);
                         break;
                     case GET_SMS_FAIL:
                         switch (msg.arg1) {
@@ -101,8 +98,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                             case 477:
                             case 478:
                                 Toast.makeText(RegistActivity.this, "发送验证码次数达到上限", Toast.LENGTH_SHORT).show();
-                                getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
-                                getSms_tv.setClickable(true);
                                 break;
                             case 467:
                                 Toast.makeText(RegistActivity.this, "校验验证码请求频繁", Toast.LENGTH_SHORT).show();
@@ -110,8 +105,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                             default:
                                 if(!isCheck) {
                                     Toast.makeText(RegistActivity.this, "验证码获取失败,请重新获取", Toast.LENGTH_SHORT).show();
-                                    getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
-                                    getSms_tv.setClickable(true);
                                 }else{
                                     Toast.makeText(RegistActivity.this, "校验验证码失败", Toast.LENGTH_SHORT).show();
                                 }
@@ -122,6 +115,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             }
         }
     };
+    private Dialog mProgressDialog;
+    private AnimationDrawable loadingAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +124,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_regist);
         init();
         initView();
+
+
     }
 
     @Override
@@ -162,6 +159,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 } else {
                     try {
                         String res   = data.toString();
+                        Log.e("Lking--->","验证码返回值 = "+res);
                         JSONObject object = new JSONObject(res.substring(res.indexOf(":") + 1,res.length()));
                         Message msg = new Message();
                         msg.what = GET_SMS_FAIL;
@@ -175,6 +173,21 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             }
         };
         SMSSDK.registerEventHandler(eh);
+        mTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                getSms_tv.setText(recLen+"秒后可点击");
+                recLen--;
+            }
+
+            @Override
+            public void onFinish() {
+                getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
+                getSms_tv.setClickable(true);
+                getSms_tv.setText("发送验证码");
+                recLen = 60;
+            }
+        };
     }
 
     private void initView() {
@@ -198,6 +211,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 this.finish();
                 break;
             case R.id.regist_confirm:
+                Log.e("LKing--->","完成按钮点击事件");
                 phone = phone_edt.getText().toString().trim();
                 nickName = nickname_edt.getText().toString().trim();
                 String ver = sms_edt.getText().toString().trim();
@@ -223,13 +237,17 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
             case R.id.regist_getsms_tv:
+                Log.e("LKing--->","发送验证码点击事件");
                 phone = phone_edt.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
                     Toast.makeText(this, "请输入手机号码", Toast.LENGTH_SHORT).show();
                 } else if (phone.length() != 11) {
                     Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 } else {
+                    getSms_tv.setTextColor(getResources().getColor(R.color.getsms_wait_color));
+                    getSms_tv.setClickable(false);
                     SMSSDK.getVerificationCode("+86", phone);
+                    mTimer.start();
                 }
                 break;
         }
@@ -238,6 +256,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onStop() {
         SMSSDK.unregisterEventHandler(eh);
+        mTimer.cancel();
+        mTimer = null;
         super.onStop();
     }
 }
