@@ -219,6 +219,9 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         LoadView();
         LoadData1();
+        refreshListView.setVisibility(View.VISIBLE);
+        huihua_gridview.setVisibility(View.GONE);
+
 
     }
     /**
