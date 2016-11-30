@@ -117,9 +117,9 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 mImgPathList.add(imgPaths);
                 mImgIdList.add(imgIds);
             }
-            mAdapter.resetData(mImgPathList);
-            mPhoto_gv.setAdapter(mAdapter);
         }
+        mAdapter.resetData(mImgPathList);
+        mPhoto_gv.setAdapter(mAdapter);
         mIntr_tv.setText(bundle.getString("goodName"));
         mPrice_tv.setText(bundle.getString("currentPrice"));
         mCount_tv.setText(bundle.getString("count"));
