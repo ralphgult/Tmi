@@ -181,7 +181,9 @@ public class LoginActivity extends BaseActivity {
 		findPwd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ViewUtil.jumpToOtherActivity(LoginActivity.this,PwdFindActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("name", "找回密码");
+				ViewUtil.jumpToOtherActivity(LoginActivity.this,PwdFindActivity.class, bundle);
 			}
 		});
 
