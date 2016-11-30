@@ -19,11 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.plus.model.people.Person;
+import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,13 +65,15 @@ public class MomentListAdapter extends BaseAdapter {
         mContext = context;
         mIsMoment = isMoment;
         mHandler = handler;
+        dataList = new ArrayList<>();
         mImageAdapter = new ImageAdapter(mContext, false);
         SharedPreferences sharedPre = mContext.getSharedPreferences("config", mContext.MODE_PRIVATE);
         mUserId = sharedPre.getString("username","无Id");
     }
 
     public void resetData(List<Map<String, String>> datas) {
-        dataList = datas;
+        dataList.clear();
+        dataList.addAll(datas);
         notifyDataSetChanged();
     }
 
@@ -190,14 +194,26 @@ public class MomentListAdapter extends BaseAdapter {
 
 
     public void setLike(int position){
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         String likes = dataList.get(position).get("likelist");
         Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
         if (TextUtils.isEmpty(likes) || !likes.contains(mUserId)) {
             String count = dataList.get(position).get("like");
             dataList.get(position).put("like",Integer.valueOf(count) + 1 + "");
+            dataList.get(position).put("likelist", likes + "," + sharedPre.getString("username", ""));
         }else{
             String count = dataList.get(position).get("like");
             dataList.get(position).put("like",Integer.valueOf(count) - 1 + "");
+            if (likes.contains(",")) {
+                int index = likes.indexOf(sharedPre.getString("username", ""));
+                if (index == 0) {
+                    dataList.get(position).put("likelist", likes.replace(sharedPre.getString("username","") + ",", ""));
+                }else{
+                    dataList.get(position).put("likelist", likes.replace("," + sharedPre.getString("username",""), ""));
+                }
+            }else{
+                dataList.get(position).put("likelist", "");
+            }
         }
         notifyDataSetChanged();
     }

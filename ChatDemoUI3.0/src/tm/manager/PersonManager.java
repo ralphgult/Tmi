@@ -281,6 +281,129 @@ public class PersonManager {
         }
     }
 
+
+    public static void updateGoods(String id, String name, String price, String count, Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        try{
+            HttpPost httppost = new HttpPost(Config.URL_UPDATE_GOODS);
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+            reqEntity.addPart("goodId", new StringBody(id, Charset.forName("UTF-8")));
+            reqEntity.addPart("originalPrice", new StringBody("0", Charset.forName("UTF-8")));
+            reqEntity.addPart("currentPrice", new StringBody(price, Charset.forName("UTF-8")));
+            reqEntity.addPart("count", new StringBody(count, Charset.forName("UTF-8")));
+            reqEntity.addPart("goodName", new StringBody(name, Charset.forName("UTF-8")));
+            reqEntity.addPart("goodProfiles", new StringBody("", Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        handler.sendEmptyMessage(1001);
+                    } else {
+                        handler.sendEmptyMessage(1002);
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteGoodsImg(String imgId, final int position, Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_DEL_GOODS_IMG);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        try {
+            reqEntity.addPart("giId", new StringBody(String.valueOf(imgId), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 2001;
+                            msg.arg1 = position;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(2002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(4002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
+    public static void addGoodsImage(String path, String goodsId, Handler handler){
+        File file = new File(path);
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_ADD_GOODS_IMG);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("type", new StringBody(String.valueOf(2), Charset.forName("UTF-8")));
+            reqEntity.addPart("goodId",new StringBody(goodsId, Charset.forName("UTF-8")));
+            reqEntity.addPart("file", new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), file.getPath())));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        //上传成功
+                        Log.e("info", "change Sucess");
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 3001;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        Log.e("info", "change Fail");
+                        if (null != handler) {
+                            handler.sendEmptyMessage(3002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(3002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
     public static void updateTexts(String text, int type, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         try {

@@ -159,22 +159,6 @@ public class OrderManagerAcitivity extends Activity implements View.OnClickListe
 
     public List<Map<String, String>> getDatas() {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        Map<String, String> map = new HashMap<>();
-        map.put("comName", "西域三农");
-        map.put("name", "冰粽礼盒，60g*8");
-        map.put("price", "79.0");
-        map.put("num", "1");
-        map.put("status", "1");
-        map.put("reason", "货物与实物不符");
-        list.add(map);
-        map = new HashMap<>();
-        map.put("comName", "西域三农");
-        map.put("name", "冰粽礼盒，60g*8");
-        map.put("price", "79.0");
-        map.put("num", "1");
-        map.put("status", "9");
-        map.put("reason", "宝贝破损");
-        list.add(map);
         return list;
     }
 }

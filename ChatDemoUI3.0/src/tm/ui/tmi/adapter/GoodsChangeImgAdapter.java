@@ -10,8 +10,11 @@ import android.widget.ImageView;
 
 import com.xbh.tmi.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import tm.manager.PersonManager;
+import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.ui.tmi.GoodsChangeActivity;
 import tm.utils.ImageLoaders;
 
@@ -24,10 +27,10 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
     private ViewHolder vh;
     private Context mContext;
     private ImageLoaders imageLoaders;
-    private Handler mHandler;
 
     public GoodsChangeImgAdapter(Context context) {
         mContext = context;
+        mPicList = new ArrayList<>();
         imageLoaders = new ImageLoaders(mContext, new imageLoaderListener());
     }
 
@@ -40,7 +43,11 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
     }
 
     public void resetData(List<String> picList) {
-        mPicList = picList;
+        mPicList.clear();
+        mPicList.addAll(picList);
+        if(mPicList.size() < 8){
+            mPicList.add("0");
+        }
         notifyDataSetChanged();
     }
 
@@ -76,19 +83,19 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
             vh.pic.setVisibility(View.VISIBLE);
             if (!mPicList.get(position).equals("0")) {
                 vh.del.setVisibility(View.VISIBLE);
-                imageLoaders.loadImage(vh.pic, mPicList.get(position));
-            } else {
+                imageLoaders.loadImage(vh.pic,mPicList.get(position));
+            }else{
                 vh.del.setVisibility(View.GONE);
                 vh.pic.setImageResource(R.drawable.em_add);
             }
-        } else {
+        }else{
             vh.pic.setVisibility(View.GONE);
             vh.del.setVisibility(View.GONE);
         }
         vh.del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((GoodsChangeActivity) mContext).deleteImg(mPicList.get(position));
+                ((GoodsChangeActivity) mContext).deleteImage(position);
             }
         });
         return view;
@@ -103,7 +110,4 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
         return mPicList;
     }
 
-    public void setHandler(Handler handler) {
-        mHandler = handler;
-    }
 }

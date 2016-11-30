@@ -49,6 +49,9 @@ public class Config {
     public static String URL_DEL_FACEWALL = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/deleteFaceScore";//修改颜值表/企业风采/三农风采图片
     public static String URL_GET_GOODS_LIST = ROOT_HOST_NAME + "/CBDParkingMSs/goods/myGoods";//获取商品列表
     public static String URL_ADD_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addGoods";//添加商品
+    public static String URL_UPDATE_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/updateGoods";//修改商品信息
+    public static String URL_DEL_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteImg";//删除商品图片
+    public static String URL_ADD_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/uploadGoodsImg";//添加商品图片
 
 
     public static void init(Context context) throws IOException {

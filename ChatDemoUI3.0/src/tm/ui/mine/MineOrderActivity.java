@@ -92,51 +92,6 @@ public class MineOrderActivity extends Activity implements View.OnClickListener 
     public List<Map<String, String>> getDatas(int type) {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> map;
-        if (type == 4 || type == 5) {
-            map = new HashMap<>();
-            map.put("comName", "西域三农");
-            map.put("name", "冰粽礼盒，60g*8");
-            map.put("price", "79.0");
-            map.put("num", "1");
-            map.put("status", "5");
-            list.add(map);
-        }
-        if (type == 4 || type == 6) {
-            map = new HashMap<>();
-            map.put("comName", "西域三农");
-            map.put("name", "冰粽礼盒，60g*8");
-            map.put("price", "79.0");
-            map.put("num", "1");
-            map.put("status", "6");
-            list.add(map);
-        }
-        if (type == 4 || type == 7) {
-            map = new HashMap<>();
-            map.put("comName", "西域三农");
-            map.put("name", "冰粽礼盒，60g*8");
-            map.put("price", "79.0");
-            map.put("num", "1");
-            map.put("status", "7");
-            list.add(map);
-        }
-        if (type == 4 || type == 8) {
-            map = new HashMap<>();
-            map.put("comName", "西域三农");
-            map.put("name", "冰粽礼盒，60g*8");
-            map.put("price", "79.0");
-            map.put("num", "1");
-            map.put("status", "8");
-            list.add(map);
-        }
-        if (type == 4) {
-            map = new HashMap<>();
-            map.put("comName", "西域三农");
-            map.put("name", "冰粽礼盒，60g*8");
-            map.put("price", "79.0");
-            map.put("num", "1");
-            map.put("status", "9");
-            list.add(map);
-        }
         return list;
     }
 }

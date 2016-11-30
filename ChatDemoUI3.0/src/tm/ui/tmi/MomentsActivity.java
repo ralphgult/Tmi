@@ -244,11 +244,15 @@ public class MomentsActivity extends Activity {
                 if (resultCode == 1) {
                     int isFinish = data.getIntExtra("publishFinish", 0);
                     if (isFinish == 1) {
+                        datas.clear();
                         getSourceData(0);
                     }
                 }else{
                     boolean isDone = data.getBooleanExtra("isFinish",false);
-                    if(isDone) getSourceData(0);
+                    if(isDone) {
+                        datas.clear();
+                        getSourceData(0);
+                    }
                 }
             }
     }

@@ -38,6 +38,7 @@ public class GoodsAdapter extends BaseAdapter {
         mContext = context;
         mIsChoice = false;
         choiceList = new ArrayList<>();
+        dataList = new ArrayList<>();
         mType = type;
         loaders = new ImageLoaders(mContext,new loaderLisener());
     }
@@ -60,7 +61,8 @@ public class GoodsAdapter extends BaseAdapter {
         return dataList;
     }
     public void resetData(List<Map<String, String>> datas){
-        dataList = datas;
+        dataList.clear();
+        dataList.addAll(datas);
         notifyDataSetChanged();
     }
     @Override
@@ -133,10 +135,12 @@ public class GoodsAdapter extends BaseAdapter {
                 bundle.putString("originalPrice",  dataList.get(position).get("originalPrice"));
                 bundle.putString("sales", dataList.get(position).get("sales"));
                 bundle.putString("count", dataList.get(position).get("count"));
-                ViewUtil.jumpToOtherActivity((GoodsManagerAcitivity)mContext, GoodsChangeActivity.class,bundle);
+                bundle.putInt("type", mType);
+                bundle.putBoolean("isUpdate",true);
+                ViewUtil.jumpToOherActivityForResult((GoodsManagerAcitivity)mContext, GoodsChangeActivity.class,bundle,1);
             }
         });
-        return null;
+        return view;
     }
 
     private class ViewHolder{

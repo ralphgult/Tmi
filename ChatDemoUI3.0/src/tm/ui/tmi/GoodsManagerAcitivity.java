@@ -57,6 +57,7 @@ public class GoodsManagerAcitivity extends Activity {
     }
 
     private void getDataFormService(int page) {
+        mAllList.clear();
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String userId = sharedPre.getString("username", "");
@@ -150,6 +151,7 @@ public class GoodsManagerAcitivity extends Activity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("type",mType);
+                bundle.putBoolean("isUpdate",false);
                 ViewUtil.jumpToOherActivityForResult(GoodsManagerAcitivity.this,GoodsChangeActivity.class,bundle,1);
             }
         });
@@ -216,8 +218,13 @@ public class GoodsManagerAcitivity extends Activity {
                         sbPid.append(array.getJSONObject(j).getString("giId"))
                                 .append(",");
                     }
-                    map.put("imgs", sbPath.substring(0,sbPath.length() - 1));
-                    map.put("imgIds", sbPid.substring(0,sbPid.length() - 1));
+                    if (TextUtils.isEmpty(sbPath.toString())) {
+                        map.put("imgs", sbPath.substring(0,sbPath.length() - 1));
+                        map.put("imgIds", sbPid.substring(0,sbPid.length() - 1));
+                    }else{
+                        map.put("imgs", "");
+                        map.put("imgIds", "");
+                    }
                     map.put("createDate", obj.getString("createDate"));
                     map.put("currentPrice", obj.getString("currentPrice"));
                     map.put("originalPrice",  obj.getString("originalPrice"));
