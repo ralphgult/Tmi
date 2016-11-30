@@ -1,6 +1,7 @@
 package tm.ui.login;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                     object = new JSONObject(result);
                     int resultCode = object.getInt("authId");
                     if (resultCode == REGIST_SUCESS) {
+                        pd.dismiss();
                         Toast.makeText(RegistActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
                         ViewUtil.backToOtherActivity(RegistActivity.this);
                     } else if (resultCode == REGIST_EXIST) {
@@ -117,6 +119,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     };
     private Dialog mProgressDialog;
     private AnimationDrawable loadingAnim;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,6 +237,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 } else {
                     isCheck = true;
                     SMSSDK.submitVerificationCode("+86", phone, ver);
+                    pd = ProgressDialog.show(this,"注册","注册中，请稍后...");
                 }
                 break;
             case R.id.regist_getsms_tv:
