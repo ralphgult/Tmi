@@ -218,7 +218,7 @@ public class GoodsManagerAcitivity extends Activity {
                         sbPid.append(array.getJSONObject(j).getString("giId"))
                                 .append(",");
                     }
-                    if (TextUtils.isEmpty(sbPath.toString())) {
+                    if (!TextUtils.isEmpty(sbPath.toString())) {
                         map.put("imgs", sbPath.substring(0,sbPath.length() - 1));
                         map.put("imgIds", sbPid.substring(0,sbPid.length() - 1));
                     }else{
