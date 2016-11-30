@@ -83,7 +83,7 @@ public class SettingActivity extends Activity implements View.OnClickListener{
             case R.id.setting_btn_modifypwd:
                 Bundle bundle=new Bundle();
                 bundle.putString("name", "修改密码");
-                ViewUtil.jumpToOtherActivity(this, PwdFindActivity.class);
+                ViewUtil.jumpToOtherActivity(this, PwdFindActivity.class, bundle);
                 break;
             case R.id.setting_btn_feedback:
                 ViewUtil.jumpToOtherActivity(this,FeedbackActivity.class);
