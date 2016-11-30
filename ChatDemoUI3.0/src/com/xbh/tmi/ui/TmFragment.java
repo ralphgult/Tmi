@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.xbh.tmi.R;
 
+import tm.ui.tmi.GoodsManagerAcitivity;
 import tm.ui.tmi.MomentsActivity;
 import tm.ui.tmi.OrderManagerAcitivity;
 import tm.utils.ViewUtil;
@@ -150,6 +151,11 @@ public class TmFragment extends Fragment implements View.OnClickListener {
             case R.id.tm_comp_order_tv:
             case R.id.tm_farmer_order_tv:
                 ViewUtil.jumpToOtherActivity(this.getActivity(), OrderManagerAcitivity.class);
+                break;
+            case R.id.tm_comp_goods_tv:
+                bundle = new Bundle();
+                bundle.putInt("type",1);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), GoodsManagerAcitivity.class,bundle);
                 break;
             default:
                 Toast.makeText(this.getActivity(),"正在调试中...",Toast.LENGTH_SHORT).show();
