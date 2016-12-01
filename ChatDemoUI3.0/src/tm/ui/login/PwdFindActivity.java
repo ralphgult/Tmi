@@ -1,5 +1,6 @@
 package tm.ui.login;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -52,7 +53,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
     private EventHandler eh;
     private boolean isCheck;
     private CountDownTimer mTimer;
-
+    private ProgressDialog pd;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -64,6 +65,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     object = new JSONObject(result);
                     int resultCode = object.getInt("authId");
                     if (resultCode == FINDPWD_SUCESS) {
+                        pd.dismiss();
                         Toast.makeText(PwdFindActivity.this, "修改密码成功，请重新登录", Toast.LENGTH_SHORT).show();
                         ViewUtil.backToOtherActivity(PwdFindActivity.this, LoginActivity.class);
                         DemoApplication.getInstance().exit();
@@ -108,6 +110,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
             }
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,6 +232,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     isCheck = true;
                     SMSSDK.submitVerificationCode("+86", phone, ver);
                     mTimer.start();
+                    pd = ProgressDialog.show(this,"注册","注册中，请稍后...");
                 }
                 break;
             case R.id.findpwd_getsms_tv:
