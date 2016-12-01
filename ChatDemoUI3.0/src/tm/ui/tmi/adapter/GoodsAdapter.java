@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,7 +94,7 @@ public class GoodsAdapter extends BaseAdapter {
             vh.time = (TextView) view.findViewById(R.id.goods_item_time);
             vh.see = (TextView) view.findViewById(R.id.goods_item_see);
             vh.share = (TextView) view.findViewById(R.id.goods_item_share);
-            vh.choice = (ImageView) view.findViewById(R.id.goods_item_choice);
+            vh.choice = (CheckBox) view.findViewById(R.id.goods_item_choice);
             view.setTag(vh);
         }else{
             view = convertView;
@@ -107,21 +108,19 @@ public class GoodsAdapter extends BaseAdapter {
         vh.time.setText("添加时间：" + dataList.get(position).get("createDate"));
         if(mIsChoice){
             vh.choice.setVisibility(View.VISIBLE);
-            vh.choice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(choiceList.contains(dataList.get(position).get("goodsId"))){
-                        vh.choice.setImageResource(R.drawable.em_dx_checkbox_off);
-                        choiceList.remove(dataList.get(position).get("goodsId"));
-                    }else{
-                        vh.choice.setImageResource(R.drawable.em_dx_checkbox_on);
-                        choiceList.add(dataList.get(position).get("goodsId"));
-                    }
-                }
-            });
         }else{
             vh.choice.setVisibility(View.GONE);
         }
+        vh.choice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.isSelected()) {
+                    choiceList.remove(dataList.get(position).get("goodsId"));
+                } else {
+                    choiceList.add(dataList.get(position).get("goodsId"));
+                }
+            }
+        });
         vh.see.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +150,6 @@ public class GoodsAdapter extends BaseAdapter {
         TextView time;
         TextView see;
         TextView share;
-        ImageView choice;
+        CheckBox choice;
     }
 }

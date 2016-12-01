@@ -1,6 +1,7 @@
 package tm.ui.tmi;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -16,10 +17,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.Text;
 import com.oohla.android.utils.NetworkUtil;
 import com.xbh.tmi.R;
 
@@ -39,6 +42,7 @@ import tm.utils.dialog.InputDialog;
 public class GoodsChangeActivity extends Activity implements View.OnClickListener {
     private ImageView mBack_iv;
     private GridView mPhoto_gv;
+    private TextView mTitle_tv;
     private RelativeLayout mIntr_rv;
     private RelativeLayout mPrice_rv;
     private RelativeLayout mCount_rv;
@@ -47,6 +51,8 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     private TextView mCount_tv;
     private TextView mDelete_tv;
     private TextView mSave_tv;
+    private LinearLayout mUpdate_ly;
+    private TextView mAdd_tv;
 
     private List<String> mImgPathList;
     private int mType;
@@ -57,11 +63,18 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     private List<String> mImgIdList;
     private boolean mIsUpdate;
     private String imagePath;
+    private ProgressDialog mPd;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1001:
+                    mPd.dismiss();
+                    if (mIsUpdate) {
+                        Toast.makeText(GoodsChangeActivity.this, "商品已保存", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(GoodsChangeActivity.this, "商品已添加", Toast.LENGTH_SHORT).show();
+                    }
                     Intent intent = new Intent();
                     intent.putExtra("add", "1");
                     ViewUtil.backToActivityForResult(GoodsChangeActivity.this, 1, intent);
@@ -72,8 +85,16 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                     mAdapter.resetData(mImgPathList);
                     break;
                 case 3001:
-                    mImgPathList.add(imagePath);
+                    mImgPathList.add((String)msg.obj);
+                    mImgIdList.add(String.valueOf(msg.arg1));
                     mAdapter.resetData(mImgPathList);
+                    break;
+                case 4001:
+                    Toast.makeText(GoodsChangeActivity.this, "删除商品成功", Toast.LENGTH_SHORT).show();
+                    ViewUtil.backToActivityForResult(GoodsChangeActivity.this,1,null);
+                    break;
+                case 5001:
+                    mPd = ProgressDialog.show(GoodsChangeActivity.this,"添加商品","添加商品中，请稍后...");
                     break;
                 default:
                     Toast.makeText(GoodsChangeActivity.this, "系统繁忙，请稍后重试", Toast.LENGTH_SHORT).show();
@@ -127,6 +148,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
 
     public void initViews() {
         mBack_iv = (ImageView) findViewById(R.id.goods_detil_back_iv);
+        mTitle_tv = (TextView) findViewById(R.id.goods_detil_title);
         mPhoto_gv = (GridView) findViewById(R.id.goods_detil_gv);
         mIntr_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_intr_rv);
         mPrice_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_price_rv);
@@ -136,6 +158,18 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         mCount_tv = (TextView) findViewById(R.id.goods_detil_change_count_text_tv);
         mDelete_tv = (TextView) findViewById(R.id.goods_detil_delete);
         mSave_tv = (TextView) findViewById(R.id.goods_detil_mange_save);
+        mUpdate_ly = (LinearLayout) findViewById(R.id.goods_detil_bottom);
+        mAdd_tv = (TextView) findViewById(R.id.goods_detil_mange_add);
+
+        if(mIsUpdate){
+            mUpdate_ly.setVisibility(View.VISIBLE);
+            mAdd_tv.setVisibility(View.GONE);
+            mTitle_tv.setText("修改商品");
+        }else{
+            mUpdate_ly.setVisibility(View.GONE);
+            mAdd_tv.setVisibility(View.VISIBLE);
+            mTitle_tv.setText("添加商品");
+        }
 
         mPhoto_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -157,6 +191,8 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         mCount_rv.setOnClickListener(this);
         mDelete_tv.setOnClickListener(this);
         mSave_tv.setOnClickListener(this);
+        mAdd_tv.setOnClickListener(this);
+
     }
 
     @Override
@@ -194,20 +230,16 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 createDialog("请输入商品库存");
                 break;
             case R.id.goods_detil_delete:
-
+                new Thread(){
+                    @Override
+                    public void run() {
+                        PersonManager.deleteGoods(getIntent().getExtras().getString("goodsId"),mHandler);
+                    }
+                }.start();
                 break;
             case R.id.goods_detil_mange_save:
-                if (!mIsUpdate) {
                     if (checkContent()) {
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                addGoods();
-                            }
-                        }.start();
-                    }
-                } else {
-                    if (checkContent()) {
+                        mPd = ProgressDialog.show(this,"修改商品","修改商品中，请稍后...");
                         new Thread() {
                             @Override
                             public void run() {
@@ -215,6 +247,16 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                             }
                         }.start();
                     }
+                break;
+            case R.id.goods_detil_mange_add:
+                if (checkContent()) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            mHandler.sendEmptyMessage(5001);
+                            addGoods();
+                        }
+                    }.start();
                 }
                 break;
         }
@@ -253,7 +295,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
 
 
     private boolean checkContent() {
-        if (mImgPathList.get(0) == "0") {
+        if (null == mImgPathList || mImgPathList.size() == 0) {
             Toast.makeText(this, "请选择商品图片", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -312,7 +354,6 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
             }.start();
         } else {
             mImgPathList.remove(position);
-            mImgIdList.remove(position);
             mAdapter.resetData(mImgPathList);
         }
     }
@@ -329,5 +370,12 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
             mImgPathList.add(imagePath);
             mAdapter.resetData(mImgPathList);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mImgPathList = null;
+        mAdapter = null;
+        super.onDestroy();
     }
 }

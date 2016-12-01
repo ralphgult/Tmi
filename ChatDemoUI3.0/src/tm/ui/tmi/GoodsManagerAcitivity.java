@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.plus.model.people.Person;
 import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
@@ -28,6 +29,7 @@ import java.util.Map;
 
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.manager.PersonManager;
 import tm.ui.tmi.adapter.GoodsAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ViewUtil;
@@ -47,6 +49,23 @@ public class GoodsManagerAcitivity extends Activity {
     private List<Map<String, String>> mSearchList;
     private int mType;
     private boolean mIsSelect;
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 4001:
+                    Toast.makeText(GoodsManagerAcitivity.this, "删除商品成功", Toast.LENGTH_SHORT).show();
+                    mIsSelect = false;
+                    mAdapter.setIsChoice(mIsSelect);
+                    getDataFormService(0);
+                    break;
+                default:
+                    Toast.makeText(GoodsManagerAcitivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,16 +133,13 @@ public class GoodsManagerAcitivity extends Activity {
                             sb.append(s)
                                     .append(",");
                         }
-                        String ids = sb.substring(0, sb.length() - 1);
-                        //TODO 调用删除商品的方法
-                        Toast.makeText(GoodsManagerAcitivity.this, "删除商品", Toast.LENGTH_SHORT).show();
-                        List<Map<String, String>> dataList = mAdapter.getDataList();
-                        for (Map<String, String> map : dataList) {
-                            if (list.contains(map.get("id"))) {
-                                dataList.remove(map);
+                        final String ids = sb.substring(0, sb.length() - 1);
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                PersonManager.deleteGoods(ids,mHandler);
                             }
-                        }
-                        mAdapter.resetData(dataList);
+                        }.start();
                     } else {
                         Toast.makeText(GoodsManagerAcitivity.this, "请选择商品", Toast.LENGTH_SHORT).show();
                     }
@@ -186,7 +202,7 @@ public class GoodsManagerAcitivity extends Activity {
                     if (!TextUtils.isEmpty(inputText)) {
                         mSearchList = new ArrayList<Map<String, String>>();
                         for (Map<String, String> map : mAllList) {
-                            if (map.get("name").contains(inputText)) {
+                            if (map.get("goodName").contains(inputText)) {
                                 mSearchList.add(map);
                             }
                         }
@@ -217,18 +233,17 @@ public class GoodsManagerAcitivity extends Activity {
                     map.put("goodsId", obj.getString("goodsId"));
                     map.put("goodName", obj.getString("goodName"));
                     JSONArray array = obj.getJSONArray("img");
-                    StringBuffer sbPath = new StringBuffer();
-                    StringBuffer sbPid = new StringBuffer();
-                    for (int j = 0; j < array.length(); j++) {
-                        sbPath.append(array.getJSONObject(j).getString("goodImg"))
-                                .append(",");
-                        sbPid.append(array.getJSONObject(j).getString("giId"))
-                                .append(",");
-                    }
-                    if (!TextUtils.isEmpty(sbPath.toString())) {
-                        map.put("imgs", sbPath.substring(0,sbPath.length() - 1));
+                    int imgSize = array.length();
+                    if (imgSize > 0) {
+                        String sbPath = new String();
+                        String sbPid = new String();
+                        for (int j = 0; j < imgSize; j++) {
+                            sbPath = sbPath + array.getJSONObject(j).getString("goodImg") + ",";
+                            sbPid = sbPid + array.getJSONObject(j).getString("giId") + ",";
+                        }
+                        map.put("imgs",sbPath.substring(0,sbPath.length() - 1));
                         map.put("imgIds", sbPid.substring(0,sbPid.length() - 1));
-                    }else{
+                    } else{
                         map.put("imgs", "");
                         map.put("imgIds", "");
                     }
