@@ -134,6 +134,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:gravity="right"
+                    android:hint="未设置"
                     tools:text="多少克录"
                     android:textColor="#4f4f4f"
                     android:textSize="14sp" />
