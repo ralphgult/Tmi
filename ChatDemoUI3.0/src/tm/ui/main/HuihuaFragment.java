@@ -86,8 +86,9 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     Map map = new HashMap();
 
     private String locationProvider;
-    private  double lat;
-    private  double lng;
+    private  String lat;
+    private  String lng;
+    private String username;
     static BDLocation lastLocation = null;
     private int type=0;
     private int stype=2;
@@ -217,6 +218,10 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
+        username=sharedPre.getString("username", "");
+        lat=sharedPre.getString("lat","");
+        lng=sharedPre.getString("lng","");
         LoadView();
         LoadData1();
         refreshListView.setVisibility(View.VISIBLE);
@@ -228,21 +233,6 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
      * 接口推荐数据
      */
     public void LoadData1() {
-        String serviceString = Context.LOCATION_SERVICE;// 获取的是位置服务
-        LocationManager locationManager = (LocationManager) getContext().getSystemService(serviceString);// 调用getSystemService()方法来获取LocationManager对象
-        //获取Location
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if(location != null){
-            //不为空,显示地理位置经纬度
-            lat = location.getLatitude();//获取纬度
-            lng = location.getLongitude();//获取经度
-        }
-        Log.e("info","lat=11="+lat);
-        Log.e("info","lng=11="+lng);
-        lat=34.19912;
-        lng=108.891236;
-        SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
-        String username=sharedPre.getString("username", "");
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         list.add(new BasicNameValuePair("userId", ""+username));
         list.add(new BasicNameValuePair("wd", ""+lat));
@@ -259,21 +249,6 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
      * 接口附近数据
      */
     public void LoadData2() {
-        String serviceString = Context.LOCATION_SERVICE;// 获取的是位置服务
-        LocationManager locationManager = (LocationManager) getContext().getSystemService(serviceString);// 调用getSystemService()方法来获取LocationManager对象
-        //获取Location
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if(location != null){
-            //不为空,显示地理位置经纬度
-            lat = location.getLatitude();//获取纬度
-            lng = location.getLongitude();//获取经度
-        }
-        Log.e("info","lat=22="+lat);
-        Log.e("info","lng=22="+lng);
-        lat=34.19912;
-        lng=108.891236;
-        SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
-        String username=sharedPre.getString("username", "");
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         list.add(new BasicNameValuePair("userId", ""+username));
         list.add(new BasicNameValuePair("wd", ""+lat));
@@ -290,21 +265,6 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
      * 接口资讯数据
      */
     public void LoadData3() {
-        String serviceString = Context.LOCATION_SERVICE;// 获取的是位置服务
-        LocationManager locationManager = (LocationManager) getContext().getSystemService(serviceString);// 调用getSystemService()方法来获取LocationManager对象
-        //获取Location
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if(location != null){
-            //不为空,显示地理位置经纬度
-            lat = location.getLatitude();//获取纬度
-            lng = location.getLongitude();//获取经度
-        }
-        Log.e("info","lat=22="+lat);
-        Log.e("info","lng=22="+lng);
-        lat=34.19912;
-        lng=108.891236;
-        SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
-        String username=sharedPre.getString("username", "");
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         list.add(new BasicNameValuePair("userId", username));
         list.add(new BasicNameValuePair("wd", ""+lat));
@@ -326,17 +286,17 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         }
         try {
             JSONObject obj =new JSONObject(map.toString());
-                JSONArray objList = obj.getJSONArray("rows");
-                for (int i = 0; i < objList.length(); i++) {
-                    JSONObject jo = objList.getJSONObject(i);
-                    HashMap<String,String> map_temp =new HashMap<String,String>();
-                    map_temp.put("userid", jo.get("userId")+"");
-                    map_temp.put("name", jo.get("companyName")+"");
-                    map_temp.put("photo", jo.get("companyLogo")+"");
-                    map_temp.put("desc", jo.get("companyIntroduction")+"");
-                    map_temp.put("distance", jo.get("jl")+"");
-                    list.add(map_temp);
-                }
+            JSONArray objList = obj.getJSONArray("rows");
+            for (int i = 0; i < objList.length(); i++) {
+                JSONObject jo = objList.getJSONObject(i);
+                HashMap<String,String> map_temp =new HashMap<String,String>();
+                map_temp.put("userid", jo.get("userId")+"");
+                map_temp.put("name", jo.get("companyName")+"");
+                map_temp.put("photo", jo.get("companyLogo")+"");
+                map_temp.put("desc", jo.get("companyIntroduction")+"");
+                map_temp.put("distance", jo.get("jl")+"");
+                list.add(map_temp);
+            }
 //                if (pageitem < 15) {
 //                    refreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
 //                } else {
