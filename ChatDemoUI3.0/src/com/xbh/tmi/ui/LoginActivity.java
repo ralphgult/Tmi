@@ -19,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -144,7 +145,12 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				//微信登录 需要签名打包才能使用
-				requestAuth();
+				if(!isAppInstalled(LoginActivity.this,"com.tencent.mm")){
+					requestAuth();
+				}else{
+					Toast.makeText(LoginActivity.this,"请先安装微信",Toast.LENGTH_SHORT).show();
+				}
+
 			}
 		});
 		loginWebo.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +164,12 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				//QQ登录方法调用
-				onClickLogin();
+
+				if(!isAppInstalled(LoginActivity.this,"com.tencent.mobileqq")){
+					onClickLogin();
+				}else{
+					Toast.makeText(LoginActivity.this,"请先安装QQ",Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		addListeners();
@@ -580,5 +591,26 @@ public class LoginActivity extends BaseActivity {
 		});;
 		//获取登陆用户的信息，如果没有授权，会先授权，然后获取用户信息
 		pf.authorize();
+	}
+
+
+
+
+	private boolean isAppInstalled(Context context,String packagename)
+	{
+		PackageInfo packageInfo;
+		try {
+			packageInfo = context.getPackageManager().getPackageInfo(packagename, 0);
+		}catch (Exception e) {
+			packageInfo = null;
+			e.printStackTrace();
+		}
+		if(packageInfo ==null){
+			//System.out.println("没有安装");
+			return false;
+		}else{
+			//System.out.println("已经安装");
+			return true;
+		}
 	}
 }
