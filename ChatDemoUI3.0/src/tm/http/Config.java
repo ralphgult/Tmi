@@ -4,21 +4,14 @@ package tm.http;
  * Created by Administrator on 2016/9/7.
  */
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Properties;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.res.Configuration;
-import android.os.Environment;
 
 public class Config {
     //    public static String ROOT_HOST_NAME="http://hsaiqs.xicp.net:20806";
     public static String ROOT_HOST_NAME="http://121.196.244.27:3003";
-//    public static String ROOT_HOST_NAME = "http://192.168.1.101:8080";
+//    public static String ROOT_HOST_NAME = "http://192.168.1.100:8080";
 //        public static String ROOT_HOST_NAME="http://192.168.1.110:8080";
 
     public static String URL_LOGIN_USER = ROOT_HOST_NAME + "/CBDParkingMSs/login"; // 用户登录
@@ -37,7 +30,6 @@ public class Config {
     public static String URL_GET_USRE_FACEWALL = ROOT_HOST_NAME + "/CBDParkingMSs/faceScore/faceScore";//获取用户颜值表
     public static String URL_CHANGE_SIGN = ROOT_HOST_NAME + "/CBDParkingMSs/updatemse";//修改信息
     public static String URL_UPDATE_IMAGE = ROOT_HOST_NAME + "/CBDParkingMSs/updatePhoto";//上传头像
-    public static String URL_CHANGE_INFO = ROOT_HOST_NAME + "/CBDParkingMSs/updatemse";//修改信息
     public static String URL_GET_TMIMESSAGE = ROOT_HOST_NAME + "/CBDParkingMSs/mood/information";//获取T觅资讯列表
     public static String URL_ADD_MOMENT = ROOT_HOST_NAME + "/CBDParkingMSs/mood/addMood";//发布朋友圈
     public static String URL_MOMENT_LIKE = ROOT_HOST_NAME + "/CBDParkingMSs/mood/addPraise";//朋友圈点赞
@@ -52,6 +44,7 @@ public class Config {
     public static String URL_UPDATE_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/updateGoods";//修改商品信息
     public static String URL_DEL_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteImg";//删除商品图片
     public static String URL_ADD_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/uploadGoodsImg";//添加商品图片
+    public static String URL_DELETE_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteGoods";//添加商品图片
 
 
     public static void init(Context context) throws IOException {

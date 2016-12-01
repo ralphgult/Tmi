@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.google.zxing.common.StringUtils;
+import com.oohla.android.utils.StringUtil;
 import com.xbh.tmi.DemoApplication;
 
 import org.apache.http.HttpEntity;
@@ -84,7 +86,7 @@ public class PersonManager {
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
 
                 if (null != handler) {
-                    if (object.getInt("authId") == 1) {
+                    if (object.getInt("authId") > 0) {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_SUCESS);
                     } else {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
@@ -120,7 +122,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("authId") == 1) {
+                    if (object.getInt("authId") > 0) {
                         Message msg = new Message();
                         msg.what = MOMENTLIKE_SECUSS;
                         msg.arg1 = position;
@@ -160,7 +162,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("authId") == 1) {
+                    if (object.getInt("authId") > 0) {
                         Message msg = new Message();
                         msg.what = MOMENTCOMMENT_SECUSS;
                         msg.arg1 = position;
@@ -220,7 +222,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("authId") == 1) {
+                    if (object.getInt("authId") > 0) {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_SUCESS);
                     } else {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
@@ -269,7 +271,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("authId") == 1) {
+                    if (object.getInt("authId") > 0) {
                         handler.sendEmptyMessage(1001);
                     } else {
                         handler.sendEmptyMessage(1002);
@@ -380,6 +382,8 @@ public class PersonManager {
                         if (null != handler) {
                             Message msg = new Message();
                             msg.what = 3001;
+                            msg.arg1 = object.getInt("giId");
+                            msg.obj = object.getString("imgUrl");
                             handler.sendMessage(msg);
                         }
                     } else {
@@ -394,6 +398,45 @@ public class PersonManager {
             e.printStackTrace();
             if (null != handler) {
                 handler.sendEmptyMessage(3002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
+    public static void deleteGoods(String goodsId, Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_DELETE_GOODS);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        try {
+            reqEntity.addPart("ids", new StringBody(String.valueOf(goodsId), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") > 0) {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(4001);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(4002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(4002);
             }
         } finally {
             try {
@@ -435,7 +478,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("authId") == 1) {
+                    if (object.getInt("authId") > 0) {
                         //上传成功
                         Log.e("info", "change Sucess");
                         if (null != handler) {
