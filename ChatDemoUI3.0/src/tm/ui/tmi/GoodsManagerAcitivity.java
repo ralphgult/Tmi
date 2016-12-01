@@ -40,6 +40,7 @@ public class GoodsManagerAcitivity extends Activity {
     private TextView mSearch_tv;
     private TextView mSelete_tv;
     private TextView mAdd_tv;
+    private TextView mTitle_tv;
     private InputDialog dialog;
     private GoodsAdapter mAdapter;
     private List<Map<String, String>> mAllList;
@@ -91,6 +92,7 @@ public class GoodsManagerAcitivity extends Activity {
 
     private void initViews() {
         mBack_iv = (ImageView) findViewById(R.id.goods_manager_back_iv);
+        mTitle_tv = (TextView) findViewById(R.id.goods_manager_title);
         mList_lv = (ListView) findViewById(R.id.goods_manager_list);
         mSearch_tv = (TextView) findViewById(R.id.goods_manager_search);
         mSelete_tv = (TextView) findViewById(R.id.goods_manager_mange_all);
@@ -130,6 +132,11 @@ public class GoodsManagerAcitivity extends Activity {
                 }
             }
         });
+        if (mType == 1) {
+            mTitle_tv.setText("企业产品管理中心");
+        }else{
+            mTitle_tv.setText("三农产品管理中心");
+        }
         mSelete_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
