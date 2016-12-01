@@ -74,6 +74,7 @@
             android:layout_width="200dp"
             android:layout_height="150dp"
             android:visibility="gone"
+            android:scaleType="centerCrop"
             android:layout_marginTop="5dp"/>
         <GridView
             android:id="@+id/yx_monment_image_gv"
