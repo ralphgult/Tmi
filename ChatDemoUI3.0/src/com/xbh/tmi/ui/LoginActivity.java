@@ -145,7 +145,7 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				//微信登录 需要签名打包才能使用
-				if(!isAppInstalled(LoginActivity.this,"com.tencent.mm")){
+				if(isAppInstalled(LoginActivity.this,"com.tencent.mm")){
 					requestAuth();
 				}else{
 					Toast.makeText(LoginActivity.this,"请先安装微信",Toast.LENGTH_SHORT).show();
@@ -165,7 +165,7 @@ public class LoginActivity extends BaseActivity {
 			public void onClick(View v) {
 				//QQ登录方法调用
 
-				if(!isAppInstalled(LoginActivity.this,"com.tencent.mobileqq")){
+				if(isAppInstalled(LoginActivity.this,"com.tencent.mobileqq")){
 					onClickLogin();
 				}else{
 					Toast.makeText(LoginActivity.this,"请先安装QQ",Toast.LENGTH_SHORT).show();
