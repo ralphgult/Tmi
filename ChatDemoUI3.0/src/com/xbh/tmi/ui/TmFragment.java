@@ -157,6 +157,11 @@ public class TmFragment extends Fragment implements View.OnClickListener {
                 bundle.putInt("type",1);
                 ViewUtil.jumpToOtherActivity(this.getActivity(), GoodsManagerAcitivity.class,bundle);
                 break;
+            case R.id.tm_farmer_goods_tv:
+                bundle = new Bundle();
+                bundle.putInt("type",2);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), GoodsManagerAcitivity.class,bundle);
+                break;
             default:
                 Toast.makeText(this.getActivity(),"正在调试中...",Toast.LENGTH_SHORT).show();
                 break;
