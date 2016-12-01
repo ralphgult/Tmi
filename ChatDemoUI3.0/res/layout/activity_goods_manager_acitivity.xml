@@ -39,7 +39,7 @@
             android:layout_marginRight="10dp"
             android:textColor="@color/background_white"
             android:textSize="20sp"
-            tools:text="搜索" />
+            android:text="搜索" />
     </RelativeLayout>
 
     <ListView
