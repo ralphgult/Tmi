@@ -51,6 +51,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
     private int timeCount;
     private EventHandler eh;
     private boolean isCheck;
+    private CountDownTimer mTimer;
 
     private Handler handler = new Handler() {
         @Override
@@ -162,6 +163,22 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
             }
         };
         SMSSDK.registerEventHandler(eh);
+
+        mTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeCount--;
+                getSms_tv.setText(timeCount + "秒后可点击");
+            }
+
+            @Override
+            public void onFinish() {
+                timeCount = 60;
+                getSms_tv.setText("点击获取验证码");
+                getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
+                getSms_tv.setClickable(true);
+            }
+        };
     }
 
     private void initView() {
@@ -211,6 +228,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     isCheck = true;
                     SMSSDK.submitVerificationCode("+86", phone, ver);
+                    mTimer.start();
                 }
                 break;
             case R.id.findpwd_getsms_tv:
@@ -224,19 +242,6 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     SMSSDK.getVerificationCode("+86", phone);
                     getSms_tv.setTextColor(getResources().getColor(R.color.getsms_wait_color));
                     getSms_tv.setClickable(false);
-                    CountDownTimer timer = new CountDownTimer(60000,1000) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
-                            getSms_tv.setClickable(true);
-                        }
-                    };
-                    timer.start();
                 }
                 break;
         }
