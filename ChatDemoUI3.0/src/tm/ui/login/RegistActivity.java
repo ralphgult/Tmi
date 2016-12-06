@@ -64,6 +64,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         @Override
         public void handleMessage(Message msg) {
             if (null != msg.obj) {
+                pd.dismiss();
                 Log.e("info", "result = " + ((Map) msg.obj).toString());
                 String result = ((Map) msg.obj).toString();
                 JSONObject object = null;
@@ -71,7 +72,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                     object = new JSONObject(result);
                     int resultCode = object.getInt("authId");
                     if (resultCode == REGIST_SUCESS) {
-                        pd.dismiss();
                         Toast.makeText(RegistActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
                         ViewUtil.backToOtherActivity(RegistActivity.this);
                     } else if (resultCode == REGIST_EXIST) {
@@ -90,6 +90,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                     case GET_SMS_FAIL:
                         switch (msg.arg1) {
                             case 468:
+                                pd.dismiss();
                                 Toast.makeText(RegistActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
                                 break;
                             case 462:
@@ -102,12 +103,14 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                                 Toast.makeText(RegistActivity.this, "发送验证码次数达到上限", Toast.LENGTH_SHORT).show();
                                 break;
                             case 467:
+                                pd.dismiss();
                                 Toast.makeText(RegistActivity.this, "校验验证码请求频繁", Toast.LENGTH_SHORT).show();
                                 break;
                             default:
                                 if(!isCheck) {
                                     Toast.makeText(RegistActivity.this, "验证码获取失败,请重新获取", Toast.LENGTH_SHORT).show();
                                 }else{
+                                    pd.dismiss();
                                     Toast.makeText(RegistActivity.this, "校验验证码失败", Toast.LENGTH_SHORT).show();
                                 }
                                 break;

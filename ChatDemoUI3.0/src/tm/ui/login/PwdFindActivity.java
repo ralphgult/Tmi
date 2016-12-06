@@ -58,6 +58,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void handleMessage(Message msg) {
             if (null != msg.obj) {
+                pd.dismiss();
                 Log.e("info", "result = " + ((Map) msg.obj).toString());
                 String result = ((Map) msg.obj).toString();
                 JSONObject object = null;
@@ -65,7 +66,6 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     object = new JSONObject(result);
                     int resultCode = object.getInt("authId");
                     if (resultCode == FINDPWD_SUCESS) {
-                        pd.dismiss();
                         Toast.makeText(PwdFindActivity.this, "修改密码成功，请重新登录", Toast.LENGTH_SHORT).show();
                         ViewUtil.backToOtherActivity(PwdFindActivity.this, LoginActivity.class);
                         DemoApplication.getInstance().exit();
@@ -81,6 +81,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
             } else if (msg.what == Get_SMS_FAIL) {
                 switch (msg.arg1) {
                     case 468:
+                        pd.dismiss();
                         Toast.makeText(PwdFindActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
                         break;
                     case 462:
@@ -95,6 +96,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                         getSms_tv.setClickable(true);
                         break;
                     case 467:
+                        pd.dismiss();
                         Toast.makeText(PwdFindActivity.this, "校验验证码请求频繁", Toast.LENGTH_SHORT).show();
                         break;
                     default:
@@ -103,6 +105,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                             getSms_tv.setTextColor(Color.parseColor("#ae7efc"));
                             getSms_tv.setClickable(true);
                         }else{
+                            pd.dismiss();
                             Toast.makeText(PwdFindActivity.this, "校验验证码失败", Toast.LENGTH_SHORT).show();
                         }
                         break;
