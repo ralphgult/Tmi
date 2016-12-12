@@ -45,6 +45,7 @@ public class Config {
     public static String URL_DEL_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteImg";//删除商品图片
     public static String URL_ADD_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/uploadGoodsImg";//添加商品图片
     public static String URL_DELETE_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteGoods";//添加商品图片
+    public static String URL_FOSTER_AGRICULTURAL = ROOT_HOST_NAME + "/CBDParkingMSs/sf/details";//扶植农业接口
 
 
     public static void init(Context context) throws IOException {
