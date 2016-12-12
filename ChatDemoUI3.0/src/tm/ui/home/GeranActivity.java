@@ -30,8 +30,10 @@ import java.util.Map;
 
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.mine.HeadBigActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
+import tm.utils.ViewUtil;
 
 /**
  * Created by Administrator on 2016/9/11.
@@ -55,6 +57,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private TextView tv_title;
     private TextView tv_gxqm;
     private TextView tv_qymc;
+    private TextView tv_qysm;
     private TextView tv_grqianming;
     private TextView tv_qiyeshuoming;
     private TextView tv_yuanjia;
@@ -87,6 +90,13 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private int  type=0;
     private  String username;
     private  String uid;
+    private String picurl1;
+    private String picurl2;
+    private String picurl3;
+    private String picurl4;
+    private String picurl5;
+    private String picurl6;
+    private int qstype=0;//企业三农区别
     private ImageLoaders imageLoaders = new ImageLoaders(this,
             new imageLoaderListener());
 
@@ -125,6 +135,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
 
         tv_gxqm = (TextView)findViewById(R.id.tm_zhuye_gexing);
         tv_qymc = (TextView)findViewById(R.id.tm_zhuye_qiyename);
+        tv_qysm = (TextView)findViewById(R.id.tm_zhuye_qism);
+
         tv_grqianming = (TextView)findViewById(R.id.tm_zhuye_gx);
         tv_qiyeshuoming = (TextView)findViewById(R.id.tm_zhuye_qiyeshuoming);
         lv_qiye = (LinearLayout)findViewById(R.id.tm_zhuye_qiye);
@@ -212,6 +224,36 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 }
                 startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uid));
                 break;
+            case R.id.img_pic1:
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("path", picurl1);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle1);
+                break;
+            case R.id.img_pic2:
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("path", picurl2);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle2);
+                break;
+            case R.id.img_pic3:
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("path", picurl3);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle3);
+                break;
+            case R.id.img_pic4:
+                Bundle bundle4 = new Bundle();
+                bundle4.putString("path", picurl4);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle4);
+                break;
+            case R.id.img_pic5:
+                Bundle bundle5 = new Bundle();
+                bundle5.putString("path", picurl5);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle5);
+                break;
+            case R.id.img_pic6:
+                Bundle bundle6 = new Bundle();
+                bundle6.putString("path", picurl6);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle6);
+                break;
             default:
                 break;
         }
@@ -273,16 +315,16 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
                             case 0:
-                                imageLoaders.loadImage(img_pic1, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl1=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic1,picurl1 );
                                 break;
                             case 1:
-                                imageLoaders.loadImage(img_pic2, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl2=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic2, picurl2);
                                 break;
                             case 2:
-                                imageLoaders.loadImage(img_pic3, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl3=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic3, picurl3);
                                 break;
                             default:
                                 break;
@@ -305,28 +347,28 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
                             case 0:
-                                imageLoaders.loadImage(img_pic1, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl1=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic1, picurl1);
                                 break;
                             case 1:
-                                imageLoaders.loadImage(img_pic2, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl2=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic2, picurl2);
                                 break;
                             case 2:
-                                imageLoaders.loadImage(img_pic3, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl3=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic3, picurl3);
                                 break;
                             case 3:
-                                imageLoaders.loadImage(img_pic4, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl4=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic4, picurl4);
                                 break;
                             case 4:
-                                imageLoaders.loadImage(img_pic5, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl5=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic5, picurl5);
                                 break;
                             case 5:
-                                imageLoaders.loadImage(img_pic6, photos
-                                        .getJSONObject(i).getString("mpThumbnail"));
+                                picurl6=photos.getJSONObject(i).getString("mpThumbnail");
+                                imageLoaders.loadImage(img_pic6, picurl6);
                                 break;
                             default:
                                 break;
@@ -363,6 +405,14 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     }
     private void setData2(Map map) {
         tv_qymc.setVisibility(View.VISIBLE);
+        tv_qymc.setVisibility(View.VISIBLE);
+        if(qstype==3){
+            tv_qymc.setText("三农名称");
+            tv_qysm.setText("三农说明");
+        }else{
+            tv_qymc.setText("企业名称");
+            tv_qysm.setText("企业说明");
+        }
         lv_dianpu.setVisibility(View.VISIBLE);
         tv_grqianming.setVisibility(View.GONE);
         lv_qiye_line.setVisibility(View.VISIBLE);
@@ -411,16 +461,16 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
                             case 0:
-                                imageLoaders.loadImage(img_pic1, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl1=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic1, picurl1);
                                 break;
                             case 1:
-                                imageLoaders.loadImage(img_pic2, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl2=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic2, picurl2);
                                 break;
                             case 2:
-                                imageLoaders.loadImage(img_pic3, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl3=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic3, picurl3);
                                 break;
                             default:
                                 break;
@@ -443,28 +493,28 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
                             case 0:
-                                imageLoaders.loadImage(img_pic1, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl1=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic1, picurl1);
                                 break;
                             case 1:
-                                imageLoaders.loadImage(img_pic2, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl2=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic2, picurl2);
                                 break;
                             case 2:
-                                imageLoaders.loadImage(img_pic3, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl3=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic3,picurl3);
                                 break;
                             case 3:
-                                imageLoaders.loadImage(img_pic4, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl4=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic4, picurl4);
                                 break;
                             case 4:
-                                imageLoaders.loadImage(img_pic5, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl5=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic5, picurl5);
                                 break;
                             case 5:
-                                imageLoaders.loadImage(img_pic6, photos
-                                        .getJSONObject(i).getString("imgUrl"));
+                                picurl6=photos.getJSONObject(i).getString("imgUrl");
+                                imageLoaders.loadImage(img_pic6, picurl6);
                                 break;
                             default:
                                 break;
