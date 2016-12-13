@@ -3,7 +3,6 @@ package com.xbh.tmi.ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,8 +11,8 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.hyphenate.chat.EMClient;
-import com.xbh.tmi.R;
 import com.xbh.tmi.DemoHelper;
+import com.xbh.tmi.R;
 
 import tm.ui.welcome.GuideActivity;
 import tm.utils.ViewUtil;
@@ -42,7 +41,6 @@ public class SplashActivity extends BaseActivity {
         option.setScanSpan(30000);
         option.setAddrType("all");
         mLocationClient.setLocOption(option);
-//        mLocationClient.start();
         setContentView(R.layout.em_activity_splash);
         super.onCreate(arg0);
         //获取SharedPreferences对象
@@ -50,11 +48,6 @@ public class SplashActivity extends BaseActivity {
         hasOpened = sharedPre.getBoolean("hasOpened",false);
         rootLayout = (RelativeLayout) findViewById(R.id.splash_root);
         versionText = (TextView) findViewById(R.id.tv_version);
-
-//		versionText.setText(getVersion());
-//		AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
-//		animation.setDuration(1500);
-//		rootLayout.startAnimation(animation);
     }
 
     @Override
@@ -66,7 +59,6 @@ public class SplashActivity extends BaseActivity {
 
                 try {
                     if (DemoHelper.getInstance().isLoggedIn()) {
-                        // auto login mode, make sure all group and conversation is loaed before enter the main screen
                         long start = System.currentTimeMillis();
                         EMClient.getInstance().groupManager().loadAllGroups();
                         EMClient.getInstance().chatManager().loadAllConversations();
@@ -76,7 +68,6 @@ public class SplashActivity extends BaseActivity {
                             Thread.sleep(sleepTime - costTime);
                         }
                         //enter main screen
-//                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         ViewUtil.jumpToOtherActivity(SplashActivity.this,MainActivity.class,true);
                         finish();
                     } else if(!hasOpened){
@@ -84,7 +75,6 @@ public class SplashActivity extends BaseActivity {
                         ViewUtil.jumpToOtherActivity(SplashActivity.this,GuideActivity.class,true);
                     }else{
                         Thread.sleep(sleepTime);
-//                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                         ViewUtil.jumpToOtherActivity(SplashActivity.this,LoginActivity.class,true);
                     }
 
@@ -110,8 +100,6 @@ public class SplashActivity extends BaseActivity {
                 return;
             }
             lastLocation = location;
-            Log.e("info","lat=111111122221111111111="+lastLocation.getLatitude());
-            Log.e("info","lng=11111111122222211111111="+lastLocation.getLongitude());
             saveLoginInfo(SplashActivity.this,lastLocation.getLatitude(),lastLocation.getLongitude());
 
         }
