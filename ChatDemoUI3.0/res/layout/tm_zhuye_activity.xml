@@ -485,6 +485,7 @@
                     android:id="@+id/tm_img_pic1"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:scaleType="centerCrop"
                     android:padding="10dp"
                     android:src="@drawable/tm_tupian1"
                     />
@@ -533,6 +534,7 @@
                     android:id="@+id/tm_img_pic2"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:scaleType="centerCrop"
                     android:padding="10dp"
                     android:src="@drawable/tm_tupian2"
                     />

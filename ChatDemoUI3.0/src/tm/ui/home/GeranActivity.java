@@ -96,6 +96,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private String picurl4;
     private String picurl5;
     private String picurl6;
+    private String picurl7;
+    private String picurl8;
     private int qstype=0;//企业三农区别
     private ImageLoaders imageLoaders = new ImageLoaders(this,
             new imageLoaderListener());
@@ -184,6 +186,16 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         addfriend.setOnClickListener(this);
         liaotian.setOnClickListener(this);
 
+        img_pic1.setOnClickListener(this);
+        img_pic2.setOnClickListener(this);
+        img_pic3.setOnClickListener(this);
+        img_pic4.setOnClickListener(this);
+        img_pic5.setOnClickListener(this);
+        img_pic6.setOnClickListener(this);
+
+        img_pic11.setOnClickListener(this);
+        img_pic22.setOnClickListener(this);
+
     }
     @Override
     public void onClick(View v) {
@@ -255,6 +267,16 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 Bundle bundle6 = new Bundle();
                 bundle6.putString("path", picurl6);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle6);
+                break;
+            case R.id.tm_img_pic1:
+                Bundle bundle7 = new Bundle();
+                bundle7.putString("path", picurl7);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle7);
+                break;
+            case R.id.tm_img_pic2:
+                Bundle bundle8 = new Bundle();
+                bundle8.putString("path", picurl8);
+                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle8);
                 break;
             default:
                 break;
@@ -451,8 +473,10 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         tv_xianjia2.setText(map.get("currentPrice2") + "");
         tv_jianjie.setText(map.get("doodsProfiles1") + "");
         tv_jianjie2.setText(map.get("doodsProfiles2") + "");
-        imageLoaders.loadImage(img_pic11, map.get("img1") + "");
-        imageLoaders.loadImage(img_pic22, map.get("img2") + "");
+        picurl7=map.get("img1")+"";
+        picurl8=map.get("img2")+"";
+        imageLoaders.loadImage(img_pic11, picurl7);
+        imageLoaders.loadImage(img_pic22, picurl8);
         String top=  map.get("top")+"";
         Log.e("info","top==="+top);
         try {
