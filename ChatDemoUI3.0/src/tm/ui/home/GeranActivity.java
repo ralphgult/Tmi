@@ -196,6 +196,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 LoadData();
                 break;
             case R.id.shouye_top2:
+                qstype=2;
                 txt2.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
                 txt3.setTextColor(Color.parseColor("#8c8c8c"));
@@ -203,6 +204,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 LoadData2();
                 break;
             case R.id.shouye_top3:
+                qstype=3;
                 txt3.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
@@ -404,7 +406,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         }
     }
     private void setData2(Map map) {
-        tv_qymc.setVisibility(View.VISIBLE);
         tv_qymc.setVisibility(View.VISIBLE);
         if(qstype==3){
             tv_qymc.setText("三农名称");
