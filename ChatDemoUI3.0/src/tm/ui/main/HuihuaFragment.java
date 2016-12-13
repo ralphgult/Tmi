@@ -410,11 +410,11 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         huihua_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(type==0 && stype==1){
+                if(type==0 && stype==1){//本地特色
                     Intent intent = new Intent(getActivity(), BenditeseActivity.class);
                     intent.putExtra("position",position );
                     startActivity(intent);
-                }else{
+                }else{//扶植农业
                     Intent intent = new Intent(getActivity(), FosterAgriculturalActivity.class);
                     intent.putExtra("position",position+1);
                     startActivity(intent);
