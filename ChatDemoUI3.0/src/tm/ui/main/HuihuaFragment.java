@@ -43,6 +43,7 @@ import tm.ui.home.BenditeseActivity;
 import tm.ui.home.GeranActivity;
 import tm.ui.home.SearchActivity;
 import tm.ui.main.adapter.BdtsAdapter;
+import tm.ui.tmi.FosterAgriculturalActivity;
 import tm.utils.ConstantsHandler;
 import tm.widget.StationaryGridView;
 import tm.widget.pulltorefresh.PullToRefreshBase;
@@ -197,7 +198,6 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
 //                    LoadData3();
                     huihua_gridview.setVisibility(View.VISIBLE);
                     refreshListView.setVisibility(View.GONE);
-//                    gridViewAdapter.addData(getNongyeData());
                     gridViewAdapter.resetDato(getNongyeData());
                 }
                 currentClick=3;
@@ -410,8 +410,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         huihua_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), BenditeseActivity.class);
-                intent.putExtra("position",position );
+                Intent intent = new Intent(getActivity(), FosterAgriculturalActivity.class);
+                intent.putExtra("position",position+1);
                 startActivity(intent);
             }
         });

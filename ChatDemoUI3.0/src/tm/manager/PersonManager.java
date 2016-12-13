@@ -605,4 +605,44 @@ public class PersonManager {
             }
         }
     }
+
+
+
+    public static void sendFosterInfo( int type, Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_FOSTER_AGRICULTURAL);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("type", new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                String jsonStr = EntityUtils.toString(response.getEntity());
+//                JSONObject object = new JSONObject(EntityUtils.toString(response.getEntity()));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                       if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 3001;
+                            msg.obj = jsonStr;
+                            handler.sendMessage(msg);
+                        }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(3002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
 }
