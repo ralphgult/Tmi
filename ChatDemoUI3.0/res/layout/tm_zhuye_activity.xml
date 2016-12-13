@@ -135,6 +135,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:scaleType="centerCrop"
                     android:padding="10dp"
                     android:src="@drawable/default_pic"
                     android:visibility="gone" />
@@ -144,6 +145,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:scaleType="centerCrop"
                     android:padding="10dp"
                     android:src="@drawable/default_pic"
                     android:visibility="gone" />
@@ -153,6 +155,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:scaleType="centerCrop"
                     android:padding="10dp"
                     android:src="@drawable/default_pic"
                     android:visibility="gone" />
@@ -172,6 +175,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:scaleType="centerCrop"
                     android:padding="10dp"
                     android:src="@drawable/default_pic"
                     android:visibility="gone" />
@@ -181,6 +185,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:scaleType="centerCrop"
                     android:padding="10dp"
                     android:src="@drawable/default_pic"
                     android:visibility="gone" />
@@ -191,6 +196,7 @@
                     android:layout_height="100dp"
                     android:padding="10dp"
                     android:layout_weight="1"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/default_pic"
                     android:visibility="gone" />
             </LinearLayout>
