@@ -301,15 +301,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_geren3.setVisibility(View.VISIBLE);
         lv_geren4.setVisibility(View.VISIBLE);
         lv_qiye_line.setVisibility(View.GONE);
-//        tv_dianpu.setText("个人动态");
-//        tv_title.setText("王鹏飞");
-//        tv_gxqm.setText("求有销售团队的企业老板资源");
-//        tv_name.setText("王鹏飞");
-//        tv_time.setText("10.2  20:35");
-//        tv_look.setText("2");
-//        tv_num.setText("5");
-//        tv_comment.setText("4");
-//        tv_content.setText("天下事抬不过一个理字，为什么这么多人觉得口才胜过事实。");
 
         list.clear();
         try {
@@ -445,14 +436,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_geren4.setVisibility(View.GONE);
         lv_qiye.setVisibility(View.VISIBLE);
 
-//        tv_gxqm.setText("西域美农");
-//        tv_title.setText("西域美农");
-//        tv_qiyeshuoming.setText("一切皆有可能");
-//        tv_dianpu.setText("店铺商品");
-//        tv_yuanjia.setText("￥:50.2");
-//        tv_yuanjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//        tv_yuanjia2.setText("￥:85.4");
-//        tv_yuanjia2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         list.clear();
         //企业名称
         String nickname=map.get("companyName") + "";
@@ -460,7 +443,12 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             tv_title.setText(nickname);
             tv_gxqm.setText(nickname);
         } else {
-            tv_title.setText("企业主页");
+            if(qstype==3){
+                tv_title.setText("三农");
+            }else{
+                tv_title.setText("企业 ");
+            }
+
         }
         //企业签名
         tv_qiyeshuoming.setText(map.get("companyIntroduction") + "");

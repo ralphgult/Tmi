@@ -5,6 +5,18 @@
     android:background="@color/common_bg"
     android:orientation="vertical">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
     <LinearLayout
         android:id="@+id/tm_zhuye_ly"
         android:layout_width="match_parent"
@@ -579,7 +591,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
@@ -592,19 +606,27 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_weight="1"
             android:background="#dfdfdf" />
     </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+
+
     <LinearLayout
         android:id="@+id/tm_botton_ly"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:gravity="center"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
+        android:background="@color/money_geren_light_dddddd"
         >
         <ImageView
             android:id="@+id/tm_liaotian"
@@ -619,5 +641,6 @@
             android:layout_weight="1"
             android:src="@drawable/tm_addfriend" />
     </LinearLayout>
+
 
 </RelativeLayout>
