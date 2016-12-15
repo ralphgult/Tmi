@@ -499,7 +499,6 @@
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
                     android:padding="10dp"
-                    android:src="@drawable/tm_tupian1"
                     />
                 <TextView
                     android:id="@+id/tm_zhuye_jianjie"
@@ -507,7 +506,6 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/shangpin_black"
                     android:textSize="16sp"
-                    android:text="送亲朋好友佳品。"
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -520,7 +518,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="#ff5821"
                         android:textSize="16sp"
-                        android:text="￥:38.2"
                         />
                     <TextView
                         android:id="@+id/tm_zhuye_yuanjia"
@@ -529,7 +526,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="#6e6e6e"
                         android:textSize="16sp"
-                        android:text="￥:50.2"
                         />
                 </LinearLayout>
 
@@ -548,7 +544,6 @@
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
                     android:padding="10dp"
-                    android:src="@drawable/tm_tupian2"
                     />
                 <TextView
                     android:id="@+id/tm_zhuye_jianjie2"
@@ -556,7 +551,6 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/shangpin_black"
                     android:textSize="16sp"
-                    android:text="皮薄柔软、仁大。"
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -569,7 +563,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="#ff5821"
                         android:textSize="16sp"
-                        android:text="￥:42.5"
                         />
                     <TextView
                         android:id="@+id/tm_zhuye_yuanjia2"
@@ -578,7 +571,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="#6e6e6e"
                         android:textSize="16sp"
-                        android:text="￥:50.2"
                         />
                 </LinearLayout>
             </LinearLayout>
