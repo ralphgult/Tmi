@@ -41,7 +41,6 @@ import tm.http.NetFactory;
 import tm.ui.WelcomeListAdapter;
 import tm.ui.home.BenditeseActivity;
 import tm.ui.home.GeranActivity;
-import tm.ui.home.SearchActivity;
 import tm.ui.main.adapter.BdtsAdapter;
 import tm.ui.tmi.FosterAgriculturalActivity;
 import tm.utils.ConstantsHandler;
@@ -203,8 +202,10 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 currentClick=3;
                 break;
             case R.id.btn_search:
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intent);
+
+//                Intent intent = new Intent(getActivity(), SearchActivity.class);
+//                intent.putExtra("type",)
+//                startActivity(intent);
                 break;
 
             default:

@@ -1,9 +1,6 @@
 package tm.ui.home;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -37,17 +34,26 @@ public class SearchResultActivity extends BaseActivity {
 
     private TextView search;
     private String searchin;
-    private  double lat;
-    private  double lng;
     private ListView mListView;
     ArrayList<HashMap> list = new ArrayList<HashMap>();
     SearchResultAdapter listAdapter;
+    private  String lat;
+    private  String lng;
+    private String username;
+    private String type;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tm_search_result_aty);
         searchin=getIntent().getStringExtra("companyName");
+        type=getIntent().getStringExtra("type");
+        Log.e("info","type=22="+type);
+        SharedPreferences sharedPre=getSharedPreferences("config",MODE_PRIVATE);
+        username=sharedPre.getString("username", "");
+        lat=sharedPre.getString("lat","");
+        lng=sharedPre.getString("lng","");
         init();
         LoadData();
     }
@@ -75,19 +81,9 @@ public class SearchResultActivity extends BaseActivity {
      * 搜索数据
      */
     public void LoadData() {
-        String serviceString = Context.LOCATION_SERVICE;// 获取的是位置服务
-        LocationManager locationManager = (LocationManager)this.getSystemService(serviceString);// 调用getSystemService()方法来获取LocationManager对象
-        //获取Location
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if(location != null){
-            //不为空,显示地理位置经纬度
-            lat = location.getLatitude();//获取纬度
-            lng = location.getLongitude();//获取经度
-        }
+
         Log.e("info","lat=22="+lat);
         Log.e("info","lng=22="+lng);
-        SharedPreferences sharedPre=this.getSharedPreferences("config",this.MODE_PRIVATE);
-        String username=sharedPre.getString("username", "");
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         list.add(new BasicNameValuePair("userId", ""+username));
         list.add(new BasicNameValuePair("wd", ""+lat));
@@ -95,7 +91,7 @@ public class SearchResultActivity extends BaseActivity {
         list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
         list.add(new BasicNameValuePair("companyName", searchin));
-        list.add(new BasicNameValuePair("type", "2"));
+        list.add(new BasicNameValuePair("type", type));
         NetFactory.instance().commonHttpCilent(handler, this,
                 Config.URL_GET_SEARCH_HOME, list);
 

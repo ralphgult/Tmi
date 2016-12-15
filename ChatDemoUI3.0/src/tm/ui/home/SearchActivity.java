@@ -48,6 +48,7 @@ public class SearchActivity extends BaseActivity {
 		      }else{
 					Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
 					intent.putExtra("companyName",guanjianzi );
+					intent.putExtra("type",getIntent().getStringExtra("type"));
 					startActivity(intent);
 				}
 			}
