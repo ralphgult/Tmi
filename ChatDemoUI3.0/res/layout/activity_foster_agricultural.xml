@@ -29,14 +29,7 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/ease_back" />
 
-        <ImageView
-            android:id="@+id/foster_right_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/ease_back" />
+
     </RelativeLayout>
 <ScrollView
     android:layout_width="match_parent"
@@ -55,7 +48,7 @@
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:text="50%"
-            android:textSize="18sp" />
+            android:textSize="22sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,7 +62,7 @@
                 android:gravity="center_vertical"
                 android:text="名字"
                 android:textColor="@color/msg_red"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/foster_title_number"
@@ -77,7 +70,7 @@
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
                 android:text="盒数"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/foster_title_integral"
@@ -86,7 +79,7 @@
                 android:gravity="center_vertical|right"
                 android:text="积分"
                 android:textColor="@color/msg_red"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,7 +110,7 @@
             android:id="@+id/foster_details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="18sp"
+            android:textSize="22sp"
             />
     </LinearLayout>
 </ScrollView>
@@ -132,7 +125,7 @@
         android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-        android:textSize="18sp"
+        android:textSize="20sp"
             android:textColor="#9966CC"
         android:text="加入购物车"
         />
@@ -141,7 +134,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textColor="#9966CC"
             android:text="立即兑换"
             />
