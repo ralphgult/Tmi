@@ -37,7 +37,9 @@ import tm.http.Config;
 import tm.http.NetFactory;
 import tm.manager.PersonManager;
 import tm.ui.mine.CompCenterActivity;
+import tm.ui.tmi.adapter.GoodsChangeImgAdapter;
 import tm.utils.ConstantsHandler;
+import tm.utils.ImageLoaders;
 import tm.utils.SysUtils;
 
 /**
@@ -57,6 +59,7 @@ public class FosterAgriculturalActivity extends Activity {
     private ImageView mImg04;
     private int position;//上传的第几个
     private String userId;//用户ID
+    private ImageLoaders imageLoaders;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -71,6 +74,7 @@ public class FosterAgriculturalActivity extends Activity {
                     break;
                 case 3001:
                     String json = msg.obj.toString();
+                    Log.e("Lking--->","str = "+json);
                     try{
                         JSONObject jsonObject = new JSONObject(json);
                         String top = jsonObject.getString("top");
@@ -89,19 +93,15 @@ public class FosterAgriculturalActivity extends Activity {
                         for(int i=0;i<jsonArray.length();i++){
                             JSONObject mark = (JSONObject)jsonArray.get(i);
                             strimgs[i] = mark.getString("imgUrl");
+                            Log.e("Lking--->","img = "+strimgs[i]);
                         }
-                        mImg01.setImageBitmap(returnBitMap(strimgs[0]));
-                        mImg02.setImageBitmap(returnBitMap(strimgs[1]));
-                        mImg03.setImageBitmap(returnBitMap(strimgs[2]));
-                        mImg04.setImageBitmap(returnBitMap(strimgs[3]));
+                        imageLoaders.loadImage(mImg01,strimgs[0]);
+                        imageLoaders.loadImage(mImg02,strimgs[1]);
+                        imageLoaders.loadImage(mImg03,strimgs[2]);
+                        imageLoaders.loadImage(mImg04,strimgs[3]);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-
-
-
-                    Log.e("LKING","json="+json);
-                    System.out.print(json);
                     break;
                 case 4001:
                     break;
@@ -118,6 +118,7 @@ public class FosterAgriculturalActivity extends Activity {
         //获取9宫格传递过来的数据
         getIntentInfo();
         initView();
+        imageLoaders = new ImageLoaders(this, new imageLoaderListener());
         new Thread(){
             @Override
             public void run() {
@@ -132,7 +133,6 @@ public class FosterAgriculturalActivity extends Activity {
             position=getIntent().getExtras().getInt("position");
         }
     }
-
     private void initView(){
         mBack = (ImageView)findViewById(R.id.foster_back_iv);
         mBack.setOnClickListener(new View.OnClickListener() {
@@ -152,24 +152,12 @@ public class FosterAgriculturalActivity extends Activity {
         mImg04 = (ImageView)findViewById(R.id.foster_img_04);
     }
 
-    public Bitmap returnBitMap(String url) {
-        URL myFileUrl = null;
-        Bitmap bitmap = null;
-        try {
-            myFileUrl = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+
+    class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
+
+        @Override
+        public void onImageLoad(View v, Bitmap bmp, String url) {
+            ((ImageView) v).setImageBitmap(bmp);
         }
-        try {
-            HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
     }
 }
