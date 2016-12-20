@@ -4,9 +4,9 @@ package tm.http;
  * Created by Administrator on 2016/9/7.
  */
 
-import java.io.IOException;
-
 import android.content.Context;
+
+import java.io.IOException;
 
 public class Config {
     //    public static String ROOT_HOST_NAME="http://hsaiqs.xicp.net:20806";
@@ -46,6 +46,7 @@ public class Config {
     public static String URL_ADD_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/uploadGoodsImg";//添加商品图片
     public static String URL_DELETE_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteGoods";//添加商品图片
     public static String URL_FOSTER_AGRICULTURAL = ROOT_HOST_NAME + "/CBDParkingMSs/sf/details";//扶植农业接口
+    public static String URL_FRIENDS = ROOT_HOST_NAME + "/CBDParkingMSs/friends/myFriends";//好友列表接口
 
 
     public static void init(Context context) throws IOException {

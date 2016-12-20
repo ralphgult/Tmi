@@ -3,10 +3,12 @@ package tm.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 
 
@@ -156,4 +158,12 @@ public class ViewUtil {
     public static void setTextSizeForViewBySp(TextView tv, int sp){
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp);
     }
+    /**
+     * 从sp里获取userId
+     */
+    public static String getCurrentUserId() {
+        SharedPreferences sharedPre= DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        return sharedPre.getString("username", "");
+    }
+
 }

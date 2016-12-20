@@ -13,7 +13,9 @@
  */
 package com.xbh.tmi.ui;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import com.hyphenate.chat.EMClient;
@@ -30,6 +32,9 @@ import com.hyphenate.util.NetUtils;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -40,6 +45,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import tm.http.Config;
+import tm.http.NetFactory;
+import tm.utils.ConstantsHandler;
 
 /**
  * contact list
@@ -56,10 +68,15 @@ public class ContactListFragment extends EaseContactListFragment {
     private InviteMessgeDao inviteMessgeDao;
     private ContactListFragment contactListFragment;
     private ConversationListFragment mConversationListFragment;
+    private String username;
 
     @Override
     protected void initView() {
         super.initView();
+        SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
+        username=sharedPre.getString("username", "");
+        //网络请求好友列表
+        LoadData();
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.em_contacts_header, null);
         HeaderItemClickListener clickListener = new HeaderItemClickListener();
         applicationItem = (ContactItemView) headerView.findViewById(R.id.application_item);
@@ -78,6 +95,7 @@ public class ContactListFragment extends EaseContactListFragment {
     
     @Override
     public void refresh() {
+        //拉去好友列表
         Map<String, EaseUser> m = DemoHelper.getInstance().getContactList();
         if (m instanceof Hashtable<?, ?>) {
             m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>)m).clone();
@@ -332,5 +350,32 @@ public class ContactListFragment extends EaseContactListFragment {
         }
         
     }
+    /**
+     * 好友列表
+     */
+    public void LoadData() {
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        list.add(new BasicNameValuePair("userId", username));
+        NetFactory.instance().commonHttpCilent(handler, getContext(),
+                Config.URL_FRIENDS, list);
+
+    }
+    /**
+     * 接口回调
+     */
+    Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            Log.e("info","msg.what=111="+msg.what);
+            switch (msg.what) {
+                case ConstantsHandler.EXECUTE_SUCCESS:
+                    Map map = (Map) msg.obj;
+                    Log.e("info","map=11="+map);
+                    //插库
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 	
 }
