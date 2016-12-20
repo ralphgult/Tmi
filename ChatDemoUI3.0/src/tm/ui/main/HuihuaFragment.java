@@ -41,6 +41,7 @@ import tm.http.NetFactory;
 import tm.ui.WelcomeListAdapter;
 import tm.ui.home.BenditeseActivity;
 import tm.ui.home.GeranActivity;
+import tm.ui.home.SearchActivity;
 import tm.ui.main.adapter.BdtsAdapter;
 import tm.ui.tmi.FosterAgriculturalActivity;
 import tm.utils.ConstantsHandler;
@@ -203,9 +204,10 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_search:
 
-//                Intent intent = new Intent(getActivity(), SearchActivity.class);
-//                intent.putExtra("type",)
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                Log.e("info","type=sss="+type);
+                intent.putExtra("type",""+type);
+                startActivity(intent);
                 break;
 
             default:
@@ -293,6 +295,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 map_temp.put("photo", jo.get("companyLogo")+"");
                 map_temp.put("desc", jo.get("companyIntroduction")+"");
                 map_temp.put("distance", jo.get("jl")+"");
+                map_temp.put("uname", jo.get("uname")+"");
                 list.add(map_temp);
             }
 //                if (pageitem < 15) {
@@ -400,6 +403,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
 
                 Intent intent = new Intent(getActivity(), GeranActivity.class);
                 intent.putExtra("id", listAdapter.getItemId(arg2-1)+"");
+                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2-1)+"");
                 startActivity(intent);
             }
         });

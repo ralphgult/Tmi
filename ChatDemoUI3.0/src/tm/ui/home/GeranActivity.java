@@ -90,6 +90,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private int  type=0;
     private  String username;
     private  String uid;
+    private  String uname;
     private String picurl1;
     private String picurl2;
     private String picurl3;
@@ -116,6 +117,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         SharedPreferences sharedPre=this.getSharedPreferences("config",this.MODE_PRIVATE);
         username=sharedPre.getString("username", "");
         uid=getIntent().getStringExtra("id");
+        uname=getIntent().getStringExtra("uid");
         init();
         LoadData();
     }
@@ -236,7 +238,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uid));
+                startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
                 break;
             case R.id.img_pic1:
                 Bundle bundle1 = new Bundle();

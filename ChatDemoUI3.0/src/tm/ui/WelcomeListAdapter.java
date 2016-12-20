@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,6 +77,9 @@ public class WelcomeListAdapter extends BaseAdapter {
     public long getItemId(int arg0) {
         return Long.parseLong(list.get(arg0).get("userid").toString());
     }
+    public long getItemzhanghao(int arg0) {
+        return Long.parseLong(list.get(arg0).get("uname").toString());
+    }
     public String getItemName(int arg0) {
         return list.get(arg0).get("userName").toString();
     }
@@ -135,7 +137,7 @@ public class WelcomeListAdapter extends BaseAdapter {
                     Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("userid")+""));
+                context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("uname")+""));
             }
         });
         final ViewHolder finalHolder = holder;

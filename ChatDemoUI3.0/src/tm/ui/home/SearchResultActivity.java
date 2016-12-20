@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +57,7 @@ public class SearchResultActivity extends BaseActivity {
         lng=sharedPre.getString("lng","");
         init();
         LoadData();
+
     }
 
     @Override
@@ -67,6 +69,17 @@ public class SearchResultActivity extends BaseActivity {
         mListView=(ListView)findViewById(R.id.list);
         listAdapter = new SearchResultAdapter(this, list);
         mListView.setAdapter(listAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+
+//                Intent intent = new Intent(SearchResultActivity.this, GeranActivity.class);
+//                intent.putExtra("id", listAdapter.getItemId(arg2)+"");
+//                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2)+"");
+//                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -91,7 +104,13 @@ public class SearchResultActivity extends BaseActivity {
         list.add(new BasicNameValuePair("page", "0"));
         list.add(new BasicNameValuePair("num", "15"));
         list.add(new BasicNameValuePair("companyName", searchin));
-        list.add(new BasicNameValuePair("type", type));
+        if(type.equals("0")){
+            list.add(new BasicNameValuePair("type", "1"));
+        }else if(type.equals("1")){
+            list.add(new BasicNameValuePair("type", "2"));
+        }else if(type.equals("2")){
+            list.add(new BasicNameValuePair("type", "3"));
+        }
         NetFactory.instance().commonHttpCilent(handler, this,
                 Config.URL_GET_SEARCH_HOME, list);
 
@@ -128,6 +147,7 @@ public class SearchResultActivity extends BaseActivity {
                 map_temp.put("photo", jo.get("companyLogo")+"");
                 map_temp.put("desc", jo.get("companyIntroduction")+"");
                 map_temp.put("distance", jo.get("jl")+"公里之内");
+                map_temp.put("uname", jo.get("uname")+"");
                 list.add(map_temp);
             }
         } catch (JSONException e) {

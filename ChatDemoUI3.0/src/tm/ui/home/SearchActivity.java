@@ -2,6 +2,7 @@ package tm.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,11 +24,13 @@ public class SearchActivity extends BaseActivity {
 	private TextView search;
 	private EditText guanjian;
 	private String guanjianzi;
+	private String type;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tm_search_aty);
+		type=getIntent().getStringExtra("type");
 		init();
 	}
 
@@ -48,7 +51,7 @@ public class SearchActivity extends BaseActivity {
 		      }else{
 					Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
 					intent.putExtra("companyName",guanjianzi );
-					intent.putExtra("type",getIntent().getStringExtra("type"));
+					intent.putExtra("type",type);
 					startActivity(intent);
 				}
 			}
