@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.xbh.tmi.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +29,8 @@ public class FosterAgriculturalActivity extends Activity {
     private TextView mName;
     private TextView mNumber;
     private TextView mIntegral;
+    private TextView mTxt_02;
+    private TextView mTxt_01;
     private TextView mDetail;
     private ImageView mImg01;
     private ImageView mImg02;
@@ -122,6 +126,8 @@ public class FosterAgriculturalActivity extends Activity {
         mNumber = (TextView)findViewById(R.id.foster_title_number);
         mIntegral = (TextView)findViewById(R.id.foster_title_integral);
         mDetail = (TextView)findViewById(R.id.foster_details);
+        mTxt_01 = (TextView)findViewById(R.id.foster_txt_01);
+        mTxt_02 = (TextView)findViewById(R.id.foster_txt_02);
         mImg01 = (ImageView)findViewById(R.id.foster_img_01);
         mImg02 = (ImageView)findViewById(R.id.foster_img_02);
         mImg03 = (ImageView)findViewById(R.id.foster_img_03);
@@ -162,6 +168,37 @@ public class FosterAgriculturalActivity extends Activity {
                 Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
                 intent.putExtra("path",str);
                 startActivity(intent);
+            }
+        });
+        mTxt_01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (position){
+                    case 1://苹果
+                        Toast.makeText(FosterAgriculturalActivity.this,"苹果已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2://梨
+                        Toast.makeText(FosterAgriculturalActivity.this,"梨已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3://红枣
+                        Toast.makeText(FosterAgriculturalActivity.this,"红枣已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4://桃子
+                        Toast.makeText(FosterAgriculturalActivity.this,"桃子已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5://葡萄
+                        Toast.makeText(FosterAgriculturalActivity.this,"葡萄已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6://西瓜
+                        Toast.makeText(FosterAgriculturalActivity.this,"西瓜已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        mTxt_02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(FosterAgriculturalActivity.this,"选择兑换盒数后购买",Toast.LENGTH_SHORT).show();
             }
         });
     }
