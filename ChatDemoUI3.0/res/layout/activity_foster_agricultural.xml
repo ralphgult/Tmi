@@ -89,23 +89,23 @@
             <ImageView
                 android:id="@+id/foster_img_01"
                 android:layout_weight="1"
-                android:layout_width="110dp"
-                android:layout_height="110dp" />
+                android:layout_width="90dp"
+                android:layout_height="90dp" />
             <ImageView
                 android:id="@+id/foster_img_02"
                 android:layout_weight="1"
-                android:layout_width="110dp"
-                android:layout_height="110dp" />
+                android:layout_width="90dp"
+                android:layout_height="90dp" />
             <ImageView
                 android:id="@+id/foster_img_03"
                 android:layout_weight="1"
-                android:layout_width="110dp"
-                android:layout_height="110dp" />
+                android:layout_width="90dp"
+                android:layout_height="90dp" />
             <ImageView
                 android:id="@+id/foster_img_04"
                 android:layout_weight="1"
-                android:layout_width="110dp"
-                android:layout_height="110dp" />
+                android:layout_width="90dp"
+                android:layout_height="90dp" />
     </LinearLayout>
 
         <TextView
