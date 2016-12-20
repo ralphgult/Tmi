@@ -618,7 +618,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@color/money_geren_light_dddddd"
+        android:background="#999999"
         >
         <ImageView
             android:id="@+id/tm_liaotian"
