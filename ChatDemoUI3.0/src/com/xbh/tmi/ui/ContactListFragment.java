@@ -14,6 +14,7 @@
 package com.xbh.tmi.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,12 @@ import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import tm.db.dao.FriendDao;
+import tm.entity.FriendBean;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.utils.ConstantsHandler;
@@ -370,6 +376,7 @@ public class ContactListFragment extends EaseContactListFragment {
                 case ConstantsHandler.EXECUTE_SUCCESS:
                     Map map = (Map) msg.obj;
                     Log.e("info","map=11="+map);
+                    setData(map);
                     //插库
                     break;
                 default:
@@ -377,5 +384,32 @@ public class ContactListFragment extends EaseContactListFragment {
             }
         }
     };
-	
+    protected void setData(Map map) {
+        try {
+            JSONObject obj =new JSONObject(map.toString());
+            JSONArray objList = obj.getJSONArray("rows");
+            FriendBean mFriendBean=new FriendBean();
+            FriendDao  mdao =new FriendDao();
+            List<FriendBean> friendlist = new ArrayList<FriendBean>();
+            if(objList.length()>0){
+                for (int i = 0; i < objList.length(); i++) {
+                    JSONObject jo = objList.getJSONObject(i);
+                    mFriendBean.mNickname=jo.get("nickname")+"";
+                    mFriendBean.mphoto=jo.get("photo")+"";
+                    mFriendBean.mUsername= jo.get("userName")+"";
+                    mFriendBean.mUserID= Integer.parseInt(jo.get("userId")+"");
+                    Log.e("info","mNickname=="+mFriendBean.mNickname);
+                    Log.e("info","mphoto=="+mFriendBean.mphoto);
+                    Log.e("info","mUsername=="+mFriendBean.mUsername);
+                    Log.e("info","mUserID=="+mFriendBean.mUserID);
+                    friendlist.add(mFriendBean);
+                    mdao.insertUserInfoList(friendlist);
+                }
+            }
+        } catch (JSONException e) {
+        }
+
+    }
+
+
 }

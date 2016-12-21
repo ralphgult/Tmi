@@ -11,7 +11,7 @@ public class FriendBean implements Parcelable {
 
 
     public int  mUserID;//好友id
-    public int  mUsername;//好友电话
+    public String  mUsername;//好友电话
     public String  mphoto;//好友头像
     public String  mNickname;//好友昵称
 
@@ -21,7 +21,7 @@ public class FriendBean implements Parcelable {
         public FriendBean createFromParcel(Parcel source) {
             FriendBean mUserInfo = new FriendBean();
             mUserInfo.mUserID = source.readInt();
-            mUserInfo.mUsername = source.readInt();
+            mUserInfo.mUsername = source.readString();
             mUserInfo.mphoto = source.readString();
             mUserInfo.mNickname = source.readString();
             return mUserInfo;
@@ -41,7 +41,7 @@ public class FriendBean implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mUserID);
-        dest.writeInt(mUsername);
+        dest.writeString(mUsername);
         dest.writeString(mphoto);
         dest.writeString(mNickname);
     }

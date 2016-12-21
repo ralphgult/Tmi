@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -18,6 +19,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+import tm.db.TmDB;
+import tm.db.table.FriendTable;
+import tm.utils.ViewUtil;
 
 public class DemoDBManager {
     static private DemoDBManager dbMgr = new DemoDBManager();
@@ -61,14 +66,18 @@ public class DemoDBManager {
      * @return
      */
     synchronized public Map<String, EaseUser> getContactList() {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db= TmDB.getInstance(ViewUtil.getCurrentUserId()).getSqlDateBase();
         Map<String, EaseUser> users = new Hashtable<String, EaseUser>();
         if (db.isOpen()) {
-            Cursor cursor = db.rawQuery("select * from " + UserDao.TABLE_NAME /* + " desc" */, null);
+            Cursor cursor = db.rawQuery("select * from " + FriendTable.TABLE_NAME /* + " desc" */, null);
             while (cursor.moveToNext()) {
-                String username = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_ID));
-                String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
-                String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
+                String username = cursor.getString(cursor.getColumnIndex(FriendTable.USERNAME));
+                Log.e("info","username==查询=="+username);
+                String nick = cursor.getString(cursor.getColumnIndex(FriendTable.NICKNAME));
+                Log.e("info","nick==查询=="+nick);
+                String avatar = cursor.getString(cursor.getColumnIndex(FriendTable.PHOTO));
+                Log.e("info","avatar==查询=="+avatar);
                 EaseUser user = new EaseUser(username);
                 user.setNick(nick);
                 user.setAvatar(avatar);
@@ -84,6 +93,35 @@ public class DemoDBManager {
         }
         return users;
     }
+//    /**
+//     * get contact list
+//     *
+//     * @return
+//     */
+//    synchronized public Map<String, EaseUser> getContactList() {
+//        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        Map<String, EaseUser> users = new Hashtable<String, EaseUser>();
+//        if (db.isOpen()) {
+//            Cursor cursor = db.rawQuery("select * from " + UserDao.TABLE_NAME /* + " desc" */, null);
+//            while (cursor.moveToNext()) {
+//                String username = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_ID));
+//                String nick = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_NICK));
+//                String avatar = cursor.getString(cursor.getColumnIndex(UserDao.COLUMN_NAME_AVATAR));
+//                EaseUser user = new EaseUser(username);
+//                user.setNick(nick);
+//                user.setAvatar(avatar);
+//                if (username.equals(Constant.NEW_FRIENDS_USERNAME) || username.equals(Constant.GROUP_USERNAME)
+//                        || username.equals(Constant.CHAT_ROOM)|| username.equals(Constant.CHAT_ROBOT)) {
+//                    user.setInitialLetter("");
+//                } else {
+//                    EaseCommonUtils.setUserInitialLetter(user);
+//                }
+//                users.put(username, user);
+//            }
+//            cursor.close();
+//        }
+//        return users;
+//    }
     
     /**
      * delete a contact

@@ -92,7 +92,7 @@ public class FriendDao {
             if (cursor.moveToFirst()) {
                 userInfoBean = new FriendBean();
                 userInfoBean.mUserID = cursor.getInt(cursor.getColumnIndex(FriendTable.USERID));
-                userInfoBean.mUsername = cursor.getInt(cursor.getColumnIndex(FriendTable.USERNAME));
+                userInfoBean.mUsername = cursor.getString(cursor.getColumnIndex(FriendTable.USERNAME));
                 userInfoBean.mphoto = cursor.getString(cursor.getColumnIndex(FriendTable.PHOTO));
                 userInfoBean.mNickname = cursor.getString(cursor.getColumnIndex(FriendTable.NICKNAME));
             }
