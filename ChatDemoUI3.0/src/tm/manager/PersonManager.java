@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.zxing.common.StringUtils;
@@ -23,11 +24,13 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 
 import internal.org.apache.http.entity.mime.HttpMultipartMode;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.FileBody;
 import internal.org.apache.http.entity.mime.content.StringBody;
+import tm.alipay.AlipayAPI;
 import tm.http.Config;
 import tm.utils.ImageUtil;
 
@@ -645,4 +648,104 @@ public class PersonManager {
             }
         }
     }
+    public static void getAddresses(Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_GET_ADDRESS);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 1001;
+                            msg.obj = object.getJSONArray("address");
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(1002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(1002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
+    /**
+     * 添加/修改收货地址
+     * @param addrMap 收货地址的数据集合
+     * @param handler handler
+     */
+    public static void addEditAddress(Map<String, String> addrMap, Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_ADD_ADDRESS);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            if (TextUtils.isEmpty(addrMap.get("id"))) {
+                reqEntity.addPart("raId", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
+            }else{
+                reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            }
+            reqEntity.addPart("address", new StringBody(addrMap.get("content"), Charset.forName("UTF-8")));
+            reqEntity.addPart("raId", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
+            reqEntity.addPart("isDefault", new StringBody(addrMap.get("default"), Charset.forName("UTF-8")));
+            reqEntity.addPart("postcode", new StringBody("", Charset.forName("UTF-8")));
+            reqEntity.addPart("name", new StringBody(addrMap.get("name"), Charset.forName("UTF-8")));
+            reqEntity.addPart("phone", new StringBody(addrMap.get("phone"), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 1001;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(1002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(1002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
 }
