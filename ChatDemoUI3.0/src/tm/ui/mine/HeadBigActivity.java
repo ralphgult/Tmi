@@ -13,15 +13,16 @@ import com.xbh.tmi.R;
 
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
+import tm.widget.RKCloudChatTouchImageView;
 
 public class HeadBigActivity extends Activity {
-    private ImageView head_iv;
+    private RKCloudChatTouchImageView head_iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_head_big);
-        head_iv = (ImageView) findViewById(R.id.head_big_iv);
+        head_iv = (RKCloudChatTouchImageView) findViewById(R.id.head_big_iv);
         String path = getIntent().getExtras().getString("path");
         if (!TextUtils.isEmpty(path)) {
             imageLoaders.loadImage(head_iv,path);

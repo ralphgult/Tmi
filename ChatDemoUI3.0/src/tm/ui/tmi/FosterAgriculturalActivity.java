@@ -1,57 +1,36 @@
 package tm.ui.tmi;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.xbh.tmi.R;
-import com.xbh.tmi.ui.LoginActivity;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import tm.http.Config;
-import tm.http.NetFactory;
 import tm.manager.PersonManager;
-import tm.ui.mine.CompCenterActivity;
-import tm.ui.tmi.adapter.GoodsChangeImgAdapter;
+import tm.ui.mine.HeadBigActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
-import tm.utils.SysUtils;
 
 /**
  * Created by Lking on 2016/12/12.
  */
-
 public class FosterAgriculturalActivity extends Activity {
     private ImageView mBack;
     private TextView mTop;
     private TextView mName;
     private TextView mNumber;
     private TextView mIntegral;
+    private TextView mTxt_02;
+    private TextView mTxt_01;
     private TextView mDetail;
     private ImageView mImg01;
     private ImageView mImg02;
@@ -60,6 +39,7 @@ public class FosterAgriculturalActivity extends Activity {
     private int position;//上传的第几个
     private String userId;//用户ID
     private ImageLoaders imageLoaders;
+    String []strimgs = new String[4];
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -89,7 +69,6 @@ public class FosterAgriculturalActivity extends Activity {
                         mDetail.setText(introduce);
 
                         JSONArray jsonArray = jsonObject.getJSONArray("sfi");
-                        String []strimgs = new String[jsonArray.length()];
                         for(int i=0;i<jsonArray.length();i++){
                             JSONObject mark = (JSONObject)jsonArray.get(i);
                             strimgs[i] = mark.getString("imgUrl");
@@ -126,6 +105,7 @@ public class FosterAgriculturalActivity extends Activity {
                 PersonManager.sendFosterInfo(position,mHandler);
             }
         }.start();
+        setLister();
     }
 
     private void getIntentInfo(){
@@ -146,12 +126,82 @@ public class FosterAgriculturalActivity extends Activity {
         mNumber = (TextView)findViewById(R.id.foster_title_number);
         mIntegral = (TextView)findViewById(R.id.foster_title_integral);
         mDetail = (TextView)findViewById(R.id.foster_details);
+        mTxt_01 = (TextView)findViewById(R.id.foster_txt_01);
+        mTxt_02 = (TextView)findViewById(R.id.foster_txt_02);
         mImg01 = (ImageView)findViewById(R.id.foster_img_01);
         mImg02 = (ImageView)findViewById(R.id.foster_img_02);
         mImg03 = (ImageView)findViewById(R.id.foster_img_03);
         mImg04 = (ImageView)findViewById(R.id.foster_img_04);
     }
-
+    private void setLister(){
+        mImg01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String str = strimgs[0];
+                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+                intent.putExtra("path",str);
+                startActivity(intent);
+            }
+        });
+        mImg02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String str = strimgs[1];
+                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+                intent.putExtra("path",str);
+                startActivity(intent);
+            }
+        });
+        mImg03.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String str = strimgs[2];
+                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+                intent.putExtra("path",str);
+                startActivity(intent);
+            }
+        });
+        mImg04.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String str = strimgs[3];
+                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+                intent.putExtra("path",str);
+                startActivity(intent);
+            }
+        });
+        mTxt_01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (position){
+                    case 1://苹果
+                        Toast.makeText(FosterAgriculturalActivity.this,"苹果已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2://梨
+                        Toast.makeText(FosterAgriculturalActivity.this,"梨已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3://红枣
+                        Toast.makeText(FosterAgriculturalActivity.this,"红枣已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4://桃子
+                        Toast.makeText(FosterAgriculturalActivity.this,"桃子已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5://葡萄
+                        Toast.makeText(FosterAgriculturalActivity.this,"葡萄已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6://西瓜
+                        Toast.makeText(FosterAgriculturalActivity.this,"西瓜已加入购物车",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        mTxt_02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(FosterAgriculturalActivity.this,"选择兑换盒数后购买",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
 
