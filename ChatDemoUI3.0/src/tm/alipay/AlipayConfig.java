@@ -1,0 +1,12 @@
+package tm.alipay;
+
+public class AlipayConfig {
+    // 商户PID
+    public static final String PARTNER = "2016052601444655";
+    // 商户收款账号
+    public static final String SELLER = "wntckj@qq.com";
+    // 商户私钥，pkcs8格式
+    public static final String RSA_PRIVATE = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAM2LbxDUhRODA2rpVjWk9hGNXHvK4p/kO+DWeiS2oWIhUadYfCLSgKLnJFBgIsAb8MG25IIoto6f7XxhGdPZugbx/DdaYoPxdDj1fyfC58DkpQlvi+BH2cj8/sPYGOGgQyMUg2xwAF2ZW/2rLaSPPGRxkXrp5itE1wiopb0bXpNTAgMBAAECgYEAvs0EWLcuoSIo9gGMSVfMJBb5FuEK5inTe68cyx/NR25ugc2dziVhy9aM2x+ionpNT0UbccehT1wd9Cue8g1WpJlti39YPWK0wT1uQDNVSkrULngakgX0x71WKnGjZsGC99KQHe/HDP4rHBuNscwnFnZvmxcTBXsIusLKGW8tXWECQQDxFykfn6M8L4x243D0vJjTwau9wftFHyNDpHPCaXu1Za2tWaCEcWNkSqc3qMYF6+jjYmQ7GYIQTO3zBUnlBZdXAkEA2kGHB7GSPbenhRc9AFbDAVvHFE2DUJDhMy0Aa0TQuvhrBycrLHWGILNNxYAzevyL7TnwXJDJZX6vQVAkmdBSZQJBANXnqboAJpGI0oTNaXQLPUFsbVdQnAMJDH3AlGCivHsGeuD6S5wXCot6XQDaQtAQLrJIowt4p1iVGO3s/FIx8sMCQQC9Zi/vlUD7HezZqhjdumzvON3B2KIjwBYtetfqPoWEOx9lza/BnRsQNYk/4sjJ6W7kJmtXaK3czdr4KrwYXpehAkBoZ1f2hkg791tTV+22+WSAtWmrvTabPdjFarYbi3h9cK5Gl4HXuDD01CDDbxs8tYIFfjMDUMfJiO7pssftTl+";
+    // 支付宝公钥
+    public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCVu+S5OJBY+C9ZHxLExE6hGhHetDWs80KjETdC fUzPDlPTjOKoibPKLxuC2KjIMmqTcIDTI6PDduac7Pi5+4N/BXqdfjKxC3/M7xZzka0wCgrGaVeH D6lA078/AOHiUyJWWt/bkcecqKhNlsxbDUOjZdGrnFE7CXwndPbsC5BKIwIDAQAB";
+}
