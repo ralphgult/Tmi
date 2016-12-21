@@ -3,6 +3,7 @@ package tm.ui.mine;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import tm.ui.tmi.adapter.OrderAdapter;
+import tm.utils.ViewUtil;
 
 public class MineOrderActivity extends Activity implements View.OnClickListener {
     private ImageView order_back;
@@ -74,7 +76,7 @@ public class MineOrderActivity extends Activity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if (v.getId() == order_back.getId()) {
-
+            ViewUtil.backToOtherActivity(this);
         } else {
             for (int i = 0; i < tabs.length; i++) {
                 if (v.getId() == tabs[i].getId()) {
@@ -93,5 +95,13 @@ public class MineOrderActivity extends Activity implements View.OnClickListener 
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> map;
         return list;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            ViewUtil.backToOtherActivity(this);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
