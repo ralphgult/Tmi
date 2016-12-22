@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xbh.tmi.R;
@@ -52,6 +53,7 @@ public class AddressAdapter extends BaseAdapter {
             vh.name = (TextView) view.findViewById(R.id.addr_name);
             vh.phone = (TextView) view.findViewById(R.id.addr_phone);
             vh.addr = (TextView) view.findViewById(R.id.addr_addr);
+            vh.isDefault = (ImageView) view.findViewById(R.id.addr_btn_default);
             view.setTag(vh);
         }else{
             view = convertView;
@@ -60,11 +62,26 @@ public class AddressAdapter extends BaseAdapter {
         vh.name.setText(dataList.get(position).get("name"));
         vh.phone.setText(dataList.get(position).get("phone"));
         vh.addr.setText(dataList.get(position).get("addr"));
+        String str = dataList.get(position).get("default");
+        if (str.equals("1")) {
+            vh.isDefault.setSelected(true);
+        }else{
+            vh.isDefault.setSelected(false);
+        }
+        vh.isDefault.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!vh.isDefault.isSelected()) {
+
+                }
+            }
+        });
         return view;
     }
     private class ViewHolder{
         TextView name;
         TextView phone;
         TextView addr;
+        ImageView isDefault;
     }
 }

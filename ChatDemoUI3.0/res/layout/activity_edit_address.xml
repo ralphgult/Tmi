@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_address"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg"
+    android:orientation="vertical"
+    tools:context="tm.ui.mine.EditAddressActivity">
+
+    <RelativeLayout
+        android:id="@+id/yx_fgt_conversation_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+
+        <ImageView
+            android:id="@+id/edit_address_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ease_back" />
+
+        <TextView
+            android:id="@+id/edit_address_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="添加新地址"
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/edit_address_add_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="保存"
+            android:textColor="@color/background_white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/edit_address_name_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="@color/background_white"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="收货人"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/edit_address_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:background="@color/background_white"
+            android:gravity="center_vertical|end"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp"
+            tools:text="张三" />
+    </LinearLayout>
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+
+    <LinearLayout
+        android:id="@+id/edit_address_phone_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="@color/background_white"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="联系电话"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/edit_address_phone_tv"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:background="@color/background_white"
+            android:gravity="center_vertical|end"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp"
+            tools:text="13546982547" />
+    </LinearLayout>
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+
+    <EditText
+        android:id="@+id/edit_address_content_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_white"
+        android:gravity="start"
+        android:hint="请填写详细地址，不少于5个字"
+        android:minHeight="100dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:textColor="#4e4e4e"
+        android:textSize="16sp" />
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+</LinearLayout>

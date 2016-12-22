@@ -48,6 +48,9 @@ public class Config {
     public static String URL_FOSTER_AGRICULTURAL = ROOT_HOST_NAME + "/CBDParkingMSs/sf/details";//扶植农业接口
     public static String URL_FRIENDS = ROOT_HOST_NAME + "/CBDParkingMSs/friends/myFriends";//好友列表接口
 
+    public static String URL_GET_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/myAddress";//获取收货地址
+    public static String URL_ADD_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addReceiptAddress";//获取收货地址
+    public static String URL_EDT_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addReceiptAddress";//添加/修改收货地址
 
     public static void init(Context context) throws IOException {
     }
