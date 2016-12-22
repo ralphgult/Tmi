@@ -46,6 +46,7 @@ public class FosterAgriculturalActivity extends Activity {
     private int position;//上传的第几个
     private String userId;//用户ID
     private ImageLoaders imageLoaders;
+    String integral;
     String[] strimgs = new String[4];
     private Handler mHandler = new Handler() {
         @Override
@@ -70,7 +71,7 @@ public class FosterAgriculturalActivity extends Activity {
                         mName.setText(name);
                         String goodsCount = jsonObject.getString("goodsCount");
                         mNumber.setText(goodsCount + "盒");
-                        String integral = jsonObject.getString("integral");
+                        integral = jsonObject.getString("integral");
                         mIntegral.setText(integral + "元");
                         String introduce = jsonObject.getString("introduce");
                         mDetail.setText(introduce);
@@ -221,22 +222,22 @@ public class FosterAgriculturalActivity extends Activity {
             public void onClick(View view) {
                 switch (position) {
                     case 1:
-                        gotoActivity("洛川苹果", mIntegral.getText().toString());
+                        gotoActivity("洛川苹果", integral);
                         break;
                     case 2:
-                        gotoActivity("蒲城贡梨", mIntegral.getText().toString());
+                        gotoActivity("蒲城贡梨", integral);
                         break;
                     case 3:
-                        gotoActivity("陕北红枣", mIntegral.getText().toString());
+                        gotoActivity("陕北红枣", integral);
                         break;
                     case 4:
-                        gotoActivity("华晨桃子", mIntegral.getText().toString());
+                        gotoActivity("华晨桃子", integral);
                         break;
                     case 5:
-                        gotoActivity("渭北葡萄", mIntegral.getText().toString());
+                        gotoActivity("渭北葡萄", integral);
                         break;
                     case 6:
-                        gotoActivity("大荔西瓜", mIntegral.getText().toString());
+                        gotoActivity("大荔西瓜", integral);
                         break;
 
                 }
@@ -250,7 +251,6 @@ public class FosterAgriculturalActivity extends Activity {
         intent.putExtra("name", name);
         intent.putExtra("price", price);
         startActivity(intent);
-        finish();
     }
 
     class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
