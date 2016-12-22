@@ -634,6 +634,10 @@
             android:name="tm.ui.mine.EditAddressActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="tm.ui.tmi.FosterShopActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>
