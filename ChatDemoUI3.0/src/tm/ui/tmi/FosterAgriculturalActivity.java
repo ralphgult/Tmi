@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,9 @@ import tm.utils.ImageLoaders;
  */
 public class FosterAgriculturalActivity extends Activity {
     private ImageView mBack;
+    private TextView mTitle;
+    private LinearLayout mCommodityLayout;
+    private LinearLayout mBomLayout;
     private TextView mTop;
     private TextView mName;
     private TextView mNumber;
@@ -64,7 +68,7 @@ public class FosterAgriculturalActivity extends Activity {
                         String goodsCount = jsonObject.getString("goodsCount");
                         mNumber.setText(goodsCount+"盒");
                         String integral = jsonObject.getString("integral");
-                        mIntegral.setText(integral+"积分");
+                        mIntegral.setText(integral+"元");
                         String introduce = jsonObject.getString("introduce");
                         mDetail.setText(introduce);
 
@@ -98,13 +102,22 @@ public class FosterAgriculturalActivity extends Activity {
         getIntentInfo();
         initView();
         imageLoaders = new ImageLoaders(this, new imageLoaderListener());
-        new Thread(){
-            @Override
-            public void run() {
-                //根据不同的position加载不同数据
-                PersonManager.sendFosterInfo(position,mHandler);
-            }
-        }.start();
+        if(position>6){
+            mTitle.setText("扶植农业");
+            mCommodityLayout.setVisibility(View.GONE);
+            mBomLayout.setVisibility(View.GONE);
+        }else{
+            mTitle.setText("商品详情");
+            mCommodityLayout.setVisibility(View.VISIBLE);
+            mBomLayout.setVisibility(View.VISIBLE);
+            new Thread(){
+                @Override
+                public void run() {
+                    //根据不同的position加载不同数据
+                    PersonManager.sendFosterInfo(position,mHandler);
+                }
+            }.start();
+        }
         setLister();
     }
 
@@ -122,6 +135,9 @@ public class FosterAgriculturalActivity extends Activity {
             }
         });
         mTop = (TextView)findViewById(R.id.foster_rebate);
+        mTitle = (TextView)findViewById(R.id.foster_title_tv);
+        mCommodityLayout = (LinearLayout) findViewById(R.id.foster_commodity_layout);
+        mBomLayout = (LinearLayout) findViewById(R.id.foster_bom_title);
         mName = (TextView)findViewById(R.id.foster_title_name);
         mNumber = (TextView)findViewById(R.id.foster_title_number);
         mIntegral = (TextView)findViewById(R.id.foster_title_integral);
@@ -198,7 +214,28 @@ public class FosterAgriculturalActivity extends Activity {
         mTxt_02.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(FosterAgriculturalActivity.this,"选择兑换盒数后购买",Toast.LENGTH_SHORT).show();
+                switch (position){
+                    case 1:
+                        Toast.makeText(FosterAgriculturalActivity.this,"购买洛川苹果；单价= "+mIntegral.getText().toString(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(FosterAgriculturalActivity.this,"购买蒲城贡梨；单价= "+mIntegral.getText().toString(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        Toast.makeText(FosterAgriculturalActivity.this,"购买陕北红枣；单价= "+mIntegral.getText().toString(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        Toast.makeText(FosterAgriculturalActivity.this,"购买华晨桃子；单价= "+mIntegral.getText().toString(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5:
+                        Toast.makeText(FosterAgriculturalActivity.this,"购买渭北葡萄；单价= "+mIntegral.getText().toString(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6:
+                        Toast.makeText(FosterAgriculturalActivity.this,"购买大荔西瓜；单价= "+mIntegral.getText().toString(),Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+
             }
         });
     }
