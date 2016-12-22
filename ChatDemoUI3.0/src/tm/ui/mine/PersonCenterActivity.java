@@ -8,13 +8,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -47,6 +50,7 @@ import tm.manager.PersonManager;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
+import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
@@ -65,89 +69,92 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private ImageView head_iv;
     private TextView sign_tv;
     private GridView gv;
-    //调用系统相册-选择图片
-    private static final int CHANGEHEAD = 1;
-    private static final int WALLFACE = 2;
+    private int CHANGE_FACE_WALL = 0;
+    private int CHANGE_HEAD = 1;
+    private static final int CHANGEHEAD_LOCAL = 1;
+    private static final int WALLFACE_LOCAL = 2;
+    private static final int CHANGEHEAD_CAMERA = 3;
+    private static final int WALLFACE_CAMERA = 4;
+    private CommonSelectImgPopupWindow mPopupWindow;
     private InputDialog signDialog;
     private List<String> imgPath;
     private List<Integer> idList;
     private Map<String, String> mData;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case ConstantsHandler.EXECUTE_SUCCESS:
-                    Map map = (Map) msg.obj;
-                    Log.e("info", "map==" + map);
-                    String authId = map.get("state") + "";
-                    if (authId.equals("1")) {
-                        try {
-                            String str = "{\"faceScore\":" + map.get("faceScore") + "}";
-                            JSONObject object = new JSONObject(str);
-                            JSONArray array = object.getJSONArray("faceScore");
-                            imgPath.clear();
-                            idList.clear();
-                            if (array.length() > 0) {
-                                for (int i = 0; i < array.length(); i++) {
-                                    object = array.getJSONObject(i);
-                                    imgPath.add(object.getString("url"));
-                                    idList.add(object.getInt("fsId"));
-                                }
-                                if (imgPath.size() < 8) {
-                                    imgPath.add("0");
-                                }
-                            } else {
-                                imgPath.add("0");
-                            }
-                            mAdapter.resetData(imgPath,idList);
-                            gv.setAdapter(mAdapter);
-                            SysUtils.setGridViewHight(gv);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case ConstantsHandler.EXECUTE_FAIL:
-                    Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                    break;
-                case 1001:
-                    Toast.makeText(PersonCenterActivity.this,"上传头像成功",Toast.LENGTH_SHORT).show();
-                    head_iv.setImageBitmap(BitmapFactory.decodeFile(imagePath));
-                    break;
-                case 1002:
-                    Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                    break;
-                case 2001:
-                case 3001:
-                    List<NameValuePair> list2 = new ArrayList<NameValuePair>();
-                    SharedPreferences sharedPre2 = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
-                    String userId2 = sharedPre2.getString("username", "");
-                    if (!TextUtils.isEmpty(userId2)) {
-                        list2.add(new BasicNameValuePair("userId", userId2));
-                        list2.add(new BasicNameValuePair("type", "1"));
-                    } else {
-                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    NetFactory.instance().commonHttpCilent(mHandler, PersonCenterActivity.this,
-                            Config.URL_GET_USRE_FACEWALL, list2);
-                    break;
-                default:
-                    Toast.makeText(PersonCenterActivity.this, "颜值图片上传失败，请稍后再试...", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
+    private Handler mHandler;
     private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_center);
+        init();
         initView();
         setData();
+    }
+
+    private void init(){
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case ConstantsHandler.EXECUTE_SUCCESS:
+                        Map map = (Map) msg.obj;
+                        Log.e("info", "map==" + map);
+                        String authId = map.get("state") + "";
+                        if (authId.equals("1")) {
+                            try {
+                                String str = "{\"faceScore\":" + map.get("faceScore") + "}";
+                                JSONObject object = new JSONObject(str);
+                                JSONArray array = object.getJSONArray("faceScore");
+                                imgPath.clear();
+                                idList.clear();
+                                if (array.length() > 0) {
+                                    for (int i = 0; i < array.length(); i++) {
+                                        object = array.getJSONObject(i);
+                                        imgPath.add(object.getString("url"));
+                                        idList.add(object.getInt("fsId"));
+                                    }
+                                    if (imgPath.size() < 8) {
+                                        imgPath.add("0");
+                                    }
+                                } else {
+                                    imgPath.add("0");
+                                }
+                                mAdapter.resetData(imgPath, idList);
+                                gv.setAdapter(mAdapter);
+                                SysUtils.setGridViewHight(gv);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case 1001:
+                        Toast.makeText(PersonCenterActivity.this, "上传头像成功", Toast.LENGTH_SHORT).show();
+                        head_iv.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+                        break;
+                    case 2001:
+                    case 3001:
+                        List<NameValuePair> list2 = new ArrayList<NameValuePair>();
+                        SharedPreferences sharedPre2 = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
+                        String userId2 = sharedPre2.getString("username", "");
+                        if (!TextUtils.isEmpty(userId2)) {
+                            list2.add(new BasicNameValuePair("userId", userId2));
+                            list2.add(new BasicNameValuePair("type", "1"));
+                        } else {
+                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        NetFactory.instance().commonHttpCilent(mHandler, PersonCenterActivity.this,
+                                Config.URL_GET_USRE_FACEWALL, list2);
+                        break;
+                    default:
+                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        };
     }
 
     private void setData() {
@@ -188,11 +195,9 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 if (!imgPath.get(position).equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("path", imgPath.get(position));
-                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, HeadBigActivity.class,bundle);
+                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, HeadBigActivity.class, bundle);
                 } else {
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    PersonCenterActivity.this.startActivityForResult(intent, WALLFACE);
+                    showPopupWindow(CHANGE_FACE_WALL);
                 }
             }
         });
@@ -219,9 +224,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 createSignDialog();
                 break;
             case R.id.person_center_head_rv:
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, CHANGEHEAD);
+                showPopupWindow(CHANGE_HEAD);
                 break;
         }
     }
@@ -229,25 +232,44 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //获取图片路径
         if (resultCode == Activity.RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            imagePath = c.getString(columnIndex);
-            c.close();
-            if (requestCode == CHANGEHEAD) {
-                uploadPhotoThread thread = new uploadPhotoThread();
-                thread.start();
-            }else{
-               new Thread(){
-                   @Override
-                   public void run() {
-                       PersonManager.uploadImgwall(imagePath,1,mHandler);
-                   }
-               }.start();
+            try {
+                if (requestCode == CHANGEHEAD_LOCAL || requestCode == WALLFACE_LOCAL) {
+                    //选择本地图片
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                    imagePath = c.getString(columnIndex);
+                    c.close();
+                } else if (requestCode == CHANGEHEAD_CAMERA || requestCode == WALLFACE_CAMERA) {
+                    //照相返回
+                    String sdStatus = Environment.getExternalStorageState();
+                    if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
+                        Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String name = System.currentTimeMillis() + ".jpg";
+                    imagePath = "/mnt/sdcard/ImageLoader/cache/imageslarge/" + name;
+                    Bundle bundle = data.getExtras();
+                    Bitmap bitmap = (Bitmap) bundle.get("data");
+                    ImageUtil.saveBitmap(bitmap, imagePath);
+                }
+
+                if (requestCode == CHANGEHEAD_LOCAL || requestCode == CHANGEHEAD_CAMERA) {
+                    uploadPhotoThread thread = new uploadPhotoThread();
+                    thread.start();
+                } else if (requestCode == WALLFACE_LOCAL || requestCode == WALLFACE_CAMERA) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            PersonManager.uploadImgwall(imagePath, 1, mHandler);
+                        }
+                    }.start();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -257,7 +279,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         public void run() {
             SharedPreferences sharedPre = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
             String userId = sharedPre.getString("username", "");
-            PersonManager.SubmitPost(new File(imagePath), userId, 1,mHandler);
+            PersonManager.SubmitPost(new File(imagePath), userId, 1, mHandler);
         }
     }
 
@@ -314,7 +336,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                             }
                                         }, PersonCenterActivity.this,
                                         Config.URL_CHANGE_SIGN, list);
-                    }else{
+                    } else {
                         Toast.makeText(PersonCenterActivity.this, "个性签名不能为空", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -329,5 +351,33 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         public void onImageLoad(View v, Bitmap bmp, String url) {
             ((ImageView) v).setImageBitmap(bmp);
         }
+    }
+
+    private void showPopupWindow(final int type) {
+        if (null == mPopupWindow) {
+            mPopupWindow = new CommonSelectImgPopupWindow(this);
+            WindowManager wm = (WindowManager) this.getSystemService(WINDOW_SERVICE);
+            mPopupWindow.setWidth(wm.getDefaultDisplay().getWidth());
+        }
+        mPopupWindow.mOnclickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                switch (v.getId()) {
+                    case R.id.yx_common_add_img_pupwindow_camera_tv:
+                        //照相
+                        intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        PersonCenterActivity.this.startActivityForResult(intent, type == CHANGE_FACE_WALL ? WALLFACE_CAMERA : CHANGEHEAD_CAMERA);
+                        break;
+                    case R.id.yx_common_add_img_pupwindow_local_tv:
+                        //相册
+                        intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        PersonCenterActivity.this.startActivityForResult(intent, type == CHANGE_FACE_WALL ? WALLFACE_LOCAL : CHANGEHEAD_LOCAL);
+                        break;
+                }
+            }
+        };
+        mPopupWindow.showAtBOTTOM(LayoutInflater.from(this).inflate(R.layout.activity_person_center, null));
     }
 }
