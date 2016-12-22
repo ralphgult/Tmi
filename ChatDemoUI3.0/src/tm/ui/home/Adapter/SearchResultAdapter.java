@@ -58,6 +58,9 @@ public class SearchResultAdapter extends BaseAdapter {
     public long getItemId(int arg0) {
         return Long.parseLong(list.get(arg0).get("userid").toString());
     }
+    public long getItemzhanghao(int arg0) {
+        return Long.parseLong(list.get(arg0).get("uname").toString());
+    }
 
     @Override
     public View getView(int index, View view, ViewGroup parent) {

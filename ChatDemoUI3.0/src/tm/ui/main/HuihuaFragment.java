@@ -203,9 +203,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 currentClick=3;
                 break;
             case R.id.btn_search:
-
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
-                Log.e("info","type=sss="+type);
                 intent.putExtra("type",""+type);
                 startActivity(intent);
                 break;
@@ -420,9 +418,16 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                     intent.putExtra("position",position );
                     startActivity(intent);
                 }else{//扶植农业
-                    Intent intent = new Intent(getActivity(), FosterAgriculturalActivity.class);
-                    intent.putExtra("position",position+1);
-                    startActivity(intent);
+                    if(position>5){
+                        Intent intent = new Intent(getActivity(), BenditeseActivity.class);
+                        intent.putExtra("position",1 );
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(getActivity(), FosterAgriculturalActivity.class);
+                        intent.putExtra("position",position+1);
+                        startActivity(intent);
+                    }
+
                 }
             }
         });
