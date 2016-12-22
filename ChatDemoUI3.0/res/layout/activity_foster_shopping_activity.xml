@@ -17,10 +17,10 @@
             android:layout_centerInParent="true"
             android:text="购买商品"
             android:textColor="@color/background_white"
-            android:textSize="20sp" />
+            android:textSize="22sp" />
 
         <ImageView
-            android:id="@+id/foster_back_iv"
+            android:id="@+id/foster_shop_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -39,7 +39,7 @@
         android:layout_marginRight="15dp"
         android:gravity="center_vertical|left"
         android:text="商品名称："
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,7 +55,7 @@
             android:layout_marginRight="15dp"
             android:gravity="center_vertical|left"
             android:text="商品数量："
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,8 +67,8 @@
 
             <TextView
                 android:id="@+id/foster_comm_add_tv"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/foster_shopping_shape"
                 android:gravity="center"
                 android:text="+"
@@ -76,8 +76,8 @@
 
             <TextView
                 android:id="@+id/foster_comm_sum_tv"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/foster_shopping_shape"
                 android:gravity="center"
                 android:text="1"
@@ -85,8 +85,8 @@
 
             <TextView
                 android:id="@+id/foster_comm_delete_tv"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/foster_shopping_shape"
                 android:gravity="center"
                 android:text="-"
@@ -102,7 +102,7 @@
         android:layout_marginRight="15dp"
         android:gravity="center_vertical"
         android:text="商品金额："
-        android:textSize="18dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/foster_comm_sure_tv"
@@ -114,5 +114,5 @@
         android:background="@drawable/foster_shopping_shape"
         android:gravity="center"
         android:text="确认购买"
-        android:textSize="18dp" />
+        android:textSize="20dp" />
 </LinearLayout>
