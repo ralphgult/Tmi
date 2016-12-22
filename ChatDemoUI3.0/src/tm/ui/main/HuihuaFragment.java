@@ -418,6 +418,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                     intent.putExtra("position",position );
                     startActivity(intent);
                 }else{//扶植农业
+                    //Todo 扶植农业其他接口好了，注释掉这
                     if(position>5){
                         Intent intent = new Intent(getActivity(), BenditeseActivity.class);
                         intent.putExtra("position",1 );
