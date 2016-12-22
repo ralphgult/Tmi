@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/yx_common_color_white"
+    android:orientation="vertical">
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+
+    <TextView
+        android:id="@+id/yx_common_add_img_pupwindow_camera_tv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="拍照"
+        android:textColor="@color/text_all_black"
+        android:textSize="14sp" />
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+
+    <TextView
+        android:id="@+id/yx_common_add_img_pupwindow_local_tv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="相册"
+        android:textColor="@color/text_all_black"
+        android:textSize="14sp" />
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+
+    <TextView
+        android:id="@+id/yx_common_add_img_pupwindow_cancle_tv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/text_all_black"
+        android:textSize="14sp" />
+
+    <View style="@style/tm_common_divide_line_whitebg_width" />
+</LinearLayout>
