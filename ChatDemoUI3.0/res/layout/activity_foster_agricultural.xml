@@ -13,6 +13,7 @@
         android:background="@drawable/tm_huihua_title_bar">
 
         <TextView
+            android:id="@+id/foster_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -24,6 +25,7 @@
             android:id="@+id/foster_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -38,6 +40,7 @@
         android:layout_weight="1">
 
         <LinearLayout
+            android:id="@+id/foster_commodity_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -79,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical|right"
-                    android:text="积分"
+                    android:text="元"
                     android:textColor="@color/msg_red"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -123,6 +126,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/foster_bom_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -145,7 +149,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="立即兑换"
+            android:text="立即购买"
             android:textColor="#9966CC"
             android:textSize="20sp" />
     </LinearLayout>

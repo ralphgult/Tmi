@@ -1,5 +1,6 @@
 package tm.ui.home;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,7 +51,6 @@ public class SearchResultActivity extends BaseActivity {
         setContentView(R.layout.tm_search_result_aty);
         searchin=getIntent().getStringExtra("companyName");
         type=getIntent().getStringExtra("type");
-        Log.e("info","type=22="+type);
         SharedPreferences sharedPre=getSharedPreferences("config",MODE_PRIVATE);
         username=sharedPre.getString("username", "");
         lat=sharedPre.getString("lat","");
@@ -74,10 +74,11 @@ public class SearchResultActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
 
-//                Intent intent = new Intent(SearchResultActivity.this, GeranActivity.class);
-//                intent.putExtra("id", listAdapter.getItemId(arg2)+"");
-//                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2)+"");
-//                startActivity(intent);
+                Intent intent = new Intent(SearchResultActivity.this, GeranActivity.class);
+                Log.e("info","arg2===22="+arg2);
+                intent.putExtra("id", listAdapter.getItemId(arg2)+"");
+                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2)+"");
+                startActivity(intent);
             }
         });
     }
