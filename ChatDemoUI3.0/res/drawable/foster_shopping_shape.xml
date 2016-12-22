@@ -11,10 +11,10 @@
     <corners android:radius="2dp" />
     <!-- 边距 -->
     <padding
-        android:bottom="5dp"
-        android:left="10dp"
-        android:right="10dp"
-        android:top="5dp" />
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp" />
 
 
 </shape>
