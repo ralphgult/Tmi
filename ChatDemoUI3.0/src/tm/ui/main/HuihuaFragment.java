@@ -221,6 +221,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         lat=sharedPre.getString("lat","");
         lng=sharedPre.getString("lng","");
         LoadView();
+        rjtype=1;
         LoadData1();
         refreshListView.setVisibility(View.VISIBLE);
         huihua_gridview.setVisibility(View.GONE);
@@ -401,7 +402,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
 
                 Intent intent = new Intent(getActivity(), GeranActivity.class);
                 intent.putExtra("id", listAdapter.getItemId(arg2-1)+"");
-                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2-1)+"");
+//                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2-1)+"");
                 startActivity(intent);
             }
         });

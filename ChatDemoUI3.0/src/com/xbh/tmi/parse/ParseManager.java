@@ -20,6 +20,9 @@ import com.xbh.tmi.DemoHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import tm.db.dao.FriendDao;
+import tm.entity.FriendBean;
+
 public class ParseManager {
 
 	private static final String TAG = ParseManager.class.getSimpleName();
@@ -101,10 +104,13 @@ public class ParseManager {
 					for (ParseObject pObject : arg0) {
 					    EaseUser user = new EaseUser(pObject.getString(CONFIG_USERNAME));
 						ParseFile parseFile = pObject.getParseFile(CONFIG_AVATAR);
+						FriendBean fb= new FriendDao().getLocalUserInfoByUserId(pObject.getString(CONFIG_USERNAME));
 						if (parseFile != null) {
-							user.setAvatar(parseFile.getUrl());
+//							user.setAvatar(parseFile.getUrl());
+							user.setAvatar(fb.mphoto);
 						}
-						user.setNick(pObject.getString(CONFIG_NICK));
+//						user.setNick(pObject.getString(CONFIG_NICK));
+						user.setNick(fb.mNickname);
 						EaseCommonUtils.setUserInitialLetter(user);
 						mList.add(user);
 					}
