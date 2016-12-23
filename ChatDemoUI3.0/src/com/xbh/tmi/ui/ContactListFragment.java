@@ -13,24 +13,6 @@
  */
 package com.xbh.tmi.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-
-import com.hyphenate.chat.EMClient;
-import com.xbh.tmi.DemoHelper;
-import com.xbh.tmi.DemoHelper.DataSyncListener;
-import com.xbh.tmi.R;
-import com.xbh.tmi.db.InviteMessgeDao;
-import com.xbh.tmi.db.UserDao;
-import com.xbh.tmi.widget.ContactItemView;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.ui.EaseContactListFragment;
-import com.hyphenate.util.EMLog;
-import com.hyphenate.util.NetUtils;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,11 +29,28 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.ui.EaseContactListFragment;
+import com.hyphenate.util.EMLog;
+import com.hyphenate.util.NetUtils;
+import com.xbh.tmi.DemoHelper;
+import com.xbh.tmi.DemoHelper.DataSyncListener;
+import com.xbh.tmi.R;
+import com.xbh.tmi.db.InviteMessgeDao;
+import com.xbh.tmi.db.UserDao;
+import com.xbh.tmi.widget.ContactItemView;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 import tm.db.dao.FriendDao;
 import tm.entity.FriendBean;
@@ -398,10 +397,6 @@ public class ContactListFragment extends EaseContactListFragment {
                     mFriendBean.mphoto=jo.get("photo")+"";
                     mFriendBean.mUsername= jo.get("userName")+"";
                     mFriendBean.mUserID= Integer.parseInt(jo.get("userId")+"");
-                    Log.e("info","mNickname=="+mFriendBean.mNickname);
-                    Log.e("info","mphoto=="+mFriendBean.mphoto);
-                    Log.e("info","mUsername=="+mFriendBean.mUsername);
-                    Log.e("info","mUserID=="+mFriendBean.mUserID);
                     friendlist.add(mFriendBean);
                     mdao.insertUserInfoList(friendlist);
                 }

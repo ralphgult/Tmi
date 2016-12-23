@@ -26,7 +26,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,22 +42,23 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQAuth;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.DemoHelper;
 import com.xbh.tmi.R;
 import com.xbh.tmi.db.DemoDBManager;
-import com.tencent.connect.UserInfo;
-import com.tencent.connect.auth.QQAuth;
-import com.tencent.tauth.IUiListener;
-import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,6 +71,8 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
+import tm.db.dao.FriendDao;
+import tm.entity.FriendBean;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.ui.login.PwdFindActivity;
@@ -114,6 +116,7 @@ public class LoginActivity extends BaseActivity {
 	public static final String APP_SECRET = "fcef682cbaab83ea263658c7beb7ab44";
 	public static BaseResp resp;
 	private IWXAPI api;
+	private String uid;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -404,8 +407,9 @@ public class LoginActivity extends BaseActivity {
 					String authId = map.get("authId") + "";
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-						String uid=map.get("userId")+"";
+						uid=map.get("userId")+"";
 						saveLoginInfo(LoginActivity.this,uid);
+						LoadData();
 						hxlogin();
 					}else{
 						Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
@@ -612,5 +616,55 @@ public class LoginActivity extends BaseActivity {
 			//System.out.println("已经安装");
 			return true;
 		}
+	}
+	/**
+	 * 好友列表
+	 */
+	public void LoadData() {
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		list.add(new BasicNameValuePair("userId", uid));
+		NetFactory.instance().commonHttpCilent(handler, LoginActivity.this,
+				Config.URL_FRIENDS, list);
+
+	}
+	/**
+	 * 接口回调
+	 */
+	Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Log.e("info","msg.what=111="+msg.what);
+			switch (msg.what) {
+				case ConstantsHandler.EXECUTE_SUCCESS:
+					Map map = (Map) msg.obj;
+					Log.e("info","map=11="+map);
+					setData(map);
+					//插库
+					break;
+				default:
+					break;
+			}
+		}
+	};
+	protected void setData(Map map) {
+		try {
+			JSONObject obj =new JSONObject(map.toString());
+			JSONArray objList = obj.getJSONArray("rows");
+			FriendBean mFriendBean=new FriendBean();
+			FriendDao mdao =new FriendDao();
+			List<FriendBean> friendlist = new ArrayList<FriendBean>();
+			if(objList.length()>0){
+				for (int i = 0; i < objList.length(); i++) {
+					JSONObject jo = objList.getJSONObject(i);
+					mFriendBean.mNickname=jo.get("nickname")+"";
+					mFriendBean.mphoto=jo.get("photo")+"";
+					mFriendBean.mUsername= jo.get("userName")+"";
+					mFriendBean.mUserID= Integer.parseInt(jo.get("userId")+"");
+					friendlist.add(mFriendBean);
+					mdao.insertUserInfoList(friendlist);
+				}
+			}
+		} catch (JSONException e) {
+		}
+
 	}
 }

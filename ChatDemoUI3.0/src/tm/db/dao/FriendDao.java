@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.hyphenate.easeui.domain.EaseUser;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import tm.db.TmDB;
@@ -104,6 +107,43 @@ public class FriendDao {
             }
         }
         return userInfoBean;
+    }
+    /**
+     * 获取列表JSON
+     * @return
+     */
+    public List<EaseUser> getFriendList(){
+        List<EaseUser> albumJsonList = null;
+        Cursor cursor = null;
+        FriendBean userInfoBean = null;
+        try {
+            cursor = mDb.query(FriendTable.TABLE_NAME,null,null,null,null,null,null);
+            if(null != cursor && cursor.getCount() > 0){
+                albumJsonList = new ArrayList<>();
+                int albumJsonIndex1 = cursor.getColumnIndex(FriendTable.PHOTO);
+                int albumJsonIndex2 = cursor.getColumnIndex(FriendTable.NICKNAME);
+                int albumJsonIndex3 = cursor.getColumnIndex(FriendTable.USERNAME);
+                int albumJsonIndex4 = cursor.getColumnIndex(FriendTable.USERID);
+                for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                    EaseUser euser=new EaseUser(cursor.getString(albumJsonIndex3));
+                    euser.setNick(cursor.getString(albumJsonIndex2));
+                    euser.setAvatar(cursor.getString(albumJsonIndex1));
+//                    userInfoBean = new FriendBean();
+//                    userInfoBean.mphoto = cursor.getString(albumJsonIndex1);
+//                    userInfoBean.mNickname = cursor.getString(albumJsonIndex2);
+//                    userInfoBean.mUsername = cursor.getString(albumJsonIndex3);
+//                    userInfoBean.mUserID = cursor.getInt(albumJsonIndex4);
+                    albumJsonList.add(euser);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(null != cursor){
+                cursor.close();
+            }
+        }
+        return albumJsonList;
     }
 
     /**

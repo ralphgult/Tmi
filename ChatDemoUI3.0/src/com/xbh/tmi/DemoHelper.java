@@ -61,6 +61,9 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import tm.db.dao.FriendDao;
+import tm.entity.FriendBean;
+
 public class DemoHelper {
     /**
      * data sync listener
@@ -1067,7 +1070,7 @@ public class DemoHelper {
                        notifyContactsSyncListener(false);
                        return;
                    }
-                  
+
                    Map<String, EaseUser> userlist = new HashMap<String, EaseUser>();
                    for (String username : usernames) {
                        EaseUser user = new EaseUser(username);
@@ -1084,13 +1087,13 @@ public class DemoHelper {
 
                    demoModel.setContactSynced(true);
                    EMLog.d(TAG, "set contact syn status to true");
-                   
+
                    isContactsSyncedWithServer = true;
                    isSyncingContactsWithServer = false;
-                   
+
                    //notify sync success
                    notifyContactsSyncListener(true);
-                   
+
                    getUserProfileManager().asyncFetchContactInfosFromServer(usernames,new EMValueCallBack<List<EaseUser>>() {
 
                        @Override
@@ -1116,7 +1119,7 @@ public class DemoHelper {
                        callback.onError(e.getErrorCode(), e.toString());
                    }
                }
-               
+
            }
        }.start();
    }
