@@ -53,7 +53,7 @@ public class FosterShopActivity extends Activity {
         mMoneyTV = (TextView) findViewById(R.id.foster_comm_money_tv);
         mSureTV = (TextView) findViewById(R.id.foster_comm_sure_tv);
         mNameTV.setText("商品名称："+name);
-        mMoneyTV.setText("商品金额："+price);
+        mMoneyTV.setText("商品金额：" + price + "元");
         Toast.makeText(this,"m = "+name+",p ="+price,Toast.LENGTH_SHORT).show();
     }
     private void setLister(){
@@ -62,7 +62,7 @@ public class FosterShopActivity extends Activity {
             public void onClick(View view) {
                 sum = Integer.parseInt(mSumTV.getText().toString())+1;
                 mSumTV.setText(sum +"");
-                mMoneyTV.setText("商品金额："+(sum *Integer.parseInt(price)));
+                mMoneyTV.setText("商品金额："+(sum *Integer.parseInt(price)) + "元");
             }
         });
         mDeleteTV.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +74,7 @@ public class FosterShopActivity extends Activity {
                     sum = Integer.parseInt(mSumTV.getText().toString())-1;
                 }
                 mSumTV.setText(sum +"");
-                mMoneyTV.setText("商品金额："+(sum *Integer.parseInt(price)));
+                mMoneyTV.setText("商品金额："+(sum *Integer.parseInt(price)) + "元");
             }
         });
         mSureTV.setOnClickListener(new View.OnClickListener() {
