@@ -65,9 +65,9 @@ public class SysUtils {
 		for (int i = 1; i <= size; i = i + 4) {
 			View listItem = adapter.getView(0, null, view);
 			listItem.measure(0, 0);
-			totalHeight = totalHeight + listItem.getMeasuredHeight() + 4;
+			totalHeight = totalHeight + listItem.getMeasuredHeight() + 20;
 		}
-		params.height = totalHeight - 4;
+		params.height = totalHeight + 15;
 		view.setLayoutParams(params);
 	}
 }
