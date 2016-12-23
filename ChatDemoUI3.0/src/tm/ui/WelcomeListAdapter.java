@@ -114,9 +114,11 @@ public class WelcomeListAdapter extends BaseAdapter {
         }
         //热荐判断视频、关注
         if(mtype==1){
+            holder.img_add.setVisibility(View.VISIBLE);
             holder.img_guanzhu.setVisibility(View.VISIBLE);
             holder.img_shipin.setVisibility(View.INVISIBLE);
         }else{
+            holder.img_add.setVisibility(View.INVISIBLE);
             holder.img_guanzhu.setVisibility(View.INVISIBLE);
             holder.img_shipin.setVisibility(View.VISIBLE);
         }
