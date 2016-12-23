@@ -9,7 +9,7 @@
         android:layout_height="80dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-        android:background="@color/gray_normal"/>
+        android:background="@color/gray_pressed"/>
 
     <ImageView
         android:id="@+id/facewall_item_del_tv"
