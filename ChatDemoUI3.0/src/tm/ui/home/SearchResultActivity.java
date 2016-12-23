@@ -75,9 +75,7 @@ public class SearchResultActivity extends BaseActivity {
                                     long arg3) {
 
                 Intent intent = new Intent(SearchResultActivity.this, GeranActivity.class);
-                Log.e("info","arg2===22="+arg2);
                 intent.putExtra("id", listAdapter.getItemId(arg2)+"");
-                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2)+"");
                 startActivity(intent);
             }
         });

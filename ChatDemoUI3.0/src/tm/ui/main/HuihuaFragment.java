@@ -402,7 +402,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
 
                 Intent intent = new Intent(getActivity(), GeranActivity.class);
                 intent.putExtra("id", listAdapter.getItemId(arg2-1)+"");
-                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2-1)+"");
+//                intent.putExtra("uid", listAdapter.getItemzhanghao(arg2-1)+"");
                 startActivity(intent);
             }
         });

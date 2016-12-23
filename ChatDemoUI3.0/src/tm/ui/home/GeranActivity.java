@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -117,7 +118,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         SharedPreferences sharedPre=this.getSharedPreferences("config",this.MODE_PRIVATE);
         username=sharedPre.getString("username", "");
         uid=getIntent().getStringExtra("id");
-        uname=getIntent().getStringExtra("uid");
+//        uname=getIntent().getStringExtra("uid");//手机号码
         init();
         LoadData();
     }
@@ -238,7 +239,12 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
+                if(!TextUtils.isEmpty(uname)){
+                    startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
+                }else{
+                    Toast.makeText(this,"用户资料不完整!",Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.img_pic1:
                 Bundle bundle1 = new Bundle();
@@ -294,6 +300,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         finish();
     }
     private void setData(Map map) {
+        wwww.setVisibility(View.VISIBLE);
         tv_grqianming.setVisibility(View.VISIBLE);
         tv_qymc.setVisibility(View.GONE);
         lv_qiye.setVisibility(View.GONE);
@@ -320,6 +327,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             for (int i = 0; i < news.length(); i++) {
                 JSONObject jsonNew = news.getJSONObject(i);
                 tv_name.setText(jsonNew.optString("userName"));
+                uname=jsonNew.optString("user_name");
                 tv_time.setText(jsonNew.optString("create_date"));
                 tv_look.setText(jsonNew.optString("seeCount"));
                 tv_num.setText(jsonNew.optString("mpsCount"));
@@ -421,6 +429,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         }
     }
     private void setData2(Map map) {
+        wwww.setVisibility(View.GONE);
         tv_qymc.setVisibility(View.VISIBLE);
         if(qstype==3){
             tv_qymc.setText("三农名称");
@@ -440,8 +449,9 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
 
         list.clear();
         //企业名称
-        String nickname=map.get("companyName") + "";
-        if (!nickname.equals("")) {
+        String nickname;
+        if (!TextUtils.isEmpty((CharSequence) map.get("companyName"))) {
+            nickname = map.get("companyName") + "";
             tv_title.setText(nickname);
             tv_gxqm.setText(nickname);
         } else {
