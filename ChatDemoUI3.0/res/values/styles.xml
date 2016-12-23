@@ -30,6 +30,9 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/btn_gray_pressed</item>
     </style>
-
-
+    <!-- SingleWheelViewPopupWindow默认动画样式-->
+    <style name="SingleWheelViewPopuWindowAnimationPreview">
+        <item name="android:windowEnterAnimation">@anim/single_wheelview_pop_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/single_wheelview_pop_fade_out</item>
+    </style>
 </resources>

@@ -399,10 +399,12 @@ public class ImageUtil {
             throw new IllegalArgumentException("File path should not be null");
 
         File file = new File(dstFilePath);
+        if (!file.getParentFile().exists()) {
+            file.mkdirs();
+        }
         if (!file.exists()) {
             file.createNewFile();
         }
-
         FileOutputStream fos = new FileOutputStream(file);
 
         if (bmp != null && fos != null) {
@@ -564,7 +566,6 @@ public class ImageUtil {
      * 切割图片的四个角为圆角
      *
      * @param bitmap
-     * @param pixels
      * @return
      */
 

@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/tm_resouse_selector"
     android:gravity="center"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     >
     <RelativeLayout
         android:id="@+id/image_text"
@@ -19,8 +19,8 @@
         >
         <ImageView
             android:id="@+id/tm_image_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:gravity="center"
             />
 

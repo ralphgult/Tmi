@@ -36,6 +36,7 @@ import tm.ui.mine.CompCenterActivity;
 import tm.ui.mine.FarmerCenterActivity;
 import tm.ui.mine.HeadBigActivity;
 import tm.ui.mine.MineOrderActivity;
+import tm.ui.mine.MyAddressActivity;
 import tm.ui.mine.PersonCenterActivity;
 import tm.ui.setting.SettingActivity;
 import tm.ui.tmi.adapter.MomentListAdapter;
@@ -162,8 +163,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 //                ViewUtil.jumpToOtherActivity(this.getActivity(),MySoppingActivity.class);
                 break;
             case R.id.mine_my_address_tv:
-                Toast.makeText(this.getActivity(), "正在调试中...", Toast.LENGTH_SHORT).show();
-//                ViewUtil.jumpToOtherActivity(this.getActivity(),MyAddressActivity.class);
+                ViewUtil.jumpToOtherActivity(this.getActivity(),MyAddressActivity.class);
                 break;
             case R.id.mine_my_message_tv:
                 Toast.makeText(this.getActivity(), "正在调试中...", Toast.LENGTH_SHORT).show();

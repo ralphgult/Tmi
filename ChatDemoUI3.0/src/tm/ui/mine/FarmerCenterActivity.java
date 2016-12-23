@@ -8,13 +8,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -36,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +50,7 @@ import tm.manager.PersonManager;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
+import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
@@ -63,9 +68,12 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     private LinearLayout qr;
     private TextView ok;
     private ImageLoaders loaders;
-    //调用系统相册-选择图片
-    private static final int CHANGEHEAD = 1;
-    private static final int WALLFACE = 2;
+    private int CHANGE_FACE_WALL = 0;
+    private int CHANGE_HEAD = 1;
+    private static final int CHANGEHEAD_LOCAL = 1;
+    private static final int WALLFACE_LOCAL = 2;
+    private static final int CHANGEHEAD_CAMERA = 3;
+    private static final int WALLFACE_CAMERA = 4;
     private String imagePath;
     private List<String> imgList;
     private List<Integer> idList;
@@ -150,6 +158,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     private ImageView logo_iv;
     private PersonManager personManager;
     private InputDialog dialog;
+    private CommonSelectImgPopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,9 +189,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                     bundle.putString("path", imgList.get(position));
                     ViewUtil.jumpToOtherActivity(FarmerCenterActivity.this, HeadBigActivity.class, bundle);
                 } else {
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    FarmerCenterActivity.this.startActivityForResult(intent, WALLFACE);
+                    showPopupWindow(CHANGE_FACE_WALL);
                 }
             }
         });
@@ -231,9 +238,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                 ViewUtil.backToOtherActivity(this);
                 break;
             case R.id.farmer_center_head_rv:
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, CHANGEHEAD);
+                showPopupWindow(CHANGE_HEAD);
                 break;
             case R.id.farmer_center_name_text_rv:
                 createDialog("请输入三农名称");
@@ -269,25 +274,44 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //获取图片路径
         if (resultCode == Activity.RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            imagePath = c.getString(columnIndex);
-            c.close();
-            if (requestCode == CHANGEHEAD) {
-                uploadPhotoThread thread = new uploadPhotoThread();
-                thread.start();
-            } else {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        PersonManager.uploadImgwall(imagePath,3,mHandler);
+            try {
+                if (requestCode == CHANGEHEAD_LOCAL || requestCode == WALLFACE_LOCAL) {
+                    //选择本地图片
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                    imagePath = c.getString(columnIndex);
+                    c.close();
+                } else if (requestCode == CHANGEHEAD_CAMERA || requestCode == WALLFACE_CAMERA) {
+                    //照相返回
+                    String sdStatus = Environment.getExternalStorageState();
+                    if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
+                        Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                }.start();
+                    String name = System.currentTimeMillis() + ".jpg";
+                    imagePath = "/mnt/sdcard/ImageLoader/cache/imageslarge/" + name;
+                    Bundle bundle = data.getExtras();
+                    Bitmap bitmap = (Bitmap) bundle.get("data");
+                    ImageUtil.saveBitmap(bitmap, imagePath);
+                }
+
+                if (requestCode == CHANGEHEAD_LOCAL || requestCode == CHANGEHEAD_CAMERA) {
+                    uploadPhotoThread thread = new uploadPhotoThread();
+                    thread.start();
+                } else if (requestCode == WALLFACE_LOCAL || requestCode == WALLFACE_CAMERA) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            PersonManager.uploadImgwall(imagePath, 3, mHandler);
+                        }
+                    }.start();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -341,4 +365,32 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         }
         dialog.showDialog();
     }
+    private void showPopupWindow(final int type) {
+        if (null == mPopupWindow) {
+            mPopupWindow = new CommonSelectImgPopupWindow(this);
+            WindowManager wm = (WindowManager) this.getSystemService(WINDOW_SERVICE);
+            mPopupWindow.setWidth(wm.getDefaultDisplay().getWidth());
+        }
+        mPopupWindow.mOnclickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                switch (v.getId()) {
+                    case R.id.yx_common_add_img_pupwindow_camera_tv:
+                        //照相
+                        intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        FarmerCenterActivity.this.startActivityForResult(intent, type == CHANGE_FACE_WALL ? WALLFACE_CAMERA : CHANGEHEAD_CAMERA);
+                        break;
+                    case R.id.yx_common_add_img_pupwindow_local_tv:
+                        //相册
+                        intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        FarmerCenterActivity.this.startActivityForResult(intent, type == CHANGE_FACE_WALL ? WALLFACE_LOCAL : CHANGEHEAD_LOCAL);
+                        break;
+                }
+            }
+        };
+        mPopupWindow.showAtBOTTOM(LayoutInflater.from(this).inflate(R.layout.activity_farmer_center, null));
+    }
+
 }
