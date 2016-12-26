@@ -47,12 +47,11 @@ public class AlipayAPI {
 
 	/**
 	 * create the order info. 创建订单信息
-	 * 
 	 */
 	private static String getOrderInfo(String subject, String body, String price) {
 
 		// 签约合作者身份ID
-		String orderInfo = "partner=" + "\"" + AlipayConfig.PARTNER + "\"";
+		String orderInfo = "partner=" + "\"" + AlipayConfig.PARTNER  + "\"";
 
 		// 签约卖家支付宝账号
 		orderInfo += "&seller_id=" + "\"" + AlipayConfig.SELLER + "\"";
@@ -101,8 +100,23 @@ public class AlipayAPI {
 	}
 
 	/**
+	 * sign the order info. 对订单信息进行签名
+	 *
+	 * @param content 待签名订单信息
+	 */
+	private static String sign(String content) {
+		return SignUtils.sign(content, AlipayConfig.RSA_PRIVATE);
+	}
+
+	/**
+	 * get the sign type we use. 获取签名方式
+	 */
+	private static String getSignType() {
+		return "sign_type=\"RSA\"";
+	}
+
+	/**
 	 * get the out_trade_no for an order. 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
-	 * 
 	 */
 	private static String getOutTradeNo() {
 		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
@@ -113,24 +127,6 @@ public class AlipayAPI {
 		key = key + r.nextInt();
 		key = key.substring(0, 15);
 		return key;
-	}
-
-	/**
-	 * sign the order info. 对订单信息进行签名
-	 * 
-	 * @param content
-	 *            待签名订单信息
-	 */
-	private static String sign(String content) {
-		return SignUtils.sign(content, AlipayConfig.RSA_PRIVATE);
-	}
-
-	/**
-	 * get the sign type we use. 获取签名方式
-	 * 
-	 */
-	private static String getSignType() {
-		return "sign_type=\"RSA\"";
 	}
 
 }
