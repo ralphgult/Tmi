@@ -35,6 +35,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tm.db.dao.FriendDao;
+import tm.entity.FriendBean;
 import tm.entity.ResourcesBean;
 import tm.http.Config;
 import tm.http.NetFactory;
@@ -337,6 +339,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                     String authid=map.get("authId")+"";
                     if(authid.endsWith("1")){
                         Toast.makeText(getContext(),"添加好友成功",Toast.LENGTH_SHORT).show();
+                        LoadFriendData();
                     }else if(authid.endsWith("2")){
                         Toast.makeText(getContext(),"已经是好友关系",Toast.LENGTH_SHORT).show();
                     }else if(authid.endsWith("3")){
@@ -579,40 +582,94 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     public List<ResourcesBean> getNongyeData() {
         ArrayList<ResourcesBean> list = new ArrayList<ResourcesBean>();
         ResourcesBean bean1 = new ResourcesBean();
-        bean1.mImagePath = "http://a2.qpic.cn/psb?/V11UnAG03VjFP8/Kqe60mDcnFJoCeRbaMuFo6nXGXh0WbQU6cCGEnmL3o4!/b/dKkAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean1.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/356Z8TpXc5y*ipEBRd.okUU2hSJtBgBjBDZgz7ZGJHg!/b/dN4AAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(0, bean1);
 
         ResourcesBean bean2 = new ResourcesBean();
-        bean2.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/pP5QdGOb4iSTCLKdyc4k5pDIZQnjl4agKi3IWjlNinw!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean2.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/j0ftNz*3cPLcRm46pxfjH5cq7n5J.940VBmAzxYixa4!/b/dN0AAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(1, bean2);
 
         ResourcesBean bean3 = new ResourcesBean();
-        bean3.mImagePath = "http://a1.qpic.cn/psb?/V11UnAG03VjFP8/dBPYaPgqt2zMfa00RaE3KbySMimPNDn4Ajsg2uNW6AA!/b/dCABAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean3.mImagePath = "http://a2.qpic.cn/psb?/V14fxJhp0IQ0iR/tKT0msNje6wuo3g*yCTx5N2J4jdCK5OTeEVq0SM9PAg!/b/dAkBAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(2, bean3);
 
         ResourcesBean bean4 = new ResourcesBean();
-        bean4.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/oHOxNIJoPHyspeFLHpsapDk097ILaPYoQs9P1wlkBJw!/b/dPgAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean4.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/11KRfU.ZtZnDLDyUZEh4sQUy4tNTECK7fIZmJHL9GIc!/b/dHkBAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(3, bean4);
 
         ResourcesBean bean5 = new ResourcesBean();
-        bean5.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/BZAhlOjtyxJMgKHs9chaOe3piVhhhLgOb97X27oPXqg!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean5.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/w2GpPFMb4cyFYRaLehbnscooqWkDScXZ288qxip8qZk!/b/dOEAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(4, bean5);
 
         ResourcesBean bean6 = new ResourcesBean();
-        bean6.mImagePath = "http://a1.qpic.cn/psb?/V11UnAG03VjFP8/bvFWn1N4BoVW.IdE2kTaIaMUdFX*GOEfF1rAqN1bZVQ!/b/dLEAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean6.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/APIBHnasAxKPBRTlyDGHYxRIboEpscMVUh*zantd.hQ!/b/dHcBAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(5, bean6);
 
         ResourcesBean bean7 = new ResourcesBean();
-        bean7.mImagePath = "http://a1.qpic.cn/psb?/V11UnAG03VjFP8/fr8aTV.VpKGqcVSJ8acaYSINTExDwOWqTqkKIK0To3o!/b/dCABAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean7.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/U627bejiLuwA8pqJmn9XFxb2uJ6ZB3wuds8i4zqXLSU!/b/dAoBAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(6, bean7);
 
         ResourcesBean bean8 = new ResourcesBean();
-        bean8.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/.oj.wukX68JcVZ9nwgcD4lGwphimk7TjAOUDE2HPnts!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean8.mImagePath = "http://a2.qpic.cn/psb?/V14fxJhp0IQ0iR/smgvsDtabmNgRByMEPKlKFxdItSRgFESWZIYnBwp.OM!/b/dHgBAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(7, bean8);
 
         ResourcesBean bean9 = new ResourcesBean();
-        bean9.mImagePath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/Bc*gowycrqc75paI6qT5*ykjDdJ3PczlcB.ZgvRzHag!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
+        bean9.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/6MFaZiLCLGdUcNH0MXoxbSIkT9MWLUUVujr5QbBFB3c!/b/dAoBAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(8, bean9);
         return list;
+    }
+
+
+
+
+    /**
+     * 好友列表
+     */
+    public void LoadFriendData() {
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        list.add(new BasicNameValuePair("userId", username));
+        NetFactory.instance().commonHttpCilent(friendhandler, getContext(),
+                Config.URL_FRIENDS, list);
+
+    }
+    /**
+     * 接口回调
+     */
+    Handler friendhandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            Log.e("info","msg.what=111="+msg.what);
+            switch (msg.what) {
+                case ConstantsHandler.EXECUTE_SUCCESS:
+                    Map map = (Map) msg.obj;
+                    Log.e("info","map=好友="+map);
+                    setFriendData(map);
+                    //插库
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    protected void setFriendData(Map map) {
+        try {
+            JSONObject obj =new JSONObject(map.toString());
+            JSONArray objList = obj.getJSONArray("rows");
+            FriendBean mFriendBean=new FriendBean();
+            FriendDao mdao =new FriendDao();
+            List<FriendBean> friendlist = new ArrayList<FriendBean>();
+            if(objList.length()>0){
+                for (int i = 0; i < objList.length(); i++) {
+                    JSONObject jo = objList.getJSONObject(i);
+                    mFriendBean.mNickname=jo.get("nickname")+"";
+                    mFriendBean.mphoto=jo.get("photo")+"";
+                    mFriendBean.mUsername= jo.get("userName")+"";
+                    mFriendBean.mUserID= Integer.parseInt(jo.get("userId")+"");
+                    friendlist.add(mFriendBean);
+                    mdao.insertUserInfoList(friendlist);
+                }
+            }
+        } catch (JSONException e) {
+        }
+
     }
 }

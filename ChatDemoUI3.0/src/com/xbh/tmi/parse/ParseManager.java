@@ -1,6 +1,7 @@
 package com.xbh.tmi.parse;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
@@ -102,15 +103,20 @@ public class ParseManager {
 				if (arg0 != null) {
 					List<EaseUser> mList = new ArrayList<EaseUser>();
 					for (ParseObject pObject : arg0) {
-					    EaseUser user = new EaseUser(pObject.getString(CONFIG_USERNAME));
+						Log.e("info","查库手机号======="+pObject.getString(CONFIG_USERNAME));
+						EaseUser user = new EaseUser(pObject.getString(CONFIG_USERNAME));
 						ParseFile parseFile = pObject.getParseFile(CONFIG_AVATAR);
-						FriendBean fb= new FriendDao().getLocalUserInfoByUserId(pObject.getString(CONFIG_USERNAME));
+//						FriendBean fb= new FriendDao().getLocalUserInfoByUserId(pObject.getString(CONFIG_USERNAME));
 						if (parseFile != null) {
-//							user.setAvatar(parseFile.getUrl());
-							user.setAvatar(fb.mphoto);
+							user.setAvatar(parseFile.getUrl());
+//							user.setAvatar(fb.mphoto);
+//							Log.e("info","查库库照片=="+fb.mphoto);
 						}
-//						user.setNick(pObject.getString(CONFIG_NICK));
-						user.setNick(fb.mNickname);
+						user.setNick(pObject.getString(CONFIG_NICK));
+//						user.setAvatar(fb.mphoto);
+//						Log.e("info","查库库照片=="+fb.mphoto);
+//						Log.e("info","查库昵称=="+fb.mNickname);
+//						user.setNick(fb.mNickname);
 						EaseCommonUtils.setUserInitialLetter(user);
 						mList.add(user);
 					}

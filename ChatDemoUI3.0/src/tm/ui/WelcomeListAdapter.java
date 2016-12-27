@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tm.db.dao.FriendDao;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.utils.ImageLoaders;
@@ -124,22 +125,37 @@ public class WelcomeListAdapter extends BaseAdapter {
         }
         holder.tv_title.setText(map.get("name")+"");
         holder.tv_desc.setText(map.get("desc")+"");
-        if("0".equals(map.get("distance")+"")){
+//        if("0.0".equals(map.get("distance")+"")){
+//            holder.tv_distances.setText("未共享位置");
+//        }else
+        double i = Double.parseDouble(map.get("distance").toString());
+        if(i>10000){
             holder.tv_distances.setText("未共享位置");
         }else{
             holder.tv_distances.setText(map.get("distance")+"公里");
         }
+//        if("0".equals(map.get("distance")+"")){
+//            holder.tv_distances.setText("未共享位置");
+//        }else{
+//            holder.tv_distances.setText(map.get("distance")+"公里");
+//        }
 
         imageLoaders.loadImage(holder.img_pic, map.get("photo")+"");
         holder.img_add.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                if(username.equals(map.get("userid")+"")){
-                    Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
-                    return;
+                FriendDao fd=new FriendDao();
+                if(fd.isExist(map.get("uname")+"")){
+                    if(username.equals(map.get("userid")+"")){
+                        Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("uname")+""));
+                }else{
+                    Toast.makeText(context,"还不是好友不能聊天!",Toast.LENGTH_SHORT).show();
                 }
-                context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("uname")+""));
+
             }
         });
         final ViewHolder finalHolder = holder;

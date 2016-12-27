@@ -81,7 +81,7 @@ public class ContactListFragment extends EaseContactListFragment {
         SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
         username=sharedPre.getString("username", "");
         //网络请求好友列表
-        LoadData();
+//        LoadData();
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.em_contacts_header, null);
         HeaderItemClickListener clickListener = new HeaderItemClickListener();
         applicationItem = (ContactItemView) headerView.findViewById(R.id.application_item);

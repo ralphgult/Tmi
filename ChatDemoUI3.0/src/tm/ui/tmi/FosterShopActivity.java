@@ -80,13 +80,13 @@ public class FosterShopActivity extends Activity {
         mSureTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        AlipayAPI.pay(FosterShopActivity.this,name,name+sum+"件",mMoneyTV.getText().toString());
-                    }
-                }.start();
-                Toast.makeText(FosterShopActivity.this,"m= "+name+";j= "+mMoneyTV.getText().toString(),Toast.LENGTH_SHORT).show();
+//                new Thread() {
+//                    @Override
+////                    public void run() {
+                        AlipayAPI.pay(FosterShopActivity.this,name,name+sum+"件",price);
+//                    }
+//                }.start();
+//                Toast.makeText(FosterShopActivity.this,"m= "+name+";j= "+mMoneyTV.getText().toString(),Toast.LENGTH_SHORT).show();
             }
         });
         mBackTV.setOnClickListener(new View.OnClickListener() {

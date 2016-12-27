@@ -656,8 +656,11 @@ public class LoginActivity extends BaseActivity {
 				for (int i = 0; i < objList.length(); i++) {
 					JSONObject jo = objList.getJSONObject(i);
 					mFriendBean.mNickname=jo.get("nickname")+"";
+					Log.e("info","存库昵称=="+mFriendBean.mNickname);
 					mFriendBean.mphoto=jo.get("photo")+"";
+					Log.e("info","存库照片=="+mFriendBean.mphoto);
 					mFriendBean.mUsername= jo.get("userName")+"";
+					Log.e("info","存库手机号 =="+mFriendBean.mUsername);
 					mFriendBean.mUserID= Integer.parseInt(jo.get("userId")+"");
 					friendlist.add(mFriendBean);
 					mdao.insertUserInfoList(friendlist);
