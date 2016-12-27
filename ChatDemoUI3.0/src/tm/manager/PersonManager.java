@@ -245,7 +245,7 @@ public class PersonManager {
         }
     }
 
-    public static void addGoods(String intr,String price, String count, List<String> imgs, int type, Handler handler){
+    public static void addGoods(String name, String price, String count, String oldPri, String intro, List<String> imgs, int type, Handler handler){
         HttpClient httpclient = new DefaultHttpClient();
         try{
             HttpPost httppost = new HttpPost(Config.URL_ADD_GOODS);
@@ -261,10 +261,11 @@ public class PersonManager {
             reqEntity.addPart("f", new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), imgs.get(0))));
             SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
-            reqEntity.addPart("originalPrice", new StringBody("0", Charset.forName("UTF-8")));
+            reqEntity.addPart("originalPrice", new StringBody(oldPri, Charset.forName("UTF-8")));
             reqEntity.addPart("currentPrice", new StringBody(price, Charset.forName("UTF-8")));
             reqEntity.addPart("count", new StringBody(count, Charset.forName("UTF-8")));
-            reqEntity.addPart("goodName", new StringBody(intr, Charset.forName("UTF-8")));
+            reqEntity.addPart("goodName", new StringBody(name, Charset.forName("UTF-8")));
+            reqEntity.addPart("goodProfiles", new StringBody(intro, Charset.forName("UTF-8")));
             reqEntity.addPart("type", new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
@@ -287,17 +288,17 @@ public class PersonManager {
     }
 
 
-    public static void updateGoods(String id, String name, String price, String count, Handler handler){
+    public static void updateGoods(String id, String name, String price, String count, String intro, String oldPri, Handler handler){
         HttpClient httpclient = new DefaultHttpClient();
         try{
             HttpPost httppost = new HttpPost(Config.URL_UPDATE_GOODS);
             MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
             reqEntity.addPart("goodId", new StringBody(id, Charset.forName("UTF-8")));
-            reqEntity.addPart("originalPrice", new StringBody("0", Charset.forName("UTF-8")));
+            reqEntity.addPart("originalPrice", new StringBody(oldPri, Charset.forName("UTF-8")));
             reqEntity.addPart("currentPrice", new StringBody(price, Charset.forName("UTF-8")));
             reqEntity.addPart("count", new StringBody(count, Charset.forName("UTF-8")));
             reqEntity.addPart("goodName", new StringBody(name, Charset.forName("UTF-8")));
-            reqEntity.addPart("goodProfiles", new StringBody("", Charset.forName("UTF-8")));
+            reqEntity.addPart("goodProfiles", new StringBody(intro, Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
