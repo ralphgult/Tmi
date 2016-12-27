@@ -124,11 +124,19 @@ public class WelcomeListAdapter extends BaseAdapter {
         }
         holder.tv_title.setText(map.get("name")+"");
         holder.tv_desc.setText(map.get("desc")+"");
-        if("0".equals(map.get("distance")+"")){
+//        if("0.0".equals(map.get("distance")+"")){
+//            holder.tv_distances.setText("未共享位置");
+//        }else
+        if((int)map.get("distance")>10000){
             holder.tv_distances.setText("未共享位置");
         }else{
             holder.tv_distances.setText(map.get("distance")+"公里");
         }
+//        if("0".equals(map.get("distance")+"")){
+//            holder.tv_distances.setText("未共享位置");
+//        }else{
+//            holder.tv_distances.setText(map.get("distance")+"公里");
+//        }
 
         imageLoaders.loadImage(holder.img_pic, map.get("photo")+"");
         holder.img_add.setOnClickListener(new OnClickListener() {
