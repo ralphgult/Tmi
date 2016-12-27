@@ -127,7 +127,8 @@ public class WelcomeListAdapter extends BaseAdapter {
 //        if("0.0".equals(map.get("distance")+"")){
 //            holder.tv_distances.setText("未共享位置");
 //        }else
-        if((int)map.get("distance")>10000){
+        double i = Double.parseDouble(map.get("distance").toString());
+        if(i>10000){
             holder.tv_distances.setText("未共享位置");
         }else{
             holder.tv_distances.setText(map.get("distance")+"公里");
