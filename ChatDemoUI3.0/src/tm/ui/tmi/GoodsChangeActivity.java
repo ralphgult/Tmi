@@ -46,11 +46,15 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     private RelativeLayout mIntr_rv;
     private RelativeLayout mPrice_rv;
     private RelativeLayout mCount_rv;
+    private RelativeLayout mName_rv;
+    private RelativeLayout mOldPri_rv;
     private TextView mIntr_tv;
     private TextView mPrice_tv;
     private TextView mCount_tv;
     private TextView mDelete_tv;
     private TextView mSave_tv;
+    private TextView mName_tv;
+    private TextView mOldPri_tv;
     private LinearLayout mUpdate_ly;
     private TextView mAdd_tv;
 
@@ -153,9 +157,13 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         mIntr_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_intr_rv);
         mPrice_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_price_rv);
         mCount_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_count_rv);
+        mName_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_name_rv);
+        mOldPri_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_oldpri_rv);
         mIntr_tv = (TextView) findViewById(R.id.goods_detil_change_intr_text_tv);
         mPrice_tv = (TextView) findViewById(R.id.goods_detil_change_price_text_tv);
         mCount_tv = (TextView) findViewById(R.id.goods_detil_change_count_text_tv);
+        mName_tv = (TextView) findViewById(R.id.goods_detil_change_name_text_tv);
+        mOldPri_tv = (TextView) findViewById(R.id.goods_detil_change_oldpri_text_tv);
         mDelete_tv = (TextView) findViewById(R.id.goods_detil_delete);
         mSave_tv = (TextView) findViewById(R.id.goods_detil_mange_save);
         mUpdate_ly = (LinearLayout) findViewById(R.id.goods_detil_bottom);
@@ -188,6 +196,8 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         mBack_iv.setOnClickListener(this);
         mIntr_rv.setOnClickListener(this);
         mPrice_rv.setOnClickListener(this);
+        mName_rv.setOnClickListener(this);
+        mOldPri_rv.setOnClickListener(this);
         mCount_rv.setOnClickListener(this);
         mDelete_tv.setOnClickListener(this);
         mSave_tv.setOnClickListener(this);
@@ -223,11 +233,19 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.goods_detil_change_price_rv:
                 mClickTextView = mPrice_tv;
-                createDialog("请输入商品价格");
+                createDialog("请输入商品现价");
                 break;
             case R.id.goods_detil_change_count_rv:
                 mClickTextView = mCount_tv;
                 createDialog("请输入商品库存");
+                break;
+            case R.id.goods_detil_change_name_rv:
+                mClickTextView = mName_tv;
+                createDialog("请输入商品名称");
+                break;
+            case R.id.goods_detil_change_oldpri_rv:
+                mClickTextView = mOldPri_tv;
+                createDialog("请输入商品原价");
                 break;
             case R.id.goods_detil_delete:
                 new Thread(){
@@ -285,7 +303,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         dialog.setEditTextHint(string);
         if (mClickTextView.getId() == R.id.goods_detil_change_count_text_tv) {
             dialog.getInputView().setInputType(InputType.TYPE_CLASS_NUMBER);
-        } else if (mClickTextView.getId() == R.id.goods_detil_change_price_text_tv) {
+        } else if (mClickTextView.getId() == R.id.goods_detil_change_price_text_tv || mClickTextView.getId() == R.id.goods_detil_change_oldpri_text_tv) {
             dialog.getInputView().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         } else {
             dialog.getInputView().setInputType(InputType.TYPE_CLASS_TEXT);
@@ -322,18 +340,22 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     }
 
     private void addGoods() {
-        String name = mIntr_tv.getText().toString().trim();
+        String intro = mIntr_tv.getText().toString().trim();
         String price = mPrice_tv.getText().toString().trim();
         String count = mCount_tv.getText().toString().trim();
-        PersonManager.addGoods(name, price, count, mImgPathList, mType, mHandler);
+        String oldPri = mOldPri_tv.getText().toString().trim();
+        String name = mName_tv.getText().toString().trim();
+        PersonManager.addGoods(name, price, count, oldPri, intro, mImgPathList, mType, mHandler);
     }
 
     private void updateGoods() {
         String id = getIntent().getExtras().getString("goodsId");
-        String name = mIntr_tv.getText().toString().trim();
+        String intro = mIntr_tv.getText().toString().trim();
         String price = mPrice_tv.getText().toString().trim();
         String count = mCount_tv.getText().toString().trim();
-        PersonManager.updateGoods(id, name, price, count, mHandler);
+        String oldPri = mOldPri_tv.getText().toString().trim();
+        String name = mName_tv.getText().toString().trim();
+        PersonManager.updateGoods(id, name, price, count, intro, oldPri, mHandler);
     }
 
     @Override
