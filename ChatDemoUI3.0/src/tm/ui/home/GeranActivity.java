@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import tm.db.dao.FriendDao;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.ui.mine.HeadBigActivity;
@@ -235,15 +236,21 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                         Config.URL_GET_ADDFRIEND, list);
                 break;
             case R.id.tm_liaotian://聊天
-                if(username.equals(uid)){
-                    Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(!TextUtils.isEmpty(uname)){
-                    startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
+                FriendDao fd=new FriendDao();
+                if(fd.isExist(uname)){
+                    if(username.equals(uid)){
+                        Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(!TextUtils.isEmpty(uname)){
+                        startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
+                    }else{
+                        Toast.makeText(this,"用户资料不完整!",Toast.LENGTH_SHORT).show();
+                    }
                 }else{
-                    Toast.makeText(this,"用户资料不完整!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"还不是好友不能聊天!",Toast.LENGTH_SHORT).show();
                 }
+
 
                 break;
             case R.id.img_pic1:

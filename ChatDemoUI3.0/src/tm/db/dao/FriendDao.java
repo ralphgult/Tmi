@@ -62,7 +62,7 @@ public class FriendDao {
      * @param userid
      * @return
      */
-    private boolean isExist(String userid) {
+    public boolean isExist(String userid) {
         boolean result = false;
         Cursor cursor = null;
         try {

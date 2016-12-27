@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tm.db.dao.FriendDao;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.utils.ImageLoaders;
@@ -144,11 +145,17 @@ public class WelcomeListAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View arg0) {
-                if(username.equals(map.get("userid")+"")){
-                    Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
-                    return;
+                FriendDao fd=new FriendDao();
+                if(fd.isExist(map.get("uname")+"")){
+                    if(username.equals(map.get("userid")+"")){
+                        Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("uname")+""));
+                }else{
+                    Toast.makeText(context,"还不是好友不能聊天!",Toast.LENGTH_SHORT).show();
                 }
-                context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("uname")+""));
+
             }
         });
         final ViewHolder finalHolder = holder;
