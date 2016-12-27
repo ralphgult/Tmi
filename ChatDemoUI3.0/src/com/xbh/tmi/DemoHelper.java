@@ -701,6 +701,7 @@ public class DemoHelper {
 	private EaseUser getUserInfo(String username){
 		// To get instance of EaseUser, here we get it from the user list in memory
 		// You'd better cache it if you get it from your server
+        Log.e("info","====getUserInfo====");
         EaseUser user = null;
         if(username.equals(EMClient.getInstance().getCurrentUser()))
             return getUserProfileManager().getCurrentUserInfo();
@@ -708,9 +709,27 @@ public class DemoHelper {
         if(user == null && getRobotList() != null){
             user = getRobotList().get(username);
         }
+//
+//        // if user is not in your contacts, set inital letter for him/her
+//        if(user == null){
+//            user = new EaseUser(username);
+//            EaseCommonUtils.setUserInitialLetter(user);
+//        }
 
-        // if user is not in your contacts, set inital letter for him/her
-        if(user == null){
+        //////
+        FriendDao fd=new FriendDao();
+        FriendBean  fb=fd.getLocalUserInfoByUserId(username);
+
+        if(null !=fb){
+            Log.e("info","有值====");
+            user = new EaseUser(username);
+            user.setNick(fb.mNickname);
+            Log.e("info","存昵称===="+fb.mNickname);
+            user.setAvatar(fb.mphoto);
+            Log.e("info","存头像===="+fb.mphoto);
+            EaseCommonUtils.setUserInitialLetter(user);
+        }else{
+            Log.e("info","无值====");
             user = new EaseUser(username);
             EaseCommonUtils.setUserInitialLetter(user);
         }
@@ -871,7 +890,7 @@ public class DemoHelper {
         if (isLoggedIn() && contactList == null) {
             contactList = demoModel.getContactList();
         }
-        
+
         // return a empty non-null object to avoid app crash
         if(contactList == null){
         	return new Hashtable<String, EaseUser>();

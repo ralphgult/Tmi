@@ -1,9 +1,6 @@
 package tm.ui.setting;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,13 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
-import com.lidroid.xutils.util.OtherUtils;
 import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.LoginActivity;
 
+import tm.db.dao.FriendDao;
 import tm.ui.login.PwdFindActivity;
-import tm.utils.ViewTools;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.RemindDialog;
@@ -113,6 +109,7 @@ public class SettingActivity extends Activity implements View.OnClickListener{
 
                 @Override
                 public void remind() {
+                    new FriendDao().deleteFriend();
                     EMClient.getInstance().logout(false);
                     ViewUtil.backToOtherActivity(SettingActivity.this,LoginActivity.class);
                     DemoApplication.getInstance().exit();

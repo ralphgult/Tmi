@@ -22,7 +22,7 @@
         android:drawableLeft="@drawable/ease_search_bar_icon_normal"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:hint="@string/search"
+        android:hint="关键词搜索"
          android:textSize="16sp"
          android:layout_marginLeft="4dp"
         android:singleLine="true"

@@ -145,7 +145,12 @@ public class FriendDao {
         }
         return albumJsonList;
     }
-
+    /**
+     * 清除数据
+     */
+    public void deleteFriend(){
+        mDb.delete(FriendTable.TABLE_NAME,null,null);
+    }
     /**
      * 将实体类对象封装成ContentValues对象
      *
