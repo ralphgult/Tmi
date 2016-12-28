@@ -171,7 +171,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         dianpu_gridview = (StationaryGridView)findViewById(R.id.tm_dianpu);
         gridViewAdapter = new DianpuAdapter(this, R.layout.tm_dianpu_item_layout);
         dianpu_gridview.setAdapter(gridViewAdapter);
-//        dianpu_gridview.addData(getData());
+        gridViewAdapter.addData(getData());
 
 
 
