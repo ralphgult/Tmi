@@ -408,7 +408,7 @@ public class LoginActivity extends BaseActivity {
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 						uid=map.get("userId")+"";
-						saveLoginInfo(LoginActivity.this,uid);
+						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"");
 						LoadData();
 						hxlogin();
 					}else{
@@ -430,13 +430,15 @@ public class LoginActivity extends BaseActivity {
 	 * @param context
 	 * @param username
 	 */
-	public static void saveLoginInfo(Context context, String username){
+	public static void saveLoginInfo(Context context, String username,String phone){
 		//获取SharedPreferences对象
 		SharedPreferences sharedPre=context.getSharedPreferences("config", context.MODE_PRIVATE);
 		//获取Editor对象
 		SharedPreferences.Editor editor=sharedPre.edit();
 		//设置参数
 		editor.putString("username", username);
+		Log.e("info","phone===="+phone);
+		editor.putString("phone", phone);
 		//提交
 		editor.commit();
 	}
@@ -656,11 +658,8 @@ public class LoginActivity extends BaseActivity {
 				for (int i = 0; i < objList.length(); i++) {
 					JSONObject jo = objList.getJSONObject(i);
 					mFriendBean.mNickname=jo.get("nickname")+"";
-					Log.e("info","存库昵称=="+mFriendBean.mNickname);
 					mFriendBean.mphoto=jo.get("photo")+"";
-					Log.e("info","存库照片=="+mFriendBean.mphoto);
 					mFriendBean.mUsername= jo.get("userName")+"";
-					Log.e("info","存库手机号 =="+mFriendBean.mUsername);
 					mFriendBean.mUserID= Integer.parseInt(jo.get("userId")+"");
 					friendlist.add(mFriendBean);
 					mdao.insertUserInfoList(friendlist);

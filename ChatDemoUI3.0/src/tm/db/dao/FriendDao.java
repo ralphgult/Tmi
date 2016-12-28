@@ -109,6 +109,18 @@ public class FriendDao {
         return userInfoBean;
     }
     /**
+     * 删除单条好友信息
+     *
+     * @param userId
+     */
+    public void deleteFriendByUserId(String userId) {
+        try {
+            mDb.delete(FriendTable.TABLE_NAME, " " + FriendTable.USERNAME + " =?", new String[]{userId});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
      * 获取列表JSON
      * @return
      */
