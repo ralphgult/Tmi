@@ -472,12 +472,12 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         //企业签名
         tv_qiyeshuoming.setText(map.get("companyIntroduction") + "");
         tv_dianpu.setText("店铺商品");
-        tv_yuanjia.setText(map.get("originalPrice1") + "");
+        tv_yuanjia.setText("￥"+map.get("originalPrice1") + "");
         tv_yuanjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        tv_xianjia.setText(map.get("currentPrice1") + "");
-        tv_yuanjia2.setText(map.get("originalPrice2") + "");
+        tv_xianjia.setText("￥"+map.get("currentPrice1") + "");
+        tv_yuanjia2.setText("￥"+map.get("originalPrice2") + "");
         tv_yuanjia2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        tv_xianjia2.setText(map.get("currentPrice2") + "");
+        tv_xianjia2.setText("￥"+map.get("currentPrice2") + "");
         tv_jianjie.setText(map.get("doodsProfiles1") + "");
         tv_jianjie2.setText(map.get("doodsProfiles2") + "");
         picurl7=map.get("img1")+"";

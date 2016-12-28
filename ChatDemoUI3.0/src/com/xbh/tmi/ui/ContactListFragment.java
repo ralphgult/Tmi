@@ -56,6 +56,7 @@ import tm.db.dao.FriendDao;
 import tm.entity.FriendBean;
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.home.GeranActivity;
 import tm.utils.ConstantsHandler;
 
 /**
@@ -143,7 +144,14 @@ public class ContactListFragment extends EaseContactListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String username = ((EaseUser)listView.getItemAtPosition(position)).getUsername();
                 // demo中直接进入聊天页面，实际一般是进入用户详情页
-                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+//                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+                FriendDao fd=new FriendDao();
+                FriendBean  fb=fd.getLocalUserInfoByUserId(username);
+                //好友列表进入个人主页
+                Intent intent = new Intent(getActivity(), GeranActivity.class);
+                intent.putExtra("id", fb.mUserID+"");
+                startActivity(intent);
+
             }
         });
 
@@ -376,7 +384,6 @@ public class ContactListFragment extends EaseContactListFragment {
                     Map map = (Map) msg.obj;
                     Log.e("info","map=11="+map);
                     setData(map);
-                    //插库
                     break;
                 default:
                     break;

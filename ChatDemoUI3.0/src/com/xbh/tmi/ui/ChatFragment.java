@@ -47,6 +47,10 @@ import com.hyphenate.easeui.widget.emojicon.EaseEmojiconMenu;
 import com.hyphenate.util.EasyUtils;
 import com.hyphenate.util.PathUtil;
 
+import tm.db.dao.FriendDao;
+import tm.entity.FriendBean;
+import tm.ui.home.GeranActivity;
+
 public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHelper{
 
 	// constant start from 11 to avoid conflict with constant in base class
@@ -254,8 +258,14 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public void onAvatarClick(String username) {
         //handling when user click avatar
-        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-        intent.putExtra("username", username);
+//        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+//        intent.putExtra("username", username);
+//        startActivity(intent);
+        FriendDao fd=new FriendDao();
+        FriendBean fb=fd.getLocalUserInfoByUserId(username);
+        //聊天进入个人主页
+        Intent intent = new Intent(getActivity(), GeranActivity.class);
+        intent.putExtra("id", fb.mUserID+"");
         startActivity(intent);
     }
     
