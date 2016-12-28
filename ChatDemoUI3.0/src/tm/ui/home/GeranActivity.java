@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -30,12 +29,15 @@ import java.util.List;
 import java.util.Map;
 
 import tm.db.dao.FriendDao;
+import tm.entity.DianpuBean;
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.home.Adapter.DianpuAdapter;
 import tm.ui.mine.HeadBigActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
+import tm.widget.StationaryGridView;
 
 /**
  * Created by Administrator on 2016/9/11.
@@ -102,6 +104,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private String picurl7;
     private String picurl8;
     private int qstype=0;//企业三农区别
+    private StationaryGridView dianpu_gridview;
+    private DianpuAdapter gridViewAdapter;
     private ImageLoaders imageLoaders = new ImageLoaders(this,
             new imageLoaderListener());
 
@@ -157,12 +161,17 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         tv_yuanjia2 = (TextView)findViewById(R.id.tm_zhuye_yuanjia2);
         tv_xianjia = (TextView)findViewById(R.id.tm_zhuye_xianjia);
         tv_xianjia2 = (TextView)findViewById(R.id.tm_zhuye_xianjia2);
-        tv_jianjie = (TextView)findViewById(R.id.tm_zhuye_jianjie);
-        tv_jianjie2 = (TextView)findViewById(R.id.tm_zhuye_jianjie2);
-        img_pic11 = (ImageView) findViewById(R.id.tm_img_pic1);
-        img_pic22 = (ImageView) findViewById(R.id.tm_img_pic2);
+//        tv_jianjie = (TextView)findViewById(R.id.tm_zhuye_jianjie);
+//        tv_jianjie2 = (TextView)findViewById(R.id.tm_zhuye_jianjie2);
+//        img_pic11 = (ImageView) findViewById(R.id.tm_img_pic1);
+//        img_pic22 = (ImageView) findViewById(R.id.tm_img_pic2);
         addfriend = (ImageView) findViewById(R.id.tm_addfriend);
         liaotian = (ImageView) findViewById(R.id.tm_liaotian);
+        //店铺
+        dianpu_gridview = (StationaryGridView)findViewById(R.id.tm_dianpu);
+        gridViewAdapter = new DianpuAdapter(this, R.layout.tm_dianpu_item_layout);
+        dianpu_gridview.setAdapter(gridViewAdapter);
+//        dianpu_gridview.addData(getData());
 
 
 
@@ -197,8 +206,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         img_pic5.setOnClickListener(this);
         img_pic6.setOnClickListener(this);
 
-        img_pic11.setOnClickListener(this);
-        img_pic22.setOnClickListener(this);
+//        img_pic11.setOnClickListener(this);
+//        img_pic22.setOnClickListener(this);
 
     }
     @Override
@@ -283,16 +292,16 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 bundle6.putString("path", picurl6);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle6);
                 break;
-            case R.id.tm_img_pic1:
-                Bundle bundle7 = new Bundle();
-                bundle7.putString("path", picurl7);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle7);
-                break;
-            case R.id.tm_img_pic2:
-                Bundle bundle8 = new Bundle();
-                bundle8.putString("path", picurl8);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle8);
-                break;
+//            case R.id.tm_img_pic1:
+//                Bundle bundle7 = new Bundle();
+//                bundle7.putString("path", picurl7);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle7);
+//                break;
+//            case R.id.tm_img_pic2:
+//                Bundle bundle8 = new Bundle();
+//                bundle8.putString("path", picurl8);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle8);
+//                break;
             default:
                 break;
         }
@@ -472,18 +481,18 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         //企业签名
         tv_qiyeshuoming.setText(map.get("companyIntroduction") + "");
         tv_dianpu.setText("店铺商品");
-        tv_yuanjia.setText("￥"+map.get("originalPrice1") + "");
-        tv_yuanjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        tv_xianjia.setText("￥"+map.get("currentPrice1") + "");
-        tv_yuanjia2.setText("￥"+map.get("originalPrice2") + "");
-        tv_yuanjia2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        tv_xianjia2.setText("￥"+map.get("currentPrice2") + "");
-        tv_jianjie.setText(map.get("doodsProfiles1") + "");
-        tv_jianjie2.setText(map.get("doodsProfiles2") + "");
-        picurl7=map.get("img1")+"";
-        picurl8=map.get("img2")+"";
-        imageLoaders.loadImage(img_pic11, picurl7);
-        imageLoaders.loadImage(img_pic22, picurl8);
+//        tv_yuanjia.setText("￥"+map.get("originalPrice1") + "");
+//        tv_yuanjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//        tv_xianjia.setText("￥"+map.get("currentPrice1") + "");
+//        tv_yuanjia2.setText("￥"+map.get("originalPrice2") + "");
+//        tv_yuanjia2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//        tv_xianjia2.setText("￥"+map.get("currentPrice2") + "");
+//        tv_jianjie.setText(map.get("doodsProfiles1") + "");
+//        tv_jianjie2.setText(map.get("doodsProfiles2") + "");
+//        picurl7=map.get("img1")+"";
+//        picurl8=map.get("img2")+"";
+//        imageLoaders.loadImage(img_pic11, picurl7);
+//        imageLoaders.loadImage(img_pic22, picurl8);
         String top=  map.get("top")+"";
         Log.e("info","top==="+top);
         try {
@@ -659,5 +668,17 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         list.add(new BasicNameValuePair("type", "2"));
         NetFactory.instance().commonHttpCilent(handler, this,
                 Config.URL_GET_QIYE_HOME, list);
+    }
+    public List<DianpuBean> getData() {
+        ArrayList<DianpuBean> list = new ArrayList<DianpuBean>();
+        DianpuBean bean1 = new DianpuBean();
+        bean1.mCommodityPath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/nC1pFXU6UTL3OhS8RQ2XcLDF*SKSkNkoXtd8gqS6DPA!/b/dHMBAAAAAAAA&bo=WgBaAAAAAAADByI!&rf=viewer_4";
+        list.add(0, bean1);
+
+        DianpuBean bean2 = new DianpuBean();
+        bean2.mCommodityPath = "http://a2.qpic.cn/psb?/V11UnAG03VjFP8/RcBfX9GIglDnq16kvzmsqXb1pq.fnfOusdSnr2n6dWo!/b/dG8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        list.add(1, bean2);
+
+        return list;
     }
 }

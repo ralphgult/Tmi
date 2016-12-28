@@ -480,10 +480,10 @@
         </LinearLayout>
         <!--店铺商品-->
         <LinearLayout
-            android:id="@+id/tm_dianpu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="gone"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -576,6 +576,21 @@
             </LinearLayout>
 
         </LinearLayout>
+        <tm.widget.StationaryGridView
+            android:id="@+id/tm_dianpu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:columnWidth="80dp"
+            android:background="#f3f3f3"
+            android:horizontalSpacing="2px"
+            android:numColumns="2"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2px"
+            android:visibility="visible"
+            >
+
+        </tm.widget.StationaryGridView>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/tm_geren4"
