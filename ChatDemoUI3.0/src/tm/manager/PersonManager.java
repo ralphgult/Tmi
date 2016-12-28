@@ -95,6 +95,8 @@ public class PersonManager {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
                     }
                 }
+            }else {
+                handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -703,7 +705,7 @@ public class PersonManager {
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
         SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         try {
-            if (TextUtils.isEmpty(addrMap.get("id"))) {
+            if (!TextUtils.isEmpty(addrMap.get("id"))) {
                 reqEntity.addPart("raId", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
             }else{
                 reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
