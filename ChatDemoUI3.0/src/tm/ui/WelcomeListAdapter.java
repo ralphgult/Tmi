@@ -145,12 +145,12 @@ public class WelcomeListAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View arg0) {
+                if(username.equals(map.get("userid")+"")){
+                    Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 FriendDao fd=new FriendDao();
                 if(fd.isExist(map.get("uname")+"")){
-                    if(username.equals(map.get("userid")+"")){
-                        Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("uname")+""));
                 }else{
                     Toast.makeText(context,"还不是好友不能聊天!",Toast.LENGTH_SHORT).show();

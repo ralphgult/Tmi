@@ -76,7 +76,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout lv_geren3;
     private LinearLayout lv_geren4;
     private LinearLayout lv_qiye;
-    private LinearLayout lv_dianpu;
     private LinearLayout lv_qiye_line;
     private ImageView img_pic11;
     private ImageView img_pic22;
@@ -155,7 +154,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_geren2 = (LinearLayout)findViewById(R.id.tm_geren2);
         lv_geren3 = (LinearLayout)findViewById(R.id.tm_geren3);
         lv_geren4 = (LinearLayout)findViewById(R.id.tm_geren4);
-        lv_dianpu = (LinearLayout)findViewById(R.id.tm_dianpu);
         lv_qiye_line = (LinearLayout)findViewById(R.id.tm_qiye_line);
         tv_yuanjia = (TextView)findViewById(R.id.tm_zhuye_yuanjia);
         tv_yuanjia2 = (TextView)findViewById(R.id.tm_zhuye_yuanjia2);
@@ -245,13 +243,14 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                         Config.URL_GET_ADDFRIEND, list);
                 break;
             case R.id.tm_liaotian://聊天
+                if(username.equals(uid)){
+                    Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 FriendDao fd=new FriendDao();
                 if(fd.isExist(uname)){
-                    if(username.equals(uid)){
-                        Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     if(!TextUtils.isEmpty(uname)){
+                        Log.e("info","uname=主页="+uname);
                         startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
                     }else{
                         Toast.makeText(this,"用户资料不完整!",Toast.LENGTH_SHORT).show();
@@ -320,7 +319,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         tv_grqianming.setVisibility(View.VISIBLE);
         tv_qymc.setVisibility(View.GONE);
         lv_qiye.setVisibility(View.GONE);
-        lv_dianpu.setVisibility(View.GONE);
+        dianpu_gridview.setVisibility(View.GONE);
         lv_geren1.setVisibility(View.VISIBLE);
         lv_geren2.setVisibility(View.VISIBLE);
         lv_geren3.setVisibility(View.VISIBLE);
@@ -330,9 +329,9 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         list.clear();
         try {
             JSONObject objects =new JSONObject(map.toString());
-            JSONArray objList = objects.getJSONArray("rows");
-            String nickname = objects.getString("userName");
-            if (!nickname.equals("")) {
+            uname=objects.optString("user_name");
+            String nickname = objects.optString("userName");
+            if (!TextUtils.isEmpty(nickname)) {
                 tv_title.setText(nickname);
             } else {
                 tv_title.setText("个人主页");
@@ -343,7 +342,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             for (int i = 0; i < news.length(); i++) {
                 JSONObject jsonNew = news.getJSONObject(i);
                 tv_name.setText(jsonNew.optString("userName"));
-                uname=jsonNew.optString("user_name");
                 tv_time.setText(jsonNew.optString("create_date"));
                 tv_look.setText(jsonNew.optString("seeCount"));
                 tv_num.setText(jsonNew.optString("mpsCount"));
@@ -454,7 +452,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             tv_qymc.setText("企业名称");
             tv_qysm.setText("企业说明");
         }
-        lv_dianpu.setVisibility(View.VISIBLE);
+        dianpu_gridview.setVisibility(View.VISIBLE);
         tv_grqianming.setVisibility(View.GONE);
         lv_qiye_line.setVisibility(View.VISIBLE);
         lv_geren1.setVisibility(View.GONE);
