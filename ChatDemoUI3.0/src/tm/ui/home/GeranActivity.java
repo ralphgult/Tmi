@@ -64,12 +64,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private TextView tv_qysm;
     private TextView tv_grqianming;
     private TextView tv_qiyeshuoming;
-    private TextView tv_yuanjia;
-    private TextView tv_yuanjia2;
-    private TextView tv_xianjia;
-    private TextView tv_xianjia2;
-    private TextView tv_jianjie;
-    private TextView tv_jianjie2;
     private TextView tv_dianpu;
     private LinearLayout lv_geren1;
     private LinearLayout lv_geren2;
@@ -77,8 +71,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout lv_geren4;
     private LinearLayout lv_qiye;
     private LinearLayout lv_qiye_line;
-    private ImageView img_pic11;
-    private ImageView img_pic22;
     private ImageView addfriend;
     private ImageView liaotian;
 
@@ -100,8 +92,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private String picurl4;
     private String picurl5;
     private String picurl6;
-    private String picurl7;
-    private String picurl8;
     private int qstype=0;//企业三农区别
     private StationaryGridView dianpu_gridview;
     private DianpuAdapter gridViewAdapter;
@@ -122,7 +112,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         SharedPreferences sharedPre=this.getSharedPreferences("config",this.MODE_PRIVATE);
         username=sharedPre.getString("username", "");
         uid=getIntent().getStringExtra("id");
-//        uname=getIntent().getStringExtra("uid");//手机号码
         init();
         LoadData();
     }
@@ -155,14 +144,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_geren3 = (LinearLayout)findViewById(R.id.tm_geren3);
         lv_geren4 = (LinearLayout)findViewById(R.id.tm_geren4);
         lv_qiye_line = (LinearLayout)findViewById(R.id.tm_qiye_line);
-        tv_yuanjia = (TextView)findViewById(R.id.tm_zhuye_yuanjia);
-        tv_yuanjia2 = (TextView)findViewById(R.id.tm_zhuye_yuanjia2);
-        tv_xianjia = (TextView)findViewById(R.id.tm_zhuye_xianjia);
-        tv_xianjia2 = (TextView)findViewById(R.id.tm_zhuye_xianjia2);
-//        tv_jianjie = (TextView)findViewById(R.id.tm_zhuye_jianjie);
-//        tv_jianjie2 = (TextView)findViewById(R.id.tm_zhuye_jianjie2);
-//        img_pic11 = (ImageView) findViewById(R.id.tm_img_pic1);
-//        img_pic22 = (ImageView) findViewById(R.id.tm_img_pic2);
         addfriend = (ImageView) findViewById(R.id.tm_addfriend);
         liaotian = (ImageView) findViewById(R.id.tm_liaotian);
         //店铺
@@ -204,8 +185,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         img_pic5.setOnClickListener(this);
         img_pic6.setOnClickListener(this);
 
-//        img_pic11.setOnClickListener(this);
-//        img_pic22.setOnClickListener(this);
 
     }
     @Override
@@ -291,16 +270,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 bundle6.putString("path", picurl6);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle6);
                 break;
-//            case R.id.tm_img_pic1:
-//                Bundle bundle7 = new Bundle();
-//                bundle7.putString("path", picurl7);
-//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle7);
-//                break;
-//            case R.id.tm_img_pic2:
-//                Bundle bundle8 = new Bundle();
-//                bundle8.putString("path", picurl8);
-//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle8);
-//                break;
             default:
                 break;
         }
@@ -676,7 +645,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         DianpuBean bean2 = new DianpuBean();
         bean2.mCommodityPath = "http://a2.qpic.cn/psb?/V11UnAG03VjFP8/RcBfX9GIglDnq16kvzmsqXb1pq.fnfOusdSnr2n6dWo!/b/dG8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
         list.add(1, bean2);
-
         return list;
     }
 }
