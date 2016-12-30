@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -95,6 +96,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private int qstype=0;//企业三农区别
     private StationaryGridView dianpu_gridview;
     private DianpuAdapter gridViewAdapter;
+    private   List<DianpuBean> shangpinlist=new ArrayList<DianpuBean>();
+
     private ImageLoaders imageLoaders = new ImageLoaders(this,
             new imageLoaderListener());
 
@@ -113,6 +116,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         username=sharedPre.getString("username", "");
         uid=getIntent().getStringExtra("id");
         init();
+        setAdapter();
         LoadData();
     }
 
@@ -120,7 +124,19 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     public void onResume() {
         super.onResume();
     }
+    private void setAdapter(){
+        gridViewAdapter = new DianpuAdapter(this, R.layout.tm_dianpu_item_layout);
+        dianpu_gridview.setAdapter(gridViewAdapter);
+        dianpu_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+//                    Intent intent = new Intent(GeranActivity.this, GoodsChangeActivity.class);
+////                    intent.putExtra("position",position );
+//                    startActivity(intent);
+            }
+        });
+    }
     private void init() {
         tv_name = (TextView)findViewById(R.id.yx_monent_top_name);
         tv_time = (TextView)findViewById(R.id.yx_monent_top_time);
@@ -148,10 +164,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         liaotian = (ImageView) findViewById(R.id.tm_liaotian);
         //店铺
         dianpu_gridview = (StationaryGridView)findViewById(R.id.tm_dianpu);
-        gridViewAdapter = new DianpuAdapter(this, R.layout.tm_dianpu_item_layout);
-        dianpu_gridview.setAdapter(gridViewAdapter);
-        gridViewAdapter.addData(getData());
-
 
 
 
@@ -229,7 +241,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 FriendDao fd=new FriendDao();
                 if(fd.isExist(uname)){
                     if(!TextUtils.isEmpty(uname)){
-                        Log.e("info","uname=主页="+uname);
                         startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
                     }else{
                         Toast.makeText(this,"用户资料不完整!",Toast.LENGTH_SHORT).show();
@@ -431,6 +442,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_qiye.setVisibility(View.VISIBLE);
 
         list.clear();
+        try {
         //企业名称
         String nickname;
         if (!TextUtils.isEmpty((CharSequence) map.get("companyName"))) {
@@ -448,21 +460,23 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         //企业签名
         tv_qiyeshuoming.setText(map.get("companyIntroduction") + "");
         tv_dianpu.setText("店铺商品");
-//        tv_yuanjia.setText("￥"+map.get("originalPrice1") + "");
-//        tv_yuanjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//        tv_xianjia.setText("￥"+map.get("currentPrice1") + "");
-//        tv_yuanjia2.setText("￥"+map.get("originalPrice2") + "");
-//        tv_yuanjia2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//        tv_xianjia2.setText("￥"+map.get("currentPrice2") + "");
-//        tv_jianjie.setText(map.get("doodsProfiles1") + "");
-//        tv_jianjie2.setText(map.get("doodsProfiles2") + "");
-//        picurl7=map.get("img1")+"";
-//        picurl8=map.get("img2")+"";
-//        imageLoaders.loadImage(img_pic11, picurl7);
-//        imageLoaders.loadImage(img_pic22, picurl8);
-        String top=  map.get("top")+"";
-        Log.e("info","top==="+top);
-        try {
+            shangpinlist.clear();
+            String top=  map.get("top")+"";
+            String xq=  map.get("xq")+"";
+            JSONArray news = new JSONArray(xq);
+            DianpuBean db ;
+            for (int i = 0; i < news.length(); i++) {
+                db = new DianpuBean();
+                JSONObject jsonNew = news.getJSONObject(i);
+                db.mCommodityname=jsonNew.optString("goodsName");
+                db.mCommodityid=jsonNew.optString("goodsId");
+                db.mCommodityjianjie=jsonNew.optString("doodsProfiles");
+                db.mCommodityPath=jsonNew.optString("img");
+                db.mCommodityxianjia=jsonNew.optString("currentPrice");
+                db.mCommodityyuanjia=jsonNew.optString("originalPrice");
+                shangpinlist.add(db);
+            }
+            gridViewAdapter.resetDato(shangpinlist);
             JSONArray     photos = new JSONArray(top);
             if (photos != null && photos.length() != 0) {
                 if (photos.length() <= 3) {
@@ -559,7 +573,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     }
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            Log.e("info","type--------"+type);
             Log.e("info","map===个人主页====msg.what===="+msg.what);
             switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:
@@ -635,16 +648,5 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         list.add(new BasicNameValuePair("type", "2"));
         NetFactory.instance().commonHttpCilent(handler, this,
                 Config.URL_GET_QIYE_HOME, list);
-    }
-    public List<DianpuBean> getData() {
-        ArrayList<DianpuBean> list = new ArrayList<DianpuBean>();
-        DianpuBean bean1 = new DianpuBean();
-        bean1.mCommodityPath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/nC1pFXU6UTL3OhS8RQ2XcLDF*SKSkNkoXtd8gqS6DPA!/b/dHMBAAAAAAAA&bo=WgBaAAAAAAADByI!&rf=viewer_4";
-        list.add(0, bean1);
-
-        DianpuBean bean2 = new DianpuBean();
-        bean2.mCommodityPath = "http://a2.qpic.cn/psb?/V11UnAG03VjFP8/RcBfX9GIglDnq16kvzmsqXb1pq.fnfOusdSnr2n6dWo!/b/dG8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
-        list.add(1, bean2);
-        return list;
     }
 }
