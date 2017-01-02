@@ -243,7 +243,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 FriendDao fd=new FriendDao();
                 if(fd.isExist(uname)){
                     if(!TextUtils.isEmpty(uname)){
-                        Log.e("info","uname=主页="+uname);
                         startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
                     }else{
                         Toast.makeText(this,"用户资料不完整!",Toast.LENGTH_SHORT).show();
@@ -576,7 +575,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     }
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            Log.e("info","type--------"+type);
             Log.e("info","map===个人主页====msg.what===="+msg.what);
             switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:
@@ -652,16 +650,5 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         list.add(new BasicNameValuePair("type", "2"));
         NetFactory.instance().commonHttpCilent(handler, this,
                 Config.URL_GET_QIYE_HOME, list);
-    }
-    public List<DianpuBean> getData() {
-        ArrayList<DianpuBean> list = new ArrayList<DianpuBean>();
-        DianpuBean bean1 = new DianpuBean();
-        bean1.mCommodityPath = "http://a3.qpic.cn/psb?/V11UnAG03VjFP8/nC1pFXU6UTL3OhS8RQ2XcLDF*SKSkNkoXtd8gqS6DPA!/b/dHMBAAAAAAAA&bo=WgBaAAAAAAADByI!&rf=viewer_4";
-        list.add(0, bean1);
-
-        DianpuBean bean2 = new DianpuBean();
-        bean2.mCommodityPath = "http://a2.qpic.cn/psb?/V11UnAG03VjFP8/RcBfX9GIglDnq16kvzmsqXb1pq.fnfOusdSnr2n6dWo!/b/dG8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
-        list.add(1, bean2);
-        return list;
     }
 }
