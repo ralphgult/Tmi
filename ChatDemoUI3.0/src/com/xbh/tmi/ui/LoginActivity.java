@@ -346,7 +346,7 @@ public class LoginActivity extends BaseActivity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						pd.dismiss();
-						Toast.makeText(getApplicationContext(), "登录失败",
+						Toast.makeText(getApplicationContext(), "即时通讯组件启动失败请重新登陆",
 								Toast.LENGTH_SHORT).show();
 					}
 				});
@@ -412,7 +412,7 @@ public class LoginActivity extends BaseActivity {
 						LoadData();
 						hxlogin();
 					}else{
-						Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
+						Toast.makeText(LoginActivity.this,"账号或密码错误请重新登陆",Toast.LENGTH_SHORT).show();
 					}
 					break;
 				case ConstantsHandler.EXECUTE_FAIL:
