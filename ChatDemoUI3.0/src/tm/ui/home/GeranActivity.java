@@ -37,6 +37,7 @@ import tm.ui.home.Adapter.DianpuAdapter;
 import tm.ui.mine.HeadBigActivity;
 import tm.ui.tmi.FosterAgriculturalActivity;
 import tm.ui.tmi.GoodsChangeActivity;
+import tm.ui.tmi.MomentsActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
@@ -191,6 +192,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         yy_top3.setOnClickListener(this);
         addfriend.setOnClickListener(this);
         liaotian.setOnClickListener(this);
+        lv_geren1.setOnClickListener(this);
 
         img_pic1.setOnClickListener(this);
         img_pic2.setOnClickListener(this);
@@ -226,6 +228,11 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
                 type=2;
                 LoadData3();
+                break;
+            case R.id.tm_geren1:
+                Bundle bund = new Bundle();
+                bund.putInt("type", 4);
+                ViewUtil.jumpToOtherActivity(this, MomentsActivity.class, bund);
                 break;
             case R.id.tm_addfriend://添加好友
 
