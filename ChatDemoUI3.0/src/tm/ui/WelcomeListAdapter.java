@@ -118,6 +118,11 @@ public class WelcomeListAdapter extends BaseAdapter {
             holder.img_add.setVisibility(View.VISIBLE);
             holder.img_guanzhu.setVisibility(View.VISIBLE);
             holder.img_shipin.setVisibility(View.INVISIBLE);
+            if(new FriendDao().isExist(map.get("uname")+"")){
+                holder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_normal);
+            }else{
+                holder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_pressed);
+            }
         }else{
             holder.img_add.setVisibility(View.INVISIBLE);
             holder.img_guanzhu.setVisibility(View.INVISIBLE);
