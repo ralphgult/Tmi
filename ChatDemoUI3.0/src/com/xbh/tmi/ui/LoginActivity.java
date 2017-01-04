@@ -408,7 +408,7 @@ public class LoginActivity extends BaseActivity {
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 						uid=map.get("userId")+"";
-						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"");
+						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"");
 						LoadData();
 						hxlogin();
 					}else{
@@ -430,7 +430,7 @@ public class LoginActivity extends BaseActivity {
 	 * @param context
 	 * @param username
 	 */
-	public static void saveLoginInfo(Context context, String username,String phone){
+	public static void saveLoginInfo(Context context, String username,String phone,String photo){
 		//获取SharedPreferences对象
 		SharedPreferences sharedPre=context.getSharedPreferences("config", context.MODE_PRIVATE);
 		//获取Editor对象
@@ -439,6 +439,7 @@ public class LoginActivity extends BaseActivity {
 		editor.putString("username", username);
 		Log.e("info","phone===="+phone);
 		editor.putString("phone", phone);
+		editor.putString("photo", photo);
 		//提交
 		editor.commit();
 	}

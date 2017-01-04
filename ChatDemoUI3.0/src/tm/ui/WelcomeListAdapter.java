@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -99,6 +100,7 @@ public class WelcomeListAdapter extends BaseAdapter {
         final Map map = list.get(index);
         SharedPreferences sharedPre=context.getSharedPreferences("config",context.MODE_PRIVATE);
         final String username=sharedPre.getString("username", "");
+        String phone=sharedPre.getString("phone", "");
         if (view == null) {
             holder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.welcome_list_item,parent, false);
@@ -144,7 +146,9 @@ public class WelcomeListAdapter extends BaseAdapter {
 //        }else{
 //            holder.tv_distances.setText(map.get("distance")+"公里");
 //        }
-
+        if(phone.equals(map.get("uname")+"")){
+            saveLoginInfo(context,map.get("photo")+"");
+        }
         imageLoaders.loadImage(holder.img_pic, map.get("photo")+"");
         holder.img_add.setOnClickListener(new OnClickListener() {
 
@@ -193,6 +197,18 @@ public class WelcomeListAdapter extends BaseAdapter {
         public ImageView img_guanzhu;
         public ImageView img_shipin;
     }
-
+    /**
+     * 使用SharedPreferences保存用户登录信息
+     */
+    public static void saveLoginInfo(Context context, String photo){
+        //获取SharedPreferences对象
+        SharedPreferences sharedPre=context.getSharedPreferences("config", context.MODE_PRIVATE);
+        //获取Editor对象
+        SharedPreferences.Editor editor=sharedPre.edit();
+        //设置参数
+        editor.putString("photo", photo);
+        //提交
+        editor.commit();
+    }
 }
 
