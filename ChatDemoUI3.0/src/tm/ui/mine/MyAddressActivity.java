@@ -63,6 +63,7 @@ public class MyAddressActivity extends Activity {
                                     map.put("phone", object.optString("phone"));
                                     map.put("addr", object.optString("address"));
                                     map.put("default",object.optString("isDefault"));
+                                    mDatas.add(map);
                                 }
                             }else {
                                 mDatas = new ArrayList<Map<String, String>>();
