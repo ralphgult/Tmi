@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -176,7 +175,7 @@ public class WelcomeListAdapter extends BaseAdapter {
                 list.add(new BasicNameValuePair("me",username ));
                 list.add(new BasicNameValuePair("my", map.get("userid")+""));
                 NetFactory.instance().commonHttpCilent(mhandle, context,
-                        Config.URL_GET_ADDFRIEND, list);
+                        Config.RUL_ADD_FRIEND, list);
             }
         });
         holder.img_shipin.setOnClickListener(new OnClickListener() {

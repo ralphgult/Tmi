@@ -58,6 +58,7 @@ public class Config {
     public static String RUL_ADD_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/sc/addShoppingCart";//添加购物车
     public static String RUL_ADD_SHOPPINGCAR_LIST = ROOT_HOST_NAME + "/CBDParkingMSs/sc/myShoppingCart";//购物车列表
     public static String RUL_DEL_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/sc/deleteShoppingCart";//删除购物车商品
+    public static String RUL_ADD_FRIEND = ROOT_HOST_NAME + "/CBDParkingMSs/friends/reqFriend";//添加好友2
 
     public static String RUL_GET_VEDIO = ROOT_HOST_NAME + "/CBDParkingMSs/video";//获取视频路径
     public static String RUL_ADD_VEDIO = ROOT_HOST_NAME + "/CBDParkingMSs/addVideo";//上传视频

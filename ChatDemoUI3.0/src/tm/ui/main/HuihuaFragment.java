@@ -333,19 +333,23 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     };
     Handler addhandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
+            Log.e("info","map=msg.what=添加好友="+msg.what);
             switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:
                     Map map = (Map) msg.obj;
+                    Log.e("info","map==添加好友="+map);
                     String authid=map.get("authId")+"";
                     if(authid.endsWith("1")){
-                        Toast.makeText(getContext(),"添加好友成功",Toast.LENGTH_SHORT).show();
-                        LoadFriendData();
+                        Toast.makeText(getContext(),"请求发送成功",Toast.LENGTH_SHORT).show();
+//                        LoadFriendData();
                     }else if(authid.endsWith("2")){
                         Toast.makeText(getContext(),"已经是好友关系",Toast.LENGTH_SHORT).show();
                     }else if(authid.endsWith("3")){
                         Toast.makeText(getContext(),"添加失败，该用户不是环信用户",Toast.LENGTH_SHORT).show();
                     }else if(authid.endsWith("4")){
                         Toast.makeText(getContext(),"没有此用户",Toast.LENGTH_SHORT).show();
+                    }else if(authid.endsWith("0")){
+                        Toast.makeText(getContext(),"请求失败",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case ConstantsHandler.EXECUTE_FAIL:
