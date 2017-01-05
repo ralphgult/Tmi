@@ -90,7 +90,7 @@ public class ImageAdapter extends BaseAdapter {
                 vh.del.setVisibility(View.VISIBLE);
             }
             if(mPicList[position].equals("0")){
-                vh.pic.setImageResource(R.drawable.em_add);
+                vh.pic.setImageResource(R.drawable.em_add_new);
             }else{
                 if (mPicList[position].startsWith("http://")) {
                     imageLoaders.loadImage(vh.pic, mPicList[position]);
