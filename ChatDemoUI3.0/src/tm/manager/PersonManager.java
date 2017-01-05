@@ -808,7 +808,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("result") == 1) {
+                    if (object.getInt("authId") > 0) {
                         if (null != handler) {
                             Message msg = new Message();
                             msg.what = 2001;
