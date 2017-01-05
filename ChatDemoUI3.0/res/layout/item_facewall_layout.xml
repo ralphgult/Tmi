@@ -8,8 +8,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:background="@color/gray_pressed"/>
+        android:scaleType="centerCrop"/>
 
     <ImageView
         android:id="@+id/facewall_item_del_tv"
