@@ -5,14 +5,11 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +28,7 @@ import tm.ui.mine.MySoppingActivity;
 import tm.ui.tmi.adapter.GoodsImageAdapter;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
+import tm.widget.StationaryGridView;
 
 public class GoodsDetilActivity extends Activity implements View.OnClickListener {
 
@@ -42,9 +40,10 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
     private TextView mChat_tv;
     private TextView mCar_tv;
     private TextView mBuy_tv;
-    private GridView mPic_gv;
+    private StationaryGridView mPic_gv;
     private ImageView mBack_tv;
     private TextView mShopCar_tv;
+    private ScrollView mRoot;
 
     private String mGoodsId;
     private Handler mHandler;
@@ -78,7 +77,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
                             mName = object.optString("goodName");
                             mPrice = object.optString("currentPrice");
                             mPrice_tv.setText("￥" + mPrice);
-                            mOldPri_tv.setText("原价：￥" + object.optString("originalPrice"));
+                            mOldPri_tv.setText("原价:￥" + object.optString("originalPrice"));
                             mIntr_tv.setText(object.optString("goodProfiles"));
                             mLoader.loadImage(mHeadGrall, object.optString("goodImg"));
                             JSONArray array = object.getJSONArray("imgs");
@@ -114,18 +113,24 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
         mPrice_tv = (TextView) findViewById(R.id.goods_price_tv);
         mOldPri_tv = (TextView) findViewById(R.id.goods_old_price_tv);
         mIntr_tv = (TextView) findViewById(R.id.goods_intor_tv);
-        mPic_gv = (GridView) findViewById(R.id.goods_pic_gv);
+        mPic_gv = (StationaryGridView) findViewById(R.id.goods_pic_gv);
         mShop_tv = (TextView) findViewById(R.id.goods_shop);
         mChat_tv = (TextView) findViewById(R.id.goods_chat_tv);
         mCar_tv = (TextView) findViewById(R.id.goods_shopcar_tv);
         mBuy_tv = (TextView) findViewById(R.id.goods_buy_tv);
         mBack_tv = (ImageView) findViewById(R.id.goods_back_iv);
         mShopCar_tv = (TextView) findViewById(R.id.goods_add_tv);
+        mRoot = (ScrollView) findViewById(R.id.goods_root);
+        mRoot.scrollTo(0,0);
         mChat_tv.setOnClickListener(this);
         mCar_tv.setOnClickListener(this);
         mBuy_tv.setOnClickListener(this);
         mBack_tv.setOnClickListener(this);
         mShopCar_tv.setOnClickListener(this);
+        ViewGroup.LayoutParams params = mPic_gv.getLayoutParams();
+        params.width = getWindowManager().getDefaultDisplay().getWidth();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        mPic_gv.setLayoutParams(params);
     }
 
     private void getGoodsFromServer() {
@@ -136,22 +141,6 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
             }
         }.start();
     }
-
-//    public void horizontal_layout(List<String> list) {
-//        int size = list.size();
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        float density = dm.density;
-//        int allWidth = (int) (110 * size * density);
-//        int itemWidth = (int) (100 * density);
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-//                allWidth, RelativeLayout.LayoutParams.MATCH_PARENT);
-//        mHeadGrall.setLayoutParams(params);// 设置GirdView布局参数
-//        mHeadGrall.setColumnWidth(itemWidth);// 列表项宽
-//        mHeadGrall.setHorizontalSpacing(10);// 列表项水平间距
-//        mHeadGrall.setStretchMode(GridView.NO_STRETCH);
-//        mHeadGrall.setNumColumns(size);//总长度
-//    }
 
     @Override
     public void onClick(View v) {

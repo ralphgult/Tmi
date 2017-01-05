@@ -1,7 +1,9 @@
 package tm.ui.tmi.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,6 +13,7 @@ import com.xbh.tmi.R;
 
 import java.util.List;
 
+import tm.ui.mine.HeadBigActivity;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
 
@@ -51,7 +54,7 @@ public class GoodsImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view;
         if (null == convertView) {
             view = View.inflate(mContext, R.layout.goods_pic_item, null);
@@ -63,6 +66,14 @@ public class GoodsImageAdapter extends BaseAdapter {
             hodler = (ViewHodler) view.getTag();
         }
         mLoaders.loadImage(hodler.mPic_iv, mImgPaths.get(position));
+        hodler.mPic_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("path", mImgPaths.get(position));
+                ViewUtil.jumpToOtherActivity(((Activity) mContext), HeadBigActivity.class, bundle);
+            }
+        });
         return view;
     }
 
