@@ -52,10 +52,10 @@
                 android:id="@+id/comp_center_head_rv"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:scaleType="centerCrop"
                 android:background="@color/background_white"
                 android:orientation="horizontal"
-                android:paddingLeft="16dp">
+                android:paddingLeft="16dp"
+                android:scaleType="centerCrop">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -70,8 +70,8 @@
                     android:id="@+id/comp_center_head_iv"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:scaleType="centerCrop"
                     android:layout_gravity="center_vertical"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/em_empty_photo" />
 
                 <ImageView
@@ -86,8 +86,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:paddingBottom="10dp"
                 android:gravity="center_vertical"
+                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingTop="10dp"
                 android:text="企业风采"
@@ -104,9 +104,49 @@
                 android:gravity="center"
                 android:horizontalSpacing="5dp"
                 android:numColumns="4"
-                android:stretchMode="columnWidth"
                 android:scrollbars="none"
-                android:verticalSpacing="10dp"/>
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" />
+
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+
+            <RelativeLayout
+                android:id="@+id/comp_center_vedio_rv"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="企业视频"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/comp_center_ishave_vedio_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/comp_center_vedio_arrow_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLines="1"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp"
+                    tools:text="未上传" />
+
+                <ImageView
+                    android:id="@+id/comp_center_vedio_arrow_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
 
             <View style="@style/tm_common_divide_line_whitebg_width" />
 
@@ -133,12 +173,12 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/comp_center_name_arrow_iv"
                     android:ellipsize="end"
-                    android:maxLines="1"
                     android:gravity="right"
                     android:hint="未设置"
-                    tools:text="多少克录"
+                    android:maxLines="1"
                     android:textColor="#4f4f4f"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:text="多少克录" />
 
                 <ImageView
                     android:id="@+id/comp_center_name_arrow_iv"
@@ -175,12 +215,12 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/comp_center_sign_arrow_iv"
                     android:ellipsize="end"
-                    android:maxLines="1"
                     android:gravity="right"
                     android:hint="未设置"
-                    tools:text="多少克拉夫捡垃圾了多少积分垃圾是的链接发来的撒娇楼上的加拉记录"
+                    android:maxLines="1"
                     android:textColor="#4f4f4f"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:text="多少克拉夫捡垃圾了多少积分垃圾是的链接发来的撒娇楼上的加拉记录" />
 
                 <ImageView
                     android:id="@+id/comp_center_sign_arrow_iv"
