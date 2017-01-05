@@ -3,6 +3,7 @@ package tm.ui.tmi.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -81,6 +82,8 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
         }
         if (null != mPicList.get(position)) {
             vh.pic.setVisibility(View.VISIBLE);
+            Log.e("info","position ===== " + position);
+            Log.e("info","path ========= " + mPicList.get(position));
             if (!mPicList.get(position).equals("0")) {
                 vh.del.setVisibility(View.VISIBLE);
                 imageLoaders.loadImage(vh.pic,mPicList.get(position));
