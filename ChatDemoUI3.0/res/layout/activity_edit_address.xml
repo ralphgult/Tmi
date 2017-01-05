@@ -34,44 +34,43 @@
             android:id="@+id/edit_address_add_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="保存"
             android:textColor="@color/background_white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/edit_address_name_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
             android:background="@color/background_white"
             android:gravity="center_vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="收货人"
+            android:text="收 货 人:"
             android:textColor="#4e4e4e"
             android:textSize="16sp" />
 
-        <TextView
+        <EditText
             android:id="@+id/edit_address_name_tv"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@color/background_white"
-            android:gravity="center_vertical|end"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:hint="请输入收货人姓名"
             android:textColor="#4e4e4e"
-            android:textSize="16sp"
-            tools:text="张三" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <View style="@style/tm_common_divide_line_whitebg_width" />
@@ -80,48 +79,58 @@
         android:id="@+id/edit_address_phone_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
             android:background="@color/background_white"
             android:gravity="center_vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="联系电话"
+            android:text="联系电话:"
             android:textColor="#4e4e4e"
             android:textSize="16sp" />
-
-        <TextView
+        <EditText
             android:id="@+id/edit_address_phone_tv"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@color/background_white"
-            android:gravity="center_vertical|end"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             android:textColor="#4e4e4e"
+            android:phoneNumber="true"
             android:textSize="16sp"
-            tools:text="13546982547" />
+            android:hint="请输入收货人电话" />
     </LinearLayout>
 
     <View style="@style/tm_common_divide_line_whitebg_width" />
-
-    <EditText
-        android:id="@+id/edit_address_content_edt"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_white"
-        android:gravity="start"
-        android:hint="请填写详细地址，不少于5个字"
-        android:minHeight="100dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="10dp"
-        android:textColor="#4e4e4e"
-        android:textSize="16sp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:background="@color/background_white"
+            android:gravity="center_vertical"
+            android:text="详细地址:"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+        <EditText
+            android:id="@+id/edit_address_content_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_white"
+            android:gravity="start"
+            android:hint="请填写详细地址，不少于5个字"
+            android:minHeight="100dp"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+    </LinearLayout>
+
 
     <View style="@style/tm_common_divide_line_whitebg_width" />
 </LinearLayout>

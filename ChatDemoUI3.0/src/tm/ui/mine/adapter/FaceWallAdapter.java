@@ -85,7 +85,7 @@ public class FaceWallAdapter extends BaseAdapter {
                 imageLoaders.loadImage(vh.pic,mPicList.get(position));
             }else{
                 vh.del.setVisibility(View.GONE);
-                vh.pic.setImageResource(R.drawable.em_add);
+                vh.pic.setImageResource(R.drawable.em_add_new);
             }
         }else{
             vh.pic.setVisibility(View.GONE);

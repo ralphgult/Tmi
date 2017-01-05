@@ -67,7 +67,7 @@ public class BitmapEncodUtil {
 		}
 	}
 
-	private static final int BLACK = 0xff000000;
+	private static final int WHITE = 0xffffffff;
 
 	/**
 	 * 生成一个二维码图像
@@ -91,7 +91,7 @@ public class BitmapEncodUtil {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				if (matrix.get(x, y)) {
-					pixels[y * width + x] = BLACK;
+					pixels[y * width + x] = WHITE;
 				}
 			}
 		}

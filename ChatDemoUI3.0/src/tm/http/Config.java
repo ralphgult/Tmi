@@ -50,12 +50,14 @@ public class Config {
     public static String URL_FRIENDS = ROOT_HOST_NAME + "/CBDParkingMSs/friends/myFriends";//好友列表接口
     public static String URL_DEL_EFRIENDS = ROOT_HOST_NAME + "/CBDParkingMSs/friends/deleteFriends";//删除好友接口
 
-    public static String URL_GET_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/myAddress";//获取收货地址
-    public static String URL_ADD_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addReceiptAddress";//添加/修改收货地址
-    public static String URL_EDT_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/delReceiptAddress";//删除收货地址
+    public static String URL_GET_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/ra/myAddress";//获取收货地址（某条收货地址）
+    public static String URL_GET_ALL_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/ra/updateIsDefault";//获取所有收货地址
+    public static String URL_ADD_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/ra/addReceiptAddress";//添加/修改收货地址
+//    public static String URL_EDT_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/ra/delReceiptAddress";//删除收货地址(文档中没看到这个接口)
 
-    public static String RUL_ADD_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addShoppingCart";//添加购物车
-    public static String RUL_DEL_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteShoppingCart";//删除购物车
+    public static String RUL_ADD_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/sc/addShoppingCart";//添加购物车
+    public static String RUL_ADD_SHOPPINGCAR_LIST = ROOT_HOST_NAME + "/CBDParkingMSs/sc/myShoppingCart";//购物车列表
+    public static String RUL_DEL_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/sc/deleteShoppingCart";//删除购物车商品
 
     public static void init(Context context) throws IOException {
     }

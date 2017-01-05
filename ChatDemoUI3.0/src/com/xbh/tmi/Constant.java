@@ -13,6 +13,8 @@
  */
 package com.xbh.tmi;
 
+import android.os.Environment;
+
 import com.hyphenate.easeui.EaseConstant;
 
 public class Constant extends EaseConstant{
@@ -26,6 +28,6 @@ public class Constant extends EaseConstant{
 	public static final String ACTION_GROUP_CHANAGED = "action_group_changed";
 	public static final String ACTION_CONTACT_CHANAGED = "action_contact_changed";
 
-	public static String QRCODE_FILE_PATH = "/mnt/sdcard/ImageLoader/cache/images/qrCode.jpg";
+	public static String QRCODE_FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ImageLoader/cache/images/qrCode.jpg";
 	public static int IMAGE = 1;
 }

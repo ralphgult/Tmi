@@ -662,7 +662,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("result") == 1) {
+                    if (object.getInt("state") == 1) {
                         if (null != handler) {
                             Message msg = new Message();
                             msg.what = 1001;
@@ -703,12 +703,11 @@ public class PersonManager {
         try {
             if (!TextUtils.isEmpty(addrMap.get("id"))) {
                 reqEntity.addPart("raId", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
+                reqEntity.addPart("isDefault", new StringBody(addrMap.get("default"), Charset.forName("UTF-8")));
             }else{
                 reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
             }
             reqEntity.addPart("address", new StringBody(addrMap.get("content"), Charset.forName("UTF-8")));
-            reqEntity.addPart("raId", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
-            reqEntity.addPart("isDefault", new StringBody(addrMap.get("default"), Charset.forName("UTF-8")));
             reqEntity.addPart("postcode", new StringBody("", Charset.forName("UTF-8")));
             reqEntity.addPart("name", new StringBody(addrMap.get("name"), Charset.forName("UTF-8")));
             reqEntity.addPart("phone", new StringBody(addrMap.get("phone"), Charset.forName("UTF-8")));
@@ -720,7 +719,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("result") == 1) {
+                    if (object.getInt("authId") == 1) {
                         if (null != handler) {
                             Message msg = new Message();
                             msg.what = 1001;
