@@ -325,16 +325,29 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
 
         list.clear();
         try {
-            JSONObject objects =new JSONObject(map.toString());
-            uname=objects.optString("user_name");
-            String nickname = objects.optString("userName");
+//            JSONObject objects =new JSONObject(map.toString());
+//            uname=objects.optString("user_name");
+            uname=map.get("user_name")+"";
+//            imageLoaders.loadImage(top_head_img,objects.optString("photo") );
+            imageLoaders.loadImage(top_head_img,map.get("photo")+"" );
+            String nickname = map.get("userName")+"";
+//            String nickname = objects.optString("userName");
             if (!TextUtils.isEmpty(nickname)) {
                 tv_title.setText(nickname);
             } else {
                 tv_title.setText("个人主页");
             }
-            tv_gxqm.setText(objects.getString("caption"));
-            JSONArray news = objects.getJSONArray("rows");
+//            tv_gxqm.setText(objects.getString("caption"));
+            if(!TextUtils.isEmpty(map.get("caption")+"")){
+                tv_gxqm.setText(map.get("caption")+"");
+            }else{
+                tv_gxqm.setText("");
+            }
+
+
+
+//            JSONArray news = objects.getJSONArray("rows");
+            JSONArray news = new JSONArray(map.get("rows")+"");
 
             for (int i = 0; i < news.length(); i++) {
                 JSONObject jsonNew = news.getJSONObject(i);
@@ -344,9 +357,9 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 tv_num.setText(jsonNew.optString("mpsCount"));
                 tv_comment.setText(jsonNew.optString("mcCount"));
                 tv_content.setText(jsonNew.optString("mood_content"));
-//                imageLoaders.loadImage(top_head_img,picurl1 );
             }
-            JSONArray photos = objects.getJSONArray("top");
+//            JSONArray photos = objects.getJSONArray("top");
+            JSONArray photos = new JSONArray(map.get("top")+"");
             if (photos != null && photos.length() != 0) {
                 if (photos.length() <= 3) {
                     for (int i = 0; i < photos.length(); i++) {
@@ -438,6 +451,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             }
 
         } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
     private void setData2(Map map) {
