@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,12 +30,18 @@ import java.util.List;
 import java.util.Map;
 
 import tm.db.dao.FriendDao;
+import tm.entity.DianpuBean;
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.home.Adapter.DianpuAdapter;
 import tm.ui.mine.HeadBigActivity;
+import tm.ui.tmi.FosterAgriculturalActivity;
+import tm.ui.tmi.GoodsChangeActivity;
+import tm.ui.tmi.MomentsActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
+import tm.widget.StationaryGridView;
 
 /**
  * Created by Administrator on 2016/9/11.
@@ -46,6 +52,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout yy_top1;
     private LinearLayout yy_top2;
     private LinearLayout yy_top3;
+    private LinearLayout tm_geren;
     private TextView txt1;
     private TextView txt2;
     private TextView txt3;
@@ -62,24 +69,16 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private TextView tv_qysm;
     private TextView tv_grqianming;
     private TextView tv_qiyeshuoming;
-    private TextView tv_yuanjia;
-    private TextView tv_yuanjia2;
-    private TextView tv_xianjia;
-    private TextView tv_xianjia2;
-    private TextView tv_jianjie;
-    private TextView tv_jianjie2;
     private TextView tv_dianpu;
     private LinearLayout lv_geren1;
     private LinearLayout lv_geren2;
     private LinearLayout lv_geren3;
     private LinearLayout lv_geren4;
     private LinearLayout lv_qiye;
-    private LinearLayout lv_dianpu;
     private LinearLayout lv_qiye_line;
-    private ImageView img_pic11;
-    private ImageView img_pic22;
     private ImageView addfriend;
     private ImageView liaotian;
+    private ImageView top_head_img;//个人动态头像
 
 
     private TextView tv_name;
@@ -99,9 +98,11 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private String picurl4;
     private String picurl5;
     private String picurl6;
-    private String picurl7;
-    private String picurl8;
     private int qstype=0;//企业三农区别
+    private StationaryGridView dianpu_gridview;
+    private DianpuAdapter gridViewAdapter;
+    private   List<DianpuBean> shangpinlist=new ArrayList<DianpuBean>();
+
     private ImageLoaders imageLoaders = new ImageLoaders(this,
             new imageLoaderListener());
 
@@ -119,8 +120,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         SharedPreferences sharedPre=this.getSharedPreferences("config",this.MODE_PRIVATE);
         username=sharedPre.getString("username", "");
         uid=getIntent().getStringExtra("id");
-//        uname=getIntent().getStringExtra("uid");//手机号码
         init();
+        setAdapter();
         LoadData();
     }
 
@@ -128,7 +129,19 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     public void onResume() {
         super.onResume();
     }
+    private void setAdapter(){
+        gridViewAdapter = new DianpuAdapter(this, R.layout.tm_dianpu_item_layout);
+        dianpu_gridview.setAdapter(gridViewAdapter);
+        dianpu_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+//                    Intent intent = new Intent(GeranActivity.this, GoodsChangeActivity.class);
+////                    intent.putExtra("position",position );
+//                    startActivity(intent);
+            }
+        });
+    }
     private void init() {
         tv_name = (TextView)findViewById(R.id.yx_monent_top_name);
         tv_time = (TextView)findViewById(R.id.yx_monent_top_time);
@@ -151,19 +164,13 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_geren2 = (LinearLayout)findViewById(R.id.tm_geren2);
         lv_geren3 = (LinearLayout)findViewById(R.id.tm_geren3);
         lv_geren4 = (LinearLayout)findViewById(R.id.tm_geren4);
-        lv_dianpu = (LinearLayout)findViewById(R.id.tm_dianpu);
         lv_qiye_line = (LinearLayout)findViewById(R.id.tm_qiye_line);
-        tv_yuanjia = (TextView)findViewById(R.id.tm_zhuye_yuanjia);
-        tv_yuanjia2 = (TextView)findViewById(R.id.tm_zhuye_yuanjia2);
-        tv_xianjia = (TextView)findViewById(R.id.tm_zhuye_xianjia);
-        tv_xianjia2 = (TextView)findViewById(R.id.tm_zhuye_xianjia2);
-        tv_jianjie = (TextView)findViewById(R.id.tm_zhuye_jianjie);
-        tv_jianjie2 = (TextView)findViewById(R.id.tm_zhuye_jianjie2);
-        img_pic11 = (ImageView) findViewById(R.id.tm_img_pic1);
-        img_pic22 = (ImageView) findViewById(R.id.tm_img_pic2);
         addfriend = (ImageView) findViewById(R.id.tm_addfriend);
         liaotian = (ImageView) findViewById(R.id.tm_liaotian);
 
+        top_head_img = (ImageView) findViewById(R.id.yx_monent_top_head_img);//个人头像
+        //店铺
+        dianpu_gridview = (StationaryGridView)findViewById(R.id.tm_dianpu);
 
 
 
@@ -178,6 +185,10 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         yy_top1 = (LinearLayout)findViewById(R.id.shouye_top1);
         yy_top2 = (LinearLayout)findViewById(R.id.shouye_top2);
         yy_top3 = (LinearLayout)findViewById(R.id.shouye_top3);
+        tm_geren = (LinearLayout)findViewById(R.id.tm_geren_ly);
+
+
+
         txt1 = (TextView)findViewById(R.id.txt1);
         txt2 = (TextView)findViewById(R.id.txt2);
         txt3=  (TextView)findViewById(R.id.txt3);
@@ -189,6 +200,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         yy_top3.setOnClickListener(this);
         addfriend.setOnClickListener(this);
         liaotian.setOnClickListener(this);
+        tm_geren.setOnClickListener(this);
 
         img_pic1.setOnClickListener(this);
         img_pic2.setOnClickListener(this);
@@ -197,8 +209,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         img_pic5.setOnClickListener(this);
         img_pic6.setOnClickListener(this);
 
-        img_pic11.setOnClickListener(this);
-        img_pic22.setOnClickListener(this);
 
     }
     @Override
@@ -227,6 +237,11 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 type=2;
                 LoadData3();
                 break;
+            case R.id.tm_geren_ly:
+                Bundle bund = new Bundle();
+                bund.putInt("type", 4);
+                ViewUtil.jumpToOtherActivity(this, MomentsActivity.class, bund);
+                break;
             case R.id.tm_addfriend://添加好友
 
                 List<NameValuePair> list = new ArrayList<NameValuePair>();
@@ -236,12 +251,12 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                         Config.URL_GET_ADDFRIEND, list);
                 break;
             case R.id.tm_liaotian://聊天
+                if(username.equals(uid)){
+                    Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 FriendDao fd=new FriendDao();
                 if(fd.isExist(uname)){
-                    if(username.equals(uid)){
-                        Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     if(!TextUtils.isEmpty(uname)){
                         startActivity(new Intent(this, ChatActivity.class).putExtra("userId",uname));
                     }else{
@@ -283,16 +298,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 bundle6.putString("path", picurl6);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle6);
                 break;
-            case R.id.tm_img_pic1:
-                Bundle bundle7 = new Bundle();
-                bundle7.putString("path", picurl7);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle7);
-                break;
-            case R.id.tm_img_pic2:
-                Bundle bundle8 = new Bundle();
-                bundle8.putString("path", picurl8);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle8);
-                break;
             default:
                 break;
         }
@@ -311,7 +316,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         tv_grqianming.setVisibility(View.VISIBLE);
         tv_qymc.setVisibility(View.GONE);
         lv_qiye.setVisibility(View.GONE);
-        lv_dianpu.setVisibility(View.GONE);
+        dianpu_gridview.setVisibility(View.GONE);
         lv_geren1.setVisibility(View.VISIBLE);
         lv_geren2.setVisibility(View.VISIBLE);
         lv_geren3.setVisibility(View.VISIBLE);
@@ -321,9 +326,9 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         list.clear();
         try {
             JSONObject objects =new JSONObject(map.toString());
-            JSONArray objList = objects.getJSONArray("rows");
-            String nickname = objects.getString("userName");
-            if (!nickname.equals("")) {
+            uname=objects.optString("user_name");
+            String nickname = objects.optString("userName");
+            if (!TextUtils.isEmpty(nickname)) {
                 tv_title.setText(nickname);
             } else {
                 tv_title.setText("个人主页");
@@ -334,12 +339,12 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             for (int i = 0; i < news.length(); i++) {
                 JSONObject jsonNew = news.getJSONObject(i);
                 tv_name.setText(jsonNew.optString("userName"));
-                uname=jsonNew.optString("user_name");
                 tv_time.setText(jsonNew.optString("create_date"));
                 tv_look.setText(jsonNew.optString("seeCount"));
                 tv_num.setText(jsonNew.optString("mpsCount"));
                 tv_comment.setText(jsonNew.optString("mcCount"));
                 tv_content.setText(jsonNew.optString("mood_content"));
+//                imageLoaders.loadImage(top_head_img,picurl1 );
             }
             JSONArray photos = objects.getJSONArray("top");
             if (photos != null && photos.length() != 0) {
@@ -445,7 +450,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             tv_qymc.setText("企业名称");
             tv_qysm.setText("企业说明");
         }
-        lv_dianpu.setVisibility(View.VISIBLE);
+        dianpu_gridview.setVisibility(View.VISIBLE);
         tv_grqianming.setVisibility(View.GONE);
         lv_qiye_line.setVisibility(View.VISIBLE);
         lv_geren1.setVisibility(View.GONE);
@@ -455,6 +460,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_qiye.setVisibility(View.VISIBLE);
 
         list.clear();
+        try {
         //企业名称
         String nickname;
         if (!TextUtils.isEmpty((CharSequence) map.get("companyName"))) {
@@ -472,21 +478,23 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         //企业签名
         tv_qiyeshuoming.setText(map.get("companyIntroduction") + "");
         tv_dianpu.setText("店铺商品");
-        tv_yuanjia.setText(map.get("originalPrice1") + "");
-        tv_yuanjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        tv_xianjia.setText(map.get("currentPrice1") + "");
-        tv_yuanjia2.setText(map.get("originalPrice2") + "");
-        tv_yuanjia2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        tv_xianjia2.setText(map.get("currentPrice2") + "");
-        tv_jianjie.setText(map.get("doodsProfiles1") + "");
-        tv_jianjie2.setText(map.get("doodsProfiles2") + "");
-        picurl7=map.get("img1")+"";
-        picurl8=map.get("img2")+"";
-        imageLoaders.loadImage(img_pic11, picurl7);
-        imageLoaders.loadImage(img_pic22, picurl8);
-        String top=  map.get("top")+"";
-        Log.e("info","top==="+top);
-        try {
+            shangpinlist.clear();
+            String top=  map.get("top")+"";
+            String xq=  map.get("xq")+"";
+            JSONArray news = new JSONArray(xq);
+            DianpuBean db ;
+            for (int i = 0; i < news.length(); i++) {
+                db = new DianpuBean();
+                JSONObject jsonNew = news.getJSONObject(i);
+                db.mCommodityname=jsonNew.optString("goodsName");
+                db.mCommodityid=jsonNew.optString("goodsId");
+                db.mCommodityjianjie=jsonNew.optString("doodsProfiles");
+                db.mCommodityPath=jsonNew.optString("img");
+                db.mCommodityxianjia=jsonNew.optString("currentPrice");
+                db.mCommodityyuanjia=jsonNew.optString("originalPrice");
+                shangpinlist.add(db);
+            }
+            gridViewAdapter.resetDato(shangpinlist);
             JSONArray     photos = new JSONArray(top);
             if (photos != null && photos.length() != 0) {
                 if (photos.length() <= 3) {
@@ -583,7 +591,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     }
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            Log.e("info","type--------"+type);
             Log.e("info","map===个人主页====msg.what===="+msg.what);
             switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:

@@ -1,10 +1,12 @@
 package tm.ui.home;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.xbh.tmi.R;
@@ -56,6 +58,16 @@ public class BenditeseActivity extends BaseActivity {
         mListView=(ListView)findViewById(R.id.list);
         benditeseAdapter = new BenditeseAdapter(this, list);
         mListView.setAdapter(benditeseAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+
+                Intent intent = new Intent(BenditeseActivity.this, GeranActivity.class);
+                intent.putExtra("id", benditeseAdapter.getItemId(arg2)+"");
+                startActivity(intent);
+            }
+        });
     }
     /**
      * 接口推荐数据

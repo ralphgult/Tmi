@@ -234,7 +234,6 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     isCheck = true;
                     SMSSDK.submitVerificationCode("+86", phone, ver);
-                    mTimer.start();
                     pd = ProgressDialog.show(this,"注册","注册中，请稍后...");
                 }
                 break;
@@ -249,6 +248,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                     SMSSDK.getVerificationCode("+86", phone);
                     getSms_tv.setTextColor(getResources().getColor(R.color.getsms_wait_color));
                     getSms_tv.setClickable(false);
+                    mTimer.start();
                 }
                 break;
         }

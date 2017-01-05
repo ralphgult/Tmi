@@ -56,6 +56,7 @@ import tm.db.dao.FriendDao;
 import tm.entity.FriendBean;
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.home.GeranActivity;
 import tm.utils.ConstantsHandler;
 
 /**
@@ -74,14 +75,17 @@ public class ContactListFragment extends EaseContactListFragment {
     private ContactListFragment contactListFragment;
     private ConversationListFragment mConversationListFragment;
     private String username;
+    private String phone;
+    private String delename;
 
     @Override
     protected void initView() {
         super.initView();
         SharedPreferences sharedPre=getContext().getSharedPreferences("config",getContext().MODE_PRIVATE);
         username=sharedPre.getString("username", "");
+        phone=sharedPre.getString("phone", "");
         //网络请求好友列表
-//        LoadData();
+        LoadData();
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.em_contacts_header, null);
         HeaderItemClickListener clickListener = new HeaderItemClickListener();
         applicationItem = (ContactItemView) headerView.findViewById(R.id.application_item);
@@ -143,7 +147,14 @@ public class ContactListFragment extends EaseContactListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String username = ((EaseUser)listView.getItemAtPosition(position)).getUsername();
                 // demo中直接进入聊天页面，实际一般是进入用户详情页
-                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+//                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+                FriendDao fd=new FriendDao();
+                FriendBean  fb=fd.getLocalUserInfoByUserId(username);
+                //好友列表进入个人主页
+                Intent intent = new Intent(getActivity(), GeranActivity.class);
+                intent.putExtra("id", fb.mUserID+"");
+                startActivity(intent);
+
             }
         });
 
@@ -254,7 +265,7 @@ public class ContactListFragment extends EaseContactListFragment {
 
 
 	/**
-	 * delete contact
+	 * 删除好友
 	 * 
 	 * @param toDeleteUser
 	 */
@@ -268,6 +279,9 @@ public class ContactListFragment extends EaseContactListFragment {
 		new Thread(new Runnable() {
 			public void run() {
 				try {
+                    Log.e("info","tobeDeleteUser.getUsername()===="+tobeDeleteUser.getUsername());
+                    delename=tobeDeleteUser.getUsername();
+                    delFriend(delename);
 					EMClient.getInstance().contactManager().deleteContact(tobeDeleteUser.getUsername());
 					// remove user from memory and database
 					UserDao dao = new UserDao(getActivity());
@@ -376,7 +390,6 @@ public class ContactListFragment extends EaseContactListFragment {
                     Map map = (Map) msg.obj;
                     Log.e("info","map=11="+map);
                     setData(map);
-                    //插库
                     break;
                 default:
                     break;
@@ -405,6 +418,37 @@ public class ContactListFragment extends EaseContactListFragment {
         }
 
     }
+    /**
+     * 删除好友
+     */
+    public void delFriend(String uid) {
+        List<NameValuePair> list = new ArrayList<NameValuePair>();
+        list.add(new BasicNameValuePair("myUserName", phone));
+        list.add(new BasicNameValuePair("myFriendUserName", uid));
+        NetFactory.instance().commonHttpCilent(delhandler, getContext(),
+                Config.URL_DEL_EFRIENDS, list);
 
+    }
+    /**
+     * 删除好友接口回调
+     */
+    Handler delhandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            Log.e("info","msg.what=111="+msg.what);
+            switch (msg.what) {
+                case ConstantsHandler.EXECUTE_SUCCESS:
+                    Map map = (Map) msg.obj;
+                    Log.e("info","map=11="+map);
+                    String authid=map.get("authId")+"";
+                    if(authid.endsWith("1")){
+                        Toast.makeText(getContext(),"删除好友成功",Toast.LENGTH_SHORT).show();
+                        new FriendDao().deleteFriendByUserId(delename);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
 }
