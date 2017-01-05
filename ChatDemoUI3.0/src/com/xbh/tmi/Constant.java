@@ -29,5 +29,7 @@ public class Constant extends EaseConstant{
 	public static final String ACTION_CONTACT_CHANAGED = "action_contact_changed";
 
 	public static String QRCODE_FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ImageLoader/cache/images/qrCode.jpg";
+	public static String COMP_VEDIO_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ImageLoader/cache/images/compVedio.mp4";
+	public static String FARM_VEDIO_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ImageLoader/cache/images/farmVedio.mp4";
 	public static int IMAGE = 1;
 }
