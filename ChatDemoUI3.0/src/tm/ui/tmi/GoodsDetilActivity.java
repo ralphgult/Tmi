@@ -1,15 +1,18 @@
 package tm.ui.tmi;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +29,12 @@ import tm.alipay.AlipayAPI;
 import tm.manager.PersonManager;
 import tm.ui.mine.MySoppingActivity;
 import tm.ui.tmi.adapter.GoodsImageAdapter;
+import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
 
 public class GoodsDetilActivity extends Activity implements View.OnClickListener {
 
-    private GridView mHeadGrall;
+    private ImageView mHeadGrall;
     private TextView mPrice_tv;
     private TextView mOldPri_tv;
     private TextView mIntr_tv;
@@ -48,6 +52,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
     private GoodsImageAdapter mPicAdapter;
     private String mName;
     private String mPrice;
+    private ImageLoaders mLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +65,9 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
 
     private void init() {
         mGoodsId = getIntent().getExtras().getString("id");
-        mHeadAdapter = new GoodsImageAdapter(this, this.getWindowManager().getDefaultDisplay().getWidth());
+        mHeadAdapter = new GoodsImageAdapter(this);
         mPicAdapter = new GoodsImageAdapter(this);
+        mLoader = new ImageLoaders(this,new ImageLoaderLinstener());
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -72,23 +78,19 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
                             mName = object.optString("goodName");
                             mPrice = object.optString("currentPrice");
                             mPrice_tv.setText("￥" + mPrice);
-                            mOldPri_tv.setText("￥" + object.optString("originalPrice"));
+                            mOldPri_tv.setText("原价：￥" + object.optString("originalPrice"));
                             mIntr_tv.setText(object.optString("goodProfiles"));
-                            List<String> headImgPaths = new ArrayList<>();
-                            headImgPaths.add(object.optString("goodImg"));
-                            mHeadAdapter.resetData(headImgPaths);
-                            mHeadGrall.setAdapter(mHeadAdapter);
-                            horizontal_layout(headImgPaths);
-                            List<String> picPaths = null;
+                            mLoader.loadImage(mHeadGrall, object.optString("goodImg"));
                             JSONArray array = object.getJSONArray("imgs");
-                            if (null == array && array.length() > 0) {
+                            if (null != array && array.length() > 0) {
                                 int size = array.length();
-                                picPaths = new ArrayList<>(size);
+                                List<String> picPaths = new ArrayList<>(size);
                                 for (int i = 0; i < size; i++) {
                                     picPaths.add(array.getJSONObject(i).getString("goodImg"));
                                 }
                                 mPicAdapter.resetData(picPaths);
                                 mPic_gv.setAdapter(mPicAdapter);
+                                mPic_gv.setVisibility(View.VISIBLE);
                             } else {
                                 mPic_gv.setVisibility(View.GONE);
                             }
@@ -108,7 +110,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
     }
 
     private void iniViews() {
-        mHeadGrall = (GridView) findViewById(R.id.goods_gall);
+        mHeadGrall = (ImageView) findViewById(R.id.goods_gall);
         mPrice_tv = (TextView) findViewById(R.id.goods_price_tv);
         mOldPri_tv = (TextView) findViewById(R.id.goods_old_price_tv);
         mIntr_tv = (TextView) findViewById(R.id.goods_intor_tv);
@@ -135,21 +137,21 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
         }.start();
     }
 
-    public void horizontal_layout(List<String> list) {
-        int size = list.size();
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        float density = dm.density;
-        int allWidth = (int) (110 * size * density);
-        int itemWidth = (int) (100 * density);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                allWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-        mHeadGrall.setLayoutParams(params);// 设置GirdView布局参数
-        mHeadGrall.setColumnWidth(itemWidth);// 列表项宽
-        mHeadGrall.setHorizontalSpacing(10);// 列表项水平间距
-        mHeadGrall.setStretchMode(GridView.NO_STRETCH);
-        mHeadGrall.setNumColumns(size);//总长度
-    }
+//    public void horizontal_layout(List<String> list) {
+//        int size = list.size();
+//        DisplayMetrics dm = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(dm);
+//        float density = dm.density;
+//        int allWidth = (int) (110 * size * density);
+//        int itemWidth = (int) (100 * density);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                allWidth, RelativeLayout.LayoutParams.MATCH_PARENT);
+//        mHeadGrall.setLayoutParams(params);// 设置GirdView布局参数
+//        mHeadGrall.setColumnWidth(itemWidth);// 列表项宽
+//        mHeadGrall.setHorizontalSpacing(10);// 列表项水平间距
+//        mHeadGrall.setStretchMode(GridView.NO_STRETCH);
+//        mHeadGrall.setNumColumns(size);//总长度
+//    }
 
     @Override
     public void onClick(View v) {
@@ -188,5 +190,12 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
             ViewUtil.backToOtherActivity(this);
         }
         return super.onKeyDown(keyCode, event);
+    }
+    class ImageLoaderLinstener implements ImageLoaders.ImageLoaderListener{
+
+        @Override
+        public void onImageLoad(View v, Bitmap bmp, String url) {
+            ((ImageView) v).setImageBitmap(bmp);
+        }
     }
 }

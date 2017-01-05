@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.xbh.tmi.R;
+
 import java.util.List;
 
 import tm.utils.ImageLoaders;
@@ -21,17 +23,13 @@ public class GoodsImageAdapter extends BaseAdapter {
     private Context mContext;
     private ImageLoaders mLoaders;
     private int mItemWidth;
+    private ViewHodler hodler;
 
     public GoodsImageAdapter(Context context) {
         mContext = context;
         mLoaders = new ImageLoaders(mContext, new loaderListener());
     }
 
-    public GoodsImageAdapter(Context context, int imgWidth){
-        mContext = context;
-        mItemWidth = imgWidth;
-        mLoaders = new ImageLoaders(mContext, new loaderListener());
-    }
     public void resetData(List<String> paths) {
         mImgPaths = paths;
         notifyDataSetChanged();
@@ -54,20 +52,29 @@ public class GoodsImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView view = new ImageView(mContext);
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.height = 0 == mItemWidth ? ViewGroup.LayoutParams.MATCH_PARENT : mItemWidth;
-        params.width = 0 == mItemWidth ? ViewGroup.LayoutParams.WRAP_CONTENT : ViewUtil.dp2px(mContext, 250);
-        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        mLoaders.loadImage(view, mImgPaths.get(position));
+        View view;
+        if (null == convertView) {
+            view = View.inflate(mContext, R.layout.goods_pic_item, null);
+            hodler = new ViewHodler();
+            hodler.mPic_iv = (ImageView) view.findViewById(R.id.goods_pic_iv);
+            view.setTag(hodler);
+        } else {
+            view = convertView;
+            hodler = (ViewHodler) view.getTag();
+        }
+        mLoaders.loadImage(hodler.mPic_iv, mImgPaths.get(position));
         return view;
     }
 
-    public class loaderListener implements ImageLoaders.ImageLoaderListener{
+    public class loaderListener implements ImageLoaders.ImageLoaderListener {
 
         @Override
         public void onImageLoad(View v, Bitmap bmp, String url) {
             ((ImageView) v).setImageBitmap(bmp);
         }
+    }
+
+    class ViewHodler {
+        private ImageView mPic_iv;
     }
 }
