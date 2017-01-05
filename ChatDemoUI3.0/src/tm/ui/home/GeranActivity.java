@@ -131,8 +131,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                    Intent intent = new Intent(GeranActivity.this, GoodsChangeActivity.class);
-////                    intent.putExtra("position",position );
+//                    Intent intent = new Intent(GeranActivity.this, GoodsDetilActivity.class);
+//                    intent.putExtra("id",position );
 //                    startActivity(intent);
             }
         });
