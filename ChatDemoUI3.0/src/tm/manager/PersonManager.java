@@ -91,7 +91,7 @@ public class PersonManager {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
                     }
                 }
-            }else {
+            } else {
                 handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
             }
         } catch (Exception e) {
@@ -243,9 +243,9 @@ public class PersonManager {
         }
     }
 
-    public static void addGoods(String name, String price, String count, String oldPri, String intro, List<String> imgs, int type, Handler handler){
+    public static void addGoods(String name, String price, String count, String oldPri, String intro, List<String> imgs, int type, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
-        try{
+        try {
             HttpPost httppost = new HttpPost(Config.URL_ADD_GOODS);
             FileBody bin = null;
             File file = null;
@@ -280,15 +280,15 @@ public class PersonManager {
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    public static void updateGoods(String id, String name, String price, String count, String intro, String oldPri, Handler handler){
+    public static void updateGoods(String id, String name, String price, String count, String intro, String oldPri, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
-        try{
+        try {
             HttpPost httppost = new HttpPost(Config.URL_UPDATE_GOODS);
             MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
             reqEntity.addPart("goodId", new StringBody(id, Charset.forName("UTF-8")));
@@ -312,12 +312,12 @@ public class PersonManager {
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void deleteGoodsImg(String imgId, final int position, Handler handler){
+    public static void deleteGoodsImg(String imgId, final int position, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_DEL_GOODS_IMG);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
@@ -359,7 +359,7 @@ public class PersonManager {
         }
     }
 
-    public static void addGoodsImage(String path, String goodsId, Handler handler){
+    public static void addGoodsImage(String path, String goodsId, Handler handler) {
         File file = new File(path);
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_ADD_GOODS_IMG);
@@ -368,7 +368,7 @@ public class PersonManager {
         try {
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
             reqEntity.addPart("type", new StringBody(String.valueOf(2), Charset.forName("UTF-8")));
-            reqEntity.addPart("goodId",new StringBody(goodsId, Charset.forName("UTF-8")));
+            reqEntity.addPart("goodId", new StringBody(goodsId, Charset.forName("UTF-8")));
             reqEntity.addPart("file", new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), file.getPath())));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
@@ -410,7 +410,7 @@ public class PersonManager {
         }
     }
 
-    public static void deleteGoods(String goodsId, Handler handler){
+    public static void deleteGoods(String goodsId, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_DELETE_GOODS);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
@@ -565,7 +565,7 @@ public class PersonManager {
         }
     }
 
-    public static void delFaceWallPic(String imgPath, int id, Handler handler){
+    public static void delFaceWallPic(String imgPath, int id, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_DEL_FACEWALL);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
@@ -609,8 +609,7 @@ public class PersonManager {
     }
 
 
-
-    public static void sendFosterInfo( int type, Handler handler) {
+    public static void sendFosterInfo(int type, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_FOSTER_AGRICULTURAL);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
@@ -626,12 +625,12 @@ public class PersonManager {
                 String jsonStr = EntityUtils.toString(response.getEntity());
 //                JSONObject object = new JSONObject(EntityUtils.toString(response.getEntity()));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                       if (null != handler) {
-                            Message msg = new Message();
-                            msg.what = 3001;
-                            msg.obj = jsonStr;
-                            handler.sendMessage(msg);
-                        }
+                    if (null != handler) {
+                        Message msg = new Message();
+                        msg.what = 3001;
+                        msg.obj = jsonStr;
+                        handler.sendMessage(msg);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -647,13 +646,69 @@ public class PersonManager {
             }
         }
     }
-    public static void getAddresses(Handler handler){
+
+    /**
+     * 获取视频
+     * @param type 类型（1：企业；2：三农）
+     * @param handler
+     */
+    public static void getVedio(int type, Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.RUL_GET_VEDIO);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("type", new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                JSONObject object = new JSONObject(EntityUtils.toString(response.getEntity()));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (null != handler) {
+                        if (object.getInt("state") == 1) {
+                            Message msg = new Message();
+                            msg.what = 5001;
+                            msg.obj = object.getString("video");
+                            handler.sendMessage(msg);
+                        } else {
+                            handler.sendEmptyMessage(5002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(5002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+    /**
+     * 获取收货地址
+     *
+     * @param raId    收货地址的ID（若获取地址列表，则传空值）
+     * @param handler
+     */
+    public static void getAddresses(String raId, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_GET_ADDRESS);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
         SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         try {
-            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            if (TextUtils.isEmpty(raId)) {
+                reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            } else {
+                reqEntity.addPart("raId", new StringBody(raId, Charset.forName("UTF-8")));
+            }
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -692,10 +747,11 @@ public class PersonManager {
 
     /**
      * 添加/修改收货地址
+     *
      * @param addrMap 收货地址的数据集合
      * @param handler handler
      */
-    public static void addEditAddress(Map<String, String> addrMap, Handler handler){
+    public static void addEditAddress(Map<String, String> addrMap, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_ADD_ADDRESS);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
@@ -704,7 +760,7 @@ public class PersonManager {
             if (!TextUtils.isEmpty(addrMap.get("id"))) {
                 reqEntity.addPart("raId", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
                 reqEntity.addPart("isDefault", new StringBody(addrMap.get("default"), Charset.forName("UTF-8")));
-            }else{
+            } else {
                 reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
             }
             reqEntity.addPart("address", new StringBody(addrMap.get("content"), Charset.forName("UTF-8")));
@@ -748,10 +804,11 @@ public class PersonManager {
 
     /**
      * 获取商品详情
+     *
      * @param goodsId
      * @param handler
      */
-    public static void getGoods(String goodsId, Handler handler){
+    public static void getGoods(String goodsId, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_GET_GOODS);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
@@ -792,7 +849,8 @@ public class PersonManager {
             }
         }
     }
-    public static void addShopCar(String goodsId, Handler handler){
+
+    public static void addShopCar(String goodsId, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.RUL_ADD_SHOPPINGCAR);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
@@ -826,6 +884,104 @@ public class PersonManager {
             e.printStackTrace();
             if (null != handler) {
                 handler.sendEmptyMessage(1002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
+    /**
+     * 获取收货地址
+     *
+     * @param raId    收货地址的ID（若获取地址列表，则传空值）
+     * @param handler
+     */
+    public static void setAddressDefault(String raId, Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_SET_ADD_DEFAULT);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("raid", new StringBody(raId, Charset.forName("UTF-8")));
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("authId") == 1) {
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 2001;
+                            msg.obj = raId;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(1002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(1002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
+    public static void addVedio(File file, int type, Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.RUL_ADD_VEDIO);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("type", new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
+            reqEntity.addPart("file", new FileBody(file));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("authId") == 1) {
+                        //上传成功
+                        Log.e("info", "change Sucess");
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 6001;
+                            msg.obj = object.getString("videoUrl");
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        Log.e("info", "change Fail");
+                        if (null != handler) {
+                            handler.sendEmptyMessage(6002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(6003);
             }
         } finally {
             try {
