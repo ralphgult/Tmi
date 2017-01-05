@@ -57,6 +57,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:src="@drawable/checkbox_seleter"/>
+            <TextView
+                android:id="@+id/address_item_default_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="设为默认"
+                android:textSize="12sp"
+                android:textColor="@color/gray_normal"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -67,7 +74,7 @@
                     android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/order_gray_edge_gb"
+                    android:background="@drawable/btn_white_seletor"
                     android:text="修改"
                     android:textColor="@color/common_bottom_bar_normal_bg"
                     android:textSize="14sp" />
@@ -76,11 +83,16 @@
                     android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/order_gray_edge_gb"
+                    android:background="@drawable/btn_white_seletor"
                     android:text="删除"
                     android:textColor="@color/common_bottom_bar_normal_bg"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
+    <View
+        android:id="@+id/address_item_divide"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/gray_ddd"/>
 </LinearLayout>
