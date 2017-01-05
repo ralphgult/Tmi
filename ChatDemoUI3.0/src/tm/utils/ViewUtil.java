@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.xbh.tmi.DemoApplication;
@@ -138,32 +141,22 @@ public class ViewUtil {
     public static void backToOtherActivity(Activity ac) {
         backToOtherActivity(ac, null);
     }
-
-
-    /**
-     * 设置控件的字体大小，根据dimen文件里定义的数据
-     * @param tv
-     * @param context
-     * @param sizeId
-     */
-    public static void setTextSizeForViewBySizeId(TextView tv, Context context, int sizeId){
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(sizeId));
-    }
-
-    /**
-     * 设置控件字体大小，单位为sp
-     * @param tv
-     * @param sp
-     */
-    public static void setTextSizeForViewBySp(TextView tv, int sp){
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp);
-    }
     /**
      * 从sp里获取userId
      */
     public static String getCurrentUserId() {
         SharedPreferences sharedPre= DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         return sharedPre.getString("username", "");
+    }
+    public static int dp2px(Context context, int dp) {
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        display.getMetrics(displaymetrics);
+
+        return (int) (dp * displaymetrics.density + 0.5f);
     }
 
 }

@@ -70,7 +70,7 @@ public class ImageUtil {
                 return taget;
             }
             // 拿到图片的旋转值：为了满足有的机型
-            int degree = getExifOrientation(srcFilePath);
+//            int degree = getExifOrientation(srcFilePath);
             Matrix m = new Matrix();
 
             if (bitmap.getWidth() > resampleWidth || bitmap.getHeight() > resampleHeight) {
@@ -85,9 +85,9 @@ public class ImageUtil {
                 }
             }
 
-            if (0 != degree) {
-                m.setRotate(degree, (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-            }
+//            if (0 != degree) {
+//                m.setRotate(degree, (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+//            }
             taget = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
             if (taget != bitmap) {
                 safeReleaseBitmap(bitmap);
