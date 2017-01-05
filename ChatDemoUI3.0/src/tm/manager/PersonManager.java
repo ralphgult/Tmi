@@ -1,6 +1,5 @@
 package tm.manager;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
@@ -8,8 +7,6 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.zxing.common.StringUtils;
-import com.oohla.android.utils.StringUtil;
 import com.xbh.tmi.DemoApplication;
 
 import org.apache.http.HttpEntity;
@@ -22,7 +19,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +27,6 @@ import internal.org.apache.http.entity.mime.HttpMultipartMode;
 import internal.org.apache.http.entity.mime.MultipartEntity;
 import internal.org.apache.http.entity.mime.content.FileBody;
 import internal.org.apache.http.entity.mime.content.StringBody;
-import tm.alipay.AlipayAPI;
 import tm.http.Config;
 import tm.utils.ImageUtil;
 
@@ -771,7 +766,7 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("result") == 1) {
+                    if (object.getInt("state") == 1) {
                         if (null != handler) {
                             Message msg = new Message();
                             msg.what = 1001;

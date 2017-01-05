@@ -35,8 +35,7 @@ import tm.http.Config;
 import tm.http.NetFactory;
 import tm.ui.home.Adapter.DianpuAdapter;
 import tm.ui.mine.HeadBigActivity;
-import tm.ui.tmi.FosterAgriculturalActivity;
-import tm.ui.tmi.GoodsChangeActivity;
+import tm.ui.tmi.GoodsDetilActivity;
 import tm.ui.tmi.MomentsActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
@@ -136,9 +135,10 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                    Intent intent = new Intent(GeranActivity.this, GoodsDetilActivity.class);
-//                    intent.putExtra("id",position );
-//                    startActivity(intent);
+                    Intent intent = new Intent(GeranActivity.this, GoodsDetilActivity.class);
+                    Log.e("info","position=="+position);
+                    intent.putExtra("id",gridViewAdapter.getSourceList().get(position).mCommodityid );
+                    startActivity(intent);
             }
         });
     }

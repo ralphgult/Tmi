@@ -1,14 +1,12 @@
 package tm.ui.tmi;
 
 import android.app.Activity;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,11 +27,6 @@ import tm.manager.PersonManager;
 import tm.ui.mine.MySoppingActivity;
 import tm.ui.tmi.adapter.GoodsImageAdapter;
 import tm.utils.ViewUtil;
-
-import static com.xbh.tmi.R.id.cardView;
-import static com.xbh.tmi.R.id.findpwd_getsms_tv;
-import static com.xbh.tmi.R.id.goods_buy_tv;
-import static com.xbh.tmi.R.id.gridView;
 
 public class GoodsDetilActivity extends Activity implements View.OnClickListener {
 
@@ -125,7 +118,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
         mCar_tv = (TextView) findViewById(R.id.goods_shopcar_tv);
         mBuy_tv = (TextView) findViewById(R.id.goods_buy_tv);
         mBack_tv = (ImageView) findViewById(R.id.goods_back_iv);
-        mShop_tv = (TextView) findViewById(R.id.goods_add_tv);
+        mShopCar_tv = (TextView) findViewById(R.id.goods_add_tv);
         mChat_tv.setOnClickListener(this);
         mCar_tv.setOnClickListener(this);
         mBuy_tv.setOnClickListener(this);

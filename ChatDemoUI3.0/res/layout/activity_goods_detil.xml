@@ -4,7 +4,8 @@
     android:id="@+id/activity_goods_detil"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tm.ui.tmi.GoodsDetilActivity">
+    tools:context="tm.ui.tmi.GoodsDetilActivity"
+    android:background="@color/background_white">
     <RelativeLayout
         android:id="@+id/goods_title"
         android:layout_width="match_parent"
