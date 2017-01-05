@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity {
 	private UserInfo mInfo;
 	private Tencent mTencent;
 	public QQAuth mQQAuth;
-	public String mAppid = "1105535997";
+	public String mAppid = "1105353663";
 	public String openid ;
 
 	public static final String APP_ID = "wx4c49c49a71bfb7df";
@@ -497,6 +497,8 @@ public class LoginActivity extends BaseActivity {
 			IUiListener listener = new IUiListener() {
 				@Override
 				public void onComplete(final Object response) {
+					Log.e("lking", "qq = " + response.toString());
+
 				}
 
 				@Override
@@ -519,13 +521,15 @@ public class LoginActivity extends BaseActivity {
 			Log.e("lking", "返回值 = " + response.toString());
 			JSONObject json = (JSONObject) response;
 			try {
-				openid = json.getString("openid");
-				//在这里进行QQ登录操作*******************************************************************
-				Log.e("lking", "登录操作");
+				String openID = json.getString("openid");
+				String accessToken = json.getString("access_token");
+				String expires = json.getString("expires_in");
+				mTencent.setOpenId(openID);
+				mTencent.setAccessToken(accessToken, expires);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			Log.e("lking", "openid2 = " + openid);
+			updateUserInfo();
 		}
 		protected void doComplete(JSONObject values) {
 
