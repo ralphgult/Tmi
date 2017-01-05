@@ -38,6 +38,7 @@
             android:textColor="@color/background_white"/>
     </RelativeLayout>
     <ScrollView
+        android:id="@+id/goods_root"
         android:layout_below="@+id/goods_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
                 android:layout_toRightOf="@+id/goods_price_tv"
                 android:gravity="bottom"
                 android:textColor="@color/btn_gray_pressed"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 tools:text="原价:￥59.8" />
 
             <TextView
@@ -113,13 +114,14 @@
                 android:layout_marginTop="10dp"
                 android:visibility="gone"
                 android:background="@color/rkcloud_chat_ui_bgcolor" />
-            <GridView
+            <tm.widget.StationaryGridView
                 android:id="@+id/goods_pic_gv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
                 android:layout_below="@+id/goods_shop"
                 android:numColumns="1"
+                android:layout_marginBottom="45dp"
                 android:stretchMode="columnWidth"/>
         </RelativeLayout>
     </ScrollView>
