@@ -30,7 +30,7 @@ public class MyAddressActivity extends Activity {
     private ImageView back;
     private ListView addrList;
     private AddressAdapter mAdapter;
-    private Handler mHandler;
+    public Handler mHandler;
 
     private List<Map<String, String>> mDatas;
     private TextView add;
@@ -49,7 +49,7 @@ public class MyAddressActivity extends Activity {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1001:
-                        try{
+                        try {
                             JSONArray array = (JSONArray) msg.obj;
                             if (null != array && array.length() > 0) {
                                 int size = array.length();
@@ -58,22 +58,30 @@ public class MyAddressActivity extends Activity {
                                 for (int i = 0; i < size; i++) {
                                     JSONObject object = array.getJSONObject(i);
                                     map = new HashMap<>();
-                                    map.put("id",object.optString("raId"));
+                                    map.put("id", object.optString("raId"));
                                     map.put("name", object.optString("name"));
                                     map.put("phone", object.optString("phone"));
                                     map.put("addr", object.optString("address"));
-                                    map.put("default",object.optString("isDefault"));
+                                    map.put("default", object.optString("isDefault"));
                                     mDatas.add(map);
                                 }
-                            }else {
+                            } else {
                                 mDatas = new ArrayList<Map<String, String>>();
                             }
                             mAdapter.resetData(mDatas);
                             addrList.setAdapter(mAdapter);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                             Toast.makeText(MyAddressActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                         }
+                        break;
+                    case 2001:
+                        Toast.makeText(MyAddressActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+                        for (Map<String, String> mData : mDatas) {
+                            mData.remove("default");
+                            mData.put("default",mData.get("id").equals((String) msg.obj) ? "1" : "0");
+                        }
+                        mAdapter.resetData(mDatas);
                         break;
                     default:
                         Toast.makeText(MyAddressActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
@@ -98,7 +106,7 @@ public class MyAddressActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("isAdd",true);
+                bundle.putBoolean("isAdd", true);
                 ViewUtil.jumpToOtherActivity(MyAddressActivity.this, EditAddressActivity.class, bundle);
             }
         });
@@ -107,10 +115,10 @@ public class MyAddressActivity extends Activity {
 
     private void getData() {
         if (NetworkUtil.isNetworkAvailable(this)) {
-            new Thread(){
+            new Thread() {
                 @Override
                 public void run() {
-                    PersonManager.getAddresses(mHandler);
+                    PersonManager.getAddresses(null, mHandler);
                 }
             }.start();
         }
