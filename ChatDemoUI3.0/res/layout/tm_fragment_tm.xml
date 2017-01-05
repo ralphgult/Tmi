@@ -58,7 +58,7 @@
             android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
             android:gravity="center_vertical"
             android:paddingRight="10dp"
-            android:text="T觅资讯"
+            android:text="个人资讯"
             android:textColor="@color/yx_context_function_color"
             android:textSize="16sp" />
 
@@ -112,7 +112,7 @@
             android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
             android:gravity="center_vertical"
             android:paddingRight="10dp"
-            android:text="扫一扫"
+            android:text="扫一扫（加好友）"
             android:textColor="@color/yx_context_function_color"
             android:textSize="16sp" />
 
@@ -154,7 +154,7 @@
             android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
             android:gravity="center_vertical"
             android:paddingRight="10dp"
-            android:text="T觅资讯"
+            android:text="企业资讯"
             android:textColor="@color/yx_context_function_color"
             android:textSize="16sp" />
 
@@ -213,7 +213,7 @@
             android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
             android:gravity="center_vertical"
             android:paddingRight="10dp"
-            android:text="T觅资讯"
+            android:text="三农资讯"
             android:textColor="@color/yx_context_function_color"
             android:textSize="16sp" />
 

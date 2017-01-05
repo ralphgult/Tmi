@@ -90,8 +90,8 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
         mContent_edt = (EditText) findViewById(R.id.edit_address_content_edt);
         mBack.setOnClickListener(this);
         mSave.setOnClickListener(this);
-        mName_tv.setOnClickListener(this);
-        mPhone_tv.setOnClickListener(this);
+        mName_ly.setOnClickListener(this);
+        mPhone_ly.setOnClickListener(this);
     }
 
     @Override
@@ -105,6 +105,8 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.edit_address_name_ly:
                 mIsName = true;
+                createInputDialog();
+                break;
             case R.id.edit_address_phone_ly:
                 mIsName = false;
                 createInputDialog();
@@ -136,7 +138,9 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
             mDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
         }
         if (!mIsName) {
-            mDialog.getInputView().setInputType(InputType.TYPE_CLASS_NUMBER);
+            mDialog.getInputView().setInputType(InputType.TYPE_CLASS_PHONE);
+        }else {
+            mDialog.getInputView().setInputType(InputType.TYPE_CLASS_TEXT);
         }
         mDialog.setHintTextForView(mIsName ? "请输入收货人姓名" : "请输入电话号码");
         mDialog.setInputDialogListener(this);

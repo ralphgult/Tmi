@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Config {
     //    public static String ROOT_HOST_NAME="http://hsaiqs.xicp.net:20806";
     public static String ROOT_HOST_NAME="http://121.196.244.27:3003";
-//    public static String ROOT_HOST_NAME = "http://192.168.1.100:8080";
+//    public static String ROOT_HOST_NAME = "http://192.168.1.101:8080";
 //        public static String ROOT_HOST_NAME="http://192.168.1.110:8080";
 
     public static String URL_LOGIN_USER = ROOT_HOST_NAME + "/CBDParkingMSs/login"; // 用户登录
@@ -45,13 +45,17 @@ public class Config {
     public static String URL_DEL_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteImg";//删除商品图片
     public static String URL_ADD_GOODS_IMG = ROOT_HOST_NAME + "/CBDParkingMSs/goods/uploadGoodsImg";//添加商品图片
     public static String URL_DELETE_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteGoods";//添加商品图片
+    public static String URL_GET_GOODS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/details";//获取商品详情
     public static String URL_FOSTER_AGRICULTURAL = ROOT_HOST_NAME + "/CBDParkingMSs/sf/details";//扶植农业接口
     public static String URL_FRIENDS = ROOT_HOST_NAME + "/CBDParkingMSs/friends/myFriends";//好友列表接口
     public static String URL_DEL_EFRIENDS = ROOT_HOST_NAME + "/CBDParkingMSs/friends/deleteFriends";//删除好友接口
 
     public static String URL_GET_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/myAddress";//获取收货地址
-    public static String URL_ADD_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addReceiptAddress";//获取收货地址
-    public static String URL_EDT_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addReceiptAddress";//添加/修改收货地址
+    public static String URL_ADD_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addReceiptAddress";//添加/修改收货地址
+    public static String URL_EDT_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/goods/delReceiptAddress";//删除收货地址
+
+    public static String RUL_ADD_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/goods/addShoppingCart";//添加购物车
+    public static String RUL_DEL_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/goods/deleteShoppingCart";//删除购物车
 
     public static void init(Context context) throws IOException {
     }

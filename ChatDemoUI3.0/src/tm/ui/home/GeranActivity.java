@@ -35,6 +35,9 @@ import tm.http.Config;
 import tm.http.NetFactory;
 import tm.ui.home.Adapter.DianpuAdapter;
 import tm.ui.mine.HeadBigActivity;
+import tm.ui.tmi.FosterAgriculturalActivity;
+import tm.ui.tmi.GoodsChangeActivity;
+import tm.ui.tmi.MomentsActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
@@ -49,6 +52,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout yy_top1;
     private LinearLayout yy_top2;
     private LinearLayout yy_top3;
+    private LinearLayout tm_geren;
     private TextView txt1;
     private TextView txt2;
     private TextView txt3;
@@ -74,6 +78,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout lv_qiye_line;
     private ImageView addfriend;
     private ImageView liaotian;
+    private ImageView top_head_img;//个人动态头像
 
 
     private TextView tv_name;
@@ -162,6 +167,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_qiye_line = (LinearLayout)findViewById(R.id.tm_qiye_line);
         addfriend = (ImageView) findViewById(R.id.tm_addfriend);
         liaotian = (ImageView) findViewById(R.id.tm_liaotian);
+
+        top_head_img = (ImageView) findViewById(R.id.yx_monent_top_head_img);//个人头像
         //店铺
         dianpu_gridview = (StationaryGridView)findViewById(R.id.tm_dianpu);
 
@@ -178,6 +185,10 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         yy_top1 = (LinearLayout)findViewById(R.id.shouye_top1);
         yy_top2 = (LinearLayout)findViewById(R.id.shouye_top2);
         yy_top3 = (LinearLayout)findViewById(R.id.shouye_top3);
+        tm_geren = (LinearLayout)findViewById(R.id.tm_geren_ly);
+
+
+
         txt1 = (TextView)findViewById(R.id.txt1);
         txt2 = (TextView)findViewById(R.id.txt2);
         txt3=  (TextView)findViewById(R.id.txt3);
@@ -189,6 +200,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         yy_top3.setOnClickListener(this);
         addfriend.setOnClickListener(this);
         liaotian.setOnClickListener(this);
+        tm_geren.setOnClickListener(this);
 
         img_pic1.setOnClickListener(this);
         img_pic2.setOnClickListener(this);
@@ -224,6 +236,11 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
                 type=2;
                 LoadData3();
+                break;
+            case R.id.tm_geren_ly:
+                Bundle bund = new Bundle();
+                bund.putInt("type", 4);
+                ViewUtil.jumpToOtherActivity(this, MomentsActivity.class, bund);
                 break;
             case R.id.tm_addfriend://添加好友
 
@@ -327,6 +344,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 tv_num.setText(jsonNew.optString("mpsCount"));
                 tv_comment.setText(jsonNew.optString("mcCount"));
                 tv_content.setText(jsonNew.optString("mood_content"));
+//                imageLoaders.loadImage(top_head_img,picurl1 );
             }
             JSONArray photos = objects.getJSONArray("top");
             if (photos != null && photos.length() != 0) {

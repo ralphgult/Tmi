@@ -36,6 +36,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import tm.db.dao.FriendDao;
+import tm.entity.FriendBean;
+
 public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
 	private Context context;
@@ -92,7 +95,13 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			}
 			
 			holder.reason.setText(msg.getReason());
-			holder.name.setText(msg.getFrom());
+			FriendBean fb=new FriendDao().getLocalUserInfoByUserId(msg.getFrom());
+			if(TextUtils.isEmpty(fb.mNickname)){
+				holder.name.setText(msg.getFrom());
+			}else{
+				holder.name.setText(fb.mNickname);
+			}
+
 			// holder.time.setText(DateUtils.getTimestampString(new
 			// Date(msg.getTime())));
 			if (msg.getStatus() == InviteMesageStatus.BEAGREED) {

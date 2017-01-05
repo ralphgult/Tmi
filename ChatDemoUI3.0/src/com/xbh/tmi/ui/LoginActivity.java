@@ -346,7 +346,7 @@ public class LoginActivity extends BaseActivity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						pd.dismiss();
-						Toast.makeText(getApplicationContext(), "登录失败",
+						Toast.makeText(getApplicationContext(), "即时通讯组件启动失败请重新登陆",
 								Toast.LENGTH_SHORT).show();
 					}
 				});
@@ -408,11 +408,11 @@ public class LoginActivity extends BaseActivity {
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 						uid=map.get("userId")+"";
-						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"");
+						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"");
 						LoadData();
 						hxlogin();
 					}else{
-						Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
+						Toast.makeText(LoginActivity.this,"账号或密码错误请重新登陆",Toast.LENGTH_SHORT).show();
 					}
 					break;
 				case ConstantsHandler.EXECUTE_FAIL:
@@ -430,7 +430,7 @@ public class LoginActivity extends BaseActivity {
 	 * @param context
 	 * @param username
 	 */
-	public static void saveLoginInfo(Context context, String username,String phone){
+	public static void saveLoginInfo(Context context, String username,String phone,String photo){
 		//获取SharedPreferences对象
 		SharedPreferences sharedPre=context.getSharedPreferences("config", context.MODE_PRIVATE);
 		//获取Editor对象
@@ -439,6 +439,7 @@ public class LoginActivity extends BaseActivity {
 		editor.putString("username", username);
 		Log.e("info","phone===="+phone);
 		editor.putString("phone", phone);
+		editor.putString("photo", photo);
 		//提交
 		editor.commit();
 	}

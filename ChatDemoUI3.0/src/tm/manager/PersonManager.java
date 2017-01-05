@@ -2,6 +2,7 @@ package tm.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -95,6 +96,8 @@ public class PersonManager {
                         handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
                     }
                 }
+            }else {
+                handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -254,7 +257,7 @@ public class PersonManager {
             MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
             for (String path : imgs) {
                 file = new File(path);
-                bin = new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), path));
+                bin = new FileBody(ImageUtil.saveUploadImage(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ImageLoader/cache/images" + File.separator + file.getName(), path));
                 reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
             }
             file = new File(imgs.get(0));
@@ -417,7 +420,7 @@ public class PersonManager {
         HttpPost httppost = new HttpPost(Config.URL_DELETE_GOODS);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
         try {
-            reqEntity.addPart("ids", new StringBody(String.valueOf(goodsId), Charset.forName("UTF-8")));
+            reqEntity.addPart("ids", new StringBody("159,160", Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -703,7 +706,7 @@ public class PersonManager {
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
         SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         try {
-            if (TextUtils.isEmpty(addrMap.get("id"))) {
+            if (!TextUtils.isEmpty(addrMap.get("id"))) {
                 reqEntity.addPart("raId", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
             }else{
                 reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
@@ -749,4 +752,93 @@ public class PersonManager {
         }
     }
 
+    /**
+     * 获取商品详情
+     * @param goodsId
+     * @param handler
+     */
+    public static void getGoods(String goodsId, Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_GET_GOODS);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        try {
+            reqEntity.addPart("goodId", new StringBody(goodsId, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 1001;
+                            msg.obj = object;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(1002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(1002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+    public static void addShopCar(String goodsId, Handler handler){
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.RUL_ADD_SHOPPINGCAR);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("goodId", new StringBody(goodsId, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("result") == 1) {
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 2001;
+                            msg.obj = object;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(1002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(1002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
 }
