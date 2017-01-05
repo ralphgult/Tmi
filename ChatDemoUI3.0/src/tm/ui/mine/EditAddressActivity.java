@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -28,9 +30,9 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
     private TextView mTitle;
     private TextView mSave;
     private LinearLayout mName_ly;
-    private TextView mName_tv;
+    private EditText mName_tv;
     private LinearLayout mPhone_ly;
-    private TextView mPhone_tv;
+    private EditText mPhone_tv;
     private EditText mContent_edt;
     private InputDialog mDialog;
     private boolean mIsName;
@@ -84,14 +86,14 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
         mTitle = (TextView) findViewById(R.id.edit_address_title_tv);
         mSave = (TextView) findViewById(R.id.edit_address_add_tv);
         mName_ly = (LinearLayout) findViewById(R.id.edit_address_name_ly);
-        mName_tv = (TextView) findViewById(R.id.edit_address_name_tv);
+        mName_tv = (EditText) findViewById(R.id.edit_address_name_tv);
         mPhone_ly = (LinearLayout) findViewById(R.id.edit_address_phone_ly);
-        mPhone_tv = (TextView) findViewById(R.id.edit_address_phone_tv);
+        mPhone_tv = (EditText) findViewById(R.id.edit_address_phone_tv);
         mContent_edt = (EditText) findViewById(R.id.edit_address_content_edt);
         mBack.setOnClickListener(this);
         mSave.setOnClickListener(this);
-        mName_ly.setOnClickListener(this);
-        mPhone_ly.setOnClickListener(this);
+        mName_tv.setOnClickListener(this);
+        mPhone_tv.setOnClickListener(this);
     }
 
     @Override
@@ -103,34 +105,37 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
             case R.id.edit_address_add_tv:
                 addEditAddress();
                 break;
-            case R.id.edit_address_name_ly:
-                mIsName = true;
-                createInputDialog();
-                break;
-            case R.id.edit_address_phone_ly:
-                mIsName = false;
-                createInputDialog();
-                break;
         }
     }
 
     private void addEditAddress() {
-        new Thread() {
-            @Override
-            public void run() {
-                Map<String, String> map = new HashMap<>();
-                if (mIsAdd) {
-                    map.put("default", "0");
-                } else {
-                    map.put("id", mAddrId);
-                    map.put("default", getIntent().getExtras().getString("default"));
+        final String name = mName_tv.getText().toString().trim();
+        final String phone = mPhone_tv.getText().toString().trim();
+        final String content = mContent_edt.getText().toString().trim();
+        if(TextUtils.isEmpty(name)){
+            Toast.makeText(EditAddressActivity.this,"收件人不能为空",Toast.LENGTH_SHORT).show();
+        }else if(phone.length() != 11 && !isMobile(phone)){
+            Toast.makeText(EditAddressActivity.this,"请输入正确的收件人手机号",Toast.LENGTH_SHORT).show();
+        }else if(TextUtils.isEmpty(content)){
+            Toast.makeText(EditAddressActivity.this,"收件人详细地址不能为空",Toast.LENGTH_SHORT).show();
+        }else{
+            new Thread() {
+                @Override
+                public void run() {
+                    Map<String, String> map = new HashMap<>();
+                    if (mIsAdd) {
+                        map.put("default", "0");
+                    } else {
+                        map.put("id", mAddrId);
+                        map.put("default", getIntent().getExtras().getString("default"));
+                    }
+                    map.put("name", name);
+                    map.put("phone",phone);
+                    map.put("content",content);
+                    PersonManager.addEditAddress(map, mHandler);
                 }
-                map.put("name", mName_tv.getText().toString().trim());
-                map.put("phone", mPhone_tv.getText().toString().trim());
-                map.put("content", mContent_edt.getText().toString().trim());
-                PersonManager.addEditAddress(map, mHandler);
-            }
-        }.start();
+            }.start();
+        }
     }
 
     private void createInputDialog() {
@@ -138,9 +143,7 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
             mDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
         }
         if (!mIsName) {
-            mDialog.getInputView().setInputType(InputType.TYPE_CLASS_PHONE);
-        }else {
-            mDialog.getInputView().setInputType(InputType.TYPE_CLASS_TEXT);
+            mDialog.getInputView().setInputType(InputType.TYPE_CLASS_NUMBER);
         }
         mDialog.setHintTextForView(mIsName ? "请输入收货人姓名" : "请输入电话号码");
         mDialog.setInputDialogListener(this);
@@ -167,5 +170,17 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
             ViewUtil.backToOtherActivity(this);
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    public static boolean isMobile(String str){
+        if(TextUtils.isEmpty(str)){
+            return false;
+        }
+        String exp = "^1[34578][0-9]{9}$";
+        if(str.matches(exp)){
+            return true;
+        }
+        return false;
     }
 }
