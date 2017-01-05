@@ -54,7 +54,6 @@ public class FosterShopActivity extends Activity {
         mSureTV = (TextView) findViewById(R.id.foster_comm_sure_tv);
         mNameTV.setText("商品名称："+name);
         mMoneyTV.setText("商品金额：" + price + "元");
-        Toast.makeText(this,"m = "+name+",p ="+price,Toast.LENGTH_SHORT).show();
     }
     private void setLister(){
         mAddTV.setOnClickListener(new View.OnClickListener() {
@@ -80,13 +79,12 @@ public class FosterShopActivity extends Activity {
         mSureTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                new Thread() {
-//                    @Override
-////                    public void run() {
+                new Thread() {
+                    @Override
+                    public void run() {
                         AlipayAPI.pay(FosterShopActivity.this,name,name+sum+"件",price);
-//                    }
-//                }.start();
-//                Toast.makeText(FosterShopActivity.this,"m= "+name+";j= "+mMoneyTV.getText().toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }.start();
             }
         });
         mBackTV.setOnClickListener(new View.OnClickListener() {
