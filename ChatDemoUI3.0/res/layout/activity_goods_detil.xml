@@ -40,15 +40,16 @@
     <ScrollView
         android:layout_below="@+id/goods_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <GridView
+            <ImageView
                 android:id="@+id/goods_gall"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:stretchMode="spacingWidthUniform"/>
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/goods_price_tv"
@@ -118,7 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
                 android:layout_below="@+id/goods_shop"
-                android:numColumns="1"/>
+                android:numColumns="1"
+                android:stretchMode="columnWidth"/>
         </RelativeLayout>
     </ScrollView>
     <LinearLayout
