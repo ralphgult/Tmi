@@ -1,6 +1,7 @@
 package tm.ui.mine;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -28,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.WriterException;
+import com.oohla.android.utils.NetworkUtil;
+import com.ta.utdid2.android.utils.NetworkUtils;
 import com.xbh.tmi.Constant;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.BaseActivity;
@@ -53,9 +56,11 @@ import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
 import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
+import tm.utils.ViewTools;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
+import tm.utils.dialog.RemindDialog;
 import tm.widget.zxing.encoding.BitmapEncodUtil;
 
 public class CompCenterActivity extends BaseActivity implements View.OnClickListener {
@@ -72,18 +77,24 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
     private InputDialog dialog;
     private PersonManager personManager;
     private ImageLoaders loaders;
+    private RelativeLayout vedio_rv;
+    private TextView vedioHave_tv;
     private int CHANGE_FACE_WALL = 0;
     private int CHANGE_HEAD = 1;
-    private static final int CHANGEHEAD_LOCAL = 1;
-    private static final int WALLFACE_LOCAL = 2;
-    private static final int CHANGEHEAD_CAMERA = 3;
-    private static final int WALLFACE_CAMERA = 4;
+    private final int CHANGEHEAD_LOCAL = 1;
+    private final int WALLFACE_LOCAL = 2;
+    private final int CHANGEHEAD_CAMERA = 3;
+    private final int WALLFACE_CAMERA = 4;
+    private final int REQUESTCODE_VEDIO = 5;
     private String imagePath;
     private FaceWallAdapter mAdapter;
     private int mType;
     private List<String> imgList;
     private List<Integer> idList;
     private CommonSelectImgPopupWindow mPopupWindow;
+    private String mVedioPath;
+    private ProgressDialog pd;
+    private RemindDialog mDialog;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -156,7 +167,20 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                     NetFactory.instance().commonHttpCilent(mHandler, CompCenterActivity.this,
                             Config.URL_GET_USRE_FACEWALL, list);
                     break;
+                case 6001:
+                    Toast.makeText(CompCenterActivity.this, "视频上传完成", Toast.LENGTH_SHORT).show();
+                case 5001:
+                    if (null != pd && pd.isShowing()) {
+                        pd.dismiss();
+                    }
+                    mVedioPath = (String) msg.obj;
+                    Log.e("info","vedioPath ====== " + mVedioPath);
+                    vedioHave_tv.setText(TextUtils.isEmpty(mVedioPath) ? "未上传" : "重新上传");
+                    break;
                 default:
+                    if (null != pd && pd.isShowing()) {
+                        pd.dismiss();
+                    }
                     Toast.makeText(CompCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                     break;
             }
@@ -201,12 +225,15 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         introText_tv = (TextView) findViewById(R.id.comp_center_sign_tv);
         introText_tv.setText(getIntent().getExtras().getString("compinter"));
         qr_ly = (LinearLayout) findViewById(R.id.comp_center_qr_ly);
+        vedio_rv = (RelativeLayout) findViewById(R.id.comp_center_vedio_rv);
+        vedioHave_tv = (TextView) findViewById(R.id.comp_center_ishave_vedio_text);
         back_iv.setOnClickListener(this);
         confirm_tv.setOnClickListener(this);
         head_ly.setOnClickListener(this);
         name_rv.setOnClickListener(this);
         intro_rv.setOnClickListener(this);
         qr_ly.setOnClickListener(this);
+        vedio_rv.setOnClickListener(this);
         String url = getIntent().getExtras().getString("comphead");
         if (!TextUtils.isEmpty(url)) {
             loaders.loadImage(headImage_iv, url);
@@ -224,6 +251,12 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
             }
         });
         List<NameValuePair> list = new ArrayList<NameValuePair>();
+        new Thread() {
+            @Override
+            public void run() {
+                PersonManager.getVedio(1, mHandler);
+            }
+        }.start();
         SharedPreferences sharedPre = CompCenterActivity.this.getSharedPreferences("config", CompCenterActivity.this.MODE_PRIVATE);
         String userId = sharedPre.getString("username", "");
         if (!TextUtils.isEmpty(userId)) {
@@ -278,6 +311,16 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 bundle.putString("filePath", Constant.QRCODE_FILE_PATH);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle);
                 break;
+            case R.id.comp_center_vedio_rv:
+                Intent intent = new Intent();
+                intent.setAction("android.media.action.VIDEO_CAPTURE");
+                intent.addCategory("android.intent.category.DEFAULT");
+                File file = new File(Constant.COMP_VEDIO_PATH);
+                Uri uri = Uri.fromFile(file);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30);
+                startActivityForResult(intent, REQUESTCODE_VEDIO);
+                break;
         }
 
     }
@@ -287,6 +330,20 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && data != null) {
             try {
+                if (requestCode == REQUESTCODE_VEDIO) {
+                    pd = ProgressDialog.show(this, "上传", "视频上传中，请稍后...");
+                    if(!NetworkUtils.isWifi(this)){
+                        createReminDialog();
+                        return;
+                    }
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            PersonManager.addVedio(new File(Constant.COMP_VEDIO_PATH), 1, mHandler);
+                        }
+                    }.start();
+                    return;
+                }
                 if (requestCode == CHANGEHEAD_LOCAL || requestCode == WALLFACE_LOCAL) {
                     //选择本地图片
                     Uri selectedImage = data.getData();
@@ -404,5 +461,28 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         };
         mPopupWindow.showAtBOTTOM(LayoutInflater.from(this).inflate(R.layout.activity_comp_center, null));
     }
+    private void createReminDialog(){
+        if (null == mDialog) {
+            mDialog = (RemindDialog) DialogFactory.createDialog(this,DialogFactory.DIALOG_TYPE_REMIND);
+            mDialog.setGroupName("您正在使用流量上传，是否继续?");
+            mDialog.setPhotoDialogListener(new RemindDialog.RemindDialogListener() {
+                @Override
+                public void invita() {
+                    mDialog.closeDialog();
+                }
 
+                @Override
+                public void remind() {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            PersonManager.addVedio(new File(Constant.COMP_VEDIO_PATH), 1, mHandler);
+                        }
+                    }.start();
+                    mDialog.closeDialog();
+                }
+            });
+        }
+        mDialog.showDialog();
+    }
 }
