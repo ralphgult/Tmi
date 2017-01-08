@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_shopping_pay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tm.ui.mine.ShoppingPayActivity"
+    android:background="@color/background_white">
+    <RelativeLayout
+        android:id="@+id/shopping_pay_title_rv"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar">
+
+        <ImageView
+            android:id="@+id/shopping_pay_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ease_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="结算"
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/shopping_pay_list_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shopping_pay_title_rv"
+        android:layout_above="@+id/shopping_pay_pay_ly"
+        android:scrollbars="none"
+        android:divider="@null" />
+    <LinearLayout
+        android:id="@+id/shopping_pay_pay_ly"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/background_white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="总价："
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/shopping_pay_total_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="￥0.00"
+            android:textColor="#ff5821"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/shopping_pay_pay_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/em_btn_style_alert_dialog_special"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="确认购买"
+            android:textColor="@color/background_white"
+            android:textSize="14sp" />
+    </LinearLayout>
+</RelativeLayout>
