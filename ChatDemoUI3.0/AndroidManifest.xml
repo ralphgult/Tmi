@@ -324,7 +324,7 @@
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
         <!-- 红包相关Activity end -->
 
 
@@ -636,7 +636,12 @@
             android:name="tm.ui.tmi.FosterShopActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="tm.ui.tmi.GoodsDetilActivity"
+        <activity
+            android:name="tm.ui.tmi.GoodsDetilActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="tm.ui.mine.ShoppingPayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
