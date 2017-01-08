@@ -991,4 +991,103 @@ public class PersonManager {
             }
         }
     }
+    public static void getShoppingList(Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.RUL_GET_SHOPPINGCAR_LIST);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("page", new StringBody("0", Charset.forName("UTF-8")));
+            reqEntity.addPart("num", new StringBody("50", Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                Log.e("info", "result ================= " + object.toString());
+                if (null != handler) {
+                    if (object.getInt("state") == 1) {
+                        //上传成功
+                        Log.e("info", "change Sucess");
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 1001;
+                            msg.obj = object.getJSONArray("goods");
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        Log.e("info", "change Fail");
+                        if (null != handler) {
+                            handler.sendEmptyMessage(1002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(1002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
+    /**
+     * 删除购物车
+     * @param map 购物车商品对象
+     * @param handler handler
+     */
+    public static void delShoppingList(Map<String, String> map, Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.RUL_DEL_SHOPPINGCAR);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        try {
+            reqEntity.addPart("scId", new StringBody(map.get("scId"), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                Log.e("info", "result ================= " + object.toString());
+                if (null != handler) {
+                    if (object.getInt("authId") == 1) {
+                        //上传成功
+                        Log.e("info", "change Sucess");
+                        if (null != handler) {
+                            Message msg = new Message();
+                            msg.what = 2001;
+                            msg.obj = map;
+                            handler.sendMessage(msg);
+                        }
+                    } else {
+                        Log.e("info", "change Fail");
+                        if (null != handler) {
+                            handler.sendEmptyMessage(2002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(2002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
 }
