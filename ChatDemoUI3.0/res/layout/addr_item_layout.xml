@@ -69,16 +69,16 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="right">
-                <Button
-                    android:id="@+id/addr_btn_change"
-                    android:layout_width="70dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/btn_white_seletor"
-                    android:text="修改"
-                    android:textColor="@color/common_bottom_bar_normal_bg"
-                    android:textSize="14sp" />
-                <Button
+                <!--<Button-->
+                    <!--android:id="@+id/addr_btn_change"-->
+                    <!--android:layout_width="70dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:background="@drawable/btn_white_seletor"-->
+                    <!--android:text="修改"-->
+                    <!--android:textColor="@color/common_bottom_bar_normal_bg"-->
+                    <!--android:textSize="14sp" />-->
+               <!-- <Button
                     android:id="@+id/addr_btn_delete"
                     android:layout_width="70dp"
                     android:layout_height="30dp"
@@ -86,7 +86,7 @@
                     android:background="@drawable/btn_white_seletor"
                     android:text="删除"
                     android:textColor="@color/common_bottom_bar_normal_bg"
-                    android:textSize="14sp" />
+                    android:textSize="14sp" />-->
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

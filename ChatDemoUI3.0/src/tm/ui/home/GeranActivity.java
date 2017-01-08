@@ -322,7 +322,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_geren3.setVisibility(View.VISIBLE);
         lv_geren4.setVisibility(View.VISIBLE);
         lv_qiye_line.setVisibility(View.GONE);
-
+        tv_dianpu.setText("个人动态");
         list.clear();
         try {
 //            JSONObject objects =new JSONObject(map.toString());

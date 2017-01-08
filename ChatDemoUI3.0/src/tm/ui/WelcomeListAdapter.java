@@ -32,6 +32,7 @@ import tm.db.dao.FriendDao;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.utils.ImageLoaders;
+import tm.video.VideoViewActivity;
 
 
 /***
@@ -131,20 +132,12 @@ public class WelcomeListAdapter extends BaseAdapter {
         }
         holder.tv_title.setText(map.get("name")+"");
         holder.tv_desc.setText(map.get("desc")+"");
-//        if("0.0".equals(map.get("distance")+"")){
-//            holder.tv_distances.setText("未共享位置");
-//        }else
         double i = Double.parseDouble(map.get("distance").toString());
         if(i>10000){
             holder.tv_distances.setText("未共享位置");
         }else{
             holder.tv_distances.setText(map.get("distance")+"公里");
         }
-//        if("0".equals(map.get("distance")+"")){
-//            holder.tv_distances.setText("未共享位置");
-//        }else{
-//            holder.tv_distances.setText(map.get("distance")+"公里");
-//        }
         if(phone.equals(map.get("uname")+"")){
             saveLoginInfo(context,map.get("photo")+"");
         }
@@ -181,7 +174,8 @@ public class WelcomeListAdapter extends BaseAdapter {
         holder.img_shipin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"敬请期待!",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"敬请期待!",Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, VideoViewActivity.class));
             }
         });
         return view;
