@@ -124,7 +124,6 @@ public class MyShoppingAdapter extends BaseAdapter {
                 vh.mDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO 删除购物车
                         new Thread() {
                             @Override
                             public void run() {
