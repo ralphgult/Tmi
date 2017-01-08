@@ -352,6 +352,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!-- 视频播放页 -->
+        <activity
+            android:name="tm.video.VideoViewActivity"
+            android:theme="@style/horizontal_slide" />
         <activity
             android:name="tm.ui.mine.PersonCenterActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

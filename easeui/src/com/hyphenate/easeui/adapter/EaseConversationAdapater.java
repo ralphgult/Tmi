@@ -227,7 +227,8 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
                 results.values = copyConversationList;
                 results.count = copyConversationList.size();
             } else {
-                String prefixString = prefix.toString();
+                String prefixStrings = prefix.toString();
+                String prefixString=prefixStrings.toLowerCase();
                 final int count = mOriginalValues.size();
                 final ArrayList<EMConversation> newValues = new ArrayList<EMConversation>();
 
@@ -237,18 +238,25 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
                     
                     EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
                     if(group != null){
-                        username = group.getGroupName();
+                     String   usernames = group.getGroupName();
+                     username=usernames.toLowerCase();
                     }else{
                         EaseUser user = EaseUserUtils.getUserInfo(username);
                         // TODO: not support Nick anymore
-//                        if(user != null && user.getNick() != null)
-//                            username = user.getNick();
+                        String   usernames = null;
+                        if(user != null && user.getNick() != null)
+                        usernames = user.getNick();
+                        username=usernames.toLowerCase();
                     }
 
                     // First match against the whole ,non-splitted value
-                    if (username.startsWith(prefixString)) {
+//                    if (username.startsWith(prefixString)) {
+//                        newValues.add(value);
+//                    }
+                    if(username.contains(prefixString)){
                         newValues.add(value);
-                    } else{
+                    }
+                    else{
                           final String[] words = username.split(" ");
                             final int wordCount = words.length;
 

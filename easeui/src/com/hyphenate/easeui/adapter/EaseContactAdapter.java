@@ -170,15 +170,20 @@ public class EaseContactAdapter extends ArrayAdapter<EaseUser> implements Sectio
                 results.values = copyUserList;
                 results.count = copyUserList.size();
             }else{
-                String prefixString = prefix.toString();
+                String prefixStrings = prefix.toString();
+                String prefixString=prefixStrings.toLowerCase();
                 final int count = mOriginalList.size();
                 final ArrayList<EaseUser> newValues = new ArrayList<EaseUser>();
                 for(int i=0;i<count;i++){
                     final EaseUser user = mOriginalList.get(i);
 //                    String username = user.getUsername();
-                    String username = user.getNick();
+                    String usernames = user.getNick();
+                    String username=usernames.toLowerCase();
                     
-                    if(username.startsWith(prefixString)){
+//                    if(username.startsWith(prefixString)){
+//                        newValues.add(user);
+//                    }
+                    if(username.contains(prefixString)){
                         newValues.add(user);
                     }
                     else{
