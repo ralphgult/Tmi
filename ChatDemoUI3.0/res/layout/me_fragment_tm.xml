@@ -9,61 +9,69 @@
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:background="@color/background_white">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:background="@drawable/tm_my_bg"/>
+                android:background="@drawable/tm_my_bg" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/fgt_mine_setting_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textColor="@color/background_white"
             android:padding="15dp"
             android:text="设置"
-            android:textSize="20sp"/>
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+
         <ImageView
             android:id="@+id/fgt_mine_head_iv"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:scaleType="centerCrop"
             android:layout_centerInParent="true"
             android:background="@color/background_white"
-            android:src="@drawable/head_default"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/head_default" />
+
         <TextView
             android:id="@+id/fgt_mine_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/fgt_mine_head_iv"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:textSize="18sp"
+            android:text="无用户名"
             android:textColor="#4e4e4e"
-            android:text="无用户名"/>
+            android:textSize="18sp" />
+
         <TextView
             android:id="@+id/fgt_mine_singh_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/fgt_mine_name_tv"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:maxLines="1"
-            android:maxWidth="300dp"
             android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
+            android:maxWidth="300dp"
             android:text="个性签名，展示不一样的自己"
-            android:textSize="16sp"
-            android:textColor="#9a9a9a"/>
+            android:textColor="#9a9a9a"
+            android:textSize="16sp" />
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,13 +83,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
-                android:paddingLeft="15dp"
                 android:background="@color/background_white"
                 android:drawableLeft="@drawable/tm_my_1"
                 android:drawablePadding="12dp"
                 android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
-                android:paddingRight="10dp"
                 android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
                 android:text="个人中心"
                 android:textColor="@color/yx_context_function_color"
                 android:textSize="16sp" />
@@ -93,13 +101,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
-                android:paddingLeft="15dp"
                 android:background="@color/background_white"
                 android:drawableLeft="@drawable/tm_my_2"
                 android:drawablePadding="12dp"
                 android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
-                android:paddingRight="10dp"
                 android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
                 android:text="企业中心"
                 android:textColor="@color/yx_context_function_color"
                 android:textSize="16sp" />
@@ -111,13 +119,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
-                android:paddingLeft="15dp"
                 android:background="@color/background_white"
                 android:drawableLeft="@drawable/tm_my_3"
                 android:drawablePadding="12dp"
                 android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
-                android:paddingRight="10dp"
                 android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
                 android:text="三农中心"
                 android:textColor="@color/yx_context_function_color"
                 android:textSize="16sp" />
@@ -126,15 +134,15 @@
                 android:id="@+id/mine_my_order_tv"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="10dp"
                 android:layout_centerVertical="true"
-                android:paddingLeft="15dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/background_white"
                 android:drawableLeft="@drawable/tm_my_4"
                 android:drawablePadding="12dp"
                 android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
-                android:paddingRight="10dp"
                 android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
                 android:text="我的订单"
                 android:textColor="@color/yx_context_function_color"
                 android:textSize="16sp" />
@@ -146,51 +154,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
-                android:paddingLeft="15dp"
                 android:background="@color/background_white"
                 android:drawableLeft="@drawable/tm_my_5"
                 android:drawablePadding="12dp"
                 android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
-                android:paddingRight="10dp"
                 android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
                 android:text="我的购物车"
                 android:textColor="@color/yx_context_function_color"
                 android:textSize="16sp" />
 
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
             <TextView
                 android:id="@+id/mine_my_address_tv"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
-                android:paddingLeft="15dp"
                 android:background="@color/background_white"
                 android:drawableLeft="@drawable/tm_3"
                 android:drawablePadding="12dp"
                 android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
-                android:paddingRight="10dp"
                 android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
                 android:text="我的地址"
                 android:textColor="@color/yx_context_function_color"
                 android:textSize="16sp" />
 
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
             <TextView
                 android:id="@+id/mine_my_message_tv"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
-                android:paddingLeft="15dp"
                 android:background="@color/background_white"
                 android:drawableLeft="@drawable/tm_my_6"
                 android:drawablePadding="12dp"
                 android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
-                android:paddingRight="10dp"
                 android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
                 android:text="我的消息"
                 android:textColor="@color/yx_context_function_color"
-                android:textSize="16sp" />
-            <View style="@style/tm_common_divide_line_whitebg_width" />
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <View
+                style="@style/tm_common_divide_line_whitebg_width"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
