@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_my_sopping"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_white">
+
     <RelativeLayout
         android:id="@+id/my_shopping_title_ry"
         android:layout_width="match_parent"
@@ -25,52 +25,82 @@
             android:text="我的购物车"
             android:textColor="@color/background_white"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/my_shopping_edit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="编辑"
+            android:textColor="@color/background_white"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <ListView
         android:id="@+id/my_shopping_list_lv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/my_shopping_pay_ly"
         android:layout_below="@+id/my_shopping_title_ry"
-        android:layout_above="@+id/my_shopping_pay_ly">
+        android:divider="@null"
+        android:scrollbars="none">
 
     </ListView>
-    <View style="@style/tm_common_divide_line_whitebg_width"
-        android:layout_above="@+id/my_shopping_pay_ly"/>
+
+    <View
+        style="@style/tm_common_divide_line_whitebg_width"
+        android:layout_above="@+id/my_shopping_pay_ly" />
 
     <LinearLayout
         android:id="@+id/my_shopping_pay_ly"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
-        android:background="@color/background_white">
+        android:background="@color/background_white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <ImageView
+            android:id="@+id/my_shopping_seleteall_iv"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/checkbox_seleter"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:textColor="#4e4e4e"
-            android:text="商品总价："/>
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:text="全选"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="总价："
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/xy_shopping_total_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="16sp"
-            android:textColor="#4f4f4f"
-            android:text="19.00"/>
+            android:text="￥0.00"
+            android:textColor="#ff5821"
+            android:textSize="16sp" />
+
         <Button
             android:id="@+id/my_shopping_pay_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确认购买"
-            android:padding="5dp"
-            android:gravity="center"
             android:background="@drawable/em_btn_style_alert_dialog_special"
-            android:textSize="14sp"
-            android:textColor="@color/background_white"/>
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="结算"
+            android:textColor="@color/background_white"
+            android:textSize="14sp" />
     </LinearLayout>
 </RelativeLayout>
