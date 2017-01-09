@@ -34,6 +34,9 @@
 
     <!-- GCM required, remember replace "com.hyphenate.chatuidemo" to your own package -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
 
     <permission
         android:name="com.xbh.tmi.permission.C2D_MESSAGE"
@@ -355,7 +358,9 @@
         <!-- 视频播放页 -->
         <activity
             android:name="tm.video.VideoViewActivity"
-            android:theme="@style/horizontal_slide" />
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:screenOrientation="landscape"
+             />
         <activity
             android:name="tm.ui.mine.PersonCenterActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
