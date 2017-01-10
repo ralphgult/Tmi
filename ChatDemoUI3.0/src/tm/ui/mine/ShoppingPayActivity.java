@@ -55,7 +55,6 @@ public class ShoppingPayActivity extends Activity implements View.OnClickListene
         mGoodIdList = bundle.getStringArrayList("ids");
         getListData();
         mAdapter.resetData(mDataList);
-        mAdapter.setIsEdit(false);
         mTotalPrice = bundle.getString("totalPrice");
     }
 
