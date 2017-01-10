@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -178,8 +179,12 @@ public class WelcomeListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(context,"敬请期待!",Toast.LENGTH_SHORT).show();
+                if(!TextUtils.isEmpty(map.get("video")+"")){
+                    context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("video",map.get("video")+""));
+                }else{
+                    Toast.makeText(context,"还没有上传视频!",Toast.LENGTH_SHORT).show();
+                }
 
-                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("userId",map.get("uname")+""));
             }
         });
         return view;
