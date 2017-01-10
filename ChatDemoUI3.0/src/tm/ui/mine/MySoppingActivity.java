@@ -40,7 +40,6 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
     private List<Map<String, String>> mDataList;
     private MyShoppingAdapter mAdapter;
     public Handler mHandler;
-    private boolean misEdit;
     private float mTotalPrice;
 
     @Override
@@ -55,7 +54,6 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
     private void init() {
         mDataList = new ArrayList<>();
         mAdapter = new MyShoppingAdapter(this, false);
-        misEdit = false;
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -80,7 +78,6 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                                     mDataList.add(map);
                                 }
                                 mAdapter.resetData(mDataList);
-                                mAdapter.setIsEdit(misEdit);
                                 mList_lv.setAdapter(mAdapter);
                             }
                         } catch (JSONException e) {
@@ -145,15 +142,6 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.my_shopping_back_iv:
                 ViewUtil.backToOtherActivity(this);
-                break;
-            case R.id.my_shopping_edit_tv:
-                if (misEdit) {
-                    mEdit_tv.setText("编辑");
-                } else {
-                    mEdit_tv.setText("完成");
-                }
-                misEdit = !misEdit;
-                mAdapter.setIsEdit(misEdit);
                 break;
             case R.id.my_shopping_pay_btn:
                 List<String> ids = mAdapter.getmSeletedIds();
