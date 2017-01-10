@@ -167,8 +167,6 @@ public class WelcomeListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 finalHolder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_normal);
                 List<NameValuePair> list = new ArrayList<NameValuePair>();
-                Log.e("info","自己ID==="+username);
-                Log.e("info","别人ID==="+map.get("userid")+"");
                 list.add(new BasicNameValuePair("me",username ));
                 list.add(new BasicNameValuePair("my", map.get("userid")+""));
                 NetFactory.instance().commonHttpCilent(mhandle, context,
@@ -178,7 +176,6 @@ public class WelcomeListAdapter extends BaseAdapter {
         holder.img_shipin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(context,"敬请期待!",Toast.LENGTH_SHORT).show();
                 if(!TextUtils.isEmpty(map.get("video")+"")){
                     context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("video",map.get("video")+""));
                 }else{
