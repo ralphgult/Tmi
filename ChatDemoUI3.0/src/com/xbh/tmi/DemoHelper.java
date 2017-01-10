@@ -721,15 +721,11 @@ public class DemoHelper {
         FriendBean  fb=fd.getLocalUserInfoByUserId(username);
 
         if(null !=fb){
-            Log.e("info","有值====");
             user = new EaseUser(username);
             user.setNick(fb.mNickname);
-            Log.e("info","存昵称===="+fb.mNickname);
             user.setAvatar(fb.mphoto);
-            Log.e("info","存头像===="+fb.mphoto);
             EaseCommonUtils.setUserInitialLetter(user);
         }else{
-            Log.e("info","无值====");
             user = new EaseUser(username);
             EaseCommonUtils.setUserInitialLetter(user);
         }
