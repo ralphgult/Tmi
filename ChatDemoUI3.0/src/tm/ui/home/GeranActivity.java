@@ -365,6 +365,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
 //            JSONArray photos = objects.getJSONArray("top");
             JSONArray photos = new JSONArray(map.get("top")+"");
             if (photos != null && photos.length() != 0) {
+                pic_ly.setVisibility(View.VISIBLE);
                 if (photos.length() <= 3) {
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
@@ -510,6 +511,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             gridViewAdapter.resetDato(shangpinlist);
             JSONArray     photos = new JSONArray(top);
             if (photos != null && photos.length() != 0) {
+                pic_ly.setVisibility(View.VISIBLE);
                 if (photos.length() <= 3) {
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {

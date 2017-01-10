@@ -48,7 +48,7 @@ public class DianpuAdapter extends CommonAdapter<DianpuBean> {
             vlp.getmImageLoader().get(contactBean.mCommodityPath, vlp.getOne_listener());
         }
         if(!TextUtils.isEmpty(contactBean.mCommodityjianjie)){
-            jianjie.setText(contactBean.mCommodityjianjie);
+            jianjie.setText(contactBean.mCommodityname);
         }
         if(!TextUtils.isEmpty(contactBean.mCommodityxianjia)){
             xianjia.setText("￥"+contactBean.mCommodityxianjia);

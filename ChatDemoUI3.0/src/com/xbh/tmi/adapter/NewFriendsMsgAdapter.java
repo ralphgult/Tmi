@@ -13,7 +13,9 @@
  */
 package com.xbh.tmi.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.hyphenate.chat.EMClient;
 import com.xbh.tmi.R;
@@ -25,7 +27,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -36,13 +41,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import tm.db.dao.FriendDao;
 import tm.entity.FriendBean;
+import tm.http.Config;
+import tm.http.NetFactory;
+import tm.ui.home.GeranActivity;
+import tm.utils.ConstantsHandler;
 
 public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
 	private Context context;
 	private InviteMessgeDao messgeDao;
+	private  String username;
 
 	public NewFriendsMsgAdapter(Context context, int textViewResourceId, List<InviteMessage> objects) {
 		super(context, textViewResourceId, objects);
@@ -53,6 +69,8 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final ViewHolder holder;
+		SharedPreferences sharedPre=context.getSharedPreferences("config",context.MODE_PRIVATE);
+		username=sharedPre.getString("username", "");
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = View.inflate(context, R.layout.em_row_invite_msg, null);
@@ -193,6 +211,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 				try {
 					if (msg.getStatus() == InviteMesageStatus.BEINVITEED) {//accept be friends
 						EMClient.getInstance().contactManager().acceptInvitation(msg.getFrom());
+						accept(msg.getFrom());
 					} else if (msg.getStatus() == InviteMesageStatus.BEAPPLYED) { //accept application to join group
 						EMClient.getInstance().groupManager().acceptApplication(msg.getFrom(), msg.getGroupId());
 					} else if (msg.getStatus() == InviteMesageStatus.GROUPINVITATION) {
@@ -298,5 +317,89 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		TextView groupname;
 		// TextView time;
 	}
+	private void accept(String uidd){
+		FriendBean fb=new FriendDao().getLocalUserInfoByUserId(uidd);
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		list.add(new BasicNameValuePair("me",username ));
+		list.add(new BasicNameValuePair("my", fb.mUserID+""));
+		NetFactory.instance().commonHttpCilent(addhandler, context,
+				Config.URL_GET_ADDFRIEND, list);
+	}
+	Handler addhandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+				case ConstantsHandler.EXECUTE_SUCCESS:
+					Map map = (Map) msg.obj;
+					String authid=map.get("authId")+"";
+					if(authid.endsWith("1")){
+						Toast.makeText(context,"添加好友成功",Toast.LENGTH_SHORT).show();
+						LoadFriendData();
+					}else if(authid.endsWith("2")){
+						Toast.makeText(context,"已经是好友关系",Toast.LENGTH_SHORT).show();
+					}else if(authid.endsWith("3")){
+						Toast.makeText(context,"添加失败，该用户不是环信用户",Toast.LENGTH_SHORT).show();
+					}else if(authid.endsWith("4")){
+						Toast.makeText(context,"没有此用户",Toast.LENGTH_SHORT).show();
+					}
+					break;
+				case ConstantsHandler.EXECUTE_FAIL:
+					break;
+				case ConstantsHandler.ConnectTimeout:
+//                    AlertMsgL("超时");
+					break;
+				default:
+					break;
+			}
+		}
 
+	};
+	/**
+	 * 好友列表
+	 */
+	public void LoadFriendData() {
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		list.add(new BasicNameValuePair("userId", username));
+		NetFactory.instance().commonHttpCilent(friendhandler, getContext(),
+				Config.URL_FRIENDS, list);
+	}
+	/**
+	 * 接口回调
+	 */
+	Handler friendhandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Log.e("info","msg.what=111="+msg.what);
+			switch (msg.what) {
+				case ConstantsHandler.EXECUTE_SUCCESS:
+					Map map = (Map) msg.obj;
+					Log.e("info","map=好友="+map);
+					setFriendData(map);
+					//插库
+					break;
+				default:
+					break;
+			}
+		}
+	};
+	protected void setFriendData(Map map) {
+		try {
+			JSONObject obj =new JSONObject(map.toString());
+			JSONArray objList = obj.getJSONArray("rows");
+			FriendBean mFriendBean=new FriendBean();
+			FriendDao mdao =new FriendDao();
+			List<FriendBean> friendlist = new ArrayList<FriendBean>();
+			if(objList.length()>0){
+				for (int i = 0; i < objList.length(); i++) {
+					JSONObject jo = objList.getJSONObject(i);
+					mFriendBean.mNickname=jo.get("nickname")+"";
+					mFriendBean.mphoto=jo.get("photo")+"";
+					mFriendBean.mUsername= jo.get("userName")+"";
+					mFriendBean.mUserID= Integer.parseInt(jo.get("userId")+"");
+					friendlist.add(mFriendBean);
+					mdao.insertUserInfoList(friendlist);
+				}
+			}
+		} catch (JSONException e) {
+		}
+
+	}
 }

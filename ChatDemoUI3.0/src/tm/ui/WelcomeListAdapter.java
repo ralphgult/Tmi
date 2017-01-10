@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.ChatActivity;
 
@@ -164,12 +167,19 @@ public class WelcomeListAdapter extends BaseAdapter {
         holder.img_guanzhu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                finalHolder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_normal);
-                List<NameValuePair> list = new ArrayList<NameValuePair>();
-                list.add(new BasicNameValuePair("me",username ));
-                list.add(new BasicNameValuePair("my", map.get("userid")+""));
-                NetFactory.instance().commonHttpCilent(mhandle, context,
-                        Config.RUL_ADD_FRIEND, list);
+                Log.e("info","=====add=好友===="+map.get("uname")+"");
+                try {
+                    EMClient.getInstance().contactManager().addContact(map.get("uname")+"", "赶紧加好友吧");
+                    Toast.makeText(context,"发送请求成功,等待对方验证",Toast.LENGTH_SHORT).show();
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+//                finalHolder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_normal);
+//                List<NameValuePair> list = new ArrayList<NameValuePair>();
+//                list.add(new BasicNameValuePair("me",username ));
+//                list.add(new BasicNameValuePair("my", map.get("userid")+""));
+//                NetFactory.instance().commonHttpCilent(mhandle, context,
+//                        Config.RUL_ADD_FRIEND, list);
             }
         });
         holder.img_shipin.setOnClickListener(new OnClickListener() {
