@@ -19,8 +19,8 @@
                 android:id="@+id/item_shopping_check_iv"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:padding="5dp"
-                android:src="@drawable/checkbox_seleter" />
+                android:padding="8dp"
+                android:src="@drawable/yx_contact_choose_friend_selector" />
 
             <ImageView
                 android:id="@+id/item_shopping_img_iv"
