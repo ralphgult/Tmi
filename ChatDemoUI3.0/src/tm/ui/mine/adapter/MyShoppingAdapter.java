@@ -32,14 +32,12 @@ public class MyShoppingAdapter extends BaseAdapter {
     private ViewHolder vh;
     private ImageLoaders imageLoaders;
     private List<String> mSeletedIds;
-    private boolean mIsEdit;
     private boolean mIsShopping;
 
     public MyShoppingAdapter(Context context, boolean isShopping) {
         mContext = context;
         imageLoaders = new ImageLoaders(mContext, new imageLoaderListener());
         mSeletedIds = new ArrayList<>();
-        mIsEdit = false;
         mIsShopping = isShopping;
     }
 
@@ -57,11 +55,6 @@ public class MyShoppingAdapter extends BaseAdapter {
     public void resetData(List<Map<String, String>> datas) {
         mDatas = datas;
         notifyDataSetChanged();
-    }
-
-    public void setIsEdit(boolean isEdit) {
-        mIsEdit = isEdit;
-        resetData(mDatas);
     }
 
     @Override
@@ -98,6 +91,11 @@ public class MyShoppingAdapter extends BaseAdapter {
             view = convertView;
             vh = (ViewHolder) view.getTag();
         }
+        if (mSeletedIds.contains(mDatas.get(position).get("scId"))) {
+            vh.mCheck.setSelected(true);
+        } else {
+            vh.mCheck.setSelected(false);
+        }
         vh.mName.setText(mDatas.get(position).get("goodName"));
         vh.mPrice.setText(mDatas.get(position).get("currentPrice"));
         vh.mCount.setText("x" + mDatas.get(position).get("num"));
@@ -111,7 +109,7 @@ public class MyShoppingAdapter extends BaseAdapter {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (!hasFocus) {
-                        ((ShoppingPayActivity) mContext).setTotalPrice(position,vh.mCountEdit.getText().toString().trim());
+                        ((ShoppingPayActivity) mContext).setTotalPrice(position, vh.mCountEdit.getText().toString().trim());
                     }
                 }
             });
@@ -119,32 +117,28 @@ public class MyShoppingAdapter extends BaseAdapter {
             vh.mCheck.setVisibility(View.VISIBLE);
             vh.mCountLayout.setVisibility(View.GONE);
             vh.mCount.setVisibility(View.VISIBLE);
-            if (mIsEdit) {
-                vh.mDelete.setVisibility(View.VISIBLE);
-                vh.mDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                PersonManager.delShoppingList(mDatas.get(position), ((MySoppingActivity) mContext).mHandler);
-                            }
-                        }.start();
-                    }
-                });
-            } else {
-                vh.mDelete.setVisibility(View.GONE);
-            }
+            vh.mDelete.setVisibility(View.VISIBLE);
+            vh.mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            PersonManager.delShoppingList(mDatas.get(position), ((MySoppingActivity) mContext).mHandler);
+                        }
+                    }.start();
+                }
+            });
             vh.mCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (vh.mCheck.isSelected()) {
-                        mSeletedIds.remove(mDatas.get(position).get("scId"));
-                        vh.mCheck.setSelected(false);
+                    String id = mDatas.get(position).get("scId");
+                    if (mSeletedIds.contains(id)) {
+                        mSeletedIds.remove(id);
                     } else {
-                        mSeletedIds.add(mDatas.get(position).get("scId"));
-                        vh.mCheck.setSelected(true);
+                        mSeletedIds.add(id);
                     }
+                    notifyDataSetChanged();
                     ((MySoppingActivity) mContext).setTotalPrice();
                 }
             });
