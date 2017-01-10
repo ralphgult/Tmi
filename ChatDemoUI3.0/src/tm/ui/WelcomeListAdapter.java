@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -165,6 +166,8 @@ public class WelcomeListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 finalHolder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_normal);
                 List<NameValuePair> list = new ArrayList<NameValuePair>();
+                Log.e("info","自己ID==="+username);
+                Log.e("info","别人ID==="+map.get("userid")+"");
                 list.add(new BasicNameValuePair("me",username ));
                 list.add(new BasicNameValuePair("my", map.get("userid")+""));
                 NetFactory.instance().commonHttpCilent(mhandle, context,
@@ -175,7 +178,8 @@ public class WelcomeListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(context,"敬请期待!",Toast.LENGTH_SHORT).show();
-                context.startActivity(new Intent(context, VideoViewActivity.class));
+
+                context.startActivity(new Intent(context, VideoViewActivity.class).putExtra("userId",map.get("uname")+""));
             }
         });
         return view;
