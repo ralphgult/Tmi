@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -88,16 +89,15 @@
 
             <TextView
                 android:id="@+id/item_shopping_del_tv"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_margin="10dp"
-                tools:background="@drawable/item_del_seletor" />
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/delete_text_size_seletor"
+                android:text="删除"/>
         </RelativeLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/gray_ddd" />
+    <View style="@style/tm_common_divide_line_whitebg_width"/>
 </LinearLayout>
