@@ -78,6 +78,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private ImageView addfriend;
     private ImageView liaotian;
     private ImageView top_head_img;//个人动态头像
+    private LinearLayout pic_ly;
 
 
     private TextView tv_name;
@@ -150,7 +151,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         tv_comment = (TextView)findViewById(R.id.yx_monent_bottom_comment_number);
         tv_content = (TextView)findViewById(R.id.yx_monent_content);
         wwww = (LinearLayout)findViewById(R.id.tm_botton_ly);
-
+        pic_ly = (LinearLayout)findViewById(R.id.ll_pic);
 
         tv_gxqm = (TextView)findViewById(R.id.tm_zhuye_gexing);
         tv_qymc = (TextView)findViewById(R.id.tm_zhuye_qiyename);
@@ -338,11 +339,14 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 tv_title.setText("个人主页");
             }
 //            tv_gxqm.setText(objects.getString("caption"));
-            if(!TextUtils.isEmpty(map.get("caption")+"")){
-                tv_gxqm.setText(map.get("caption")+"");
+            if(map.containsKey("caption")){
+                if(!TextUtils.isEmpty(map.get("caption")+"")){
+                    tv_gxqm.setText(map.get("caption")+"");
+                }
             }else{
                 tv_gxqm.setText("");
             }
+
 
 
 
@@ -442,12 +446,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     }
                 }
             } else {
-                img_pic1.setVisibility(View.GONE);
-                img_pic2.setVisibility(View.GONE);
-                img_pic3.setVisibility(View.GONE);
-                img_pic4.setVisibility(View.GONE);
-                img_pic5.setVisibility(View.GONE);
-                img_pic6.setVisibility(View.GONE);
+                pic_ly.setVisibility(View.GONE);
             }
 
         } catch (JSONException e) {
@@ -592,12 +591,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                     }
                 }
             } else {
-                img_pic1.setVisibility(View.GONE);
-                img_pic2.setVisibility(View.GONE);
-                img_pic3.setVisibility(View.GONE);
-                img_pic4.setVisibility(View.GONE);
-                img_pic5.setVisibility(View.GONE);
-                img_pic6.setVisibility(View.GONE);
+                pic_ly.setVisibility(View.GONE);
             }
 
         } catch (JSONException e) {
