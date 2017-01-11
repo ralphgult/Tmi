@@ -35,6 +35,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
     private ImageView mHeadGrall;
     private TextView mPrice_tv;
     private TextView mOldPri_tv;
+    private TextView mName_tv;
     private TextView mIntr_tv;
     private TextView mShop_tv;
     private TextView mChat_tv;
@@ -78,6 +79,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
                             mPrice = object.optString("currentPrice");
                             mPrice_tv.setText("￥" + mPrice);
                             mOldPri_tv.setText("原价:￥" + object.optString("originalPrice"));
+                            mName_tv.setText(mName);
                             mIntr_tv.setText(object.optString("goodProfiles"));
                             mLoader.loadImage(mHeadGrall, object.optString("goodImg"));
                             JSONArray array = object.getJSONArray("imgs");
@@ -110,6 +112,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
 
     private void iniViews() {
         mHeadGrall = (ImageView) findViewById(R.id.goods_gall);
+        mName_tv = (TextView) findViewById(R.id.goods_name_tv);
         mPrice_tv = (TextView) findViewById(R.id.goods_price_tv);
         mOldPri_tv = (TextView) findViewById(R.id.goods_old_price_tv);
         mIntr_tv = (TextView) findViewById(R.id.goods_intor_tv);
