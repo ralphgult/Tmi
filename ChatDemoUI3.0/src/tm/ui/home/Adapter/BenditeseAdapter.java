@@ -1,21 +1,27 @@
 package tm.ui.home.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xbh.tmi.R;
+import com.xbh.tmi.ui.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import tm.db.dao.FriendDao;
 import tm.utils.ImageLoaders;
 
 /**
@@ -63,6 +69,9 @@ public class BenditeseAdapter extends BaseAdapter {
     public View getView(int index, View view, ViewGroup parent) {
         ViewHolder holder = null;
         final Map map = list.get(index);
+        SharedPreferences sharedPre=context.getSharedPreferences("config",context.MODE_PRIVATE);
+        final String username=sharedPre.getString("username", "");
+        String phone=sharedPre.getString("phone", "");
         if (view == null) {
             holder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.tm_benditese_item_ly,parent, false);
@@ -77,18 +86,32 @@ public class BenditeseAdapter extends BaseAdapter {
         }
         holder.tv_title.setText(map.get("name")+"");
         holder.tv_desc.setText(map.get("desc")+"");
-        holder.tv_distances.setText(map.get("distance")+"");
+        if(!TextUtils.isEmpty(map.get("distance").toString())){
+            double i = Double.parseDouble(map.get("distance").toString());
+            if(i>10000){
+                holder.tv_distances.setText("未共享位置");
+            }else{
+                holder.tv_distances.setText(map.get("distance")+"公里");
+            }
+        }else{
+            holder.tv_distances.setText("未共享位置");
+        }
+
         imageLoaders.loadImage(holder.img_pic, map.get("photo")+"");
         holder.img_add.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-//                if(handler!=null){
-//                    Message msg =new Message();
-//                    msg.what=100;
-//                    msg.obj=map.get("userid").toString();
-//                    handler.sendMessage(msg);
-//                }
+                if(username.equals(map.get("userid")+"")){
+                    Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                FriendDao fd=new FriendDao();
+                if(fd.isExist(map.get("uname")+"")){
+                    context.startActivity(new Intent(context, ChatActivity.class).putExtra("userId",map.get("uname")+""));
+                }else{
+                    Toast.makeText(context,"还不是好友不能聊天!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;

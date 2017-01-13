@@ -115,7 +115,9 @@ public class BenditeseActivity extends BaseActivity {
                 map_temp.put("name", jo.get("companyName")+"");
                 map_temp.put("photo", jo.get("companyLogo")+"");
                 map_temp.put("desc", jo.get("companyIntroduction")+"");
-                map_temp.put("distance", jo.get("jl")+"公里之内");
+                map_temp.put("distance", jo.get("jl")+"");
+                map_temp.put("uname", jo.get("uname")+"");
+                map_temp.put("video", jo.get("video")+"");
                 list.add(map_temp);
             }
         } catch (JSONException e) {
