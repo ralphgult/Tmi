@@ -11,6 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="11dp"
-        android:src="@drawable/ease_mm_title_back" />
+        android:src="@drawable/ease_back" />
 
 </LinearLayout>

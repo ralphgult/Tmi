@@ -114,11 +114,16 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			
 			holder.reason.setText(msg.getReason());
 			FriendBean fb=new FriendDao().getLocalUserInfoByUserId(msg.getFrom());
-			if(TextUtils.isEmpty(fb.mNickname)){
-				holder.name.setText(msg.getFrom());
+			if(fb!=null){
+				if(TextUtils.isEmpty(fb.mNickname)){
+					holder.name.setText(msg.getFrom());
+				}else{
+					holder.name.setText(fb.mNickname);
+				}
 			}else{
-				holder.name.setText(fb.mNickname);
+				holder.name.setText(msg.getFrom());
 			}
+
 
 			// holder.time.setText(DateUtils.getTimestampString(new
 			// Date(msg.getTime())));
@@ -318,10 +323,9 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		// TextView time;
 	}
 	private void accept(String uidd){
-		FriendBean fb=new FriendDao().getLocalUserInfoByUserId(uidd);
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		list.add(new BasicNameValuePair("me",username ));
-		list.add(new BasicNameValuePair("my", fb.mUserID+""));
+		list.add(new BasicNameValuePair("myFriendName", uidd));
 		NetFactory.instance().commonHttpCilent(addhandler, context,
 				Config.URL_GET_ADDFRIEND, list);
 	}
