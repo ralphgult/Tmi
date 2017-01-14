@@ -72,7 +72,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                                     map.put("goodName", object.getString("goodName"));
                                     map.put("scId", object.getString("scId"));
                                     map.put("currentPrice", object.getString("currentPrice"));
-                                    map.put("num", object.getString("num"));
+                                    map.put("cartCount", String.valueOf(object.getInt("cartCount")));
                                     map.put("goodImg", object.getString("goodImg"));
                                     map.put("createDate", object.getString("createDate"));
                                     mDataList.add(map);
@@ -128,12 +128,12 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
     public void setTotalPrice() {
         mTotalPrice = 0.00f;
         List<String> idList = mAdapter.getmSeletedIds();
-//        for (Map<String, String> map : mDataList) {
-//            if (idList.contains(map.get("scId"))) {
-//                float price = Float.valueOf(map.get("currentPrice")) * Float.valueOf(map.get("count") + ".00");
-//                mTotalPrice = mTotalPrice + price;
-//            }
-//        }
+        for (Map<String, String> map : mDataList) {
+            if (idList.contains(map.get("scId"))) {
+                float price = Float.valueOf(map.get("currentPrice")) * Integer.valueOf(map.get("cartCount"));
+                mTotalPrice = mTotalPrice + price;
+            }
+        }
         mTotalPri_tv.setText("￥" + String.valueOf(mTotalPrice));
     }
 
@@ -155,7 +155,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                         mNameList.add(map.get("goodName"));
                         mImgList.add(map.get("goodImg"));
                         mPriList.add(map.get("currentPrice"));
-                        mCountList.add(map.get("num"));
+                        mCountList.add(map.get("cartCount"));
                         mGoodIdList.add(map.get("goodId"));
                     }
                 }
@@ -163,7 +163,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                 bundle.putStringArrayList("names", mNameList);
                 bundle.putStringArrayList("imgs", mImgList);
                 bundle.putStringArrayList("pris", mPriList);
-                bundle.putStringArrayList("counts", mCountList);
+                bundle.putStringArrayList("cartCount", mCountList);
                 bundle.putStringArrayList("ids", mGoodIdList);
                 ViewUtil.jumpToOtherActivity(this, ShoppingPayActivity.class, bundle);
                 break;

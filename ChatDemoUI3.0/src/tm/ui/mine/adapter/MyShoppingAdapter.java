@@ -3,6 +3,9 @@ package tm.ui.mine.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.oohla.android.utils.StringUtil;
 import com.xbh.tmi.R;
 
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ import tm.manager.PersonManager;
 import tm.ui.mine.MySoppingActivity;
 import tm.ui.mine.ShoppingPayActivity;
 import tm.utils.ImageLoaders;
+import tm.widget.zxing.view.ViewfinderView;
 
 /**
  * Created by RG on 2017/1/4.
@@ -46,7 +51,7 @@ public class MyShoppingAdapter extends BaseAdapter {
      * map.put("goodName",object.getString("goodName"));
      * map.put("scId",object.getString("scId"));
      * map.put("currentPrice",object.getString("currentPrice"));
-     * map.put("num",object.getString("num"));
+     * map.put("cartCount",object.getString("cartCount"));
      * map.put("goodImg",object.getString("goodImg"));
      * map.put("createDate",object.getString("createDate"));
      *
@@ -83,8 +88,10 @@ public class MyShoppingAdapter extends BaseAdapter {
             vh.mName = (TextView) view.findViewById(R.id.item_shopping_goodsname_tv);
             vh.mPrice = (TextView) view.findViewById(R.id.item_shopping_price_tv);
             vh.mCount = (TextView) view.findViewById(R.id.item_shopping_count_tv);
-            vh.mCountLayout = (LinearLayout) view.findViewById(R.id.item_shopping_count_ly);
-            vh.mCountEdit = (EditText) view.findViewById(R.id.item_shopping_count_edt);
+            vh.mCountLayout = (LinearLayout) view.findViewById(R.id.shopping_pay_count_ly);
+            vh.mCountAdd = (TextView) view.findViewById(R.id.shopping_pay_add_tv);
+            vh.mCountTackof = (TextView) view.findViewById(R.id.shopping_pay_takeof_tv);
+            vh.mFinalCount = (TextView) view.findViewById(R.id.shopping_pay_finalcount_tv);
             vh.mDelete = (TextView) view.findViewById(R.id.item_shopping_del_tv);
             view.setTag(vh);
         } else {
@@ -98,19 +105,29 @@ public class MyShoppingAdapter extends BaseAdapter {
         }
         vh.mName.setText(mDatas.get(position).get("goodName"));
         vh.mPrice.setText(mDatas.get(position).get("currentPrice"));
-        vh.mCount.setText("x" + mDatas.get(position).get("num"));
+        vh.mCount.setText("x" + mDatas.get(position).get("cartCount"));
         imageLoaders.loadImage(vh.mImage, mDatas.get(position).get("goodImg"));
         if (mIsShopping) {
             vh.mCheck.setVisibility(View.GONE);
             vh.mCountLayout.setVisibility(View.VISIBLE);
             vh.mCount.setVisibility(View.GONE);
-            vh.mCountEdit.setHint(mDatas.get(position).get("num"));
-            vh.mCountEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            vh.mFinalCount.setText(mDatas.get(position).get("cartCount"));
+            vh.mCountAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
-                        ((ShoppingPayActivity) mContext).setTotalPrice(position, vh.mCountEdit.getText().toString().trim());
-                    }
+                public void onClick(View v) {
+                    int finalcount = Integer.valueOf(mDatas.get(position).get("cartCount")) + 1;
+                    mDatas.get(position).put("cartCount", String.valueOf(finalcount));
+                    vh.mFinalCount.setText(String.valueOf(finalcount));
+                    ((ShoppingPayActivity) mContext).setTotalPrice();
+                }
+            });
+            vh.mCountTackof.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int finalcount = Integer.valueOf(mDatas.get(position).get("cartCount")) - 1;
+                    mDatas.get(position).put("cartCount", String.valueOf(finalcount));
+                    vh.mFinalCount.setText(String.valueOf(finalcount));
+                    ((ShoppingPayActivity) mContext).setTotalPrice();
                 }
             });
         } else {
@@ -153,7 +170,9 @@ public class MyShoppingAdapter extends BaseAdapter {
         private TextView mPrice;
         private TextView mCount;
         private LinearLayout mCountLayout;
-        private EditText mCountEdit;
+        private TextView mCountAdd;
+        private TextView mCountTackof;
+        private TextView mFinalCount;
         private TextView mDelete;
     }
 
@@ -167,5 +186,9 @@ public class MyShoppingAdapter extends BaseAdapter {
 
     public List<String> getmSeletedIds() {
         return mSeletedIds;
+    }
+
+    public List<Map<String,String>> getSourceData(){
+        return mDatas;
     }
 }
