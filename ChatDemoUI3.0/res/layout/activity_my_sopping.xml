@@ -63,18 +63,21 @@
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
+
         <ImageView
             android:id="@+id/my_shopping_seleteall_iv"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@drawable/checkbox_seleter"/>
+            android:src="@drawable/checkbox_seleter" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#4e4e4e"
-            android:textSize="16sp"
             android:layout_marginLeft="5dp"
-            android:text="全选"/>
+            android:text="全选"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,11 +97,12 @@
 
         <Button
             android:id="@+id/my_shopping_pay_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
             android:background="@drawable/em_btn_style_alert_dialog_special"
             android:gravity="center"
-            android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:text="结算"
             android:textColor="@color/background_white"
             android:textSize="14sp" />
