@@ -112,9 +112,8 @@ public class ShoppingPayActivity extends Activity implements View.OnClickListene
     public void setTotalPrice(){
         mDataList = mAdapter.getSourceData();
         float totalPri = 0.0f;
-        int size = mCountList.size();
-        for (int i = 0; i < size; i++) {
-            totalPri = totalPri + Float.valueOf(mPriList.get(i)) * Float.valueOf(mCountList.get(i));
+        for (Map<String, String> map : mDataList) {
+            totalPri = totalPri + Float.valueOf(map.get("currentPrice")) * Float.valueOf(map.get("cartCount"));
         }
         mTotalPrice = String.valueOf(totalPri);
         mTotalPri.setText(mTotalPrice);

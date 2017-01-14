@@ -128,6 +128,9 @@ public class MyShoppingAdapter extends BaseAdapter {
                     mDatas.get(position).put("cartCount", String.valueOf(finalcount));
                     vh.mFinalCount.setText(String.valueOf(finalcount));
                     ((ShoppingPayActivity) mContext).setTotalPrice();
+                    if(finalcount == 0){
+                        vh.mFinalCount.setEnabled(false);
+                    }
                 }
             });
         } else {
