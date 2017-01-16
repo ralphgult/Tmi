@@ -337,6 +337,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!-- 本地特色中的拍卖共享 -->
+        <activity
+            android:name="tm.ui.main.ActionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 搜索列表页 -->
         <activity
             android:name="tm.ui.home.SearchActivity"
