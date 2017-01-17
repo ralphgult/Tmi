@@ -3,25 +3,79 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="left"
     android:padding="10dp"
+    android:background="@drawable/action_border"
     >
 
 
     <ImageView
         android:src="@drawable/ic_launcher"
         android:id="@+id/image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         />
 
     <TextView
         android:id="@+id/text"
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#ffffff"
-        android:text="文字"
+        android:layout_height="28dp"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:text="描述"
+        android:maxLines="2"
         />
+    <TextView
+        android:id="@+id/text_spot_price"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_red_color"
+        android:textSize="14sp"
+        android:text="当前价:RMB 100"
+        android:maxLines="2"
+        android:lineSpacingMultiplier="1.2"
+        />
+        <TextView
+            android:id="@+id/text_purchasing_direct"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:text="直购价:RMB 100"
+            />
+        <TextView
+            android:id="@+id/text_bid_direct"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/text_red_color"
+            android:textSize="12sp"
+            android:text="出价2次"
+            />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/voip_interface_text_color"/>
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        android:drawablePadding="2dp"
+        android:drawableLeft="@drawable/time">
+
+    </TextView>
+
 </LinearLayout>
