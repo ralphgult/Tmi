@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,12 +27,32 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/ease_back" />
     </RelativeLayout>
-    <GridView
-        android:id="@+id/gview"
+    <tm.widget.pulltorefresh.PullToRefreshGridView
+        android:id="@+id/action_gview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="auto_fit"
-        android:columnWidth="80dp"
+        android:layout_margin="5dp"
         android:stretchMode="columnWidth"
-        ></GridView>
+        android:numColumns="2"
+        android:gravity="center"
+        android:verticalSpacing="20dp"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#00000000"
+        android:scrollbars="none"
+        >
+
+    </tm.widget.pulltorefresh.PullToRefreshGridView>
+    <!--<GridView-->
+        <!--android:id="@+id/action_gview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:stretchMode="columnWidth"-->
+        <!--android:numColumns="2"-->
+        <!--android:gravity="center"-->
+        <!--android:verticalSpacing="20dp"-->
+        <!--android:cacheColorHint="#00000000"-->
+        <!--android:listSelector="#00000000"-->
+        <!--android:scrollbars="none"-->
+        <!--&gt;</GridView>-->
 </LinearLayout>
