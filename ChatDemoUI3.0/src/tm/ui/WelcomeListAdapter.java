@@ -24,17 +24,11 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.xbh.tmi.R;
 import com.xbh.tmi.ui.ChatActivity;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import tm.db.dao.FriendDao;
-import tm.http.Config;
-import tm.http.NetFactory;
 import tm.utils.ImageLoaders;
 import tm.video.VideoViewActivity;
 
@@ -168,12 +162,18 @@ public class WelcomeListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Log.e("info","=====add=好友===="+map.get("uname")+"");
-                try {
-                    EMClient.getInstance().contactManager().addContact(map.get("uname")+"", "赶紧加好友吧");
-                    Toast.makeText(context,"发送请求成功,等待对方验证",Toast.LENGTH_SHORT).show();
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
+                FriendDao fd=new FriendDao();
+                if(fd.isExist(map.get("uname")+"")){
+                    Toast.makeText(context,"已经是好友了!",Toast.LENGTH_SHORT).show();
+                }else{
+                    try {
+                        EMClient.getInstance().contactManager().addContact(map.get("uname")+"", "赶紧加好友吧");
+                        Toast.makeText(context,"发送请求成功,等待对方验证",Toast.LENGTH_SHORT).show();
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                    }
                 }
+
 //                finalHolder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_normal);
 //                List<NameValuePair> list = new ArrayList<NameValuePair>();
 //                list.add(new BasicNameValuePair("me",username ));

@@ -246,12 +246,18 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 ViewUtil.jumpToOtherActivity(this, MomentsActivity.class, bund);
                 break;
             case R.id.tm_addfriend://添加好友
-                try {
-                    EMClient.getInstance().contactManager().addContact(uname, "赶紧加好友吧");
-                    Toast.makeText(GeranActivity.this,"发送请求成功,等待对方验证",Toast.LENGTH_SHORT).show();
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
+                FriendDao fd2=new FriendDao();
+                if(fd2.isExist(uname)){
+                    Toast.makeText(GeranActivity.this,"已经是好友了!",Toast.LENGTH_SHORT).show();
+                }else{
+                    try {
+                        EMClient.getInstance().contactManager().addContact(uname, "赶紧加好友吧");
+                        Toast.makeText(GeranActivity.this,"发送请求成功,等待对方验证",Toast.LENGTH_SHORT).show();
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                    }
                 }
+
 //                List<NameValuePair> list = new ArrayList<NameValuePair>();
 //                list.add(new BasicNameValuePair("me",username ));
 //                list.add(new BasicNameValuePair("my", uid));
