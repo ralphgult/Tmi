@@ -53,7 +53,7 @@
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
                 android:text="50%"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:gravity="center_vertical"
                     android:text="名字"
                     android:textColor="@color/msg_red"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/foster_title_number"
@@ -75,7 +75,7 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:text="盒数"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/foster_title_integral"
@@ -84,7 +84,7 @@
                     android:gravity="center_vertical|right"
                     android:text="元"
                     android:textColor="@color/msg_red"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -121,7 +121,7 @@
                 android:id="@+id/foster_details"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 
