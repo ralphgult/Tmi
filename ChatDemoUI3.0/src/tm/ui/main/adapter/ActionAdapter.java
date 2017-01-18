@@ -62,7 +62,7 @@ public class ActionAdapter extends BaseAdapter {
         viewHolder.text_spot_price.setText(list.get(position).getPrice());
         viewHolder.text_purchasing_direct.setText(list.get(position).getPurch());
         viewHolder.text_bid_direct.setText(list.get(position).getBid());
-        if (!list.get(position).getTime().equals("时间到")) {
+        if (!list.get(position).getTime().equals("拍卖时间已过")) {
             //将一个int类型的数值转换成时间格式
             long tempTime = Long.parseLong(list.get(position).getTime());
             viewHolder.text_time.setTextColor(Color.RED);
@@ -96,9 +96,9 @@ public class ActionAdapter extends BaseAdapter {
                         }
                         sleep(1);
                         for (Person person : list) {
-                            if (!"时间到".equals(person.getTime())) {
+                            if (!"拍卖时间已过".equals(person.getTime())) {
                                 if ("1".equals(person.getTime())) {
-                                    person.setTime("时间到");
+                                    person.setTime("拍卖时间已过");
                                     result++;
                                 } else {
                                     person.setTime((Integer.parseInt(person.getTime()) - 1) + "");
