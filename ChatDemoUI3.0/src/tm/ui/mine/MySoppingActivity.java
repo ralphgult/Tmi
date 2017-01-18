@@ -40,7 +40,6 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
     private List<Map<String, String>> mDataList;
     private MyShoppingAdapter mAdapter;
     public Handler mHandler;
-    private boolean misEdit;
     private float mTotalPrice;
 
     @Override
@@ -55,7 +54,6 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
     private void init() {
         mDataList = new ArrayList<>();
         mAdapter = new MyShoppingAdapter(this, false);
-        misEdit = false;
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -74,13 +72,12 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                                     map.put("goodName", object.getString("goodName"));
                                     map.put("scId", object.getString("scId"));
                                     map.put("currentPrice", object.getString("currentPrice"));
-                                    map.put("num", object.getString("num"));
+                                    map.put("cartCount", String.valueOf(object.getInt("cartCount")));
                                     map.put("goodImg", object.getString("goodImg"));
                                     map.put("createDate", object.getString("createDate"));
                                     mDataList.add(map);
                                 }
                                 mAdapter.resetData(mDataList);
-                                mAdapter.setIsEdit(misEdit);
                                 mList_lv.setAdapter(mAdapter);
                             }
                         } catch (JSONException e) {
@@ -131,12 +128,12 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
     public void setTotalPrice() {
         mTotalPrice = 0.00f;
         List<String> idList = mAdapter.getmSeletedIds();
-//        for (Map<String, String> map : mDataList) {
-//            if (idList.contains(map.get("scId"))) {
-//                float price = Float.valueOf(map.get("currentPrice")) * Float.valueOf(map.get("count") + ".00");
-//                mTotalPrice = mTotalPrice + price;
-//            }
-//        }
+        for (Map<String, String> map : mDataList) {
+            if (idList.contains(map.get("scId"))) {
+                float price = Float.valueOf(map.get("currentPrice")) * Integer.valueOf(map.get("cartCount"));
+                mTotalPrice = mTotalPrice + price;
+            }
+        }
         mTotalPri_tv.setText("￥" + String.valueOf(mTotalPrice));
     }
 
@@ -145,15 +142,6 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.my_shopping_back_iv:
                 ViewUtil.backToOtherActivity(this);
-                break;
-            case R.id.my_shopping_edit_tv:
-                if (misEdit) {
-                    mEdit_tv.setText("编辑");
-                } else {
-                    mEdit_tv.setText("完成");
-                }
-                misEdit = !misEdit;
-                mAdapter.setIsEdit(misEdit);
                 break;
             case R.id.my_shopping_pay_btn:
                 List<String> ids = mAdapter.getmSeletedIds();
@@ -167,7 +155,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                         mNameList.add(map.get("goodName"));
                         mImgList.add(map.get("goodImg"));
                         mPriList.add(map.get("currentPrice"));
-                        mCountList.add(map.get("num"));
+                        mCountList.add(map.get("cartCount"));
                         mGoodIdList.add(map.get("goodId"));
                     }
                 }
@@ -175,7 +163,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                 bundle.putStringArrayList("names", mNameList);
                 bundle.putStringArrayList("imgs", mImgList);
                 bundle.putStringArrayList("pris", mPriList);
-                bundle.putStringArrayList("counts", mCountList);
+                bundle.putStringArrayList("cartCount", mCountList);
                 bundle.putStringArrayList("ids", mGoodIdList);
                 ViewUtil.jumpToOtherActivity(this, ShoppingPayActivity.class, bundle);
                 break;

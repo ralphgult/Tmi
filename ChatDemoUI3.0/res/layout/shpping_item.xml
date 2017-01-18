@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -18,8 +19,8 @@
                 android:id="@+id/item_shopping_check_iv"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:padding="5dp"
-                android:src="@drawable/checkbox_seleter" />
+                android:padding="8dp"
+                android:src="@drawable/yx_contact_choose_friend_selector" />
 
             <ImageView
                 android:id="@+id/item_shopping_img_iv"
@@ -58,46 +59,59 @@
                 android:layout_marginBottom="5dp"
                 android:layout_toRightOf="@+id/item_shopping_img_iv"
                 android:textSize="14sp"
-                tools:text="x1" />
+                tools:text="x1"
+                android:visibility="gone" />
 
-            <LinearLayout
-                android:id="@+id/item_shopping_count_ly"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@+id/item_shopping_img_iv"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/shopping_pay_count_ly"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="数量:"
-                    android:textSize="14sp" />
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true">
 
-                <EditText
-                    android:id="@+id/item_shopping_count_edt"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:textSize="14sp"
-                    tools:text="1" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/shopping_pay_add_tv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/foster_shopping_shape"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/shopping_pay_finalcount_tv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/foster_shopping_shape"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/shopping_pay_takeof_tv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/foster_shopping_shape"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textSize="20sp" />
+                </LinearLayout>
 
             <TextView
                 android:id="@+id/item_shopping_del_tv"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
-                tools:background="@drawable/item_del_seletor" />
+                android:padding="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/delete_text_size_seletor"
+                android:text="删除"/>
         </RelativeLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/gray_ddd" />
+    <View style="@style/tm_common_divide_line_whitebg_width"/>
 </LinearLayout>

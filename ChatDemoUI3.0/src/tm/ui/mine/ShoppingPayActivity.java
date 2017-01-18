@@ -14,6 +14,7 @@ import com.oohla.android.utils.StringUtil;
 import com.xbh.tmi.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,11 +52,10 @@ public class ShoppingPayActivity extends Activity implements View.OnClickListene
         mNameList = bundle.getStringArrayList("names");
         mImgList = bundle.getStringArrayList("imgs");
         mPriList = bundle.getStringArrayList("pris");
-        mCountList = bundle.getStringArrayList("counts");
+        mCountList = bundle.getStringArrayList("cartCount");
         mGoodIdList = bundle.getStringArrayList("ids");
         getListData();
         mAdapter.resetData(mDataList);
-        mAdapter.setIsEdit(false);
         mTotalPrice = bundle.getString("totalPrice");
     }
 
@@ -64,10 +64,11 @@ public class ShoppingPayActivity extends Activity implements View.OnClickListene
         mDataList = new ArrayList<>();
         int size = mNameList.size();
         for (int i = 0; i < size; i++) {
+            map = new HashMap<>();
             map.put("goodName", mNameList.get(i));
             map.put("goodImg", mImgList.get(i));
             map.put("currentPrice", mPriList.get(i));
-            map.put("num", mCountList.get(i));
+            map.put("cartCount", mCountList.get(i));
             map.put("goodId", mGoodIdList.get(i));
             mDataList.add(map);
         }
@@ -108,15 +109,11 @@ public class ShoppingPayActivity extends Activity implements View.OnClickListene
         }
     }
 
-    public void setTotalPrice(int position, String count){
+    public void setTotalPrice(){
+        mDataList = mAdapter.getSourceData();
         float totalPri = 0.0f;
-        int size = mCountList.size();
-        for (int i = 0; i < size; i++) {
-            if(i == position){
-                mCountList.remove(i);
-                mCountList.add(i,count);
-            }
-            totalPri = totalPri + Float.valueOf(mPriList.get(i)) * Float.valueOf(mCountList.get(i));
+        for (Map<String, String> map : mDataList) {
+            totalPri = totalPri + Float.valueOf(map.get("currentPrice")) * Float.valueOf(map.get("cartCount"));
         }
         mTotalPrice = String.valueOf(totalPri);
         mTotalPri.setText(mTotalPrice);

@@ -422,9 +422,17 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(type==0 && stype==1){//本地特色
-                    Intent intent = new Intent(getActivity(), BenditeseActivity.class);
-                    intent.putExtra("position",position );
-                    startActivity(intent);
+                    if(position == 6){//失物招领
+                        Toast.makeText(getActivity(),"敬请期待",Toast.LENGTH_SHORT).show();
+                    }else if (position == 7){//拍卖共享
+//                        Toast.makeText(getActivity(),"拍卖显示接口正在调试",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), ActionActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(getActivity(), BenditeseActivity.class);
+                        intent.putExtra("position",position );
+                        startActivity(intent);
+                    }
                 }else{//扶植农业
                     //Todo 扶植农业其他接口好了，注释掉这
                     if(position>5){

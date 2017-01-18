@@ -17,7 +17,7 @@
         android:layout_gravity="right|top"
         android:scaleType="centerCrop"
         android:layout_marginTop="2dp"
-        android:src="@drawable/em_search_clear_pressed"
+        android:src="@drawable/person_deleter_icon"
         android:layout_marginRight="5dp"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"

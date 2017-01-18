@@ -89,7 +89,7 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
                 imageLoaders.loadImage(vh.pic,mPicList.get(position));
             }else{
                 vh.del.setVisibility(View.GONE);
-                vh.pic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.em_add));
+                vh.pic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.em_add_new));
             }
         }else{
             vh.pic.setVisibility(View.GONE);
