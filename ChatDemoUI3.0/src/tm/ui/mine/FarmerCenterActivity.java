@@ -323,7 +323,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                 new Thread() {
                     @Override
                     public void run() {
-                        PersonManager.addVedio(new File(Constant.COMP_VEDIO_PATH), 2, mHandler);
+                        PersonManager.addVedio(new File(Constant.FARM_VEDIO_PATH), 2, mHandler);
                     }
                 }.start();
                 return;
@@ -459,7 +459,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                     new Thread() {
                         @Override
                         public void run() {
-                            PersonManager.addVedio(new File(Constant.COMP_VEDIO_PATH), 2, mHandler);
+                            PersonManager.addVedio(new File(Constant.FARM_VEDIO_PATH), 2, mHandler);
                         }
                     }.start();
                     mDialog.closeDialog();
