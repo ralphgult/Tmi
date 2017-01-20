@@ -660,6 +660,7 @@ public class PersonManager {
         try {
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
             reqEntity.addPart("type", new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
+            Log.e("LKing--->","获取视频type = "+new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -1088,6 +1089,33 @@ public class PersonManager {
             } catch (Exception ignore) {
 
             }
+        }
+    }
+
+    /** 获取竞拍商品列表*/
+    public static void getAuctionList(final Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.AUCTION_SHOPPING_LIST);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                String jsonStr = EntityUtils.toString(response.getEntity());
+                    if (null != handler) {
+                        Message msg = new Message();
+                        msg.what = 3001;
+                        msg.obj = jsonStr;
+                        handler.sendMessage(msg);
+                    }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
     }
 }
