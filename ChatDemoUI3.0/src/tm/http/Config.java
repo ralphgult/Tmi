@@ -64,6 +64,7 @@ public class Config {
     public static String RUL_ADD_VEDIO = ROOT_HOST_NAME + "/CBDParkingMSs/addVideo";//上传视频
 //    public static String URL_DEL_VEDIO = ROOT_HOST_NAME + "/CBDParkingMSs /deleteVideo";//删除视频
     public static String AUCTION_SHOPPING_LIST = ROOT_HOST_NAME + "/CBDParkingMSs/auction/queryAuctions";//拍卖商品列表
+    public static String AUCTION_SHOPPING_DETAIL = ROOT_HOST_NAME + "/CBDParkingMSs/auction/queryAuction";//拍卖商品详情
 
     public static void init(Context context) throws IOException {
     }

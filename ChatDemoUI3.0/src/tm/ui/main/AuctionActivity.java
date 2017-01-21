@@ -117,7 +117,7 @@ public class AuctionActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(AuctionActivity.this,AuctionDetailActivity.class);
-                intent.putExtra("id",iconId[position]);
+                intent.putExtra("shopping_detail_id",iconId[position]);
                 startActivity(intent);
             }
         });

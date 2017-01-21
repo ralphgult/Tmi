@@ -1118,4 +1118,32 @@ public class PersonManager {
 
         }
     }
+
+    /** 获取竞拍商品详情*/
+    public static void getAuctionDetail(final Handler handler,final String id) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.AUCTION_SHOPPING_DETAIL);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("id",new StringBody(id, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                String jsonStr = EntityUtils.toString(response.getEntity());
+                if (null != handler) {
+                    Message msg = new Message();
+                    msg.what = 3001;
+                    msg.obj = jsonStr;
+                    handler.sendMessage(msg);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
 }
