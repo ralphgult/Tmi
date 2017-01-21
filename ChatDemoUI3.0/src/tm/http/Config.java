@@ -63,6 +63,7 @@ public class Config {
     public static String RUL_GET_VEDIO = ROOT_HOST_NAME + "/CBDParkingMSs/video";//获取视频路径
     public static String RUL_ADD_VEDIO = ROOT_HOST_NAME + "/CBDParkingMSs/addVideo";//上传视频
 //    public static String URL_DEL_VEDIO = ROOT_HOST_NAME + "/CBDParkingMSs /deleteVideo";//删除视频
+    public static String AUCTION_SHOPPING_LIST = ROOT_HOST_NAME + "/CBDParkingMSs/auction/queryAuctions";//拍卖商品列表
 
     public static void init(Context context) throws IOException {
     }

@@ -1,55 +1,38 @@
 package tm.ui.main;
 
 import android.app.Activity;
-import android.os.AsyncTask;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+
 import com.xbh.tmi.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import tm.manager.PersonManager;
 import tm.ui.main.adapter.ActionAdapter;
-import tm.widget.pulltorefresh.ILoadingLayout;
-import tm.widget.pulltorefresh.PullToRefreshBase;
-import tm.widget.pulltorefresh.PullToRefreshGridView;
+import tm.utils.ImageLoaders;
 
 /**
  * Created by LKing on 2017/1/12.
  */
 public class ActionActivity extends Activity {
-    private int[] icon = {
-            R.drawable.goods, R.drawable.goods,R.drawable.goods,
-            R.drawable.goods, R.drawable.goods,R.drawable.goods,
-            R.drawable.goods, R.drawable.goods,R.drawable.goods,
-            R.drawable.goods, R.drawable.goods,R.drawable.goods };
-    private String[] iconName = {
-            "拍卖物品1:纯手工制作，无添加剂", "拍卖物品2:纯手工制作，无添加剂",
-            "拍卖物品3:纯手工制作，无添加剂", "拍卖物品4:纯手工制作，无添加剂",
-            "拍卖物品5:纯手工制作，无添加剂", "拍卖物品6:纯手工制作，无添加剂",
-            "拍卖物品7:纯手工制作，无添加剂", "拍卖物品8:纯手工制作，无添加剂",
-            "拍卖物品9:纯手工制作，无添加剂", "拍卖物品10:纯手工制作，无添加剂",
-            "拍卖物品11:纯手工制作，无添加剂", "拍卖物品12:纯手工制作，无添加剂" };
-    private String[] iconPrice = {
-            "当前价:RMB 50", "当前价:RMB 60", "当前价:RMB 70", "当前价:RMB 80",
-            "当前价:RMB 90", "当前价:RMB 100", "当前价:RMB 110","当前价:RMB 50",
-            "当前价:RMB 80", "当前价:RMB 100", "当前价:RMB 30", "当前价:RMB 40" };
-    private String[] iconPurch = {
-            "直购价:RMB 50", "直购价:RMB 60", "直购价:RMB 70", "直购价:RMB 80",
-            "直购价:RMB 90", "直购价:RMB 100", "直购价:RMB 110","直购价:RMB 50",
-            "直购价:RMB 80", "直购价:RMB 100", "直购价:RMB 30", "直购价:RMB 40" };
-    private String[] iconBid = {
-            "出价2次", "出价2次", "出价2次", "出价2次", "出价2次", "出价2次",
-            "出价2次","出价2次", "出价2次", "出价2次", "出价2次", "出价2次" };
-    private String[] iconTime = {
-            "5000", "60000", "70000", "80000", "90000", "40000",
-            "210000","40000", "56000", "760000", "45000", "67000" };
+    private String[] icon;
+    private String[] iconName;
+    private String[] iconPrice;
+    private String[] iconPurch;
+    private String[] iconBid;
+    private String[] iconTime;
     public static List<Person> list;
     private GridView gridView;
     private ActionAdapter adapter;
@@ -63,19 +46,40 @@ public class ActionActivity extends Activity {
                 handler.sendEmptyMessageDelayed(1,1000);
             }
             if(msg.what == 3001 ){
-                for (int i = 0; i < icon.length; i++) {
-                    Person person = new Person();
-                    person.setPath(icon[i]);
-                    person.setName(iconName[i]);
-                    person.setPrice(iconPrice[i]);
-                    person.setPurch(iconPurch[i]);
-                    person.setBid(iconBid[i]);
-                    person.setTime(iconTime[i]);
-                    list.add(person);
+
+                try {
+                    Log.e("LKing","obj = "+ msg.obj.toString());
+                    JSONArray jsonArray = new JSONArray(msg.obj.toString());
+                    int max = jsonArray.length();
+                    icon = new String[max];
+                    iconName = new String[max];
+                    iconPrice = new String[max];
+                    iconPurch = new String[max];
+                    iconBid = new String[max];
+                    iconTime = new String[max];
+                    for(int i = 0 ; i< max ; i++){
+                        JSONObject jsonObject = (JSONObject)jsonArray.opt(i);
+                        icon[i]=jsonObject.getString("auctionImg");
+                        iconName[i]=jsonObject.getString("name");
+                        iconPrice[i]=jsonObject.getString("price");
+                        iconPurch[i]=jsonObject.getString("originalPrice");
+                        iconBid[i]=jsonObject.getString("number");
+                        iconTime[i]=jsonObject.getString("residual");
+                        Person person = new Person();
+                        person.setPath(icon[i]);
+                        person.setName(iconName[i]);
+                        person.setPrice(iconPrice[i]);
+                        person.setPurch(iconPurch[i]);
+                        person.setBid(iconBid[i]);
+                        person.setTime(iconTime[i]);
+                        list.add(person);
+                    }
+                    // 数据拿到开始计时
+                    adapter.start();
+                    handler.sendEmptyMessageDelayed(1,1000);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                // 数据拿到开始计时
-                adapter.start();
-                handler.sendEmptyMessageDelayed(1,1000);
             }
         }
     };
@@ -84,24 +88,21 @@ public class ActionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.action_activity);
-        goBackImg();
+        initView();
+        setListener();
+        networkRequest();
+    }
+
+    private void initView() {
+        mBackImg = (ImageView)findViewById(R.id.auction_back_iv);
         gridView = (GridView) findViewById(R.id.action_gview);
 
         list = new ArrayList<>();
         adapter = new ActionAdapter(this,list);
         gridView.setAdapter(adapter);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                PersonManager.getAuctionList(handler);
-            }
-        }).start();
     }
 
-    /*** 标题的返回按钮初始化并监听点击事件 */
-    private void goBackImg() {
-        mBackImg = (ImageView)findViewById(R.id.auction_back_iv);
+    private void setListener() {
         mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,8 +111,16 @@ public class ActionActivity extends Activity {
         });
     }
 
-    public static String formatTime(long ms) {
+    private void networkRequest() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PersonManager.getAuctionList(handler);
+            }
+        }).start();
+    }
 
+    public static String formatTime(long ms) {
         int ss = 1000;
         int mi = ss * 60;
         int hh = mi * 60;
@@ -132,5 +141,6 @@ public class ActionActivity extends Activity {
 
         return strDay + "天"+strHour+"时"+strMinute + "分" + strSecond + "秒";
     }
+
 }
 

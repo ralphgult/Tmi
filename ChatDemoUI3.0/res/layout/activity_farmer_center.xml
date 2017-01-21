@@ -70,7 +70,7 @@
                     android:layout_height="45dp"
                     android:scaleType="centerCrop"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/em_empty_photo" />
+                    android:src="@drawable/default_pic" />
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -4,18 +4,18 @@ package tm.ui.main;
  * Created by Administrator on 2017/1/17.
  */
 public class Person {
-    private int mPath;//商品图片地址
+    private String mPath;//商品图片地址
     private String mName;//商品名称
     private String mPrice;//商品当前价
     private String mPurch;//商品直购价
     private String mBid;//商品出价次数
     private String mTime;//商品剩余时间
 
-    public int getPath() {
+    public String getPath() {
         return mPath;
     }
 
-    public void setPath(int path) {
+    public void setPath(String path) {
         this.mPath = path;
     }
 

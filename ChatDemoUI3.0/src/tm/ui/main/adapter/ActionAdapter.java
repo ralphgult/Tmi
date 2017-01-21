@@ -1,6 +1,7 @@
 package tm.ui.main.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import java.util.List;
 
 import tm.ui.main.ActionActivity;
 import tm.ui.main.Person;
+import tm.ui.tmi.FosterAgriculturalActivity;
+import tm.utils.ImageLoaders;
 
 /**
  * Created by LKing on 2017/1/17.
@@ -20,10 +23,12 @@ import tm.ui.main.Person;
 public class ActionAdapter extends BaseAdapter {
     private List<Person> list;
     private LayoutInflater layoutInflater;
+    private ImageLoaders imageLoaders;
 
     public ActionAdapter(Context context, List<Person> list) {
         this.list = list;
         this.layoutInflater = LayoutInflater.from(context);
+        imageLoaders = new ImageLoaders(context,new MyImageLoaderListener());
     }
 
     @Override
@@ -57,7 +62,7 @@ public class ActionAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.imageView.setImageResource(list.get(position).getPath());
+        imageLoaders.loadImage(viewHolder.imageView, list.get(position).getPath());
         viewHolder.textView.setText(list.get(position).getName());
         viewHolder.text_spot_price.setText(list.get(position).getPrice());
         viewHolder.text_purchasing_direct.setText(list.get(position).getPurch());
@@ -112,5 +117,12 @@ public class ActionAdapter extends BaseAdapter {
             }
         };
         thread.start();
+    }
+
+    class MyImageLoaderListener implements ImageLoaders.ImageLoaderListener{
+        @Override
+        public void onImageLoad(View v, Bitmap bmp, String url) {
+            ((ImageView) v).setImageBitmap(bmp);
+        }
     }
 }
