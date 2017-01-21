@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import com.xbh.tmi.R;
 import java.util.ArrayList;
 import java.util.List;
+
+import tm.manager.PersonManager;
 import tm.ui.main.adapter.ActionAdapter;
 import tm.widget.pulltorefresh.ILoadingLayout;
 import tm.widget.pulltorefresh.PullToRefreshBase;
@@ -49,16 +51,30 @@ public class ActionActivity extends Activity {
             "5000", "60000", "70000", "80000", "90000", "40000",
             "210000","40000", "56000", "760000", "45000", "67000" };
     public static List<Person> list;
-    private PullToRefreshGridView gridView;
+    private GridView gridView;
     private ActionAdapter adapter;
     private ImageView mBackImg;
-    private int mItemCount = 10;
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             if (msg.what ==1) {
                 adapter.notifyDataSetChanged();
                 //每隔1毫秒更新一次界面，如果只需要精确到秒的倒计时此处改成1000即可
+                handler.sendEmptyMessageDelayed(1,1000);
+            }
+            if(msg.what == 3001 ){
+                for (int i = 0; i < icon.length; i++) {
+                    Person person = new Person();
+                    person.setPath(icon[i]);
+                    person.setName(iconName[i]);
+                    person.setPrice(iconPrice[i]);
+                    person.setPurch(iconPurch[i]);
+                    person.setBid(iconBid[i]);
+                    person.setTime(iconTime[i]);
+                    list.add(person);
+                }
+                // 数据拿到开始计时
+                adapter.start();
                 handler.sendEmptyMessageDelayed(1,1000);
             }
         }
@@ -69,54 +85,18 @@ public class ActionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.action_activity);
         goBackImg();
-        gridView = (PullToRefreshGridView) findViewById(R.id.action_gview);
-        ILoadingLayout startLabels = gridView.getLoadingLayoutProxy();
-        startLabels.setPullLabel("你可劲拉，拉...");// 刚下拉时，显示的提示
-        startLabels.setRefreshingLabel("好嘞，正在刷新...");// 刷新时
-        startLabels.setReleaseLabel("你敢放，我就敢刷新...");// 下来达到一定距离时，显示的提示
-        gridView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>()
-        {
+        gridView = (GridView) findViewById(R.id.action_gview);
 
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView)
-            {
-                String label = DateUtils.formatDateTime(
-                        getApplicationContext(),
-                        System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_TIME
-                                | DateUtils.FORMAT_SHOW_DATE
-                                | DateUtils.FORMAT_ABBREV_ALL);
-                refreshView.getLoadingLayoutProxy()
-                        .setLastUpdatedLabel(label);
-                Log.e("LKing--->","下拉过程中.....");
-                new GetDataTask().execute();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView)
-            {
-                Log.e("LKing--->","上拉过程中.....");
-                new GetDataTask().execute();
-            }
-        });
-        //测试数据
         list = new ArrayList<>();
-        for (int i = 0; i < icon.length; i++) {
-            Person person = new Person();
-            person.setPath(icon[i]);
-            person.setName(iconName[i]);
-            person.setPrice(iconPrice[i]);
-            person.setPurch(iconPurch[i]);
-            person.setBid(iconBid[i]);
-            person.setTime(iconTime[i]);
-            list.add(person);
-        }
-
-        // 数据拿到开始计时
         adapter = new ActionAdapter(this,list);
         gridView.setAdapter(adapter);
-        adapter.start();//开始倒计时
-        handler.sendEmptyMessageDelayed(1,1000);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PersonManager.getAuctionList(handler);
+            }
+        }).start();
     }
 
     /*** 标题的返回按钮初始化并监听点击事件 */
@@ -129,35 +109,6 @@ public class ActionActivity extends Activity {
             }
         });
     }
-
-    private class GetDataTask extends AsyncTask<Void, Void, Void>
-    {
-
-        @Override
-        protected Void doInBackground(Void... params)
-        {
-            try
-            {
-                Log.e("LKing--->","松手了，进行网络请求");
-
-                Thread.sleep(2000);
-            } catch (InterruptedException e)
-            {
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result)
-        {
-            Log.e("LKing--->","网络请求完成了");
-            adapter.notifyDataSetChanged();
-            gridView.onRefreshComplete();
-        }
-    }
-
-
-
 
     public static String formatTime(long ms) {
 
