@@ -65,10 +65,10 @@ public class AuctionDetailActivity extends Activity{
 //                    mDetailPriceNum.setText("出价"+jsonObject.getString("originalPrice")+"次");
                     mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(Integer.parseInt(jsonObject.getString("residual"))));
                     mDetailText.setText(jsonObject.getString("details"));
-                    JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs") ;
-                    for(int i=0;i<jsonArray.length();i++){
-                        imageLoaders.loadImage(ivArray[i],String.valueOf(jsonArray.opt(i)));
-                    }
+//                    JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs") ;
+//                    for(int i=0;i<jsonArray.length();i++){
+//                        imageLoaders.loadImage(ivArray[i],String.valueOf(jsonArray.opt(i)));
+//                    }
                 }catch(Exception e){
                     e.printStackTrace();
                 }
