@@ -27,7 +27,7 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/ease_back" />
     </RelativeLayout>
-    <tm.widget.pulltorefresh.PullToRefreshGridView
+    <GridView
         android:id="@+id/action_gview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         android:scrollbars="none"
         >
 
-    </tm.widget.pulltorefresh.PullToRefreshGridView>
+    </GridView>
     <!--<GridView-->
         <!--android:id="@+id/action_gview"-->
         <!--android:layout_width="match_parent"-->
