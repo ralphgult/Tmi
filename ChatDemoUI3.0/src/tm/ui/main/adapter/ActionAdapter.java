@@ -12,9 +12,8 @@ import android.widget.TextView;
 import com.xbh.tmi.R;
 import java.util.List;
 
-import tm.ui.main.ActionActivity;
+import tm.ui.main.AuctionActivity;
 import tm.ui.main.Person;
-import tm.ui.tmi.FosterAgriculturalActivity;
 import tm.utils.ImageLoaders;
 
 /**
@@ -71,7 +70,7 @@ public class ActionAdapter extends BaseAdapter {
             //将一个int类型的数值转换成时间格式
             long tempTime = Long.parseLong(list.get(position).getTime());
             viewHolder.text_time.setTextColor(Color.RED);
-            viewHolder.text_time.setText("剩余:"+ActionActivity.formatTime(tempTime));
+            viewHolder.text_time.setText("剩余:"+ AuctionActivity.formatTime(tempTime));
         } else {
             viewHolder.text_time.setTextColor(Color.GRAY);
             viewHolder.text_time.setText("拍卖时间已过");

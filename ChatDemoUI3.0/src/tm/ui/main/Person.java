@@ -10,6 +10,7 @@ public class Person {
     private String mPurch;//商品直购价
     private String mBid;//商品出价次数
     private String mTime;//商品剩余时间
+    private String mId;//商品id
 
     public String getPath() {
         return mPath;
@@ -57,5 +58,13 @@ public class Person {
 
     public void setTime(String time) {
         this.mTime = time;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        this.mId = id;
     }
 }

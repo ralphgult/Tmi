@@ -339,7 +339,12 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 本地特色中的拍卖共享 -->
         <activity
-            android:name="tm.ui.main.ActionActivity"
+            android:name="tm.ui.main.AuctionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="tm.ui.main.AuctionDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustPan|stateHidden" />

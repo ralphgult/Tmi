@@ -1,12 +1,13 @@
 package tm.ui.main;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -21,18 +22,18 @@ import java.util.List;
 
 import tm.manager.PersonManager;
 import tm.ui.main.adapter.ActionAdapter;
-import tm.utils.ImageLoaders;
 
 /**
  * Created by LKing on 2017/1/12.
  */
-public class ActionActivity extends Activity {
+public class AuctionActivity extends Activity {
     private String[] icon;
     private String[] iconName;
     private String[] iconPrice;
     private String[] iconPurch;
     private String[] iconBid;
     private String[] iconTime;
+    private String[] iconId;
     public static List<Person> list;
     private GridView gridView;
     private ActionAdapter adapter;
@@ -57,6 +58,7 @@ public class ActionActivity extends Activity {
                     iconPurch = new String[max];
                     iconBid = new String[max];
                     iconTime = new String[max];
+                    iconId = new String[max];
                     for(int i = 0 ; i< max ; i++){
                         JSONObject jsonObject = (JSONObject)jsonArray.opt(i);
                         icon[i]=jsonObject.getString("auctionImg");
@@ -65,6 +67,7 @@ public class ActionActivity extends Activity {
                         iconPurch[i]=jsonObject.getString("originalPrice");
                         iconBid[i]=jsonObject.getString("number");
                         iconTime[i]=jsonObject.getString("residual");
+                        iconId[i]=jsonObject.getString("id");
                         Person person = new Person();
                         person.setPath(icon[i]);
                         person.setName(iconName[i]);
@@ -72,6 +75,7 @@ public class ActionActivity extends Activity {
                         person.setPurch(iconPurch[i]);
                         person.setBid(iconBid[i]);
                         person.setTime(iconTime[i]);
+                        person.setId(String.valueOf(i));
                         list.add(person);
                     }
                     // 数据拿到开始计时
@@ -109,6 +113,15 @@ public class ActionActivity extends Activity {
                 finish();
             }
         });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(AuctionActivity.this,AuctionDetailActivity.class);
+                intent.putExtra("id",iconId[position]);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void networkRequest() {

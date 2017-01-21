@@ -426,7 +426,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                         Toast.makeText(getActivity(),"敬请期待",Toast.LENGTH_SHORT).show();
                     }else if (position == 7){//拍卖共享
 //                        Toast.makeText(getActivity(),"拍卖显示接口正在调试",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), ActionActivity.class);
+                        Intent intent = new Intent(getActivity(), AuctionActivity.class);
                         startActivity(intent);
 //                         Intent intent = new Intent(getActivity(), AuctionActivity.class);
 //                        startActivity(intent);
