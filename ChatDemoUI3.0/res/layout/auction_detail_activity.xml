@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/head"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/tm_huihua_title_bar">
@@ -27,206 +27,212 @@
             android:layout_marginLeft="15dp"
             android:src="@drawable/ease_back" />
     </RelativeLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="130dp"
-            android:layout_height="180dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/auction_detail_imgs"
-                android:layout_width="130dp"
-                android:layout_height="130dp" />
-        </LinearLayout>
-
+        android:layout_below="@+id/head">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="130dp"
+                    android:layout_height="180dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/auction_detail_imgs"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/auction_detail_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        android:text="商品名称"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/auction_detail_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        android:text="商品编号"
+                        android:textColor="#7b7b7b"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/auction_contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        android:drawableRight="@drawable/em_add_new"
+                        android:text="联系我们："
+                        android:textColor="#7b7b7b"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/auction_detail_price"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:text="当前价格"
+                            android:textColor="@color/msg_red"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/auction_detail_unit_price"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:background="#460046"
+                            android:gravity="left"
+                            android:text="加价单位"
+                            android:textColor="@color/background_white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/auction_detail_original_price"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:text="直购价"
+                            android:textColor="#7b7b7b"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/auction_detail_price_number"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:text="加价次数"
+                            android:textColor="@color/msg_red"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/auction_detail_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/time"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical|left"
+                        android:text="剩余时间"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/auction_detail_bid"
+                        android:layout_width="80dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:background="#460046"
+                        android:gravity="center"
+                        android:text="手动出价"
+                        android:textColor="@color/background_white" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/auction_img_01"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/auction_img_02"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/auction_img_03"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/auction_img_04"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/auction_img_05"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="5dp"
+                android:background="#bebebe" />
+
             <TextView
-                android:id="@+id/auction_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:text="商品名称"
-                android:textColor="#000000"
+                android:gravity="center"
+                android:text="拍品详情"
+                android:textColor="#b15bff"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/auction_detail_number"
+                android:id="@+id/auction_detail_txt"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:text="商品编号"
-                android:textColor="#7b7b7b"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/auction_contact"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:drawableRight="@drawable/em_add_new"
-                android:text="联系我们："
-                android:textColor="#7b7b7b"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/auction_detail_price"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:text="当前价格"
-                    android:textColor="@color/msg_red"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/auction_detail_unit_price"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:background="#460046"
-                    android:gravity="left"
-                    android:text="加价单位"
-                    android:textColor="@color/background_white" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/auction_detail_original_price"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:text="直购价"
-                    android:textColor="#7b7b7b"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/auction_detail_price_number"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:text="加价次数"
-                    android:textColor="@color/msg_red"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/auction_detail_time"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/time"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical|left"
-                android:text="剩余时间"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/auction_detail_bid"
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center"
-                android:background="#460046"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="手动出价"
-                android:textColor="@color/background_white" />
+                android:text="拍品详情:开始加圣诞节疯狂送的借款方手机登陆福建省的咖啡机"
+                android:textColor="#b15bff"
+                android:textSize="16sp" />
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/auction_img_01"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_weight="1"/>
-
-        <ImageView
-            android:id="@+id/auction_img_02"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_weight="1"
-            />
-
-        <ImageView
-            android:id="@+id/auction_img_03"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_weight="1"/>
-
-        <ImageView
-            android:id="@+id/auction_img_04"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_weight="1"/>
-
-        <ImageView
-            android:id="@+id/auction_img_05"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="15dp"
-        android:background="#bebebe" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:gravity="center"
-        android:text="拍品详情"
-        android:textColor="#b15bff"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/auction_detail_txt"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="拍品详情:开始加圣诞节疯狂送的借款方手机登陆福建省的咖啡机"
-        android:textColor="#b15bff"
-        android:textSize="16sp" />
-</ScrollView>
-</LinearLayout>
+    </ScrollView>
+</RelativeLayout>
