@@ -226,6 +226,7 @@ public class ImageUtil {
             bmp.compress(CompressFormat.JPEG, 100, bos);
             bos.close();
             fos.close();
+            safeReleaseBitmap(bmp);
         }
 
         return file;

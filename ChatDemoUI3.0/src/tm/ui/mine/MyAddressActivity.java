@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -79,7 +80,7 @@ public class MyAddressActivity extends Activity {
                         Toast.makeText(MyAddressActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
                         for (Map<String, String> mData : mDatas) {
                             mData.remove("default");
-                            mData.put("default",mData.get("id").equals((String) msg.obj) ? "1" : "0");
+                            mData.put("default", mData.get("id").equals((String) msg.obj) ? "1" : "0");
                         }
                         mAdapter.resetData(mDatas);
                         break;
@@ -111,6 +112,20 @@ public class MyAddressActivity extends Activity {
             }
         });
         getData();
+        addrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Map<String, String> map = mDatas.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("id", map.get("id"));
+                bundle.putString("name", map.get("name"));
+                bundle.putString("phone", map.get("phone"));
+                bundle.putString("content", map.get("addr"));
+                bundle.putString("default", map.get("default"));
+                bundle.putBoolean("isAdd", false);
+                ViewUtil.jumpToOtherActivity(MyAddressActivity.this, EditAddressActivity.class, bundle);
+            }
+        });
     }
 
     private void getData() {

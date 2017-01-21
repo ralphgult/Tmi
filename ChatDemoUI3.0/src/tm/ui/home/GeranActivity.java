@@ -243,6 +243,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             case R.id.tm_geren_ly:
                 Bundle bund = new Bundle();
                 bund.putInt("type", 4);
+                bund.putString("id", uid);
                 ViewUtil.jumpToOtherActivity(this, MomentsActivity.class, bund);
                 break;
             case R.id.tm_addfriend://添加好友

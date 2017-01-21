@@ -124,6 +124,7 @@ public class MomentListAdapter extends BaseAdapter {
         vh.name_tv.setText(dataList.get(position).get("name"));
         vh.time_tv.setText(dataList.get(position).get("time"));
         vh.content_tv.setText(dataList.get(position).get("content"));
+        vh.content_tv.setMaxLines(3);
         vh.count_text.setText(dataList.get(position).get("count"));
         vh.like_text.setText(dataList.get(position).get("like"));
         String likes = dataList.get(position).get("likelist");

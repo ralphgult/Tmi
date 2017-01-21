@@ -165,7 +165,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                         pd.dismiss();
                     }
                     mVedioPath = (String) msg.obj;
-                    Log.e("info","vedioPath ====== " + mVedioPath);
+                    Log.e("info", "vedioPath ====== " + mVedioPath);
                     vedioHave_tv.setText(TextUtils.isEmpty(mVedioPath) ? "未上传" : "重新上传");
                     break;
                 default:
@@ -247,6 +247,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         NetFactory.instance().commonHttpCilent(mHandler, FarmerCenterActivity.this,
                 Config.URL_GET_USRE_FACEWALL, list);
     }
+
     class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
 
         @Override
@@ -313,10 +314,9 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && data != null) {
-            try {
-                if (requestCode == REQUESTCODE_VEDIO) {
+            if (requestCode == REQUESTCODE_VEDIO) {
                 pd = ProgressDialog.show(this, "上传", "视频上传中，请稍后...");
-                if(!NetworkUtils.isWifi(this)){
+                if (!NetworkUtils.isWifi(this)) {
                     createReminDialog();
                     return;
                 }
@@ -328,42 +328,34 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                 }.start();
                 return;
             }
-                if (requestCode == CHANGEHEAD_LOCAL || requestCode == WALLFACE_LOCAL) {
-                    //选择本地图片
-                    Uri selectedImage = data.getData();
-                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
-                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
-                    imagePath = c.getString(columnIndex);
-                    c.close();
-                } else if (requestCode == CHANGEHEAD_CAMERA || requestCode == WALLFACE_CAMERA) {
-                    //照相返回
-                    String sdStatus = Environment.getExternalStorageState();
-                    if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
-                        Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    String name = System.currentTimeMillis() + ".jpg";
-                    imagePath = "/mnt/sdcard/ImageLoader/cache/imageslarge/" + name;
-                    Bundle bundle = data.getExtras();
-                    Bitmap bitmap = (Bitmap) bundle.get("data");
-                    ImageUtil.saveBitmap(bitmap, imagePath);
+            if (requestCode == CHANGEHEAD_LOCAL || requestCode == WALLFACE_LOCAL) {
+                //选择本地图片
+                Uri selectedImage = data.getData();
+                String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                imagePath = c.getString(columnIndex);
+                c.close();
+            } else if (requestCode == CHANGEHEAD_CAMERA || requestCode == WALLFACE_CAMERA) {
+                //照相返回
+                String sdStatus = Environment.getExternalStorageState();
+                if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
+                    Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+            }
 
-                if (requestCode == CHANGEHEAD_LOCAL || requestCode == CHANGEHEAD_CAMERA) {
-                    uploadPhotoThread thread = new uploadPhotoThread();
-                    thread.start();
-                } else if (requestCode == WALLFACE_LOCAL || requestCode == WALLFACE_CAMERA) {
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            PersonManager.uploadImgwall(imagePath, 3, mHandler);
-                        }
-                    }.start();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (requestCode == CHANGEHEAD_LOCAL || requestCode == CHANGEHEAD_CAMERA) {
+                uploadPhotoThread thread = new uploadPhotoThread();
+                thread.start();
+            } else if (requestCode == WALLFACE_LOCAL || requestCode == WALLFACE_CAMERA) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        PersonManager.uploadImgwall(imagePath, 3, mHandler);
+                    }
+                }.start();
             }
         }
     }
@@ -417,6 +409,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         }
         dialog.showDialog();
     }
+
     private void showPopupWindow(final int type) {
         if (null == mPopupWindow) {
             mPopupWindow = new CommonSelectImgPopupWindow(this);
@@ -431,6 +424,14 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                     case R.id.yx_common_add_img_pupwindow_camera_tv:
                         //照相
                         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        imagePath = "/mnt/sdcard/ImageLoader/cache/imageslarge/" + System.currentTimeMillis() + ".jpg";
+                        File path1 = new File(imagePath).getParentFile();
+                        if (!path1.exists()) {
+                            path1.mkdirs();
+                        }
+                        File file = new File(imagePath);
+                        Uri mOutPutFileUri = Uri.fromFile(file);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutPutFileUri);
                         FarmerCenterActivity.this.startActivityForResult(intent, type == CHANGE_FACE_WALL ? WALLFACE_CAMERA : CHANGEHEAD_CAMERA);
                         break;
                     case R.id.yx_common_add_img_pupwindow_local_tv:
@@ -444,9 +445,10 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         };
         mPopupWindow.showAtBOTTOM(LayoutInflater.from(this).inflate(R.layout.activity_farmer_center, null));
     }
-    private void createReminDialog(){
+
+    private void createReminDialog() {
         if (null == mDialog) {
-            mDialog = (RemindDialog) DialogFactory.createDialog(this,DialogFactory.DIALOG_TYPE_REMIND);
+            mDialog = (RemindDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_REMIND);
             mDialog.setGroupName("您正在使用流量上传，是否继续?");
             mDialog.setPhotoDialogListener(new RemindDialog.RemindDialogListener() {
                 @Override

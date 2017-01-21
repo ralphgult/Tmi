@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -92,24 +93,25 @@ public class ImageAdapter extends BaseAdapter {
             if(mPicList[position].equals("0")){
                 vh.pic.setImageResource(R.drawable.em_add_new);
             }else{
-                if (mPicList[position].startsWith("http://")) {
+                Log.e("info","imagePath -=-=-=-=-=-=-= " + mPicList[position]);
+                if (mPicList[position].startsWith("http://") || mPicList[position].startsWith("https://")) {
                     imageLoaders.loadImage(vh.pic, mPicList[position]);
-                }else if(mPicList[position].startsWith(Environment.getExternalStorageDirectory().getPath())){
-                    vh.pic.setImageBitmap(ImageUtil.resizeBitmapForce(mPicList[position],110,110));
+                }else{
+                    vh.pic.setImageBitmap(BitmapFactory.decodeFile(mPicList[position]));
                 }
             }
             vh.pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mPicList[position].equals("0")) {
-                        Intent intent = new Intent(Intent.ACTION_PICK,
-                                Media.EXTERNAL_CONTENT_URI);
-                        ((Activity)mContext).startActivityForResult(intent, 1);
+                        if (mContext instanceof ReleaseFriendActivity) {
+                            ((ReleaseFriendActivity) mContext).showPopupWindow();
+                        }
                     }else{
                         Bundle bundle = new Bundle();
-                        if (mPicList[position].startsWith("http://")) {
+                        if (mPicList[position].startsWith("http://") || mPicList[position].startsWith("https://")) {
                             bundle.putString("path", mPicList[position]);
-                        }else if(mPicList[position].startsWith(Environment.getExternalStorageDirectory().getPath())){
+                        }else {
                             bundle.putString("filePath", mPicList[position]);
                         }
                         ViewUtil.jumpToOtherActivity((Activity) mContext, HeadBigActivity.class,bundle);

@@ -3,6 +3,7 @@ package tm.ui.mine;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -79,8 +80,8 @@ public class ShoppingPayActivity extends Activity implements View.OnClickListene
         mList = (ListView) findViewById(R.id.shopping_pay_list_lv);
         mTotalPri = (TextView) findViewById(R.id.shopping_pay_total_price_tv);
         mPay = (Button) findViewById(R.id.shopping_pay_pay_btn);
-        mTotalPri.setText("￥" + mTotalPrice);
         mList.setAdapter(mAdapter);
+        setTotalPrice();
         mBack.setOnClickListener(this);
         mPay.setOnClickListener(this);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,5 +118,13 @@ public class ShoppingPayActivity extends Activity implements View.OnClickListene
         }
         mTotalPrice = String.valueOf(totalPri);
         mTotalPri.setText(mTotalPrice);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            ViewUtil.backToOtherActivity(this);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

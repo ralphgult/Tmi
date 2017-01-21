@@ -145,7 +145,8 @@
             android:text="会话"
             android:textColor="@color/shangpin_black"
             android:textSize="16sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/goods_shopcar_tv"
             android:layout_width="wrap_content"

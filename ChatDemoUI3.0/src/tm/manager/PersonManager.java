@@ -896,9 +896,9 @@ public class PersonManager {
     }
 
     /**
-     * 获取收货地址
+     * 设置默认地址
      *
-     * @param raId    收货地址的ID（若获取地址列表，则传空值）
+     * @param raId    收货地址的ID
      * @param handler
      */
     public static void setAddressDefault(String raId, Handler handler) {
@@ -916,6 +916,7 @@ public class PersonManager {
                 System.out.println("服务器正常响应.....");
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                Log.e("info","result ============= " + object.toString());
                 if (null != handler) {
                     if (object.getInt("authId") == 1) {
                         if (null != handler) {

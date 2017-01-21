@@ -36,6 +36,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
     private Button mBuy_tv;
     private TextView mEdit_tv;
     private ListView mList_lv;
+    private ImageView mSelectAll_iv;
 
     private List<Map<String, String>> mDataList;
     private MyShoppingAdapter mAdapter;
@@ -103,6 +104,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
         mBuy_tv = (Button) findViewById(R.id.my_shopping_pay_btn);
         mList_lv = (ListView) findViewById(R.id.my_shopping_list_lv);
         mEdit_tv = (TextView) findViewById(R.id.my_shopping_edit_tv);
+        mSelectAll_iv = (ImageView) findViewById(R.id.my_shopping_seleteall_iv);
         mBack_iv.setOnClickListener(this);
         mBuy_tv.setOnClickListener(this);
         mEdit_tv.setOnClickListener(this);
@@ -114,6 +116,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                 ViewUtil.jumpToOtherActivity(MySoppingActivity.this, GoodsDetilActivity.class, bundle);
             }
         });
+        mSelectAll_iv.setOnClickListener(this);
     }
 
     private void getShoppingList() {
@@ -166,6 +169,20 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                 bundle.putStringArrayList("cartCount", mCountList);
                 bundle.putStringArrayList("ids", mGoodIdList);
                 ViewUtil.jumpToOtherActivity(this, ShoppingPayActivity.class, bundle);
+                break;
+            case R.id.my_shopping_seleteall_iv:
+                if (mSelectAll_iv.isSelected()) {
+                    mAdapter.removeSelectedIds();
+                    mSelectAll_iv.setSelected(false);
+                } else {
+                    List<String> seletedIds = new ArrayList<>();
+                    for (Map<String, String> map : mDataList) {
+                        seletedIds.add(map.get("scId"));
+                    }
+                    mAdapter.setmSeletedIds(seletedIds);
+                    mSelectAll_iv.setSelected(true);
+                }
+                setTotalPrice();
                 break;
         }
     }

@@ -25,17 +25,13 @@ import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
 
-public class EditAddressActivity extends Activity implements View.OnClickListener, InputDialog.InputDialogListener {
+public class EditAddressActivity extends Activity implements View.OnClickListener {
     private ImageView mBack;
     private TextView mTitle;
     private TextView mSave;
-    private LinearLayout mName_ly;
     private EditText mName_tv;
-    private LinearLayout mPhone_ly;
     private EditText mPhone_tv;
     private EditText mContent_edt;
-    private InputDialog mDialog;
-    private boolean mIsName;
     private boolean mIsAdd;
     private String mAddrId;
     private Handler mHandler;
@@ -67,7 +63,7 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
                         String text = null;
                         if (mIsAdd) {
                             text = "添加地址成功";
-                        }else {
+                        } else {
                             text = "修改地址成功";
                         }
                         Toast.makeText(EditAddressActivity.this, text, Toast.LENGTH_SHORT).show();
@@ -85,9 +81,7 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
         mBack = (ImageView) findViewById(R.id.edit_address_back_iv);
         mTitle = (TextView) findViewById(R.id.edit_address_title_tv);
         mSave = (TextView) findViewById(R.id.edit_address_add_tv);
-        mName_ly = (LinearLayout) findViewById(R.id.edit_address_name_ly);
         mName_tv = (EditText) findViewById(R.id.edit_address_name_tv);
-        mPhone_ly = (LinearLayout) findViewById(R.id.edit_address_phone_ly);
         mPhone_tv = (EditText) findViewById(R.id.edit_address_phone_tv);
         mContent_edt = (EditText) findViewById(R.id.edit_address_content_edt);
         mBack.setOnClickListener(this);
@@ -112,13 +106,13 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
         final String name = mName_tv.getText().toString().trim();
         final String phone = mPhone_tv.getText().toString().trim();
         final String content = mContent_edt.getText().toString().trim();
-        if(TextUtils.isEmpty(name)){
-            Toast.makeText(EditAddressActivity.this,"收件人不能为空",Toast.LENGTH_SHORT).show();
-        }else if(phone.length() != 11 && !isMobile(phone)){
-            Toast.makeText(EditAddressActivity.this,"请输入正确的收件人手机号",Toast.LENGTH_SHORT).show();
-        }else if(TextUtils.isEmpty(content)){
-            Toast.makeText(EditAddressActivity.this,"收件人详细地址不能为空",Toast.LENGTH_SHORT).show();
-        }else{
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(EditAddressActivity.this, "收件人不能为空", Toast.LENGTH_SHORT).show();
+        } else if (phone.length() != 11 && !isMobile(phone)) {
+            Toast.makeText(EditAddressActivity.this, "请输入正确的收件人手机号", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(content)) {
+            Toast.makeText(EditAddressActivity.this, "收件人详细地址不能为空", Toast.LENGTH_SHORT).show();
+        } else {
             new Thread() {
                 @Override
                 public void run() {
@@ -130,38 +124,12 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
                         map.put("default", getIntent().getExtras().getString("default"));
                     }
                     map.put("name", name);
-                    map.put("phone",phone);
-                    map.put("content",content);
+                    map.put("phone", phone);
+                    map.put("content", content);
                     PersonManager.addEditAddress(map, mHandler);
                 }
             }.start();
         }
-    }
-
-    private void createInputDialog() {
-        if (mDialog == null) {
-            mDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
-        }
-        if (!mIsName) {
-            mDialog.getInputView().setInputType(InputType.TYPE_CLASS_NUMBER);
-        }
-        mDialog.setHintTextForView(mIsName ? "请输入收货人姓名" : "请输入电话号码");
-        mDialog.setInputDialogListener(this);
-        mDialog.showDialog();
-    }
-
-    @Override
-    public void inputDialogCancle() {
-        if (null != mDialog && mDialog.isShowing()) {
-            mDialog.closeDialog();
-        }
-    }
-
-    @Override
-    public void inputDialogSubmit(String inputText) {
-        TextView tv = mIsName ? mName_tv : mPhone_tv;
-        tv.setText(inputText);
-        mDialog.closeDialog();
     }
 
     @Override
@@ -173,12 +141,12 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
     }
 
 
-    public static boolean isMobile(String str){
-        if(TextUtils.isEmpty(str)){
+    public static boolean isMobile(String str) {
+        if (TextUtils.isEmpty(str)) {
             return false;
         }
         String exp = "^1[34578][0-9]{9}$";
-        if(str.matches(exp)){
+        if (str.matches(exp)) {
             return true;
         }
         return false;

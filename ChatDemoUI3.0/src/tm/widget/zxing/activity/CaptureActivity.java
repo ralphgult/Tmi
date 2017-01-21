@@ -169,6 +169,7 @@ public class CaptureActivity extends Activity implements Callback {
         playBeepSoundAndVibrate();
         resultString = result.getText();
         //FIXME
+        Log.e("info","result ========================== " + resultString);
         if (resultString.equals("")) {
             Toast.makeText(CaptureActivity.this, "扫描失败，请重试", Toast.LENGTH_SHORT).show();
         } else {
@@ -290,7 +291,7 @@ public class CaptureActivity extends Activity implements Callback {
                     return;
                 }
                 NetFactory.instance().commonHttpCilent(mHandler, CaptureActivity.this,
-                        Config.URL_GET_ADDFRIEND, list);
+                        Config.RUL_ADD_FRIEND, list);
             }
         });
         confirmDialog.showDialog();

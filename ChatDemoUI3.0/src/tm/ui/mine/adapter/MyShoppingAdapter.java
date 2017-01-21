@@ -117,20 +117,17 @@ public class MyShoppingAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     int finalcount = Integer.valueOf(mDatas.get(position).get("cartCount")) + 1;
                     mDatas.get(position).put("cartCount", String.valueOf(finalcount));
-                    vh.mFinalCount.setText(String.valueOf(finalcount));
                     ((ShoppingPayActivity) mContext).setTotalPrice();
+                    notifyDataSetChanged();
                 }
             });
             vh.mCountTackof.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int finalcount = Integer.valueOf(mDatas.get(position).get("cartCount")) - 1;
-                    mDatas.get(position).put("cartCount", String.valueOf(finalcount));
-                    vh.mFinalCount.setText(String.valueOf(finalcount));
+                    mDatas.get(position).put("cartCount", String.valueOf(finalcount < 0 ? 0 : finalcount));
                     ((ShoppingPayActivity) mContext).setTotalPrice();
-                    if(finalcount == 0){
-                        vh.mFinalCount.setEnabled(false);
-                    }
+                    notifyDataSetChanged();
                 }
             });
         } else {
@@ -189,6 +186,17 @@ public class MyShoppingAdapter extends BaseAdapter {
 
     public List<String> getmSeletedIds() {
         return mSeletedIds;
+    }
+
+    public void setmSeletedIds(List<String> seletedIds){
+        mSeletedIds.clear();
+        mSeletedIds.addAll(seletedIds);
+        notifyDataSetChanged();
+    }
+
+    public void removeSelectedIds(){
+        mSeletedIds.clear();
+        notifyDataSetChanged();
     }
 
     public List<Map<String,String>> getSourceData(){

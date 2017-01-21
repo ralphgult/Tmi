@@ -75,7 +75,7 @@ public class MomentDetilActivity extends Activity {
                         Toast.makeText(MomentDetilActivity.this, "取消点赞成功", Toast.LENGTH_SHORT).show();
                         like_img.setImageResource(R.drawable.tm_zan_p);
                         like_text.setText(Integer.valueOf(like_text.getText().toString()) + 1 + "");
-                    }else{
+                    } else {
                         Toast.makeText(MomentDetilActivity.this, "点赞成功", Toast.LENGTH_SHORT).show();
                         like_img.setImageResource(R.drawable.tm_zan);
                         like_text.setText(Integer.valueOf(like_text.getText().toString()) - 1 + "");
@@ -86,11 +86,11 @@ public class MomentDetilActivity extends Activity {
                 case 3001:
                     isFinish = true;
                     Toast.makeText(MomentDetilActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
-                    SharedPreferences sp = getSharedPreferences("config",MODE_PRIVATE);
-                    Map<String,String> map = new HashMap<>();
+                    SharedPreferences sp = getSharedPreferences("config", MODE_PRIVATE);
+                    Map<String, String> map = new HashMap<>();
                     map.put("userName", "我");
-                    map.put("comment", (String)msg.obj);
-                    map.put("userId", sp.getString("username","无Id"));
+                    map.put("comment", (String) msg.obj);
+                    map.put("userId", sp.getString("username", "无Id"));
                     map.put("replyId", 0 + "");
                     replysList.add(map);
                     replyAdapter.resetData(replysList);
@@ -114,11 +114,7 @@ public class MomentDetilActivity extends Activity {
     private void initData() {
         imageLoaders = new ImageLoaders(this, new imageLoaderLinsters());
         type = getIntent().getExtras().getInt("type");
-        if (type == 4) {
-            title_tv.setText("朋友圈");
-        } else {
-            title_tv.setText("资讯");
-        }
+        title_tv.setText("详情");
     }
 
     private void initViews() {
@@ -141,7 +137,7 @@ public class MomentDetilActivity extends Activity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(){
+                new Thread() {
                     @Override
                     public void run() {
                         PersonManager.momentLike(getIntent().getExtras().getString("momentId"), mHandler, 0);
@@ -160,7 +156,7 @@ public class MomentDetilActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra("isFinish", isFinish);
-                ViewUtil.backToActivityForResult(MomentDetilActivity.this,2,intent);
+                ViewUtil.backToActivityForResult(MomentDetilActivity.this, 2, intent);
             }
         });
     }
@@ -188,7 +184,7 @@ public class MomentDetilActivity extends Activity {
                 pick_single.setVisibility(View.VISIBLE);
                 imageLoaders.loadImage(pick_single, pics);
             }
-        }else{
+        } else {
             pick_single.setVisibility(View.GONE);
             pic_gv.setVisibility(View.GONE);
         }
@@ -234,13 +230,14 @@ public class MomentDetilActivity extends Activity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent intent = new Intent();
             intent.putExtra("isFinish", isFinish);
-            ViewUtil.backToActivityForResult(MomentDetilActivity.this,2,intent);
+            ViewUtil.backToActivityForResult(MomentDetilActivity.this, 2, intent);
         }
         return super.onKeyDown(keyCode, event);
     }
-    public void createDialog(final int position){
-        if(mDialog == null){
-            mDialog = (InputDialog) DialogFactory.createDialog(this,DialogFactory.DIALOG_TYPE_INPUT);
+
+    public void createDialog(final int position) {
+        if (mDialog == null) {
+            mDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
             mDialog.setEditTextHint("请输入评论内容");
             mDialog.setInputDialogListener(new InputDialog.InputDialogListener() {
                 @Override
@@ -251,13 +248,13 @@ public class MomentDetilActivity extends Activity {
                 @Override
                 public void inputDialogSubmit(final String inputText) {
                     if (!TextUtils.isEmpty(inputText)) {
-                        new Thread(){
+                        new Thread() {
                             @Override
                             public void run() {
-                                PersonManager.momentComment(getIntent().getExtras().getString("momentId"),inputText,mHandler,position);
+                                PersonManager.momentComment(getIntent().getExtras().getString("momentId"), inputText, mHandler, position);
                             }
                         }.start();
-                    }else{
+                    } else {
                         Toast.makeText(MomentDetilActivity.this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
                     }
                     mDialog.closeDialog();

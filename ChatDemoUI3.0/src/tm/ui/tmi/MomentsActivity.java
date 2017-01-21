@@ -43,6 +43,7 @@ public class MomentsActivity extends Activity {
     private MomentListAdapter mAdapter;
     private int mType;
     private TextView momentAdd;
+    private String mUserId;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -72,6 +73,7 @@ public class MomentsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moments);
         mType = getIntent().getExtras().getInt("type");
+        mUserId = getIntent().getExtras().getString("id");
         datas = new ArrayList<>();
         initViewAndListeners();
         getSourceData(0);
@@ -88,7 +90,22 @@ public class MomentsActivity extends Activity {
         nodata = (TextView) findViewById(R.id.moment_nodata);
         title = (TextView) findViewById(R.id.moment_title_text);
         momentAdd = (TextView) findViewById(R.id.moment_add_tv);
-        title.setText(mType == 4 ? "朋友圈" : "T觅资讯");
+        String titleStr = null;
+        switch (mType) {
+            case 1:
+                titleStr = "个人资讯";
+                break;
+            case 2:
+                titleStr = "企业资讯";
+                break;
+            case 3:
+                titleStr = "三农资讯";
+                break;
+            case 4:
+                titleStr = "朋友圈";
+                break;
+        }
+        title.setText(titleStr);
         mAdapter = new MomentListAdapter(this, true, mHandler);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,10 +147,12 @@ public class MomentsActivity extends Activity {
     private void getSourceData(int page) {
         String url = null;
         List<NameValuePair> list = new ArrayList<NameValuePair>();
-        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-        String userId = sharedPre.getString("username", "");
-        if (!TextUtils.isEmpty(userId)) {
-            list.add(new BasicNameValuePair("userId", userId));
+        if (TextUtils.isEmpty(mUserId)) {
+            SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
+            mUserId = sharedPre.getString("username", "");
+        }
+        if (!TextUtils.isEmpty(mUserId)) {
+            list.add(new BasicNameValuePair("userId", mUserId));
             list.add(new BasicNameValuePair("num", "50"));
             list.add(new BasicNameValuePair("page", String.valueOf(page)));
             if (mType == 4) {
@@ -240,20 +259,20 @@ public class MomentsActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if ( null != data && requestCode == 1) {
-                if (resultCode == 1) {
-                    int isFinish = data.getIntExtra("publishFinish", 0);
-                    if (isFinish == 1) {
-                        datas.clear();
-                        getSourceData(0);
-                    }
-                }else{
-                    boolean isDone = data.getBooleanExtra("isFinish",false);
-                    if(isDone) {
-                        datas.clear();
-                        getSourceData(0);
-                    }
+        if (null != data && requestCode == 1) {
+            if (resultCode == 1) {
+                int isFinish = data.getIntExtra("publishFinish", 0);
+                if (isFinish == 1) {
+                    datas.clear();
+                    getSourceData(0);
+                }
+            } else {
+                boolean isDone = data.getBooleanExtra("isFinish", false);
+                if (isDone) {
+                    datas.clear();
+                    getSourceData(0);
                 }
             }
+        }
     }
 }
