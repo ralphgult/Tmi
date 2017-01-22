@@ -3,6 +3,7 @@ package tm.ui.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -55,16 +56,16 @@ public class AuctionDetailActivity extends Activity{
             if (msg.what == 3001) {
                 Log.e("LKing","shopping_detail = "+String.valueOf(msg.obj));
                 try{
-                    JSONObject jsonObject = new JSONObject();
-                    imageLoaders.loadImage(mDetailImgs, jsonObject.getString("auctionImg"));
-                    mDetailName.setText("商品名称:"+jsonObject.getString("name"));
-                    mDetailNumber.setText("商品编号:"+jsonObject.getString("number"));
-                    mDetailPrice.setText("当前价格:RMB "+jsonObject.getString("price"));
-//                    mDetailPriceUnit.setText("加价单位:"+jsonObject.getString("number")+"元");
-                    mDetailPriceOrig.setText("直购价:RMB "+jsonObject.getString("originalPrice"));
-//                    mDetailPriceNum.setText("出价"+jsonObject.getString("originalPrice")+"次");
-                    mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(Integer.parseInt(jsonObject.getString("residual"))));
-                    mDetailText.setText(jsonObject.getString("details"));
+//                    JSONObject jsonObject = new JSONObject();
+//                    imageLoaders.loadImage(mDetailImgs, jsonObject.getString("auctionImg"));
+//                    mDetailName.setText("商品名称:"+jsonObject.getString("name"));
+//                    mDetailNumber.setText("商品编号:"+jsonObject.getString("number"));
+//                    mDetailPrice.setText("当前价格:RMB "+jsonObject.getString("price"));
+////                    mDetailPriceUnit.setText("加价单位:"+jsonObject.getString("number")+"元");
+//                    mDetailPriceOrig.setText("直购价:RMB "+jsonObject.getString("originalPrice"));
+////                    mDetailPriceNum.setText("出价"+jsonObject.getString("originalPrice")+"次");
+//                    mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(Integer.parseInt(jsonObject.getString("residual"))));
+//                    mDetailText.setText(jsonObject.getString("details"));
 //                    JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs") ;
 //                    for(int i=0;i<jsonArray.length();i++){
 //                        imageLoaders.loadImage(ivArray[i],String.valueOf(jsonArray.opt(i)));
@@ -128,6 +129,8 @@ public class AuctionDetailActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(AuctionDetailActivity.this,"联系我们",Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+"18792681661"));
+//                startActivity(intent);
             }
         });
         mDetailBid.setOnClickListener(new View.OnClickListener() {
