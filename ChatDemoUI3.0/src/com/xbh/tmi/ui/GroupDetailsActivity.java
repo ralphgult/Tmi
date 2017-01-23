@@ -37,6 +37,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +45,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -52,6 +54,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import tm.db.dao.FriendDao;
+import tm.entity.FriendBean;
+import tm.ui.home.GeranActivity;
+import tm.ui.tmi.GoodsDetilActivity;
 
 public class GroupDetailsActivity extends BaseActivity implements OnClickListener {
 	private static final String TAG = "GroupDetailsActivity";
@@ -141,6 +148,17 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		
 		adapter = new GridAdapter(this, R.layout.em_grid, members);
 		userGridview.setAdapter(adapter);
+//		userGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//				FriendDao fd=new FriendDao();
+//				FriendBean fb=fd.getLocalUserInfoByUserId(adapter.getItem(i));
+//				//聊天进入个人主页
+//				Intent intent = new Intent(GroupDetailsActivity.this, GeranActivity.class);
+//				intent.putExtra("id", fb.mUserID+"");
+//				startActivity(intent);
+//			}
+//		});
 
 		// 保证每次进详情看到的都是最新的group
 		updateGroup();
@@ -544,7 +562,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 		@Override
 		public View getView(final int position, View convertView, final ViewGroup parent) {
 			SharedPreferences sharedPre=getSharedPreferences("config",MODE_PRIVATE);
-			String phone=sharedPre.getString("phone", "");
+			final String phone=sharedPre.getString("phone", "");
+			final String userid=sharedPre.getString("username", "");
+
 		    ViewHolder holder = null;
 			if (convertView == null) {
 			    holder = new ViewHolder();
@@ -657,6 +677,19 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 							// Intent(GroupDetailsActivity.this,
 							// ChatActivity.class).putExtra("userId",
 							// user.getUsername()));
+
+
+							//聊天进入个人主页
+							Intent intent = new Intent(GroupDetailsActivity.this, GeranActivity.class);
+							FriendDao fd=new FriendDao();
+							if(phone.equals(username)){
+								intent.putExtra("id", userid);
+							}else{
+								FriendBean fb=fd.getLocalUserInfoByUserId(username);
+								intent.putExtra("id", fb.mUserID+"");
+							}
+
+							startActivity(intent);
 
 						}
 					}
