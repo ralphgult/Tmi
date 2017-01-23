@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.plus.model.people.Person;
 import com.xbh.tmi.R;
 
 import org.json.JSONArray;
@@ -89,6 +87,7 @@ public class MySoppingActivity extends Activity implements View.OnClickListener 
                         Toast.makeText(MySoppingActivity.this, "商品已删除", Toast.LENGTH_SHORT).show();
                         mDataList.remove((Map<String, String>) msg.obj);
                         mAdapter.resetData(mDataList);
+                        setTotalPrice();
                         break;
                     default:
                         Toast.makeText(MySoppingActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();

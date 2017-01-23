@@ -2,6 +2,7 @@ package tm.ui.mine.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,11 +11,14 @@ import android.widget.TextView;
 
 import com.xbh.tmi.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import tm.manager.PersonManager;
+import tm.ui.mine.EditAddressActivity;
 import tm.ui.mine.MyAddressActivity;
+import tm.utils.ViewUtil;
 
 /**
  * Created by RalphGult on 2016/10/20.
@@ -27,10 +31,12 @@ public class AddressAdapter extends BaseAdapter {
     private ViewHolder vh;
 
     public AddressAdapter(Context context) {
+        dataList = new ArrayList<>();
         mContext = context;
     }
 
     public void resetData(List<Map<String, String>> datas) {
+        dataList.clear();
         dataList = datas;
     }
 
@@ -61,6 +67,8 @@ public class AddressAdapter extends BaseAdapter {
             vh.isDefault = (ImageView) view.findViewById(R.id.addr_btn_default);
             vh.divide = view.findViewById(R.id.address_item_divide);
             vh.defaultText = (TextView) view.findViewById(R.id.address_item_default_text);
+            vh.dele = (TextView) view.findViewById(R.id.addr_btn_delete);
+            vh.edit = (TextView) view.findViewById(R.id.addr_btn_change);
             view.setTag(vh);
         } else {
             view = convertView;
@@ -88,6 +96,26 @@ public class AddressAdapter extends BaseAdapter {
                 }
             }
         });
+        vh.dele.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MyAddressActivity) mContext).deleteAddress(dataList.get(position).get("id"));
+            }
+        });
+        vh.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, String> map = dataList.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("id", map.get("id"));
+                bundle.putString("name", map.get("name"));
+                bundle.putString("phone", map.get("phone"));
+                bundle.putString("content", map.get("addr"));
+                bundle.putString("default", map.get("default"));
+                bundle.putBoolean("isAdd", false);
+                ViewUtil.jumpToOtherActivity((MyAddressActivity) mContext, EditAddressActivity.class, bundle);
+            }
+        });
         return view;
     }
 
@@ -98,5 +126,7 @@ public class AddressAdapter extends BaseAdapter {
         ImageView isDefault;
         View divide;
         TextView defaultText;
+        TextView dele;
+        TextView edit;
     }
 }

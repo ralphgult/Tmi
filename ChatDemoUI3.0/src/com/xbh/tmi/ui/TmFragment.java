@@ -126,14 +126,12 @@ public class TmFragment extends Fragment implements View.OnClickListener {
                 type = 1;
                 bundle = new Bundle();
                 bundle.putInt("type",type);
-                bundle.putBoolean("isMoment",false);
                 ViewUtil.jumpToOtherActivity(this.getActivity(), MomentsActivity.class,bundle);
                 break;
             case R.id.tm_comp_notice_tv:
                 type = 2;
                 bundle = new Bundle();
                 bundle.putInt("type",type);
-                bundle.putBoolean("isMoment",false);
                 ViewUtil.jumpToOtherActivity(this.getActivity(), MomentsActivity.class,bundle);
                 break;
             case R.id.tm_farmer_notice_tv:

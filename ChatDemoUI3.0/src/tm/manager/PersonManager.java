@@ -410,12 +410,17 @@ public class PersonManager {
         }
     }
 
+    /**
+     * 删除商品
+     * @param goodsId 商品id（多个用“，”隔开）
+     * @param handler handler
+     */
     public static void deleteGoods(String goodsId, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_DELETE_GOODS);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
         try {
-            reqEntity.addPart("ids", new StringBody("159,160", Charset.forName("UTF-8")));
+            reqEntity.addPart("ids", new StringBody(goodsId, Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -649,7 +654,8 @@ public class PersonManager {
 
     /**
      * 获取视频
-     * @param type 类型（1：企业；2：三农）
+     *
+     * @param type    类型（1：企业；2：三农）
      * @param handler
      */
     public static void getVedio(int type, Handler handler) {
@@ -660,7 +666,7 @@ public class PersonManager {
         try {
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
             reqEntity.addPart("type", new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
-            Log.e("LKing--->","获取视频type = "+new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
+            Log.e("LKing--->", "获取视频type = " + new StringBody(String.valueOf(type), Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -693,6 +699,7 @@ public class PersonManager {
             }
         }
     }
+
     /**
      * 获取收货地址
      *
@@ -907,7 +914,7 @@ public class PersonManager {
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
         SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         try {
-            reqEntity.addPart("raid", new StringBody(raId, Charset.forName("UTF-8")));
+            reqEntity.addPart("raId", new StringBody(raId, Charset.forName("UTF-8")));
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
@@ -916,7 +923,7 @@ public class PersonManager {
                 System.out.println("服务器正常响应.....");
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
-                Log.e("info","result ============= " + object.toString());
+                Log.e("info", "result ============= " + object.toString());
                 if (null != handler) {
                     if (object.getInt("authId") == 1) {
                         if (null != handler) {
@@ -993,6 +1000,7 @@ public class PersonManager {
             }
         }
     }
+
     public static void getShoppingList(Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.RUL_GET_SHOPPINGCAR_LIST);
@@ -1044,7 +1052,8 @@ public class PersonManager {
 
     /**
      * 删除购物车
-     * @param map 购物车商品对象
+     *
+     * @param map     购物车商品对象
      * @param handler handler
      */
     public static void delShoppingList(Map<String, String> map, Handler handler) {
@@ -1093,7 +1102,9 @@ public class PersonManager {
         }
     }
 
-    /** 获取竞拍商品列表*/
+    /**
+     * 获取竞拍商品列表
+     */
     public static void getAuctionList(final Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.AUCTION_SHOPPING_LIST);
@@ -1101,34 +1112,6 @@ public class PersonManager {
         SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         try {
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
-            httppost.setEntity(reqEntity);
-            HttpResponse response = httpclient.execute(httppost);
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == HttpStatus.SC_OK) {
-                System.out.println("服务器正常响应.....");
-                String jsonStr = EntityUtils.toString(response.getEntity());
-                    if (null != handler) {
-                        Message msg = new Message();
-                        msg.what = 3001;
-                        msg.obj = jsonStr;
-                        handler.sendMessage(msg);
-                    }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    /** 获取竞拍商品详情*/
-    public static void getAuctionDetail(final Handler handler,final String id) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(Config.AUCTION_SHOPPING_DETAIL);
-        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
-        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
-        try {
-            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
-            reqEntity.addPart("id",new StringBody(id, Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -1147,7 +1130,38 @@ public class PersonManager {
 
         }
     }
-    public static void addAuction(String name, String startprice, String phone, String pribuy, String intro, List<String> imgs, int time, Handler handler) {
+
+    /**
+     * 获取竞拍商品详情
+     */
+    public static void getAuctionDetail(final Handler handler, final String id) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.AUCTION_SHOPPING_DETAIL);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        try {
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("id", new StringBody(id, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                String jsonStr = EntityUtils.toString(response.getEntity());
+                if (null != handler) {
+                    Message msg = new Message();
+                    msg.what = 3001;
+                    msg.obj = jsonStr;
+                    handler.sendMessage(msg);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public static void addAuction(String name, String startprice, String phone, String pribuy, String onePri, String intro, List<String> imgs, int time, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
         try {
             HttpPost httppost = new HttpPost(Config.URL_ADD_AUCTION_SHOPPING);
@@ -1156,18 +1170,16 @@ public class PersonManager {
             MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
             for (String path : imgs) {
                 file = new File(path);
-                bin = new FileBody(ImageUtil.saveUploadImage(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ImageLoader/cache/images" + File.separator + file.getName(), path));
+                bin = new FileBody(file);
                 reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
             }
-            file = new File(imgs.get(0));
-            reqEntity.addPart("f", new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), imgs.get(0))));
             SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
             reqEntity.addPart("name", new StringBody(name, Charset.forName("UTF-8")));
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
-            reqEntity.addPart("number", new StringBody(System.currentTimeMillis() + "", Charset.forName("UTF-8")));
             reqEntity.addPart("contact", new StringBody(phone, Charset.forName("UTF-8")));
             reqEntity.addPart("price", new StringBody(startprice, Charset.forName("UTF-8")));
             reqEntity.addPart("originalPrice", new StringBody(pribuy, Charset.forName("UTF-8")));
+            reqEntity.addPart("markup", new StringBody(onePri, Charset.forName("UTF-8")));
             reqEntity.addPart("many", new StringBody("0", Charset.forName("UTF-8")));
             reqEntity.addPart("residual", new StringBody(String.valueOf(time), Charset.forName("UTF-8")));
             reqEntity.addPart("details", new StringBody(intro, Charset.forName("UTF-8")));
@@ -1179,27 +1191,31 @@ public class PersonManager {
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
                 if (null != handler) {
-                    if (object.getInt("authId") > 0) {
+                    if (object.getInt("result") > 0) {
                         handler.sendEmptyMessage(1001);
                     } else {
                         handler.sendEmptyMessage(1002);
                     }
                 }
+            } else {
+                handler.sendEmptyMessage(1002);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            handler.sendEmptyMessage(1002);
         }
     }
 
-    /** 竞拍加价*/
-    public static void raiseAuctionPrice(final Handler handler,final String id,final String price) {
+    /**
+     * 竞拍加价
+     */
+    public static void raiseAuctionPrice(final Handler handler, final String id, final String price) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_ADD_AUCTION_PRICVE);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
-        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         try {
-            reqEntity.addPart("id",new StringBody(id, Charset.forName("UTF-8")));
-            reqEntity.addPart("price",new StringBody(id, Charset.forName("UTF-8")));
+            reqEntity.addPart("id", new StringBody(id, Charset.forName("UTF-8")));
+            reqEntity.addPart("price", new StringBody(id, Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -1218,5 +1234,47 @@ public class PersonManager {
 
         }
     }
+    /**
+     * 删除地址
+     * @param addrId 地址Id
+     * @param handler handler
+     */
+    public static void deleteAddress(String addrId, Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Config.URL_DELETE_GOODS);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        try {
+            reqEntity.addPart("raId ", new StringBody(addrId, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("authId") > 0) {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(3001);
+                        }
+                    } else {
+                        if (null != handler) {
+                            handler.sendEmptyMessage(3002);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (null != handler) {
+                handler.sendEmptyMessage(4002);
+            }
+        } finally {
+            try {
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception ignore) {
 
+            }
+        }
+    }
 }

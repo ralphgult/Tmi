@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
@@ -49,7 +48,7 @@ public class MomentsActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case ConstantsHandler.EXECUTE_SUCCESS:
-                    if (mType == 4) {
+                    if (mType == 4 || mType == 5) {
                         phraseMomentData(msg);
                     } else {
                         phraseNoticeData(msg);
@@ -102,6 +101,7 @@ public class MomentsActivity extends Activity {
                 titleStr = "三农资讯";
                 break;
             case 4:
+            case 5:
                 titleStr = "朋友圈";
                 break;
         }
@@ -147,7 +147,7 @@ public class MomentsActivity extends Activity {
     private void getSourceData(int page) {
         String url = null;
         List<NameValuePair> list = new ArrayList<NameValuePair>();
-        if (TextUtils.isEmpty(mUserId)) {
+        if (mType != 5) {
             SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
             mUserId = sharedPre.getString("username", "");
         }
@@ -155,11 +155,13 @@ public class MomentsActivity extends Activity {
             list.add(new BasicNameValuePair("userId", mUserId));
             list.add(new BasicNameValuePair("num", "50"));
             list.add(new BasicNameValuePair("page", String.valueOf(page)));
-            if (mType == 4) {
-                url = Config.URL_MOMENT;
-            } else {
+            if(mType < 4){
                 url = Config.URL_GET_TMIMESSAGE;
                 list.add(new BasicNameValuePair("type", getIntent().getExtras().getInt("type") + ""));
+            }else if (mType == 4) {
+                url = Config.URL_MOMENT;
+            } else if(mType == 5){
+                url = Config.URL_GET_PERSON_MOMENT;
             }
         }
         NetFactory.instance().commonHttpCilent(mHandler, this, url, list);
@@ -226,7 +228,8 @@ public class MomentsActivity extends Activity {
                     map = new HashMap<String, String>();
                     JSONObject obj = array.getJSONObject(i);
                     map.put("momentId", obj.getString("mood_id"));
-                    map.put("name", obj.getString("user_name"));
+                    String username = obj.optString("user_name");
+                    map.put("name", TextUtils.isEmpty(username) ? getIntent().getExtras().getString("name") : username);
                     map.put("headImg", obj.getString("photo"));
                     map.put("time", obj.getString("create_date"));
                     map.put("content", obj.getString("mood_content"));

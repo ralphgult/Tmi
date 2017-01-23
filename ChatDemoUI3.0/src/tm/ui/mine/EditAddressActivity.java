@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +19,6 @@ import java.util.Map;
 
 import tm.manager.PersonManager;
 import tm.utils.ViewUtil;
-import tm.utils.dialog.DialogFactory;
-import tm.utils.dialog.InputDialog;
 
 public class EditAddressActivity extends Activity implements View.OnClickListener {
     private ImageView mBack;
@@ -42,6 +37,7 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_edit_address);
         initViews();
         initData();
+
     }
 
     private void initData() {
@@ -86,8 +82,6 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
         mContent_edt = (EditText) findViewById(R.id.edit_address_content_edt);
         mBack.setOnClickListener(this);
         mSave.setOnClickListener(this);
-        mName_tv.setOnClickListener(this);
-        mPhone_tv.setOnClickListener(this);
     }
 
     @Override
