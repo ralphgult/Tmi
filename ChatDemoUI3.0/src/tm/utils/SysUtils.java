@@ -6,11 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 public class SysUtils {
 	/**
 	 * ״̬���߶��㷨
-	 * 
+	 *
 	 * @param activity
 	 * @return
 	 */
@@ -70,4 +71,23 @@ public class SysUtils {
 		params.height = totalHeight + 15;
 		view.setLayoutParams(params);
 	}
+
+	/**
+	 * 设置ListView的高度的方法
+	 */
+	public void setListViewHight(ListView view) {
+        ListAdapter adapter = view.getAdapter();
+        if (adapter.isEmpty()) {
+            //适配器为空
+            return;
+        }
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        int totalHeight = 0;
+        int size = adapter.getCount();
+        View listItem = adapter.getView(0, null, view);
+        listItem.measure(0, 0);
+        totalHeight = listItem.getMeasuredHeight() * size;
+        params.height = totalHeight + 15;
+        view.setLayoutParams(params);
+    }
 }
