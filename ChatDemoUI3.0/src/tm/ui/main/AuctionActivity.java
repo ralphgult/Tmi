@@ -91,7 +91,7 @@ public class AuctionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.action_activity);
+        setContentView(R.layout.auction_activity);
         initView();
         setListener();
         networkRequest();

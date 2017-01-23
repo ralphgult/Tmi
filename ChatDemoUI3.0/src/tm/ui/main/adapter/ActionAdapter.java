@@ -50,7 +50,7 @@ public class ActionAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = layoutInflater.inflate(R.layout.action_activity_item, parent, false);
+            convertView = layoutInflater.inflate(R.layout.auction_activity_item, parent, false);
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image);
             viewHolder.textView = (TextView) convertView.findViewById(R.id.text);
             viewHolder.text_spot_price = (TextView) convertView.findViewById(R.id.text_spot_price);
