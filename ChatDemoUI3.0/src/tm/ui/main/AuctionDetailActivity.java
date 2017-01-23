@@ -61,6 +61,7 @@ public class AuctionDetailActivity extends Activity{
     private String mShopDetailId;
 
     private CountDownTimer mTimer;
+    private String mPriceStr;
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -72,7 +73,8 @@ public class AuctionDetailActivity extends Activity{
 //                    mDetailName.setText("商品名称:"+jsonObject.getString("name"));
 //                    mDetailNumber.setText("商品编号:"+jsonObject.getString("number"));
 //                    mDetailPrice.setText("当前价格:RMB "+jsonObject.getString("price"));
-////                    mDetailPriceUnit.setText("加价单位:"+jsonObject.getString("number")+"元");
+//                    mPriceStr = jsonObject.getString("number");
+////                    mDetailPriceUnit.setText("加价单位:"+mPriceStr+"元");
 //                    mDetailPriceOrig.setText("直购价:RMB "+jsonObject.getString("originalPrice"));
 ////                    mDetailPriceNum.setText("出价"+jsonObject.getString("originalPrice")+"次");
 //                    mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(Integer.parseInt(jsonObject.getString("residual"))));
@@ -151,6 +153,14 @@ public class AuctionDetailActivity extends Activity{
                 //Todo 出价接口
                 Toast.makeText(AuctionDetailActivity.this,"手动出价一次，成功后....",Toast.LENGTH_SHORT).show();
                 mDetailPriceNum.setText("出价加一次");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        PersonManager.raiseAuctionPrice(handler,mShopDetailId,mPriceStr);
+                    }
+                }).start();
+
             }
         });
         mDetailImgs.setOnClickListener(new View.OnClickListener() {

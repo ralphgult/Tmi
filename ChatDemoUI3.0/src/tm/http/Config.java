@@ -66,6 +66,7 @@ public class Config {
     public static String AUCTION_SHOPPING_LIST = ROOT_HOST_NAME + "/CBDParkingMSs/auction/queryAuctions";//拍卖商品列表
     public static String AUCTION_SHOPPING_DETAIL = ROOT_HOST_NAME + "/CBDParkingMSs/auction/queryAuction";//拍卖商品详情
     public static String URL_ADD_AUCTION_SHOPPING = ROOT_HOST_NAME + "/CBDParkingMSs/auction/addAuction";//上传拍卖商品
+    public static String URL_ADD_AUCTION_PRICVE = ROOT_HOST_NAME + "/CBDParkingMSs/auction/updatePrice";//上传拍卖商品
 
     public static void init(Context context) throws IOException {
     }
