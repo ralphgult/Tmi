@@ -134,16 +134,18 @@
             <LinearLayout
                 android:id="@+id/ll_pic1"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal" >
 
                 <ImageView
                     android:id="@+id/img_pic1"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@drawable/action_border"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:padding="10dp"
@@ -154,6 +156,7 @@
                     android:id="@+id/img_pic2"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@drawable/action_border"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:padding="10dp"
@@ -164,6 +167,7 @@
                     android:id="@+id/img_pic3"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@drawable/action_border"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:padding="10dp"
@@ -184,6 +188,7 @@
                     android:id="@+id/img_pic4"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@drawable/action_border"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:padding="10dp"
@@ -194,6 +199,7 @@
                     android:id="@+id/img_pic5"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@drawable/action_border"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:padding="10dp"
@@ -204,6 +210,7 @@
                     android:id="@+id/img_pic6"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@drawable/action_border"
                     android:padding="10dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
@@ -388,7 +395,9 @@
                 android:id="@+id/yx_monent_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:lines="3"
+                android:ellipsize="end"
+                android:layout_marginLeft="65dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
                 android:gravity="top|left"
@@ -401,7 +410,8 @@
             android:id="@+id/tm_geren3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_gravity="right"
             android:orientation="horizontal">
 
@@ -410,7 +420,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginRight="20dp"
                 >
 
                 <ImageView
@@ -421,11 +430,11 @@
                 <TextView
                     android:id="@+id/yx_monent_content_look"
                     android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="#9b9b9b"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     />
             </LinearLayout>
 
@@ -435,7 +444,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginRight="20dp"
                 >
 
                 <ImageView
@@ -447,11 +455,11 @@
                 <TextView
                     android:id="@+id/yx_monent_bottom_like_number"
                     android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="#9b9b9b"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     />
             </LinearLayout>
 
@@ -471,11 +479,11 @@
                 <TextView
                     android:id="@+id/yx_monent_bottom_comment_number"
                     android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="#9b9b9b"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     />
 
             </LinearLayout>
