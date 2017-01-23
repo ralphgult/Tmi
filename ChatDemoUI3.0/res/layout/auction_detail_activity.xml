@@ -48,7 +48,8 @@
 
                 <LinearLayout
                     android:layout_width="150dp"
-                    android:layout_height="200dp"
+                    android:layout_height="210dp"
+                    android:background="@drawable/action_border"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -56,6 +57,8 @@
                         android:id="@+id/auction_detail_imgs"
                         android:layout_width="130dp"
                         android:layout_height="130dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/action_border"
                         android:src="@drawable/goods" />
@@ -107,7 +110,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="210dp"
                     android:layout_marginLeft="5dp"
                     android:orientation="vertical">
 
@@ -124,6 +127,7 @@
                         android:id="@+id/auction_detail_number"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
+                        android:gravity="center_vertical"
                         android:layout_marginTop="5dp"
                         android:text="商品编号：1000001"
                         android:textColor="#7b7b7b"
@@ -132,9 +136,10 @@
                     <TextView
                         android:id="@+id/auction_contact"
                         android:layout_width="match_parent"
-                        android:layout_height="20dp"
+                        android:layout_height="25dp"
                         android:layout_marginTop="5dp"
-                        android:drawableRight="@drawable/tm_name"
+                        android:gravity="center|left"
+                        android:drawableRight="@drawable/tmi_relation"
                         android:text="联系我们:18792681661"
                         android:textColor="#7b7b7b"
                         android:textSize="12sp" />
@@ -148,7 +153,8 @@
                         <TextView
                             android:id="@+id/auction_detail_price"
                             android:layout_width="0dp"
-                            android:layout_height="20dp"
+                            android:layout_height="25dp"
+                            android:gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="当前价:60元"
                             android:textColor="@color/msg_red"
@@ -157,10 +163,10 @@
                         <TextView
                             android:id="@+id/auction_detail_unit_price"
                             android:layout_width="0dp"
-                            android:layout_height="20dp"
+                            android:layout_height="25dp"
                             android:layout_weight="1"
-                            android:background="#460046"
-                            android:gravity="left"
+                            android:background="#5a0aaa"
+                            android:gravity="left|center_vertical"
                             android:textSize="14sp"
                             android:text="加价单位:10元"
                             android:textColor="@color/background_white" />
@@ -175,7 +181,8 @@
                         <TextView
                             android:id="@+id/auction_detail_original_price"
                             android:layout_width="0dp"
-                            android:layout_height="20dp"
+                            android:layout_height="25dp"
+                            android:gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="直购价:120元"
                             android:textColor="#7b7b7b"
@@ -184,7 +191,8 @@
                         <TextView
                             android:id="@+id/auction_detail_price_number"
                             android:layout_width="0dp"
-                            android:layout_height="20dp"
+                            android:layout_height="25dp"
+                            android:gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="加价次数:2次"
                             android:textColor="@color/msg_red"
@@ -194,22 +202,22 @@
                     <TextView
                         android:id="@+id/auction_detail_time"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="25dp"
                         android:layout_marginTop="5dp"
                         android:drawableLeft="@drawable/time"
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical|left"
-                        android:text="剩余时间：0天9小时6分钟2秒"
+                        android:text="剩余时间：0天9时6分2秒"
                         android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/auction_detail_bid"
                         android:layout_width="80dp"
-                        android:layout_height="20dp"
+                        android:layout_height="25dp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:background="#460046"
+                        android:background="#5a0aaa"
                         android:gravity="center"
                         android:text="手动出价"
                         android:textColor="@color/background_white" />
