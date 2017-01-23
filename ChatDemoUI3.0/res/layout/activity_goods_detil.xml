@@ -4,65 +4,74 @@
     android:id="@+id/activity_goods_detil"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tm.ui.tmi.GoodsDetilActivity"
-    android:background="@color/background_white">
+    android:background="@color/background_white"
+    tools:context="tm.ui.tmi.GoodsDetilActivity">
+
     <RelativeLayout
         android:id="@+id/goods_title"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/tm_huihua_title_bar">
+
         <ImageView
             android:id="@+id/goods_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/ease_back"/>
+            android:src="@drawable/ease_back" />
 
         <TextView
             android:id="@+id/goods_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/background_white"
             android:text="商品详情"
-            android:textSize="20sp"/>
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+
         <TextView
             android:id="@+id/goods_add_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:padding="10dp"
             android:text="购物车"
-            android:textSize="15sp"
-            android:textColor="@color/background_white"/>
+            android:textColor="@color/background_white"
+            android:textSize="15sp" />
     </RelativeLayout>
+
     <ScrollView
         android:id="@+id/goods_root"
-        android:layout_below="@+id/goods_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/goods_title"
         android:scrollbars="none">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:id="@+id/goods_gall"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
+                android:layout_height="200dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/action_border"
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/goods_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/goods_name_tv"
+                android:layout_alignStart="@+id/goods_name_tv"
                 android:layout_below="@+id/goods_gall"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#ff5821"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 tools:text="￥39.9" />
 
             <TextView
@@ -77,93 +86,108 @@
                 android:textColor="@color/btn_gray_pressed"
                 android:textSize="12sp"
                 tools:text="原价:￥59.8" />
+
             <TextView
                 android:id="@+id/goods_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_alignLeft="@+id/goods_intor_tv"
+                android:layout_alignStart="@+id/goods_intor_tv"
                 android:layout_below="@+id/goods_price_tv"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/text_all_black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 tools:text="哈哈哈哈哈" />
+
             <TextView
                 android:id="@+id/goods_intor_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
                 android:layout_below="@+id/goods_name_tv"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/gray_normal"
                 android:textSize="14sp"
                 tools:text="哈哈哈哈哈" />
 
-            <View style="@style/tm_common_divide_line_whitebg_width"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/goods_intor_tv"/>
+            <View
+                style="@style/tm_common_divide_line_whitebg_width"
+                android:layout_below="@+id/goods_intor_tv"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp" />
+
             <TextView
                 android:id="@+id/goods_shop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/goods_intor_tv"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="35dp"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                tools:text="店铺：我的铺子"
-                android:visibility="gone"/>
+                android:layout_marginTop="20dp"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="商品展示" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
                 android:layout_below="@+id/goods_intor_tv"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:background="@color/rkcloud_chat_ui_bgcolor" />
+                android:background="@color/rkcloud_chat_ui_bgcolor"
+                android:visibility="gone" />
+
             <tm.widget.StationaryGridView
                 android:id="@+id/goods_pic_gv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
                 android:layout_below="@+id/goods_shop"
-                android:numColumns="1"
                 android:layout_marginBottom="45dp"
-                android:stretchMode="columnWidth"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:numColumns="1"
+                android:stretchMode="columnWidth" />
         </RelativeLayout>
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="#ccffffff">
+        android:background="#ccffffff"
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/goods_chat_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="会话"
             android:textColor="@color/shangpin_black"
             android:textSize="16sp"
-            android:gravity="center"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/goods_shopcar_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="加入购物车"
             android:textColor="@color/shangpin_black"
-            android:textSize="16sp"
-            android:gravity="center"/>
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/goods_buy_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="立即购买"
             android:textColor="@color/shangpin_black"
-            android:textSize="16sp"
-            android:gravity="center"/>
+            android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>

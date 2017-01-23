@@ -53,6 +53,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
     private String mName;
     private String mPrice;
     private ImageLoaders mLoader;
+    private String mDetailStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +78,12 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
                         try {
                             mName = object.optString("goodName");
                             mPrice = object.optString("currentPrice");
-                            mPrice_tv.setText("￥" + mPrice);
+                            mPrice_tv.setText("商品价格：￥" + mPrice);
                             mOldPri_tv.setText("原价:￥" + object.optString("originalPrice"));
-                            mName_tv.setText(mName);
-                            mIntr_tv.setText(object.optString("goodProfiles"));
+                            mName_tv.setText("商品名称："+mName);
+                            mDetailStr = object.optString("goodProfiles");
+                            mIntr_tv.setText("商品描述："+mDetailStr);
+
                             mLoader.loadImage(mHeadGrall, object.optString("goodImg"));
                             JSONArray array = object.getJSONArray("imgs");
                             if (null != array && array.length() > 0) {
@@ -163,7 +166,7 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
                 new Thread() {
                     @Override
                     public void run() {
-                        AlipayAPI.pay(GoodsDetilActivity.this, mName, mIntr_tv.getText().toString(), mPrice);
+                        AlipayAPI.pay(GoodsDetilActivity.this, mName,mDetailStr, mPrice);
                     }
                 }.start();
                 break;
