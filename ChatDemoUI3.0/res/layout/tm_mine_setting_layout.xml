@@ -66,6 +66,7 @@
                 android:layout_height="55dp"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:background="@color/background_white"
                 android:orientation="horizontal" >
                 <TextView
@@ -84,7 +85,8 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/youxue_common_btn_icon_arrow" />
             </LinearLayout>
-            <TextView style="@style/tm_common_divide_line_whitebg_width"/>
+            <TextView style="@style/tm_common_divide_line_whitebg_width"
+                android:visibility="gone"/>
             <LinearLayout
                 android:id="@+id/setting_btn_modifypwd"
                 android:layout_width="match_parent"
