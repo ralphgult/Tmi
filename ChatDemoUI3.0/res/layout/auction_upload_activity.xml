@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -25,36 +26,55 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="15dp"
             android:src="@drawable/ease_back" />
+
+        <TextView
+            android:id="@+id/auction_upload_ok_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="完成"
+            android:textColor="@color/background_white"
+            android:textSize="15sp" />
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:text="商品名称:"
                     android:textColor="@color/black_deep"
-                    android:textSize="16sp"
-                    android:text="商品名称:"/>
+                    android:textSize="16sp" />
+
                 <EditText
+                    android:id="@+id/auction_name_edt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:textSize="16sp"
+                    android:hint="请输入商品名称(10字以内)"
                     android:maxLength="10"
-                    android:hint="请输入商品名称(10字以内)"/>
+                    android:textSize="16sp" />
             </LinearLayout>
+
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -65,100 +85,136 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:textColor="@color/black_deep"
                     android:text="联系电话:"
+                    android:textColor="@color/black_deep"
                     android:textSize="16sp" />
 
                 <EditText
+                    android:id="@+id/auction_phone_edt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:textSize="16sp"
+                    android:hint="请输入联系电话"
                     android:inputType="phone"
-                    android:hint="请输入联系电话"/>
+                    android:textSize="16sp" />
             </LinearLayout>
+
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:text="起拍价格:"
                     android:textColor="@color/black_deep"
-                    android:textSize="16sp"
-                    android:text="起拍价格:"/>
+                    android:textSize="16sp" />
+
                 <EditText
+                    android:id="@+id/auction_pristart_edt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:textSize="16sp"
-                    android:inputType="number"
-                    android:hint="请输入价格(单位元)"/>
+                    android:hint="请输入价格(单位元)"
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp" />
             </LinearLayout>
+
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:text="直购价格:"
                     android:textColor="@color/black_deep"
-                    android:textSize="16sp"
-                    android:text="直购价格:"/>
+                    android:textSize="16sp" />
+
                 <EditText
+                    android:id="@+id/auction_pribuy_edt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:textSize="16sp"
-                    android:inputType="number"
-                    android:hint="请输入直购价格(单位元)"/>
+                    android:hint="请输入直购价格(单位元)"
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp" />
             </LinearLayout>
+
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:text="剩余时间:"
                     android:textColor="@color/black_deep"
-                    android:textSize="16sp"
-                    android:text="剩余时间:"/>
+                    android:textSize="16sp" />
+
                 <EditText
+                    android:id="@+id/auction_time_edt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:textSize="16sp"
+                    android:hint="请输入剩余时间(单位小时)"
                     android:inputType="number"
-                    android:hint="请输入剩余时间(单位小时)"/>
+                    android:textSize="16sp" />
             </LinearLayout>
+
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="left"
-                    android:textSize="16sp"
+                    android:text="商品简介:"
                     android:textColor="@color/black_deep"
-                    android:text="商品简介:"/>
+                    android:textSize="16sp" />
+
                 <EditText
+                    android:id="@+id/auction_intor_edt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="left"
                     android:background="@null"
-                    android:textSize="16sp"
-                    android:hint="请输入商品简介"/>
+                    android:gravity="left"
+                    android:hint="请输入商品简介"
+                    android:textSize="16sp" />
             </LinearLayout>
+
             <View style="@style/tm_common_divide_line_whitebg_width" />
+
+            <GridView
+                android:id="@+id/auction_img_gv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp"></GridView>
         </LinearLayout>
     </ScrollView>
 
