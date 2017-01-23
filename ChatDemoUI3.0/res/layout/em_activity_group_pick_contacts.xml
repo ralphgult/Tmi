@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
-       android:background="@color/top_bar_normal_bg"
+        android:background="@drawable/tm_huihua_title_bar"
         android:gravity="center_vertical" >
 
          <LinearLayout
@@ -23,7 +23,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="9dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/em_mm_title_back" />
+                android:src="@drawable/ease_back" />
         </LinearLayout>
 
         <TextView

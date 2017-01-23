@@ -34,6 +34,7 @@ import com.hyphenate.util.NetUtils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -542,6 +543,8 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 		@Override
 		public View getView(final int position, View convertView, final ViewGroup parent) {
+			SharedPreferences sharedPre=getSharedPreferences("config",MODE_PRIVATE);
+			String phone=sharedPre.getString("phone", "");
 		    ViewHolder holder = null;
 			if (convertView == null) {
 			    holder = new ViewHolder();
@@ -619,6 +622,9 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 //				avatar.setBounds(0, 0, referenceWidth, referenceHeight);
 //				button.setCompoundDrawables(null, avatar, null, null);
 				EaseUserUtils.setUserNick(username, holder.textView);
+				if(phone.equals(username)){
+					holder.textView.setText("我");
+				}
 				EaseUserUtils.setUserAvatar(getContext(), username, holder.imageView);
 				if (isInDeleteMode) {
 					// 如果是删除模式下，显示减人图标

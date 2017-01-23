@@ -20,6 +20,7 @@
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/height_row_weixin"
                 android:layout_height="@dimen/height_row_weixin"
+                android:scaleType="centerCrop"
                 android:layout_marginLeft="10dp"
                 android:padding="5dp"
                 android:src="@drawable/ease_default_avatar" />
