@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 public class SysUtils {
 	/**
-	 * ״̬���߶��㷨
 	 *
 	 * @param activity
 	 * @return
@@ -75,7 +74,7 @@ public class SysUtils {
 	/**
 	 * 设置ListView的高度的方法
 	 */
-	public void setListViewHight(ListView view) {
+	public static void setListViewHight(ListView view) {
         ListAdapter adapter = view.getAdapter();
         if (adapter.isEmpty()) {
             //适配器为空
