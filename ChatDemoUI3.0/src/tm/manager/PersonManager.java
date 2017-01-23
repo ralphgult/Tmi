@@ -1147,4 +1147,47 @@ public class PersonManager {
 
         }
     }
+    public static void addAuction(String name, String startprice, String phone, String pribuy, String intro, List<String> imgs, int time, Handler handler) {
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            HttpPost httppost = new HttpPost(Config.URL_ADD_AUCTION_SHOPPING);
+            FileBody bin = null;
+            File file = null;
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+            for (String path : imgs) {
+                file = new File(path);
+                bin = new FileBody(ImageUtil.saveUploadImage(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ImageLoader/cache/images" + File.separator + file.getName(), path));
+                reqEntity.addPart("file", bin);//file1为请求后台的File upload;属性
+            }
+            file = new File(imgs.get(0));
+            reqEntity.addPart("f", new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), imgs.get(0))));
+            SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+            reqEntity.addPart("name", new StringBody(name, Charset.forName("UTF-8")));
+            reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+            reqEntity.addPart("number", new StringBody(System.currentTimeMillis() + "", Charset.forName("UTF-8")));
+            reqEntity.addPart("contact", new StringBody(phone, Charset.forName("UTF-8")));
+            reqEntity.addPart("price", new StringBody(startprice, Charset.forName("UTF-8")));
+            reqEntity.addPart("originalPrice", new StringBody(pribuy, Charset.forName("UTF-8")));
+            reqEntity.addPart("many", new StringBody("0", Charset.forName("UTF-8")));
+            reqEntity.addPart("residual", new StringBody(String.valueOf(time), Charset.forName("UTF-8")));
+            reqEntity.addPart("details", new StringBody(intro, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            HttpResponse response = httpclient.execute(httppost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                System.out.println("服务器正常响应.....");
+                HttpEntity resEntity = response.getEntity();
+                JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                if (null != handler) {
+                    if (object.getInt("authId") > 0) {
+                        handler.sendEmptyMessage(1001);
+                    } else {
+                        handler.sendEmptyMessage(1002);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
