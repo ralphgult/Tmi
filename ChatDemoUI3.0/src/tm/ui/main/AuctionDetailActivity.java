@@ -3,8 +3,10 @@ package tm.ui.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -20,8 +22,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import tm.manager.PersonManager;
 import tm.ui.main.adapter.ActionAdapter;
+import tm.ui.mine.HeadBigActivity;
+import tm.ui.tmi.FosterAgriculturalActivity;
 import tm.utils.ImageLoaders;
 
 /**
@@ -48,8 +55,12 @@ public class AuctionDetailActivity extends Activity{
     private ImageView mDetailImg05;
 
     private ImageView[] ivArray = {mDetailImg01, mDetailImg02, mDetailImg03, mDetailImg04, mDetailImg05};
+    private String []imgPaths = new String[5];
+    private String imgPath;
     private ImageLoaders imageLoaders;
     private String mShopDetailId;
+
+    private CountDownTimer mTimer;
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -57,7 +68,7 @@ public class AuctionDetailActivity extends Activity{
                 Log.e("LKing","shopping_detail = "+String.valueOf(msg.obj));
                 try{
 //                    JSONObject jsonObject = new JSONObject();
-//                    imageLoaders.loadImage(mDetailImgs, jsonObject.getString("auctionImg"));
+
 //                    mDetailName.setText("商品名称:"+jsonObject.getString("name"));
 //                    mDetailNumber.setText("商品编号:"+jsonObject.getString("number"));
 //                    mDetailPrice.setText("当前价格:RMB "+jsonObject.getString("price"));
@@ -69,16 +80,17 @@ public class AuctionDetailActivity extends Activity{
 //                    JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs") ;
 //                    for(int i=0;i<jsonArray.length();i++){
 //                        imageLoaders.loadImage(ivArray[i],String.valueOf(jsonArray.opt(i)));
+//                    imgPaths = String.valueOf(jsonArray.opt(i));
 //                    }
+//                      imageLoaders.loadImage(mDetailImgs,imgPaths[0]);
+
+                    mTimer.start();
                 }catch(Exception e){
                     e.printStackTrace();
                 }
             }
         }
     };
-
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,7 +127,6 @@ public class AuctionDetailActivity extends Activity{
         mDetailImg04 = (ImageView)findViewById(R.id.auction_img_04);//小图片
         mDetailImg05 = (ImageView)findViewById(R.id.auction_img_05);//小图片
         imageLoaders = new ImageLoaders(AuctionDetailActivity.this,new MyImageLoaderListener());
-//
     }
 
     private void setListener() {
@@ -129,17 +140,79 @@ public class AuctionDetailActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(AuctionDetailActivity.this,"联系我们",Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+"18792681661"));
-//                startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + "18792681661"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
         mDetailBid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Todo 出价接口
                 Toast.makeText(AuctionDetailActivity.this,"手动出价一次，成功后....",Toast.LENGTH_SHORT).show();
                 mDetailPriceNum.setText("出价加一次");
             }
         });
+        mDetailImgs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AuctionDetailActivity.this, HeadBigActivity.class);
+                intent.putExtra("path", imgPath);
+                startActivity(intent);
+            }
+        });
+        mDetailImg01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageLoaders.loadImage(mDetailImg01,imgPaths[0]);
+                imageLoaders.loadImage(mDetailImgs,imgPaths[0]);
+                imgPath = imgPaths[0];
+            }
+        });
+        mDetailImg02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageLoaders.loadImage(mDetailImg02,imgPaths[1]);
+                imageLoaders.loadImage(mDetailImgs,imgPaths[1]);
+                imgPath = imgPaths[1];
+            }
+        });
+        mDetailImg03.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageLoaders.loadImage(mDetailImg03,imgPaths[2]);
+                imageLoaders.loadImage(mDetailImgs,imgPaths[2]);
+                imgPath = imgPaths[2];
+            }
+        });
+        mDetailImg04.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageLoaders.loadImage(mDetailImg04,imgPaths[3]);
+                imageLoaders.loadImage(mDetailImgs,imgPaths[3]);
+                imgPath = imgPaths[3];
+            }
+        });
+        mDetailImg05.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageLoaders.loadImage(mDetailImg05,imgPaths[4]);
+                imageLoaders.loadImage(mDetailImgs,imgPaths[4]);
+                imgPath = imgPaths[4];
+            }
+        });
+
+        mTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(millisUntilFinished));
+            }
+
+            @Override
+            public void onFinish() {
+                mDetailTime.setText("拍卖时间已过");
+            }
+        };
     }
 
     private void networkRequest() {
