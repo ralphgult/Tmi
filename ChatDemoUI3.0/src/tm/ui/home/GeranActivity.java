@@ -81,6 +81,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private ImageView liaotian;
     private ImageView top_head_img;//个人动态头像
     private LinearLayout pic_ly;
+    private LinearLayout ll_pic2;
 
 
     private TextView tv_name;
@@ -170,6 +171,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         lv_qiye_line = (LinearLayout)findViewById(R.id.tm_qiye_line);
         addfriend = (ImageView) findViewById(R.id.tm_addfriend);
         liaotian = (ImageView) findViewById(R.id.tm_liaotian);
+
+        ll_pic2= (LinearLayout)findViewById(R.id.ll_pic2);
 
         top_head_img = (ImageView) findViewById(R.id.yx_monent_top_head_img);//个人头像
         //店铺
@@ -381,6 +384,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             if (photos != null && photos.length() != 0) {
                 pic_ly.setVisibility(View.VISIBLE);
                 if (photos.length() <= 3) {
+                    ll_pic2.setVisibility(View.GONE);
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
                             case 0:
@@ -413,6 +417,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                         img_pic3.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ll_pic2.setVisibility(View.VISIBLE);
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
                             case 0:
@@ -527,6 +532,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             if (photos != null && photos.length() != 0) {
                 pic_ly.setVisibility(View.VISIBLE);
                 if (photos.length() <= 3) {
+                    ll_pic2.setVisibility(View.GONE);
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
                             case 0:
@@ -559,6 +565,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                         img_pic3.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ll_pic2.setVisibility(View.VISIBLE);
                     for (int i = 0; i < photos.length(); i++) {
                         switch (i) {
                             case 0:
