@@ -350,6 +350,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="tm.ui.mine.UploadAuctionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <!-- 搜索列表页 -->
         <activity
             android:name="tm.ui.home.SearchActivity"

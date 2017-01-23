@@ -39,6 +39,7 @@ import tm.ui.mine.MineOrderActivity;
 import tm.ui.mine.MyAddressActivity;
 import tm.ui.mine.MySoppingActivity;
 import tm.ui.mine.PersonCenterActivity;
+import tm.ui.mine.UploadAuctionActivity;
 import tm.ui.setting.SettingActivity;
 import tm.ui.tmi.adapter.MomentListAdapter;
 import tm.utils.ConstantsHandler;
@@ -57,7 +58,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private TextView myOrder_tv;
     private TextView myShopping_tv;
     private TextView myAddress_tv;
-    private TextView myMessage_tv;
+//    private TextView myMessage_tv;
+    private TextView mUploadAuction_tv;
 
     private ImageView myHead_iv;
     private TextView myName_tv;
@@ -166,9 +168,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_my_address_tv:
                 ViewUtil.jumpToOtherActivity(this.getActivity(),MyAddressActivity.class);
                 break;
-            case R.id.mine_my_message_tv:
-                Toast.makeText(this.getActivity(), "正在调试中...", Toast.LENGTH_SHORT).show();
-//                ViewUtil.jumpToOtherActivity(this.getActivity(),MyMessageActivity.class);
+            case R.id.mine_upload_auction_tv:
+                ViewUtil.jumpToOtherActivity(this.getActivity(),UploadAuctionActivity.class);
                 break;
             case R.id.fgt_mine_head_iv:
                 bundle = new Bundle();
@@ -189,7 +190,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         myOrder_tv = (TextView) getView().findViewById(R.id.mine_my_order_tv);
         myShopping_tv = (TextView) getView().findViewById(R.id.mine_my_shopping_tv);
         myAddress_tv = (TextView) getView().findViewById(R.id.mine_my_address_tv);
-        myMessage_tv = (TextView) getView().findViewById(R.id.mine_my_message_tv);
+        mUploadAuction_tv = (TextView) getView().findViewById(R.id.mine_upload_auction_tv);
 
         myHead_iv = (ImageView) getView().findViewById(R.id.fgt_mine_head_iv);
         myName_tv = (TextView) getView().findViewById(R.id.fgt_mine_name_tv);
@@ -203,7 +204,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         myOrder_tv.setOnClickListener(this);
         myShopping_tv.setOnClickListener(this);
         myAddress_tv.setOnClickListener(this);
-        myMessage_tv.setOnClickListener(this);
+        mUploadAuction_tv.setOnClickListener(this);
 
         myHead_iv.setOnClickListener(this);
 

@@ -186,7 +186,7 @@
             <View style="@style/tm_common_divide_line_whitebg_width" />
 
             <TextView
-                android:id="@+id/mine_my_message_tv"
+                android:id="@+id/mine_upload_auction_tv"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
@@ -197,14 +197,13 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"
-                android:text="我的消息"
+                android:text="拍卖商品"
                 android:textColor="@color/yx_context_function_color"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="16sp"/>
 
             <View
-                style="@style/tm_common_divide_line_whitebg_width"
-                android:visibility="gone" />
+                style="@style/tm_common_divide_line_whitebg_width" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
