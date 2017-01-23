@@ -3,7 +3,6 @@ package tm.ui.tmi;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,22 +16,18 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xbh.tmi.R;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import tm.manager.PersonManager;
 import tm.ui.mine.CommonSelectImgPopupWindow;
-import tm.ui.mine.CompCenterActivity;
 import tm.ui.tmi.adapter.ImageAdapter;
-import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 
@@ -54,6 +49,7 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
     private CommonSelectImgPopupWindow mPopupWindow;
     private int LOCAL_IMG_REQUEST_CODE = 1;
     private int CAMERA_REQUEST_CODE = 2;
+    private boolean mIsAddLost = false;//是否为发布失物招领信息（true: 是；false：不是）
     private String imagePath;
     private Handler handler = new Handler() {
         @Override
@@ -89,6 +85,7 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
         imgPathList = new ArrayList<>();
         imgPathList.add("0");
         imgpaths = new String[9];
+        mIsAddLost = getIntent().getExtras().getBoolean("isAddLost",false);
         for (int i = 0; i < imgPathList.size(); i++) {
             imgpaths[i] = imgPathList.get(i);
         }
@@ -133,7 +130,14 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
                 //输入框内容获取
                 content = mEditText.getText().toString();
                 //不同的接口的调用
-                AddMomentThread thread = new AddMomentThread();
+                Thread thread = null;
+                if(mIsAddLost) {
+                    //添加失物招领信息
+                    thread = new AddLostThread();
+                } else {
+                    //添加资讯/朋友圈
+                    thread = new AddMomentThread();
+                }
                 thread.start();
                 break;
         }
@@ -148,19 +152,23 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
         mType = getIntent().getExtras().getInt("ReleaseType");
         mImgGridView.setAdapter(mAdapter);
         SysUtils.setGridViewHight(mImgGridView);
-        switch (mType) {
-            case 1:
-                mTitleTxt.setText("发布个人资讯");
-                break;
-            case 2:
-                mTitleTxt.setText("发布企业资讯");
-                break;
-            case 3:
-                mTitleTxt.setText("发布三农资讯");
-                break;
-            case 4:
-                mTitleTxt.setText("发布朋友圈");
-                break;
+        if (mIsAddLost) {
+            mTitleTxt.setText("发布招领信息");
+        } else {
+            switch (mType) {
+                case 1:
+                    mTitleTxt.setText("发布个人资讯");
+                    break;
+                case 2:
+                    mTitleTxt.setText("发布企业资讯");
+                    break;
+                case 3:
+                    mTitleTxt.setText("发布三农资讯");
+                    break;
+                case 4:
+                    mTitleTxt.setText("发布朋友圈");
+                    break;
+            }
         }
         mBackImg.setOnClickListener(this);
         mReleaseTxt.setOnClickListener(this);
@@ -203,7 +211,15 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
 
         }
     }
-
+    class AddLostThread extends Thread {
+        @Override
+        public void run() {
+            if(imgPathList.contains("0")){
+                imgPathList.remove("0");
+            }
+            //TODO 添加失物招领信息
+        }
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
