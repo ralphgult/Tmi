@@ -42,22 +42,12 @@
 
             <include layout="@layout/yx_monent_list_item" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="3dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="3dp"
-                android:text="评论:"
-                android:textSize="14sp" />
-
-            <View style="@style/tm_common_divide_line_whitebg_width" />
-
             <ListView
                 android:id="@+id/reply_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:contextClickable="false"
                 android:divider="@null"
                 android:scrollbars="none" />

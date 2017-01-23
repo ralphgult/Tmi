@@ -73,12 +73,12 @@ public class MomentDetilActivity extends Activity {
                     isFinish = true;
                     if (isLike) {
                         Toast.makeText(MomentDetilActivity.this, "取消点赞成功", Toast.LENGTH_SHORT).show();
-                        like_img.setImageResource(R.drawable.tm_zan_p);
-                        like_text.setText(Integer.valueOf(like_text.getText().toString()) + 1 + "");
-                    } else {
-                        Toast.makeText(MomentDetilActivity.this, "点赞成功", Toast.LENGTH_SHORT).show();
                         like_img.setImageResource(R.drawable.tm_zan);
                         like_text.setText(Integer.valueOf(like_text.getText().toString()) - 1 + "");
+                    } else {
+                        Toast.makeText(MomentDetilActivity.this, "点赞成功", Toast.LENGTH_SHORT).show();
+                        like_img.setImageResource(R.drawable.tm_zan_p);
+                        like_text.setText(Integer.valueOf(like_text.getText().toString()) + 1 + "");
 
                     }
                     isLike = !isLike;
@@ -94,6 +94,7 @@ public class MomentDetilActivity extends Activity {
                     map.put("replyId", 0 + "");
                     replysList.add(map);
                     replyAdapter.resetData(replysList);
+                    SysUtils.setListViewHight(replyList);
                     break;
                 default:
                     Toast.makeText(MomentDetilActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
@@ -134,6 +135,7 @@ public class MomentDetilActivity extends Activity {
         comment = (LinearLayout) findViewById(R.id.yx_moment_comment);
         comment_text = (TextView) findViewById(R.id.yx_monment_comment_test);
         replyList = (ListView) findViewById(R.id.reply_list);
+
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,6 +212,7 @@ public class MomentDetilActivity extends Activity {
                 replyAdapter = new ReplyAdapter(this);
                 replyAdapter.resetData(replysList);
                 replyList.setAdapter(replyAdapter);
+                SysUtils.setListViewHight(replyList);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
