@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
-        android:background="@color/common_top_bar_blue"
+        android:background="@drawable/tm_huihua_title_bar"
         android:gravity="center_vertical" >
 
         <LinearLayout
