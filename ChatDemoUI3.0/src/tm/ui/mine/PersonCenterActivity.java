@@ -16,19 +16,16 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oohla.android.utils.NetworkUtil;
-import com.ta.utdid2.android.utils.SystemUtils;
 import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
@@ -38,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +46,6 @@ import tm.manager.PersonManager;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
-import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
@@ -134,8 +129,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                         Toast.makeText(PersonCenterActivity.this, "上传头像成功", Toast.LENGTH_SHORT).show();
                         head_iv.setImageBitmap(BitmapFactory.decodeFile(imagePath));
                         break;
-                    case 2001:
                     case 3001:
+                    case 4001:
                         List<NameValuePair> list2 = new ArrayList<NameValuePair>();
                         SharedPreferences sharedPre2 = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
                         String userId2 = sharedPre2.getString("username", "");
