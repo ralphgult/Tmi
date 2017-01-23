@@ -53,6 +53,7 @@ import tm.http.Config;
 import tm.http.NetFactory;
 import tm.ui.home.GeranActivity;
 import tm.utils.ConstantsHandler;
+import tm.utils.VolleyLoadPicture;
 
 public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
@@ -120,9 +121,15 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 				}else{
 					holder.name.setText(fb.mNickname);
 				}
+				if(!TextUtils.isEmpty(fb.mphoto)){
+					VolleyLoadPicture vlp = new VolleyLoadPicture(context, holder.avator);
+					vlp.getmImageLoader().get(fb.mphoto, vlp.getOne_listener());
+				}
+
 			}else{
 				holder.name.setText(msg.getFrom());
 			}
+
 
 
 			// holder.time.setText(DateUtils.getTimestampString(new
