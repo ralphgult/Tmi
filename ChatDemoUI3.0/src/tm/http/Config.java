@@ -69,6 +69,8 @@ public class Config {
     public static String URL_ADD_AUCTION_PRICVE = ROOT_HOST_NAME + "/CBDParkingMSs/auction/updatePrice";//上传拍卖商品
 
     public static String URL_GET_PERSON_MOMENT = ROOT_HOST_NAME + "/CBDParkingMSs/mood/myMoods";//上传拍卖商品
+    public static String URL_ADD_LOST_INFO  = ROOT_HOST_NAME + "/CBDParkingMSs/lost/addLost";//上传失误招领信息
+    public static String URL_GET_LOST_INFO_LIST  = ROOT_HOST_NAME + "/CBDParkingMSs/lost/lost";//获取失误招领信息
 
     public static void init(Context context) throws IOException {
     }

@@ -49,14 +49,15 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
     private CommonSelectImgPopupWindow mPopupWindow;
     private int LOCAL_IMG_REQUEST_CODE = 1;
     private int CAMERA_REQUEST_CODE = 2;
-    private boolean mIsAddLost = false;//是否为发布失物招领信息（true: 是；false：不是）
     private String imagePath;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1001) {
                 String text = null;
-                if (mType == 4) {
+                if (mType == 6) {
+                    text = "发布失物招领信息成功";
+                } else if (mType == 4) {
                     text = "发布随笔成功";
                 } else {
                     text = "发布资讯成功";
@@ -85,7 +86,6 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
         imgPathList = new ArrayList<>();
         imgPathList.add("0");
         imgpaths = new String[9];
-        mIsAddLost = getIntent().getExtras().getBoolean("isAddLost",false);
         for (int i = 0; i < imgPathList.size(); i++) {
             imgpaths[i] = imgPathList.get(i);
         }
@@ -131,7 +131,7 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
                 content = mEditText.getText().toString();
                 //不同的接口的调用
                 Thread thread = null;
-                if(mIsAddLost) {
+                if (mType == 6) {
                     //添加失物招领信息
                     thread = new AddLostThread();
                 } else {
@@ -152,23 +152,22 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
         mType = getIntent().getExtras().getInt("ReleaseType");
         mImgGridView.setAdapter(mAdapter);
         SysUtils.setGridViewHight(mImgGridView);
-        if (mIsAddLost) {
-            mTitleTxt.setText("发布招领信息");
-        } else {
-            switch (mType) {
-                case 1:
-                    mTitleTxt.setText("发布个人资讯");
-                    break;
-                case 2:
-                    mTitleTxt.setText("发布企业资讯");
-                    break;
-                case 3:
-                    mTitleTxt.setText("发布三农资讯");
-                    break;
-                case 4:
-                    mTitleTxt.setText("发布朋友圈");
-                    break;
-            }
+        switch (mType) {
+            case 1:
+                mTitleTxt.setText("发布个人资讯");
+                break;
+            case 2:
+                mTitleTxt.setText("发布企业资讯");
+                break;
+            case 3:
+                mTitleTxt.setText("发布三农资讯");
+                break;
+            case 4:
+                mTitleTxt.setText("发布朋友圈");
+                break;
+            case 6:
+                mTitleTxt.setText("发布招领信息");
+                break;
         }
         mBackImg.setOnClickListener(this);
         mReleaseTxt.setOnClickListener(this);
@@ -211,15 +210,17 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
 
         }
     }
+
     class AddLostThread extends Thread {
         @Override
         public void run() {
-            if(imgPathList.contains("0")){
+            if (imgPathList.contains("0")) {
                 imgPathList.remove("0");
             }
-            //TODO 添加失物招领信息
+            PersonManager.publishLostInfo(content, imgPathList, handler);
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
