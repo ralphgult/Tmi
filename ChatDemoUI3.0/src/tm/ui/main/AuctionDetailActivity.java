@@ -3,7 +3,6 @@ package tm.ui.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -19,23 +18,18 @@ import android.widget.Toast;
 import com.xbh.tmi.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import tm.manager.PersonManager;
-import tm.ui.main.adapter.ActionAdapter;
 import tm.ui.mine.HeadBigActivity;
-import tm.ui.tmi.FosterAgriculturalActivity;
 import tm.utils.ImageLoaders;
+import tm.utils.ViewUtil;
 
 /**
  * Created by Administrator on 2017/1/21.
  */
 
-public class AuctionDetailActivity extends Activity{
+public class AuctionDetailActivity extends Activity {
     private ImageView mBackImg;
     private ImageView mDetailImgs;
     private TextView mDetailName;
@@ -54,47 +48,69 @@ public class AuctionDetailActivity extends Activity{
     private ImageView mDetailImg04;
     private ImageView mDetailImg05;
 
-    private ImageView[] ivArray = {mDetailImg01, mDetailImg02, mDetailImg03, mDetailImg04, mDetailImg05};
-    private String []imgPaths = new String[5];
+    private ImageView[] ivArray;
+    private String[] imgPaths;
     private String imgPath;
     private ImageLoaders imageLoaders;
     private String mShopDetailId;
+    private int mTimeRemained;
+    private int mTimeCount = 0;
 
     private CountDownTimer mTimer;
     private String mPriceStr;
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 3001) {
-                Log.e("LKing","shopping_detail = "+String.valueOf(msg.obj));
-                try{
+                Log.e("LKing", "shopping_detail = " + String.valueOf(msg.obj));
+                try {
                     JSONObject jsonObject = new JSONObject(String.valueOf(msg.obj));
 
-                    mDetailName.setText("商品名称:"+jsonObject.getString("name"));
-                    mDetailNumber.setText("商品编号:"+jsonObject.getString("number"));
-                    mDetailPrice.setText("当前价格:RMB "+jsonObject.getString("price"));
+                    mDetailName.setText("商品名称:" + jsonObject.getString("name"));
+                    mDetailNumber.setText("商品编号:" + jsonObject.getString("number"));
+                    mDetailPrice.setText("当前价格:RMB " + jsonObject.getString("price"));
                     mPriceStr = jsonObject.getString("markup");
-                    mDetailPriceUnit.setText("加价单位:"+mPriceStr+"元");
-                    mDetailPriceOrig.setText("直购价:RMB "+jsonObject.getString("originalPrice"));
-                    mDetailPriceNum.setText("出价"+jsonObject.getString("many")+"次");
-                    mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(Integer.parseInt(jsonObject.getString("residual"))));
+                    mDetailPriceUnit.setText("加价单位:" + mPriceStr + "元");
+                    mDetailPriceOrig.setText("直购价:RMB " + jsonObject.getString("originalPrice"));
+                    mDetailPriceNum.setText("出价" + jsonObject.getString("many") + "次");
+                    mTimeRemained = Integer.parseInt(jsonObject.getString("residual"));
+                    mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(mTimeRemained * 1000L));
                     mDetailText.setText(jsonObject.getString("details"));
-//                    JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs") ;
-//                    for(int i=0;i<jsonArray.length();i++){
-//                        imgPaths[i] = String.valueOf(jsonArray.opt(i));
-//                        JSONObject jsonObject1 = new JSONObject(String.valueOf(jsonArray.opt(i)));
-//                        imgPaths[i] = jsonObject1.getString("img");
-//                        imageLoaders.loadImage(ivArray[i],imgPaths[i]);
-//                    }
-//                    imageLoaders.loadImage(mDetailImgs,imgPaths[0]);
-
-                    mTimer.start();
-                }catch(Exception e){
+                    JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs");
+                    int size = jsonArray.length();
+                    imgPaths = new String[size];
+                    for (int i = 0; i < ivArray.length; i++) {
+                        if (i < size) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            imgPaths[i] = object.getString("img");
+                            imageLoaders.loadImage(ivArray[i], imgPaths[i]);
+                        } else {
+                            ivArray[i].setVisibility(View.GONE);
+                        }
+                    }
+                    imageLoaders.loadImage(mDetailImgs, imgPaths[0]);
+                    startTimer();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
     };
+
+    private void startTimer() {
+        mTimer = new CountDownTimer(mTimeRemained, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int timeRemaind = mTimeRemained - mTimeCount;
+                mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(timeRemaind));
+                mTimeCount = mTimeCount + 1000;
+            }
+            @Override
+            public void onFinish() {
+                mDetailTime.setText("拍卖时间已过");
+            }
+        }.start();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,31 +122,38 @@ public class AuctionDetailActivity extends Activity{
         networkRequest();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mTimer.cancel();
+    }
+
     private void getActivityIntent() {
-        if (getIntent().getExtras()!=null) {
+        if (getIntent().getExtras() != null) {
             mShopDetailId = getIntent().getExtras().getString("shopping_detail_id");
         }
     }
 
     private void initView() {
-        mBackImg = (ImageView)findViewById(R.id.auction_detail_back_iv);
-        mDetailImgs = (ImageView)findViewById(R.id.auction_detail_imgs);//图片显示
-        mDetailName = (TextView)findViewById(R.id.auction_detail_name);//名字
-        mDetailNumber = (TextView)findViewById(R.id.auction_detail_number);//编号
-        mDetailContact = (TextView)findViewById(R.id.auction_contact);//联系
-        mDetailPrice = (TextView)findViewById(R.id.auction_detail_price);//当前价格
-        mDetailPriceUnit = (TextView)findViewById(R.id.auction_detail_unit_price);//单价
-        mDetailPriceOrig = (TextView)findViewById(R.id.auction_detail_original_price);//直购价
-        mDetailPriceNum = (TextView)findViewById(R.id.auction_detail_price_number);//出价次数
-        mDetailTime = (TextView)findViewById(R.id.auction_detail_time);//剩余时间
-        mDetailBid = (TextView)findViewById(R.id.auction_detail_bid);//手动出价
-        mDetailText = (TextView)findViewById(R.id.auction_detail_txt);//拍品详情
-        mDetailImg01 = (ImageView)findViewById(R.id.auction_img_01);//小图片
-        mDetailImg02 = (ImageView)findViewById(R.id.auction_img_02);//小图片
-        mDetailImg03 = (ImageView)findViewById(R.id.auction_img_03);//小图片
-        mDetailImg04 = (ImageView)findViewById(R.id.auction_img_04);//小图片
-        mDetailImg05 = (ImageView)findViewById(R.id.auction_img_05);//小图片
-        imageLoaders = new ImageLoaders(AuctionDetailActivity.this,new MyImageLoaderListener());
+        mBackImg = (ImageView) findViewById(R.id.auction_detail_back_iv);
+        mDetailImgs = (ImageView) findViewById(R.id.auction_detail_imgs);//图片显示
+        mDetailName = (TextView) findViewById(R.id.auction_detail_name);//名字
+        mDetailNumber = (TextView) findViewById(R.id.auction_detail_number);//编号
+        mDetailContact = (TextView) findViewById(R.id.auction_contact);//联系
+        mDetailPrice = (TextView) findViewById(R.id.auction_detail_price);//当前价格
+        mDetailPriceUnit = (TextView) findViewById(R.id.auction_detail_unit_price);//单价
+        mDetailPriceOrig = (TextView) findViewById(R.id.auction_detail_original_price);//直购价
+        mDetailPriceNum = (TextView) findViewById(R.id.auction_detail_price_number);//出价次数
+        mDetailTime = (TextView) findViewById(R.id.auction_detail_time);//剩余时间
+        mDetailBid = (TextView) findViewById(R.id.auction_detail_bid);//手动出价
+        mDetailText = (TextView) findViewById(R.id.auction_detail_txt);//拍品详情
+        mDetailImg01 = (ImageView) findViewById(R.id.auction_img_01);//小图片
+        mDetailImg02 = (ImageView) findViewById(R.id.auction_img_02);//小图片
+        mDetailImg03 = (ImageView) findViewById(R.id.auction_img_03);//小图片
+        mDetailImg04 = (ImageView) findViewById(R.id.auction_img_04);//小图片
+        mDetailImg05 = (ImageView) findViewById(R.id.auction_img_05);//小图片
+        ivArray = new ImageView[]{mDetailImg01, mDetailImg02, mDetailImg03, mDetailImg04, mDetailImg05};
+        imageLoaders = new ImageLoaders(AuctionDetailActivity.this, new MyImageLoaderListener());
     }
 
     private void setListener() {
@@ -143,8 +166,8 @@ public class AuctionDetailActivity extends Activity{
         mDetailContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AuctionDetailActivity.this,"联系我们",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + "18792681661"));
+                Toast.makeText(AuctionDetailActivity.this, "联系我们", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "18792681661"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -153,13 +176,13 @@ public class AuctionDetailActivity extends Activity{
             @Override
             public void onClick(View v) {
                 //Todo 出价接口
-                Toast.makeText(AuctionDetailActivity.this,"手动出价一次，成功后....",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AuctionDetailActivity.this, "手动出价一次，成功后....", Toast.LENGTH_SHORT).show();
                 mDetailPriceNum.setText("出价加一次");
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        PersonManager.raiseAuctionPrice(handler,mShopDetailId,mPriceStr);
+                        PersonManager.raiseAuctionPrice(handler, mShopDetailId, mPriceStr);
                     }
                 }).start();
 
@@ -168,75 +191,64 @@ public class AuctionDetailActivity extends Activity{
         mDetailImgs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AuctionDetailActivity.this, HeadBigActivity.class);
-                intent.putExtra("path", imgPath);
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putString("path", imgPath);
+                ViewUtil.jumpToOtherActivity(AuctionDetailActivity.this, HeadBigActivity.class, bundle);
             }
         });
         mDetailImg01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageLoaders.loadImage(mDetailImg01,imgPaths[0]);
-                imageLoaders.loadImage(mDetailImgs,imgPaths[0]);
+                imageLoaders.loadImage(mDetailImg01, imgPaths[0]);
+                imageLoaders.loadImage(mDetailImgs, imgPaths[0]);
                 imgPath = imgPaths[0];
             }
         });
         mDetailImg02.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageLoaders.loadImage(mDetailImg02,imgPaths[1]);
-                imageLoaders.loadImage(mDetailImgs,imgPaths[1]);
+                imageLoaders.loadImage(mDetailImg02, imgPaths[1]);
+                imageLoaders.loadImage(mDetailImgs, imgPaths[1]);
                 imgPath = imgPaths[1];
             }
         });
         mDetailImg03.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageLoaders.loadImage(mDetailImg03,imgPaths[2]);
-                imageLoaders.loadImage(mDetailImgs,imgPaths[2]);
+                imageLoaders.loadImage(mDetailImg03, imgPaths[2]);
+                imageLoaders.loadImage(mDetailImgs, imgPaths[2]);
                 imgPath = imgPaths[2];
             }
         });
         mDetailImg04.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageLoaders.loadImage(mDetailImg04,imgPaths[3]);
-                imageLoaders.loadImage(mDetailImgs,imgPaths[3]);
+                imageLoaders.loadImage(mDetailImg04, imgPaths[3]);
+                imageLoaders.loadImage(mDetailImgs, imgPaths[3]);
                 imgPath = imgPaths[3];
             }
         });
         mDetailImg05.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageLoaders.loadImage(mDetailImg05,imgPaths[4]);
-                imageLoaders.loadImage(mDetailImgs,imgPaths[4]);
+                imageLoaders.loadImage(mDetailImg05, imgPaths[4]);
+                imageLoaders.loadImage(mDetailImgs, imgPaths[4]);
                 imgPath = imgPaths[4];
             }
         });
 
-        mTimer = new CountDownTimer(60000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(millisUntilFinished));
-            }
-
-            @Override
-            public void onFinish() {
-                mDetailTime.setText("拍卖时间已过");
-            }
-        };
     }
 
     private void networkRequest() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                PersonManager.getAuctionDetail(handler,mShopDetailId);
+                PersonManager.getAuctionDetail(handler, mShopDetailId);
             }
         }).start();
     }
 
-    class MyImageLoaderListener implements ImageLoaders.ImageLoaderListener{
+    class MyImageLoaderListener implements ImageLoaders.ImageLoaderListener {
         @Override
         public void onImageLoad(View v, Bitmap bmp, String url) {
             ((ImageView) v).setImageBitmap(bmp);
