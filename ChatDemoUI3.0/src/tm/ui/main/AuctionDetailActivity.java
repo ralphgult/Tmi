@@ -68,23 +68,25 @@ public class AuctionDetailActivity extends Activity{
             if (msg.what == 3001) {
                 Log.e("LKing","shopping_detail = "+String.valueOf(msg.obj));
                 try{
-//                    JSONObject jsonObject = new JSONObject();
+                    JSONObject jsonObject = new JSONObject(String.valueOf(msg.obj));
 
-//                    mDetailName.setText("商品名称:"+jsonObject.getString("name"));
-//                    mDetailNumber.setText("商品编号:"+jsonObject.getString("number"));
-//                    mDetailPrice.setText("当前价格:RMB "+jsonObject.getString("price"));
-//                    mPriceStr = jsonObject.getString("number");
-////                    mDetailPriceUnit.setText("加价单位:"+mPriceStr+"元");
-//                    mDetailPriceOrig.setText("直购价:RMB "+jsonObject.getString("originalPrice"));
-////                    mDetailPriceNum.setText("出价"+jsonObject.getString("originalPrice")+"次");
-//                    mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(Integer.parseInt(jsonObject.getString("residual"))));
-//                    mDetailText.setText(jsonObject.getString("details"));
+                    mDetailName.setText("商品名称:"+jsonObject.getString("name"));
+                    mDetailNumber.setText("商品编号:"+jsonObject.getString("number"));
+                    mDetailPrice.setText("当前价格:RMB "+jsonObject.getString("price"));
+                    mPriceStr = jsonObject.getString("markup");
+                    mDetailPriceUnit.setText("加价单位:"+mPriceStr+"元");
+                    mDetailPriceOrig.setText("直购价:RMB "+jsonObject.getString("originalPrice"));
+                    mDetailPriceNum.setText("出价"+jsonObject.getString("many")+"次");
+                    mDetailTime.setText("剩余时间:"+AuctionActivity.formatTime(Integer.parseInt(jsonObject.getString("residual"))));
+                    mDetailText.setText(jsonObject.getString("details"));
 //                    JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs") ;
 //                    for(int i=0;i<jsonArray.length();i++){
-//                        imageLoaders.loadImage(ivArray[i],String.valueOf(jsonArray.opt(i)));
-//                    imgPaths = String.valueOf(jsonArray.opt(i));
+//                        imgPaths[i] = String.valueOf(jsonArray.opt(i));
+//                        JSONObject jsonObject1 = new JSONObject(String.valueOf(jsonArray.opt(i)));
+//                        imgPaths[i] = jsonObject1.getString("img");
+//                        imageLoaders.loadImage(ivArray[i],imgPaths[i]);
 //                    }
-//                      imageLoaders.loadImage(mDetailImgs,imgPaths[0]);
+//                    imageLoaders.loadImage(mDetailImgs,imgPaths[0]);
 
                     mTimer.start();
                 }catch(Exception e){
