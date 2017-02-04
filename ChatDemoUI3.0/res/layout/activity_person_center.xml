@@ -226,6 +226,319 @@
                     android:layout_margin="15dp"
                     android:src="@drawable/youxue_common_btn_icon_arrow" />
             </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <RelativeLayout
+                android:id="@+id/person_residence_rv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="居住地"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/person_residence_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/person_residence_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:text="设置常驻地址"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/person_residence_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <RelativeLayout
+                android:id="@+id/person_job_rv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="职业"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/person_job_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/person_job_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:text="设置职业"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/person_job_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <RelativeLayout
+                android:id="@+id/person_age_rv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="年龄"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/person_age_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/person_age_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:text="设置年龄"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/person_age_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <RelativeLayout
+                android:id="@+id/person_height_rv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="身高"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/person_height_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/person_height_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:text="设置身高"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/person_height_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <RelativeLayout
+                android:id="@+id/person_academy_rv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="毕业院校"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/person_academy_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/person_academy_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:text="设置毕业院校"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/person_academy_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <RelativeLayout
+                android:id="@+id/person_hobby_rv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="兴趣爱好"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/person_hobby_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/person_hobby_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:text="设置兴趣爱好"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/person_hobby_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <RelativeLayout
+                android:id="@+id/person_wish_rv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="我的心愿"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/person_wish_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/person_wish_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:text="设置我的心愿"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/person_wish_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+            <RelativeLayout
+                android:id="@+id/person_income_rv"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/background_white"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="年收入"
+                    android:textColor="#4e4e4e"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/person_income_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/person_income_iv"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:text="设置年收入"
+                    android:textColor="#4f4f4f"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/person_income_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/youxue_common_btn_icon_arrow" />
+            </RelativeLayout>
+            <View style="@style/tm_common_divide_line_whitebg_width" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
