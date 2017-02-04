@@ -56,13 +56,18 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private ImageView back;
     private LinearLayout head;
     private TextView yanzhi;
-    private RelativeLayout sign;
+    private RelativeLayout mPersonSignRv;//设置个人签名布局
+    private TextView mPersonSignTv;//设置个人签名显示
+    private RelativeLayout mPersonNameRv;//设置昵称布局
+    private TextView mPersonNameTv;//设置昵称显示
+    private RelativeLayout mPersonAccountRv;//设置账号布局
+    private TextView mPersonAccountTv;//设置账号显示
     private TextView ok;
     private FaceWallAdapter mAdapter;
     private String[] pathList;
     private ImageLoaders imageLoaders;
     private ImageView head_iv;
-    private TextView sign_tv;
+
     private GridView gv;
     private int CHANGE_FACE_WALL = 0;
     private int CHANGE_HEAD = 1;
@@ -77,6 +82,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private Map<String, String> mData;
     private Handler mHandler;
     private String imagePath;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,11 +166,15 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         imageLoaders = new ImageLoaders(this, new imageLoaderListener());
         imageLoaders.loadImage(head_iv, getIntent().getExtras().getString("headPath"));
         if (!TextUtils.isEmpty(getIntent().getExtras().getString("signed"))) {
-            sign_tv.setText(getIntent().getExtras().getString("signed"));
+            mPersonSignTv.setText(getIntent().getExtras().getString("signed"));
         }
+        mPersonNameTv.setText(getIntent().getExtras().getString("name"));
+
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String userId = sharedPre.getString("username", "");
+        //TODO 账号
+        mPersonAccountTv.setText("账号："+userId);
         if (!TextUtils.isEmpty(userId)) {
             list.add(new BasicNameValuePair("userId", userId));
             list.add(new BasicNameValuePair("type", "1"));
@@ -179,8 +190,12 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         back = (ImageView) findViewById(R.id.person_center_back_iv);
         head = (LinearLayout) findViewById(R.id.person_center_head_rv);
         yanzhi = (TextView) findViewById(R.id.person_center_yanzhi_tv);
-        sign = (RelativeLayout) findViewById(R.id.person_center_sign_text_rv);
-        sign_tv = (TextView) findViewById(R.id.person_center_sign_text_tv);
+        mPersonSignRv = (RelativeLayout) findViewById(R.id.person_sign_rv);
+        mPersonNameRv = (RelativeLayout) findViewById(R.id.person_name_rv);
+        mPersonNameTv = (TextView) findViewById(R.id.person_name_tv);
+        mPersonAccountRv = (RelativeLayout) findViewById(R.id.person_account_rv);
+        mPersonAccountTv = (TextView) findViewById(R.id.person_account_tv);
+        mPersonSignTv = (TextView) findViewById(R.id.person_sign_tv);
         ok = (TextView) findViewById(R.id.person_center_ok_tv);
         head_iv = (ImageView) findViewById(R.id.person_center_head_iv);
         gv = (GridView) findViewById(R.id.person_center_pics_gv);
@@ -201,7 +216,9 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         ok.setOnClickListener(this);
         head.setOnClickListener(this);
         yanzhi.setOnClickListener(this);
-        sign.setOnClickListener(this);
+        mPersonSignRv.setOnClickListener(this);
+        mPersonNameRv.setOnClickListener(this);
+        mPersonAccountRv.setOnClickListener(this);
         back.setOnClickListener(this);
     }
 
@@ -218,6 +235,14 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
             case R.id.person_center_sign_text_rv:
                 createSignDialog();
                 break;
+            case R.id.person_name_rv:
+                //TODO 设置昵称
+                Toast.makeText(this,"设置昵称",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.person_account_rv:
+                Toast.makeText(this,"账号不可修改",Toast.LENGTH_SHORT).show();
+                break;
+
             case R.id.person_center_head_rv:
                 showPopupWindow(CHANGE_HEAD);
                 break;
@@ -309,7 +334,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                         String authId = map.get("authId") + "";
                                                         if (authId.equals("1")) {
                                                             signDialog.closeDialog();
-                                                            sign_tv.setText(inputText);
+                                                            mPersonSignTv.setText(inputText);
                                                         } else {
                                                             Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                                                         }
