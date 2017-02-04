@@ -62,6 +62,27 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private TextView mPersonNameTv;//设置昵称显示
     private RelativeLayout mPersonAccountRv;//设置账号布局
     private TextView mPersonAccountTv;//设置账号显示
+    private RelativeLayout mPersonResidenceRv;//设置居住地布局
+    private TextView mPersonResidenceTv;//设置居住地显示
+
+    private RelativeLayout mPersonJobRv;//设置职业布局
+    private TextView mPersonJobTv;//设置职业显示
+    private RelativeLayout mPersonAgeRv;//设置年龄布局
+    private TextView mPersonAgeTv;//设置年龄显示
+    private RelativeLayout mPersonHeightRv;//设置身高布局
+    private TextView mPersonHeightTv;//设置身高显示
+    private RelativeLayout mPersonAcademyRv;//设置毕业院校布局
+    private TextView mPersonAcademyTv;//设置毕业院校显示
+    private RelativeLayout mPersonHobbyRv;//设置兴趣爱好布局
+    private TextView mPersonHobbyTv;//设置兴趣爱好显示
+    private RelativeLayout mPersonWishRv;//设置我的心愿布局
+    private TextView mPersonWishTv;//设置我的心愿显示
+    private RelativeLayout mPersonIncomeRv;//设置年收入布局
+    private TextView mPersonIncomeTv;//设置年收入显示
+
+
+
+
     private TextView ok;
     private FaceWallAdapter mAdapter;
     private String[] pathList;
@@ -175,6 +196,27 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         String userId = sharedPre.getString("username", "");
         //TODO 账号
         mPersonAccountTv.setText("账号："+userId);
+        //TODO 居住地
+        mPersonResidenceTv.setText("居住地："+userId);
+        //TODO 职业
+        mPersonJobTv.setText("职业："+userId);
+        //TODO 年龄
+        mPersonAgeTv.setText("年龄："+userId);
+        //TODO 身高
+        mPersonHeightTv.setText("身高："+userId);
+        //TODO 毕业院校
+        mPersonAcademyTv.setText("毕业院校："+userId);
+        //TODO 爱好
+        mPersonHobbyTv.setText("兴趣爱好："+userId);
+        //TODO 我的心愿
+        mPersonWishTv.setText("我的心愿："+userId);
+        //TODO 年收入
+        mPersonIncomeTv.setText("年收入："+userId);
+
+
+
+
+
         if (!TextUtils.isEmpty(userId)) {
             list.add(new BasicNameValuePair("userId", userId));
             list.add(new BasicNameValuePair("type", "1"));
@@ -195,6 +237,24 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         mPersonNameTv = (TextView) findViewById(R.id.person_name_tv);
         mPersonAccountRv = (RelativeLayout) findViewById(R.id.person_account_rv);
         mPersonAccountTv = (TextView) findViewById(R.id.person_account_tv);
+
+        mPersonResidenceRv = (RelativeLayout) findViewById(R.id.person_residence_rv);
+        mPersonResidenceTv = (TextView) findViewById(R.id.person_residence_tv);
+        mPersonJobRv = (RelativeLayout) findViewById(R.id.person_job_rv);
+        mPersonJobTv = (TextView) findViewById(R.id.person_job_tv);
+        mPersonAgeRv = (RelativeLayout) findViewById(R.id.person_age_rv);
+        mPersonAgeTv = (TextView) findViewById(R.id.person_age_tv);
+        mPersonHeightRv = (RelativeLayout) findViewById(R.id.person_height_rv);
+        mPersonHeightTv = (TextView) findViewById(R.id.person_height_tv);
+        mPersonAcademyRv = (RelativeLayout) findViewById(R.id.person_academy_rv);
+        mPersonAcademyTv = (TextView) findViewById(R.id.person_academy_tv);
+        mPersonHobbyRv = (RelativeLayout) findViewById(R.id.person_hobby_rv);
+        mPersonHobbyTv = (TextView) findViewById(R.id.person_hobby_tv);
+        mPersonWishRv = (RelativeLayout) findViewById(R.id.person_wish_rv);
+        mPersonWishTv = (TextView) findViewById(R.id.person_wish_tv);
+        mPersonIncomeRv = (RelativeLayout) findViewById(R.id.person_income_rv);
+        mPersonIncomeTv = (TextView) findViewById(R.id.person_income_tv);
+
         mPersonSignTv = (TextView) findViewById(R.id.person_sign_tv);
         ok = (TextView) findViewById(R.id.person_center_ok_tv);
         head_iv = (ImageView) findViewById(R.id.person_center_head_iv);
@@ -219,6 +279,13 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         mPersonSignRv.setOnClickListener(this);
         mPersonNameRv.setOnClickListener(this);
         mPersonAccountRv.setOnClickListener(this);
+        mPersonResidenceRv.setOnClickListener(this);
+        mPersonJobRv.setOnClickListener(this);
+        mPersonAgeRv.setOnClickListener(this);
+        mPersonAcademyRv.setOnClickListener(this);
+        mPersonHobbyRv.setOnClickListener(this);
+        mPersonWishRv.setOnClickListener(this);
+        mPersonIncomeRv.setOnClickListener(this);
         back.setOnClickListener(this);
     }
 
@@ -232,15 +299,48 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
                 ViewUtil.backToOtherActivity(this);
                 break;
-            case R.id.person_center_sign_text_rv:
-                createSignDialog();
+            case R.id.person_sign_rv:
+//                createSignDialog();
+                createDialog("请输入个性签名","3");
                 break;
             case R.id.person_name_rv:
                 //TODO 设置昵称
-                Toast.makeText(this,"设置昵称",Toast.LENGTH_SHORT).show();
+                createDialog("设置昵称","1");
                 break;
             case R.id.person_account_rv:
                 Toast.makeText(this,"账号不可修改",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.person_residence_rv:
+                //TODO 设置居住地
+                createDialog("设置居住地","4");
+                break;
+            case R.id.person_job_rv:
+                //TODO 设置职业
+                createDialog("设置职业","5");
+                break;
+            case R.id.person_age_rv:
+                //TODO 设置年龄
+                createDialog("设置年龄","6");
+                break;
+            case R.id.person_height_rv:
+                //TODO 设置身高
+                createDialog("设置身高","7");
+                break;
+            case R.id.person_academy_rv:
+                //TODO 设置毕业院校
+                createDialog("设置毕业院校","8");
+                break;
+            case R.id.person_hobby_rv:
+                //TODO 设置兴趣爱好
+                createDialog("设置兴趣爱好","9");
+                break;
+            case R.id.person_wish_rv:
+                //TODO 设置我的心愿
+                createDialog("设置我的心愿","10");
+                break;
+            case R.id.person_income_rv:
+                //TODO 设置年收入
+                createDialog("设置年收入","11");
                 break;
 
             case R.id.person_center_head_rv:
@@ -294,10 +394,76 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         }
     }
 
-    private void createSignDialog() {
+//    private void createSignDialog() {
+//        if (null == signDialog) {
+//            signDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
+//            signDialog.setEditTextHint("请输入个性签名");
+//            signDialog.setInputDialogListener(new InputDialog.InputDialogListener() {
+//                @Override
+//                public void inputDialogCancle() {
+//                    signDialog.closeDialog();
+//                }
+//
+//                @Override
+//                public void inputDialogSubmit(final String inputText) {
+//                    if (!TextUtils.isEmpty(inputText)) {
+//                        if (!NetworkUtil.isNetworkAvailable(PersonCenterActivity.this)) {
+//                            Toast.makeText(PersonCenterActivity.this, "网络链接异常，请检查网络连接后重试...", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                        List<NameValuePair> list = new ArrayList<NameValuePair>();
+//                        SharedPreferences sharedPre = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
+//                        String userId = sharedPre.getString("username", "");
+//                        if (!TextUtils.isEmpty(userId)) {
+//                            list.add(new BasicNameValuePair("userId", userId));
+//                            list.add(new BasicNameValuePair("caption", inputText));
+//                        } else {
+//                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                        NetFactory
+//                                .instance()
+//                                .commonHttpCilent(
+//                                        new Handler() {
+//                                            @Override
+//                                            public void handleMessage(Message msg) {
+//                                                switch (msg.what) {
+//                                                    case ConstantsHandler.EXECUTE_SUCCESS:
+//                                                        Map map = (Map) msg.obj;
+//                                                        Log.e("info", "map==" + map);
+//                                                        String authId = map.get("authId") + "";
+//                                                        if (authId.equals("1")) {
+//                                                            signDialog.closeDialog();
+//                                                            mPersonSignTv.setText(inputText);
+//                                                            Toast.makeText(PersonCenterActivity.this, "个人签名修改成功", Toast.LENGTH_SHORT).show();
+//                                                        } else {
+//                                                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+//                                                        }
+//                                                        break;
+//                                                    case ConstantsHandler.EXECUTE_FAIL:
+//                                                    case ConstantsHandler.ConnectTimeout:
+//                                                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+//                                                        break;
+//                                                }
+//                                            }
+//                                        }, PersonCenterActivity.this,
+//                                        Config.URL_CHANGE_SIGN, list);
+//                    } else {
+//                        Toast.makeText(PersonCenterActivity.this, "个性签名不能为空", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//        }
+//        signDialog.showDialog();
+//    }
+
+
+    private void createDialog(String hint,final String type) {
+
         if (null == signDialog) {
             signDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
-            signDialog.setEditTextHint("请输入个性签名");
+        }
+            signDialog.setEditTextHint(hint);
             signDialog.setInputDialogListener(new InputDialog.InputDialogListener() {
                 @Override
                 public void inputDialogCancle() {
@@ -306,6 +472,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
 
                 @Override
                 public void inputDialogSubmit(final String inputText) {
+                    Toast.makeText(PersonCenterActivity.this, type, Toast.LENGTH_SHORT).show();
                     if (!TextUtils.isEmpty(inputText)) {
                         if (!NetworkUtil.isNetworkAvailable(PersonCenterActivity.this)) {
                             Toast.makeText(PersonCenterActivity.this, "网络链接异常，请检查网络连接后重试...", Toast.LENGTH_SHORT).show();
@@ -317,6 +484,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                         if (!TextUtils.isEmpty(userId)) {
                             list.add(new BasicNameValuePair("userId", userId));
                             list.add(new BasicNameValuePair("caption", inputText));
+                            //todo 接口设置type
+//                            list.add(new BasicNameValuePair("type", type));
                         } else {
                             Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                             return;
@@ -335,6 +504,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                         if (authId.equals("1")) {
                                                             signDialog.closeDialog();
                                                             mPersonSignTv.setText(inputText);
+                                                            Toast.makeText(PersonCenterActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                                                         } else {
                                                             Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                                                         }
@@ -348,13 +518,30 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                         }, PersonCenterActivity.this,
                                         Config.URL_CHANGE_SIGN, list);
                     } else {
-                        Toast.makeText(PersonCenterActivity.this, "个性签名不能为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PersonCenterActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-        }
+
         signDialog.showDialog();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
 
