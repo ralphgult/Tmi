@@ -142,6 +142,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 bundle = new Bundle();
                 bundle.putString("headPath",headImgPath);
                 bundle.putString("signed", mData.get("caption"));
+                bundle.putString("name",myName_tv.getText().toString());
                 ViewUtil.jumpToOtherActivity(this.getActivity(), PersonCenterActivity.class,bundle);
                 break;
             case R.id.mine_comp_center_tv:
