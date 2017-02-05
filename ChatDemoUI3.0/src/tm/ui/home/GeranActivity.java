@@ -478,10 +478,10 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         wwww.setVisibility(View.GONE);
         tv_qymc.setVisibility(View.VISIBLE);
         if(qstype==3){
-            tv_qymc.setText("三农名称");
+            tv_qymc.setText("三农名称:");
             tv_qysm.setText("三农说明");
         }else{
-            tv_qymc.setText("企业名称");
+            tv_qymc.setText("企业名称:");
             tv_qysm.setText("企业说明");
         }
         dianpu_gridview.setVisibility(View.VISIBLE);
