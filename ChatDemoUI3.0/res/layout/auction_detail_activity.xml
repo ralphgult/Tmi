@@ -68,7 +68,7 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
-                        android:gravity="center|bottom"
+                        android:gravity="left|bottom"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -147,7 +147,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="20dp"
+                        android:layout_height="25dp"
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
