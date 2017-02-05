@@ -110,6 +110,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_pressed);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("本地特色");
+                btn_search.setHint("关键词搜您想搜的附近美女/帅哥");
                 zxtype=1;
                 type=0;
                 rjtype=1;
@@ -129,6 +130,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("资讯");
+                btn_search.setHint("关键词搜您想搜的企业商品/服务");
                 zxtype=2;
                 type=1;
                 rjtype=2;
@@ -147,6 +149,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_pressed);
                 txt3.setText("扶植农业");
+                btn_search.setHint("关键词搜您想搜的三农产品/服务");
                 zxtype=3;
                 type=2;
                 rjtype=3;
