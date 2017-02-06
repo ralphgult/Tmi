@@ -8,17 +8,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 
 import org.json.JSONArray;
@@ -65,6 +65,7 @@ public class MomentDetilActivity extends Activity {
     private ReplyAdapter replyAdapter;
     private List<Map<String, String>> replysList = null;
     private InputDialog mDialog;
+    private String newReplay;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -87,6 +88,8 @@ public class MomentDetilActivity extends Activity {
                     isFinish = true;
                     Toast.makeText(MomentDetilActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
                     SharedPreferences sp = getSharedPreferences("config", MODE_PRIVATE);
+                    String countBefore = comment_text.getText().toString();
+                    comment_text.setText(String.valueOf(Integer.valueOf(countBefore) + 1));
                     Map<String, String> map = new HashMap<>();
                     map.put("userName", "我");
                     map.put("comment", (String) msg.obj);
@@ -95,6 +98,10 @@ public class MomentDetilActivity extends Activity {
                     replysList.add(map);
                     replyAdapter.resetData(replysList);
                     SysUtils.setListViewHight(replyList);
+                    SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+
+                    newReplay = reply.substring(0, reply.length() - 1) + "{\"userId\":" + sharedPre.getString("username", "") +
+                            ",\"userName\":\"我\",\"replyId\":0,\"comment\":\"" + (String) msg.obj + "\"}]";
                     break;
                 default:
                     Toast.makeText(MomentDetilActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
@@ -102,6 +109,7 @@ public class MomentDetilActivity extends Activity {
             }
         }
     };
+    private String reply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,7 +201,8 @@ public class MomentDetilActivity extends Activity {
         String likeList = getIntent().getExtras().getString("likelist");
         isLike = likeList.contains(sharedPre.getString("username", ""));
         like_img.setImageResource(isLike ? R.drawable.tm_zan_p : R.drawable.tm_zan);
-        String reply = getIntent().getExtras().getString("reply");
+        reply = getIntent().getExtras().getString("reply");
+        Log.e("info", reply);
         if (!TextUtils.isEmpty(reply)) {
             try {
                 JSONObject object = new JSONObject("{\"reply\":" + reply + "}");
@@ -232,7 +241,10 @@ public class MomentDetilActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent intent = new Intent();
-            intent.putExtra("isFinish", isFinish);
+            intent.putExtra("newReply", newReplay);
+            intent.putExtra("like", like_text.getText().toString());
+            intent.putExtra("comment", comment_text.getText().toString());
+            intent.putExtra("id", getIntent().getExtras().getString("momentId"));
             ViewUtil.backToActivityForResult(MomentDetilActivity.this, 2, intent);
         }
         return super.onKeyDown(keyCode, event);

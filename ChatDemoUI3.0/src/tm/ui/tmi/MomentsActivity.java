@@ -132,7 +132,7 @@ public class MomentsActivity extends Activity {
         data_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Map<String, String> map = mAdapter.getDataList().get(position);
+                Map<String, String> map = datas.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("momentId", map.get("momentId"));
                 bundle.putString("name", map.get("name"));
@@ -331,18 +331,34 @@ public class MomentsActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (null != data && requestCode == 1) {
-            if (resultCode == 1) {
-                int isFinish = data.getIntExtra("publishFinish", 0);
-                if (isFinish == 1) {
-                    datas.clear();
-                    getSourceData(0);
+        if (null != data){
+            if(requestCode == 1) {
+                if (resultCode == 1) {
+                    int isFinish = data.getIntExtra("publishFinish", 0);
+                    if (isFinish == 1) {
+                        datas.clear();
+                        getSourceData(0);
+                    }
+                } else {
+                    boolean isDone = data.getBooleanExtra("isFinish", false);
+                    if (isDone) {
+                        datas.clear();
+                        getSourceData(0);
+                    }
                 }
-            } else {
-                boolean isDone = data.getBooleanExtra("isFinish", false);
-                if (isDone) {
-                    datas.clear();
-                    getSourceData(0);
+            } else if (requestCode == 10){
+                if (resultCode == 2) {
+                    for (Map<String, String> map : datas) {
+                        if (map.get("momentId").equals(data.getStringExtra("id"))) {
+                            String newReply = data.getStringExtra("newReply");
+                            if (TextUtils.isEmpty(newReply)) {
+                                map.put("reply", newReply);
+                            }
+                            map.put("like", data.getStringExtra("like"));
+                            map.put("comment", data.getStringExtra("comment"));
+                        }
+                    }
+                    mAdapter.resetData(datas);
                 }
             }
         }
