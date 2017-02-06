@@ -488,9 +488,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="1105353663" />
+                <data android:scheme="tencent1105353663" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
