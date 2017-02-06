@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -117,6 +118,46 @@ public class LoginActivity extends BaseActivity {
 	public static BaseResp resp;
 	private IWXAPI api;
 	private String uid;
+private boolean isWeiXin = false;
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case 1001://授权失败
+					Toast.makeText(LoginActivity.this,"授权失败，请稍后再试",Toast.LENGTH_SHORT).show();
+					break;
+				case 1002://新浪微博授权成功，去登录
+					Platform obj = (Platform)msg.obj;
+					String uid = obj.getDb().getUserId();
+					String Username = obj.getDb().getUserName();
+					Log.e("Lking","新浪 = "+Username);
+					Toast.makeText(LoginActivity.this,"新浪用户："+Username+"\n应用正式上线才可使用",Toast.LENGTH_SHORT).show();
+					break;
+				case 1003://微信授权成功，去登录
+					try {
+						String str = String.valueOf(msg.obj);
+						JSONObject json = new JSONObject(str);
+						String chatopenid = json.getString("openid");//注册使用的账号
+						String nickname = json.getString("nickname");//注册使用的昵称
+						Toast.makeText(LoginActivity.this,"微信用户："+nickname+"\n应用正式上线才可使用",Toast.LENGTH_SHORT).show();
+						//在这里进行微信登录*********************************************************************
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+//					Platform obj = (Platform)msg.obj;
+//					String uid = obj.getDb().getUserId();
+//					String Username = obj.getDb().getUserName();
+//					Log.e("Lking","新浪 = "+Username);
+					break;
+				default:
+					break;
+			}
+		}
+	};
+
+
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -150,6 +191,7 @@ public class LoginActivity extends BaseActivity {
 				//微信登录 需要签名打包才能使用
 				if(isAppInstalled(LoginActivity.this,"com.tencent.mm")){
 					requestAuth();
+					isWeiXin = true;
 				}else{
 					Toast.makeText(LoginActivity.this,"请先安装微信",Toast.LENGTH_SHORT).show();
 				}
@@ -160,6 +202,7 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				//微博登录方法调用
+				isWeiXin = false;
 				thirdSinaLogin();
 			}
 		});
@@ -167,7 +210,7 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				//QQ登录方法调用
-
+				isWeiXin = false;
 				if(isAppInstalled(LoginActivity.this,"com.tencent.mobileqq")){
 					onClickLogin();
 				}else{
@@ -225,9 +268,6 @@ public class LoginActivity extends BaseActivity {
 
 
 //微信登录方法
-	public void wechatLogin(View v) {
-		requestAuth();
-	}
 	private void requestAuth() {
 		SendAuth.Req req = new SendAuth.Req();
 		req.scope = "snsapi_userinfo";
@@ -370,10 +410,13 @@ public class LoginActivity extends BaseActivity {
 		if (autoLogin) {
 			return;
 		}
-		if(resp!=null){
-			System.out.println("onResume-->code-->"+((SendAuth.Resp) resp).code);
-			getAccessToken(((SendAuth.Resp) resp).code);
+		if(isWeiXin){
+			if(resp!=null){
+				System.out.println("onResume-->code-->"+((SendAuth.Resp) resp).code);
+				getAccessToken(((SendAuth.Resp) resp).code);
+			}
 		}
+
 	}
 	public void LoginMe() {
 		if (!EaseCommonUtils.isNetWorkConnected(this)) {
@@ -558,19 +601,19 @@ public class LoginActivity extends BaseActivity {
 
 			@Override
 			public void onFailure(HttpException arg0, String arg1) {
-
+					Message msg = new Message();
+					msg.what = 1001;
+					mHandler.sendMessage(msg);
 			}
 
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
 				Log.e("info", "fanhuizhi = "+responseInfo.result);
-				//在这里进行微信登录*********************************************************************
-				try {
-					JSONObject json = new JSONObject(responseInfo.result);
-					String chatopenid = json.getString("openid");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				Message msg = new Message();
+				msg.what = 1003;
+				msg.obj = responseInfo.result;
+				mHandler.sendMessage(msg);
+
 			}
 		});
 	}
@@ -586,9 +629,26 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onComplete(Platform platform, int action, HashMap<String, Object> hashMap) {
 				//在这里进行微博登录操作*******************************************************************
-				Log.e("info", "action = "+action);
-				Log.e("info", "uid = "+platform.getDb().getUserId());
-			}
+				Message msg = new Message();
+				msg.what = 1002;
+				msg.obj = platform;
+				mHandler.sendMessage(msg);
+//				try{
+////					Log.e("info", "uid = "+platform.getDb().getUserId());
+////					Log.e("info", "Username = "+platform.getDb().getUserName());
+//					String uid = platform.getDb().getUserId();
+//					final String Username = platform.getDb().getUserName();
+//					Log.e("Lking","Username = "+Username);
+//
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							Toast.makeText(LoginActivity.this,Username,Toast.LENGTH_SHORT).show();
+//						}
+//					});
+//				}catch (Exception e){
+//					e.printStackTrace();
+//				}
+				}
 			/** 取消授权 */
 			@Override
 			public void onCancel(Platform platform, int action) {
@@ -597,7 +657,9 @@ public class LoginActivity extends BaseActivity {
 			/** 授权失败 */
 			@Override
 			public void onError(Platform platform, int action, Throwable t) {
-				Log.e("info", "Error = "+platform.getDb().getUserId());
+				Message msg = new Message();
+				msg.what = 1001;
+				mHandler.sendMessage(msg);
 			}
 		});;
 		//获取登陆用户的信息，如果没有授权，会先授权，然后获取用户信息
