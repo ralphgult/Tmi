@@ -338,7 +338,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         dianpu_gridview.setVisibility(View.GONE);
         lv_geren1.setVisibility(View.VISIBLE);
         lv_geren2.setVisibility(View.VISIBLE);
-        lv_geren3.setVisibility(View.VISIBLE);
+        lv_geren3.setVisibility(View.GONE);
         lv_geren4.setVisibility(View.VISIBLE);
         lv_qiye_line.setVisibility(View.GONE);
         tv_dianpu.setText("个人动态");
