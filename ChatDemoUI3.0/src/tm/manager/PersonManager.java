@@ -1320,5 +1320,17 @@ public class PersonManager {
             }
         }
     }
+    public static void uploadSeeStatus(String moodId) {
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            HttpPost httppost = new HttpPost(Config.URL_ADD_LOST_INFO);
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+            reqEntity.addPart("moodId", new StringBody(moodId, Charset.forName("UTF-8")));
+            httppost.setEntity(reqEntity);
+            httpclient.execute(httppost);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }
