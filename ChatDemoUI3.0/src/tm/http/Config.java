@@ -72,6 +72,8 @@ public class Config {
     public static String URL_ADD_LOST_INFO  = ROOT_HOST_NAME + "/CBDParkingMSs/lost/addLost";//上传失误招领信息
     public static String URL_GET_LOST_INFO_LIST  = ROOT_HOST_NAME + "/CBDParkingMSs/lost/lost";//获取失误招领信息
 
+    public static String URL_UPLOAD_SEE_URL  = ROOT_HOST_NAME + "/CBDParkingMSs/mood/count";//朋友圈，资讯，失物招领提交浏览
+
     public static void init(Context context) throws IOException {
     }
 }
