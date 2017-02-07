@@ -46,7 +46,9 @@ import tm.ui.home.GeranActivity;
 import tm.ui.home.SearchActivity;
 import tm.ui.main.adapter.BdtsAdapter;
 import tm.ui.tmi.FosterAgriculturalActivity;
+import tm.ui.tmi.MomentsActivity;
 import tm.utils.ConstantsHandler;
+import tm.utils.ViewUtil;
 import tm.widget.StationaryGridView;
 import tm.widget.pulltorefresh.PullToRefreshBase;
 import tm.widget.pulltorefresh.PullToRefreshListView;
@@ -108,6 +110,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_pressed);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("本地特色");
+                btn_search.setHint("关键词搜您想搜的附近美女/帅哥");
                 zxtype=1;
                 type=0;
                 rjtype=1;
@@ -127,6 +130,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
                 txt3.setText("资讯");
+                btn_search.setHint("关键词搜您想搜的企业商品/服务");
                 zxtype=2;
                 type=1;
                 rjtype=2;
@@ -145,6 +149,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_pressed);
                 txt3.setText("扶植农业");
+                btn_search.setHint("关键词搜您想搜的三农产品/服务");
                 zxtype=3;
                 type=2;
                 rjtype=3;
@@ -423,14 +428,11 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(type==0 && stype==1){//本地特色
                     if(position == 6){//失物招领
-                        Toast.makeText(getActivity(),"敬请期待",Toast.LENGTH_SHORT).show();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("type", 6);
+                        ViewUtil.jumpToOtherActivity(HuihuaFragment.this.getActivity(), MomentsActivity.class, bundle);
                     }else if (position == 7){//拍卖共享
-//                        Toast.makeText(getActivity(),"拍卖显示接口正在调试",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), AuctionActivity.class);
-                        startActivity(intent);
-//                         Intent intent = new Intent(getActivity(), AuctionActivity.class);
-//                        startActivity(intent);
-
+                        ViewUtil.jumpToOtherActivity(getActivity(), AuctionActivity.class);
                     }else{
                         Intent intent = new Intent(getActivity(), BenditeseActivity.class);
                         intent.putExtra("position",position );

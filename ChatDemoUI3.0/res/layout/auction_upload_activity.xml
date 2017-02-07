@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/auction_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -160,6 +161,31 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:text="加价价格:"
+                    android:textColor="@color/black_deep"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/auction_prionce_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="请输入加价价格(单位元)"
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View style="@style/tm_common_divide_line_whitebg_width" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="剩余时间:"
                     android:textColor="@color/black_deep"
                     android:textSize="16sp" />
@@ -206,6 +232,7 @@
                 android:id="@+id/auction_img_gv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:columnWidth="110dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
@@ -214,7 +241,7 @@
                 android:numColumns="4"
                 android:scrollbars="none"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="10dp"></GridView>
+                android:verticalSpacing="10dp"/>
         </LinearLayout>
     </ScrollView>
 

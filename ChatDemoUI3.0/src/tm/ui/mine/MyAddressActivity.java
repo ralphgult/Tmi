@@ -1,10 +1,10 @@
 package tm.ui.mine;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -35,6 +35,7 @@ public class MyAddressActivity extends Activity {
 
     private List<Map<String, String>> mDatas;
     private TextView add;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MyAddressActivity extends Activity {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+               if(null != pd) pd.dismiss();
                 switch (msg.what) {
                     case 1001:
                         try {
@@ -78,11 +80,12 @@ public class MyAddressActivity extends Activity {
                         break;
                     case 2001:
                         Toast.makeText(MyAddressActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
-                        for (Map<String, String> mData : mDatas) {
-                            mData.remove("default");
-                            mData.put("default", mData.get("id").equals((String) msg.obj) ? "1" : "0");
-                        }
+                        mDatas.clear();
+                        getData();
                         mAdapter.resetData(mDatas);
+                        break;
+                    case 3001:
+
                         break;
                     default:
                         Toast.makeText(MyAddressActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
@@ -138,4 +141,15 @@ public class MyAddressActivity extends Activity {
             }.start();
         }
     }
+
+    public void deleteAddress(final String addrId){
+        pd = ProgressDialog.show(this, "删除", "删除地址中，请稍后...");
+        new Thread(){
+            @Override
+            public void run() {
+                PersonManager.deleteAddress(addrId,mHandler);
+            }
+        }.start();
+    }
+
 }

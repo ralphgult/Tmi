@@ -2,7 +2,6 @@ package tm.ui.mine;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.oohla.android.utils.StringUtil;
 import com.xbh.tmi.R;
 
 import java.util.ArrayList;
@@ -21,7 +19,6 @@ import java.util.Map;
 
 import tm.alipay.AlipayAPI;
 import tm.ui.mine.adapter.MyShoppingAdapter;
-import tm.utils.ImageUtil;
 import tm.utils.ViewUtil;
 
 public class ShoppingPayActivity extends Activity implements View.OnClickListener{
@@ -117,7 +114,7 @@ public class ShoppingPayActivity extends Activity implements View.OnClickListene
             totalPri = totalPri + Float.valueOf(map.get("currentPrice")) * Float.valueOf(map.get("cartCount"));
         }
         mTotalPrice = String.valueOf(totalPri);
-        mTotalPri.setText(mTotalPrice);
+        mTotalPri.setText("￥" + mTotalPrice);
     }
 
     @Override

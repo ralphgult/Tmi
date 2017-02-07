@@ -65,16 +65,16 @@ public class AuctionActivity extends Activity {
                         iconName[i]=jsonObject.getString("name");
                         iconPrice[i]=jsonObject.getString("price");
                         iconPurch[i]=jsonObject.getString("originalPrice");
-                        iconBid[i]=jsonObject.getString("number");
+                        iconBid[i]=jsonObject.getString("many");
                         iconTime[i]=jsonObject.getString("residual");
                         iconId[i]=jsonObject.getString("id");
                         Person person = new Person();
-//                        person.setPath(getResources().getDrawable(R.id.about_back_iv));
-                        person.setName("粽子一盒");
-                        person.setPrice("当前价：RMB 60");
-                        person.setPurch("直购价：RMB 90");
-                        person.setBid("出价6次");
-                        person.setTime("600000");
+                        person.setPath(icon[i]);
+                        person.setName(iconName[i]);
+                        person.setPrice("当前价：RMB "+iconPrice[i]);
+                        person.setPurch("直购价：RMB "+iconPurch[i]);
+                        person.setBid("出价"+iconBid[i]+"次");
+                        person.setTime(iconTime[i]);
                         person.setId(String.valueOf(i));
                         list.add(person);
                     }

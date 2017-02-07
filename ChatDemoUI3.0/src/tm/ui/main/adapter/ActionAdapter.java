@@ -61,7 +61,7 @@ public class ActionAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-//        imageLoaders.loadImage(viewHolder.imageView, list.get(position).getPath());
+        imageLoaders.loadImage(viewHolder.imageView, list.get(position).getPath());
         viewHolder.textView.setText(list.get(position).getName());
         viewHolder.text_spot_price.setText(list.get(position).getPrice());
         viewHolder.text_purchasing_direct.setText(list.get(position).getPurch());

@@ -3,7 +3,6 @@ package tm.ui.tmi;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,22 +16,18 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xbh.tmi.R;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import tm.manager.PersonManager;
 import tm.ui.mine.CommonSelectImgPopupWindow;
-import tm.ui.mine.CompCenterActivity;
 import tm.ui.tmi.adapter.ImageAdapter;
-import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 
@@ -60,7 +55,9 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
         public void handleMessage(Message msg) {
             if (msg.what == 1001) {
                 String text = null;
-                if (mType == 4) {
+                if (mType == 6) {
+                    text = "发布失物招领信息成功";
+                } else if (mType == 4) {
                     text = "发布随笔成功";
                 } else {
                     text = "发布资讯成功";
@@ -133,7 +130,14 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
                 //输入框内容获取
                 content = mEditText.getText().toString();
                 //不同的接口的调用
-                AddMomentThread thread = new AddMomentThread();
+                Thread thread = null;
+                if (mType == 6) {
+                    //添加失物招领信息
+                    thread = new AddLostThread();
+                } else {
+                    //添加资讯/朋友圈
+                    thread = new AddMomentThread();
+                }
                 thread.start();
                 break;
         }
@@ -160,6 +164,9 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
                 break;
             case 4:
                 mTitleTxt.setText("发布朋友圈");
+                break;
+            case 6:
+                mTitleTxt.setText("发布招领信息");
                 break;
         }
         mBackImg.setOnClickListener(this);
@@ -201,6 +208,16 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
             }
             PersonManager.publishMoment(content, imgPathList, mType, handler);
 
+        }
+    }
+
+    class AddLostThread extends Thread {
+        @Override
+        public void run() {
+            if (imgPathList.contains("0")) {
+                imgPathList.remove("0");
+            }
+            PersonManager.publishLostInfo(content, imgPathList, handler);
         }
     }
 

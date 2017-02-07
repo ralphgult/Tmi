@@ -122,6 +122,7 @@
             android:id="@+id/tm_person_myscore_tv"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:drawableLeft="@drawable/tm_5"
@@ -129,7 +130,7 @@
             android:drawableRight="@drawable/youxue_common_btn_icon_arrow"
             android:gravity="center_vertical"
             android:paddingRight="10dp"
-            android:text="我的积分"
+            android:text="我的钱包"
             android:textColor="@color/yx_context_function_color"
             android:textSize="16sp" />
 

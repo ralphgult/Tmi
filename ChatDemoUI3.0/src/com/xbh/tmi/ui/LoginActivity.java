@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -117,11 +118,62 @@ public class LoginActivity extends BaseActivity {
 	public static BaseResp resp;
 	private IWXAPI api;
 	private String uid;
+private boolean isWeiXin = false;
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case 1001://授权失败
+					Toast.makeText(LoginActivity.this,"授权失败，请稍后再试",Toast.LENGTH_SHORT).show();
+					break;
+				case 1002://新浪微博授权成功，去登录
+					Platform obj = (Platform)msg.obj;
+					String uid = obj.getDb().getUserId();
+					String Username = obj.getDb().getUserName();
+					Log.e("Lking","新浪 = "+Username);
+					Toast.makeText(LoginActivity.this,"新浪用户："+Username+"\n应用正式上线才可使用",Toast.LENGTH_SHORT).show();
+					break;
+				case 1003://微信授权成功，去登录
+				{
+					try {
+						String str = String.valueOf(msg.obj);
+						JSONObject json = new JSONObject(str);
+						String chatopenid = json.getString("openid");//注册使用的账号
+						String nickname = json.getString("nickname");//注册使用的昵称
+						Toast.makeText(LoginActivity.this, "微信用户：" + nickname + "\n应用正式上线才可使用", Toast.LENGTH_SHORT).show();
+						//在这里进行微信登录*********************************************************************
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+				case 1004://QQ授权成功，去登录
+				{
+					try {
+						String str = String.valueOf(msg.obj);
+						JSONObject json = new JSONObject(str);
+//						mStropenID
+						String nickname = json.getString("nickname");//注册使用的昵称
+						Toast.makeText(LoginActivity.this, "QQ用户：" + nickname + "\n应用正式上线才可使用", Toast.LENGTH_SHORT).show();
+						//在这里进行微信登录*********************************************************************
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+				default:
+					break;
+			}
+		}
+	};
+	private String mStropenID;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//初始化QQSDK
-		mQQAuth = QQAuth.createInstance(mAppid, this.getApplicationContext());
+//		mQQAuth = QQAuth.createInstance(mAppid, this.getApplicationContext());
 		mTencent = Tencent.createInstance(mAppid, this);
 		//初始化微信SDK
 		api = WXAPIFactory.createWXAPI(this, APP_ID, true);
@@ -150,6 +202,7 @@ public class LoginActivity extends BaseActivity {
 				//微信登录 需要签名打包才能使用
 				if(isAppInstalled(LoginActivity.this,"com.tencent.mm")){
 					requestAuth();
+					isWeiXin = true;
 				}else{
 					Toast.makeText(LoginActivity.this,"请先安装微信",Toast.LENGTH_SHORT).show();
 				}
@@ -160,6 +213,7 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				//微博登录方法调用
+				isWeiXin = false;
 				thirdSinaLogin();
 			}
 		});
@@ -167,7 +221,7 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				//QQ登录方法调用
-
+				isWeiXin = false;
 				if(isAppInstalled(LoginActivity.this,"com.tencent.mobileqq")){
 					onClickLogin();
 				}else{
@@ -225,9 +279,6 @@ public class LoginActivity extends BaseActivity {
 
 
 //微信登录方法
-	public void wechatLogin(View v) {
-		requestAuth();
-	}
 	private void requestAuth() {
 		SendAuth.Req req = new SendAuth.Req();
 		req.scope = "snsapi_userinfo";
@@ -370,10 +421,13 @@ public class LoginActivity extends BaseActivity {
 		if (autoLogin) {
 			return;
 		}
-		if(resp!=null){
-			System.out.println("onResume-->code-->"+((SendAuth.Resp) resp).code);
-			getAccessToken(((SendAuth.Resp) resp).code);
+		if(isWeiXin){
+			if(resp!=null){
+				System.out.println("onResume-->code-->"+((SendAuth.Resp) resp).code);
+				getAccessToken(((SendAuth.Resp) resp).code);
+			}
 		}
+
 	}
 	public void LoginMe() {
 		if (!EaseCommonUtils.isNetWorkConnected(this)) {
@@ -481,56 +535,77 @@ public class LoginActivity extends BaseActivity {
 			}
 		});
 	}
+
 	public void onClickLogin() {
-		if (!mQQAuth.isSessionValid()) {
-			// 登录成功后返回监听
-			IUiListener listener = new BaseUiListener() {
-				@Override
-				protected void doComplete(JSONObject values) {
-					updateUserInfo();
-				}
-			};
-			mTencent.loginWithOEM(this, "all", listener, "10000144", "10000144", "xxxx");
+		if (!mTencent.isSessionValid()) {
+			mTencent.login(this, "all", qqListener);
 		}
 	}
-	private void updateUserInfo() {
-		if (mQQAuth != null && mQQAuth.isSessionValid()) {
-			IUiListener listener = new IUiListener() {
-				@Override
-				public void onComplete(final Object response) {
-					Log.e("lking", "qq = " + response.toString());
 
-				}
+	//登录成功监听
+	private IUiListener qqListener = new BaseUiListener(){
+		@Override
+		protected void doComplete(JSONObject values) {
+			initLoginID(values);
+		}
+	};
+	/**
+	 * 获取qq信息
+	 * @param jsonObject
+	 */
+	private void initLoginID(JSONObject jsonObject) {
+		try {
+			if (jsonObject.getInt("ret")==0) {
+				String token = jsonObject.getString("access_token");
+				String expires = jsonObject.getString("expires_in");
+				mStropenID = jsonObject.getString("openid");
+				//**下面这两步设置很重要,如果没有设置,返回为空**
+				mTencent.setOpenId(mStropenID);
+				mTencent.setAccessToken(token, expires);
+				getuserInfo();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 
-				@Override
-				public void onCancel() {
-
-				}
-
-				@Override
-				public void onError(UiError arg0) {
-
-				}
-			};
-			mInfo = new UserInfo(this, mQQAuth.getQQToken());
-			mInfo.getUserInfo(listener);
 		}
 	}
+	//QQ信息返回
+	private void getuserInfo() {
+		mInfo = new UserInfo(LoginActivity.this,mTencent.getQQToken());
+		mInfo.getUserInfo(getQQinfoListener);
+	}
+	/**
+	 * 获取用户信息
+	 */
+	private IUiListener getQQinfoListener = new IUiListener() {
+		@Override
+		public void onComplete(Object response) {
+			Log.e("Lking","用户信息="+response.toString());
+			Message msg = new Message();
+			msg.what = 1004;
+			msg.obj = response;
+			mHandler.sendMessage(msg);
+		}
+
+		@Override
+		public void onError(UiError uiError) {
+			Message msg = new Message();
+			msg.what = 1001;
+			mHandler.sendMessage(msg);
+		}
+
+		@Override
+		public void onCancel() {
+
+		}
+	};
+
 	private class BaseUiListener implements IUiListener {
 		@Override
 		public void onComplete(Object response) {
 			Log.e("lking", "返回值 = " + response.toString());
-			JSONObject json = (JSONObject) response;
-			try {
-				String openID = json.getString("openid");
-				String accessToken = json.getString("access_token");
-				String expires = json.getString("expires_in");
-				mTencent.setOpenId(openID);
-				mTencent.setAccessToken(accessToken, expires);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			updateUserInfo();
+			doComplete((JSONObject)response);
+
 		}
 		protected void doComplete(JSONObject values) {
 
@@ -548,7 +623,7 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Tencent.onActivityResultData(requestCode, resultCode, data, new BaseUiListener());
+		Tencent.onActivityResultData(requestCode, resultCode, data, qqListener);
 	}
 	private void getWeChatUserInfo(String token, String openid) {
 		HttpUtils httpUtils = new HttpUtils();
@@ -559,19 +634,19 @@ public class LoginActivity extends BaseActivity {
 
 			@Override
 			public void onFailure(HttpException arg0, String arg1) {
-
+					Message msg = new Message();
+					msg.what = 1001;
+					mHandler.sendMessage(msg);
 			}
 
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
 				Log.e("info", "fanhuizhi = "+responseInfo.result);
-				//在这里进行微信登录*********************************************************************
-				try {
-					JSONObject json = new JSONObject(responseInfo.result);
-					String chatopenid = json.getString("openid");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				Message msg = new Message();
+				msg.what = 1003;
+				msg.obj = responseInfo.result;
+				mHandler.sendMessage(msg);
+
 			}
 		});
 	}
@@ -587,9 +662,26 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onComplete(Platform platform, int action, HashMap<String, Object> hashMap) {
 				//在这里进行微博登录操作*******************************************************************
-				Log.e("info", "action = "+action);
-				Log.e("info", "uid = "+platform.getDb().getUserId());
-			}
+				Message msg = new Message();
+				msg.what = 1002;
+				msg.obj = platform;
+				mHandler.sendMessage(msg);
+//				try{
+////					Log.e("info", "uid = "+platform.getDb().getUserId());
+////					Log.e("info", "Username = "+platform.getDb().getUserName());
+//					String uid = platform.getDb().getUserId();
+//					final String Username = platform.getDb().getUserName();
+//					Log.e("Lking","Username = "+Username);
+//
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							Toast.makeText(LoginActivity.this,Username,Toast.LENGTH_SHORT).show();
+//						}
+//					});
+//				}catch (Exception e){
+//					e.printStackTrace();
+//				}
+				}
 			/** 取消授权 */
 			@Override
 			public void onCancel(Platform platform, int action) {
@@ -598,7 +690,9 @@ public class LoginActivity extends BaseActivity {
 			/** 授权失败 */
 			@Override
 			public void onError(Platform platform, int action, Throwable t) {
-				Log.e("info", "Error = "+platform.getDb().getUserId());
+				Message msg = new Message();
+				msg.what = 1001;
+				mHandler.sendMessage(msg);
 			}
 		});;
 		//获取登陆用户的信息，如果没有授权，会先授权，然后获取用户信息

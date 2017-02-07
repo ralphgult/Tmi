@@ -53,7 +53,7 @@ public class Config {
     public static String URL_GET_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/ra/myAddress";//获取收货地址/获取某条地址
     public static String URL_SET_ADD_DEFAULT = ROOT_HOST_NAME + "/CBDParkingMSs/ra/updateIsDefault";//设置收货地址为默认地址
     public static String URL_ADD_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/ra/addReceiptAddress";//添加/修改收货地址
-//    public static String URL_EDT_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/ra/delReceiptAddress";//删除收货地址(文档中没看到这个接口)
+    public static String URL_EDT_ADDRESS = ROOT_HOST_NAME + "/CBDParkingMSs/ra/delete";//删除收货地址(文档中没看到这个接口)
 
     public static String RUL_ADD_SHOPPINGCAR = ROOT_HOST_NAME + "/CBDParkingMSs/sc/addShoppingCart";//添加购物车
     public static String RUL_GET_SHOPPINGCAR_LIST = ROOT_HOST_NAME + "/CBDParkingMSs/sc/myShoppingCart";//购物车列表
@@ -67,6 +67,13 @@ public class Config {
     public static String AUCTION_SHOPPING_DETAIL = ROOT_HOST_NAME + "/CBDParkingMSs/auction/queryAuction";//拍卖商品详情
     public static String URL_ADD_AUCTION_SHOPPING = ROOT_HOST_NAME + "/CBDParkingMSs/auction/addAuction";//上传拍卖商品
 //    public static String URL_INFO = ROOT_HOST_NAME + "/CBDParkingMSs/infoByUserName";//获取用户信息
+    public static String URL_ADD_AUCTION_PRICVE = ROOT_HOST_NAME + "/CBDParkingMSs/auction/updatePrice";//上传拍卖商品
+
+    public static String URL_GET_PERSON_MOMENT = ROOT_HOST_NAME + "/CBDParkingMSs/mood/myMoods";//上传拍卖商品
+    public static String URL_ADD_LOST_INFO  = ROOT_HOST_NAME + "/CBDParkingMSs/lost/addLost";//上传失误招领信息
+    public static String URL_GET_LOST_INFO_LIST  = ROOT_HOST_NAME + "/CBDParkingMSs/lost/lost";//获取失误招领信息
+
+    public static String URL_UPLOAD_SEE_URL  = ROOT_HOST_NAME + "/CBDParkingMSs/mood/count";//朋友圈，资讯，失物招领提交浏览
 
     public static void init(Context context) throws IOException {
     }

@@ -121,6 +121,8 @@
                 android:id="@+id/foster_details"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
