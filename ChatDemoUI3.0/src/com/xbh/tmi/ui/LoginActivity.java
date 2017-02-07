@@ -118,57 +118,131 @@ public class LoginActivity extends BaseActivity {
 	public static BaseResp resp;
 	private IWXAPI api;
 	private String uid;
+
+
+	String mOtherUid;
+
 private boolean isWeiXin = false;
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case 1001://授权失败
-					Toast.makeText(LoginActivity.this,"授权失败，请稍后再试",Toast.LENGTH_SHORT).show();
-					break;
-				case 1002://新浪微博授权成功，去登录
-					Platform obj = (Platform)msg.obj;
-					String uid = obj.getDb().getUserId();
-					String Username = obj.getDb().getUserName();
-					Log.e("Lking","新浪 = "+Username);
-					Toast.makeText(LoginActivity.this,"新浪用户："+Username+"\n应用正式上线才可使用",Toast.LENGTH_SHORT).show();
-					break;
-				case 1003://微信授权成功，去登录
-				{
-					try {
-						String str = String.valueOf(msg.obj);
-						JSONObject json = new JSONObject(str);
-						String chatopenid = json.getString("openid");//注册使用的账号
-						String nickname = json.getString("nickname");//注册使用的昵称
-						Toast.makeText(LoginActivity.this, "微信用户：" + nickname + "\n应用正式上线才可使用", Toast.LENGTH_SHORT).show();
-						//在这里进行微信登录*********************************************************************
-					} catch (JSONException e) {
-						e.printStackTrace();
+				switch (msg.what) {
+					case 1001://授权失败
+						Toast.makeText(LoginActivity.this,"授权失败，请稍后再试",Toast.LENGTH_SHORT).show();
+						break;
+					case 1002://新浪微博授权成功，去登录
+						Platform obj = (Platform)msg.obj;
+						mOtherUid = obj.getDb().getUserId();
+						String Username = obj.getDb().getUserName();
+						Log.e("Lking","新浪 = "+Username);
+
+						List<NameValuePair> Sinaparams = new ArrayList<NameValuePair>();
+						Sinaparams.add(new BasicNameValuePair("userName", mOtherUid));
+						Sinaparams.add(new BasicNameValuePair("userPassword", "123456"));
+						Sinaparams.add(new BasicNameValuePair("nickname",Username));
+						NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
+								Config.URL_REDGIST, Sinaparams);
+
+
+						break;
+					case 1003://微信授权成功，去登录
+					{
+						try {
+							String str = String.valueOf(msg.obj);
+							JSONObject json = new JSONObject(str);
+//							String  rStr = json.getString("openid");
+//							Log.e("Lking","rStr = "+rStr);
+//							mOtherUid = "";
+//							for(int i=0;i<rStr.length();i++){
+//								System.out.println((int)rStr.charAt(i));
+//								mOtherUid = mOtherUid + (int)rStr.charAt(i);
+//							}
+//							mOtherUid = mOtherUid.substring(0,18);
+//							Log.e("Lking","mOtherUid = "+mOtherUid);
+
+							mOtherUid =json.getString("openid");//注册使用的账号
+							String nickname = json.getString("nickname");//注册使用的昵称
+							//在这里进行微信登录*********************************************************************
+
+							List<NameValuePair> mWeChatParams = new ArrayList<NameValuePair>();
+							mWeChatParams.add(new BasicNameValuePair("userName", mOtherUid));
+							mWeChatParams.add(new BasicNameValuePair("userPassword", "123456"));
+							mWeChatParams.add(new BasicNameValuePair("nickname",nickname));
+							NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
+									Config.URL_REDGIST, mWeChatParams);
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						break;
 					}
-					break;
-				}
-				case 1004://QQ授权成功，去登录
-				{
-					try {
-						String str = String.valueOf(msg.obj);
-						JSONObject json = new JSONObject(str);
-//						mStropenID
-						String nickname = json.getString("nickname");//注册使用的昵称
-						Toast.makeText(LoginActivity.this, "QQ用户：" + nickname + "\n应用正式上线才可使用", Toast.LENGTH_SHORT).show();
-						//在这里进行微信登录*********************************************************************
-					} catch (JSONException e) {
-						e.printStackTrace();
+					case 1004://QQ授权成功，去登录
+					{
+						try {
+							String str = String.valueOf(msg.obj);
+							JSONObject json = new JSONObject(str);
+
+							String nickname = json.getString("nickname");//注册使用的昵称
+							Toast.makeText(LoginActivity.this, "QQ用户：" + nickname + "\n应用正式上线才可使用", Toast.LENGTH_SHORT).show();
+							//在这里进行微信登录*********************************************************************
+
+							mOtherUid = mStropenID;
+//
+//							for(int i=0;i<mStropenID.length();i++){
+//								System.out.println((int)mStropenID.charAt(i));
+//								mOtherUid = mOtherUid + (int)mStropenID.charAt(i);
+//							}
+//							mOtherUid = mOtherUid.substring(0,20);
+
+							List<NameValuePair> mWeChatParams = new ArrayList<NameValuePair>();
+							mWeChatParams.add(new BasicNameValuePair("userName", mOtherUid));
+							mWeChatParams.add(new BasicNameValuePair("userPassword", "123456"));
+							mWeChatParams.add(new BasicNameValuePair("nickname",nickname));
+							NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
+									Config.URL_REDGIST, mWeChatParams);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						break;
 					}
-					break;
+					default:
+						break;
 				}
-				default:
-					break;
-			}
+
 		}
 	};
 	private String mStropenID;
 
+	private Handler mRegisHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if(null != msg.obj){
+				String result = ((Map) msg.obj).toString();
+				JSONObject object = null;
+				try {
+					object = new JSONObject(result);
+					int resultCode = object.getInt("authId");
+					if (resultCode == 1 ||resultCode == -1) {
+						//调用登录接口
+						Toast.makeText(LoginActivity.this, "登录.......", Toast.LENGTH_SHORT).show();
 
+						List<NameValuePair> list = new ArrayList<NameValuePair>();
+						list.add(new BasicNameValuePair("userName", mOtherUid));
+						list.add(new BasicNameValuePair("userPassword", "123456"));
+						NetFactory.instance().commonHttpCilent(login, LoginActivity.this,
+								Config.URL_LOGIN_USER, list);
+
+
+					}else {
+						Toast.makeText(LoginActivity.this, "系统错误，请稍后再试", Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+	};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
