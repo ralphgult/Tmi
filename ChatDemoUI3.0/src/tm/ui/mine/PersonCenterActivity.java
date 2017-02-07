@@ -394,70 +394,6 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         }
     }
 
-//    private void createSignDialog() {
-//        if (null == signDialog) {
-//            signDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
-//            signDialog.setEditTextHint("请输入个性签名");
-//            signDialog.setInputDialogListener(new InputDialog.InputDialogListener() {
-//                @Override
-//                public void inputDialogCancle() {
-//                    signDialog.closeDialog();
-//                }
-//
-//                @Override
-//                public void inputDialogSubmit(final String inputText) {
-//                    if (!TextUtils.isEmpty(inputText)) {
-//                        if (!NetworkUtil.isNetworkAvailable(PersonCenterActivity.this)) {
-//                            Toast.makeText(PersonCenterActivity.this, "网络链接异常，请检查网络连接后重试...", Toast.LENGTH_SHORT).show();
-//                            return;
-//                        }
-//                        List<NameValuePair> list = new ArrayList<NameValuePair>();
-//                        SharedPreferences sharedPre = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
-//                        String userId = sharedPre.getString("username", "");
-//                        if (!TextUtils.isEmpty(userId)) {
-//                            list.add(new BasicNameValuePair("userId", userId));
-//                            list.add(new BasicNameValuePair("caption", inputText));
-//                        } else {
-//                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-//                            return;
-//                        }
-//                        NetFactory
-//                                .instance()
-//                                .commonHttpCilent(
-//                                        new Handler() {
-//                                            @Override
-//                                            public void handleMessage(Message msg) {
-//                                                switch (msg.what) {
-//                                                    case ConstantsHandler.EXECUTE_SUCCESS:
-//                                                        Map map = (Map) msg.obj;
-//                                                        Log.e("info", "map==" + map);
-//                                                        String authId = map.get("authId") + "";
-//                                                        if (authId.equals("1")) {
-//                                                            signDialog.closeDialog();
-//                                                            mPersonSignTv.setText(inputText);
-//                                                            Toast.makeText(PersonCenterActivity.this, "个人签名修改成功", Toast.LENGTH_SHORT).show();
-//                                                        } else {
-//                                                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-//                                                        }
-//                                                        break;
-//                                                    case ConstantsHandler.EXECUTE_FAIL:
-//                                                    case ConstantsHandler.ConnectTimeout:
-//                                                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-//                                                        break;
-//                                                }
-//                                            }
-//                                        }, PersonCenterActivity.this,
-//                                        Config.URL_CHANGE_SIGN, list);
-//                    } else {
-//                        Toast.makeText(PersonCenterActivity.this, "个性签名不能为空", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
-//        }
-//        signDialog.showDialog();
-//    }
-
-
     private void createDialog(String hint,final String type) {
 
         if (null == signDialog) {
@@ -472,7 +408,6 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
 
                 @Override
                 public void inputDialogSubmit(final String inputText) {
-                    Toast.makeText(PersonCenterActivity.this, type, Toast.LENGTH_SHORT).show();
                     if (!TextUtils.isEmpty(inputText)) {
                         if (!NetworkUtil.isNetworkAvailable(PersonCenterActivity.this)) {
                             Toast.makeText(PersonCenterActivity.this, "网络链接异常，请检查网络连接后重试...", Toast.LENGTH_SHORT).show();
@@ -483,9 +418,25 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                         String userId = sharedPre.getString("username", "");
                         if (!TextUtils.isEmpty(userId)) {
                             list.add(new BasicNameValuePair("userId", userId));
-                            list.add(new BasicNameValuePair("caption", inputText));
                             //todo 接口设置type
-//                            list.add(new BasicNameValuePair("type", type));
+                            switch (type){
+                                case "1"://设置昵称
+                                {
+                                    list.add(new BasicNameValuePair("nickname", inputText));
+                                    break;
+                                }
+                                case "3"://个性签名
+                                {
+                                    list.add(new BasicNameValuePair("caption", inputText));
+                                    break;
+                                }
+//                                case "4"://设置昵称
+//                                {
+//                                    list.add(new BasicNameValuePair("nickname", inputText));
+//                                    break;
+//                                }
+
+                            }
                         } else {
                             Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                             return;
@@ -503,7 +454,19 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                         String authId = map.get("authId") + "";
                                                         if (authId.equals("1")) {
                                                             signDialog.closeDialog();
-                                                            mPersonSignTv.setText(inputText);
+                                                            switch (type){
+                                                                case "1":
+                                                                {
+                                                                    mPersonNameTv.setText(inputText);
+                                                                    break;
+                                                                }
+                                                                case "3":
+                                                                {
+                                                                    mPersonSignTv.setText(inputText);
+                                                                    break;
+                                                                }
+                                                            }
+
                                                             Toast.makeText(PersonCenterActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                                                         } else {
                                                             Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
