@@ -109,9 +109,7 @@ public class LoginActivity extends BaseActivity {
 
 	private UserInfo mInfo;
 	private Tencent mTencent;
-	public QQAuth mQQAuth;
 	public String mAppid = "1105353663";
-	public String openid ;
 
 	public static final String APP_ID = "wx4c49c49a71bfb7df";
 	public static final String APP_SECRET = "fcef682cbaab83ea263658c7beb7ab44";
@@ -123,6 +121,7 @@ public class LoginActivity extends BaseActivity {
 	String mOtherUid;
 
 private boolean isWeiXin = false;
+private boolean isOther = false;
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -134,43 +133,27 @@ private boolean isWeiXin = false;
 						Platform obj = (Platform)msg.obj;
 						mOtherUid = obj.getDb().getUserId();
 						String Username = obj.getDb().getUserName();
-						Log.e("Lking","新浪 = "+Username);
-
 						List<NameValuePair> Sinaparams = new ArrayList<NameValuePair>();
 						Sinaparams.add(new BasicNameValuePair("userName", mOtherUid));
 						Sinaparams.add(new BasicNameValuePair("userPassword", "123456"));
 						Sinaparams.add(new BasicNameValuePair("nickname",Username));
 						NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
 								Config.URL_REDGIST, Sinaparams);
-
-
 						break;
 					case 1003://微信授权成功，去登录
 					{
 						try {
 							String str = String.valueOf(msg.obj);
 							JSONObject json = new JSONObject(str);
-//							String  rStr = json.getString("openid");
-//							Log.e("Lking","rStr = "+rStr);
-//							mOtherUid = "";
-//							for(int i=0;i<rStr.length();i++){
-//								System.out.println((int)rStr.charAt(i));
-//								mOtherUid = mOtherUid + (int)rStr.charAt(i);
-//							}
-//							mOtherUid = mOtherUid.substring(0,18);
-//							Log.e("Lking","mOtherUid = "+mOtherUid);
-
 							mOtherUid =json.getString("openid");//注册使用的账号
 							String nickname = json.getString("nickname");//注册使用的昵称
 							//在这里进行微信登录*********************************************************************
-
 							List<NameValuePair> mWeChatParams = new ArrayList<NameValuePair>();
 							mWeChatParams.add(new BasicNameValuePair("userName", mOtherUid));
 							mWeChatParams.add(new BasicNameValuePair("userPassword", "123456"));
 							mWeChatParams.add(new BasicNameValuePair("nickname",nickname));
 							NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
 									Config.URL_REDGIST, mWeChatParams);
-
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
@@ -181,19 +164,9 @@ private boolean isWeiXin = false;
 						try {
 							String str = String.valueOf(msg.obj);
 							JSONObject json = new JSONObject(str);
-
 							String nickname = json.getString("nickname");//注册使用的昵称
-							Toast.makeText(LoginActivity.this, "QQ用户：" + nickname + "\n应用正式上线才可使用", Toast.LENGTH_SHORT).show();
 							//在这里进行微信登录*********************************************************************
-
 							mOtherUid = mStropenID;
-//
-//							for(int i=0;i<mStropenID.length();i++){
-//								System.out.println((int)mStropenID.charAt(i));
-//								mOtherUid = mOtherUid + (int)mStropenID.charAt(i);
-//							}
-//							mOtherUid = mOtherUid.substring(0,20);
-
 							List<NameValuePair> mWeChatParams = new ArrayList<NameValuePair>();
 							mWeChatParams.add(new BasicNameValuePair("userName", mOtherUid));
 							mWeChatParams.add(new BasicNameValuePair("userPassword", "123456"));
@@ -224,15 +197,11 @@ private boolean isWeiXin = false;
 					int resultCode = object.getInt("authId");
 					if (resultCode == 1 ||resultCode == -1) {
 						//调用登录接口
-						Toast.makeText(LoginActivity.this, "登录.......", Toast.LENGTH_SHORT).show();
-
 						List<NameValuePair> list = new ArrayList<NameValuePair>();
 						list.add(new BasicNameValuePair("userName", mOtherUid));
 						list.add(new BasicNameValuePair("userPassword", "123456"));
 						NetFactory.instance().commonHttpCilent(login, LoginActivity.this,
 								Config.URL_LOGIN_USER, list);
-
-
 					}else {
 						Toast.makeText(LoginActivity.this, "系统错误，请稍后再试", Toast.LENGTH_SHORT).show();
 					}
@@ -277,6 +246,7 @@ private boolean isWeiXin = false;
 				if(isAppInstalled(LoginActivity.this,"com.tencent.mm")){
 					requestAuth();
 					isWeiXin = true;
+					isOther = true;
 				}else{
 					Toast.makeText(LoginActivity.this,"请先安装微信",Toast.LENGTH_SHORT).show();
 				}
@@ -288,6 +258,7 @@ private boolean isWeiXin = false;
 			public void onClick(View v) {
 				//微博登录方法调用
 				isWeiXin = false;
+				isOther = true;
 				thirdSinaLogin();
 			}
 		});
@@ -296,6 +267,7 @@ private boolean isWeiXin = false;
 			public void onClick(View v) {
 				//QQ登录方法调用
 				isWeiXin = false;
+				isOther = true;
 				if(isAppInstalled(LoginActivity.this,"com.tencent.mobileqq")){
 					onClickLogin();
 				}else{
@@ -406,7 +378,11 @@ private boolean isWeiXin = false;
 			Toast.makeText(this, "网络连接失败请稍后再试", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		currentUsername = usernameEditText.getText().toString().trim();
+		if(isOther){
+			currentUsername = mOtherUid;
+		}else{
+			currentUsername = usernameEditText.getText().toString().trim();
+		}
 		String	hxPassword ="tmi1q2w3e";
 
 		progressShow = true;
