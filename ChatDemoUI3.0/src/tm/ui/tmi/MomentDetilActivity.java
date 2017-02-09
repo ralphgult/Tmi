@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 
 import org.json.JSONArray;
@@ -66,6 +65,7 @@ public class MomentDetilActivity extends Activity {
     private List<Map<String, String>> replysList = null;
     private InputDialog mDialog;
     private String newReplay;
+    private SharedPreferences sp;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -87,21 +87,19 @@ public class MomentDetilActivity extends Activity {
                 case 3001:
                     isFinish = true;
                     Toast.makeText(MomentDetilActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
-                    SharedPreferences sp = getSharedPreferences("config", MODE_PRIVATE);
+                    sp = getSharedPreferences("config", MODE_PRIVATE);
                     String countBefore = comment_text.getText().toString();
                     comment_text.setText(String.valueOf(Integer.valueOf(countBefore) + 1));
                     Map<String, String> map = new HashMap<>();
-                    map.put("userName", "我");
+                    map.put("userName", sp.getString("nickname", ""));
                     map.put("comment", (String) msg.obj);
                     map.put("userId", sp.getString("username", "无Id"));
                     map.put("replyId", 0 + "");
                     replysList.add(map);
                     replyAdapter.resetData(replysList);
                     SysUtils.setListViewHight(replyList);
-                    SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
-
-                    newReplay = reply.substring(0, reply.length() - 1) + "{\"userId\":" + sharedPre.getString("username", "") +
-                            ",\"userName\":\"我\",\"replyId\":0,\"comment\":\"" + (String) msg.obj + "\"}]";
+                    newReplay = reply.substring(0, reply.length() - 1) + "{\"userId\":" + sp.getString("username", "") +
+                            ",\"userName\":\"" + sp.getString("nickname", "") + "\",\"replyId\":0,\"comment\":\"" + (String) msg.obj + "\"}]";
                     break;
                 default:
                     Toast.makeText(MomentDetilActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
@@ -225,6 +223,10 @@ public class MomentDetilActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (!getIntent().getExtras().getString("name").equals(sp.getString("nickname", ""))) {
+            //不是自己 增加浏览量
+            PersonManager.uploadSeeStatus(getIntent().getStringExtra("momentId"));
         }
     }
 
