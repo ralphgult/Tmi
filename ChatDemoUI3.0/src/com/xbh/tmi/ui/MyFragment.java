@@ -1,17 +1,12 @@
 package com.xbh.tmi.ui;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +36,6 @@ import tm.ui.mine.MySoppingActivity;
 import tm.ui.mine.PersonCenterActivity;
 import tm.ui.mine.UploadAuctionActivity;
 import tm.ui.setting.SettingActivity;
-import tm.ui.tmi.adapter.MomentListAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
@@ -143,6 +137,14 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 bundle.putString("headPath",headImgPath);
                 bundle.putString("signed", mData.get("caption"));
                 bundle.putString("name",myName_tv.getText().toString());
+                bundle.putString("domicile",mData.get("domicile"));
+                bundle.putString("occupation",mData.get("occupation"));
+                bundle.putString("age",mData.get("age"));
+                bundle.putString("height",mData.get("height"));
+                bundle.putString("school",mData.get("school"));
+                bundle.putString("hobby",mData.get("hobby"));
+                bundle.putString("wish",mData.get("wish"));
+                bundle.putString("income",mData.get("income"));
                 ViewUtil.jumpToOtherActivity(this.getActivity(), PersonCenterActivity.class,bundle);
                 break;
             case R.id.mine_comp_center_tv:

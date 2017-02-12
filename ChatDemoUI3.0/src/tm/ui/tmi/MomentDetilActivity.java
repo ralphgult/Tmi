@@ -224,9 +224,16 @@ public class MomentDetilActivity extends Activity {
                 e.printStackTrace();
             }
         }
+        String nickName = sp.getString("nickname", "");
+        String name = getIntent().getExtras().getString("name");
         if (!getIntent().getExtras().getString("name").equals(sp.getString("nickname", ""))) {
             //不是自己 增加浏览量
-            PersonManager.uploadSeeStatus(getIntent().getStringExtra("momentId"));
+           new Thread(){
+               @Override
+               public void run() {
+                   PersonManager.uploadSeeStatus(getIntent().getStringExtra("momentId"));
+               }
+           };
         }
     }
 
