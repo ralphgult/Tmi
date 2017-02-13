@@ -200,7 +200,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         //TODO 年龄
         mPersonAgeTv.setText("年龄：" + getIntent().getExtras().getString("age"));
         //TODO 身高
-        mPersonHeightTv.setText("身高：" + getIntent().getExtras().getString("height"));
+        mPersonHeightTv.setText("身高：" + getIntent().getExtras().getString("height")+"cm");
         //TODO 毕业院校
         mPersonAcademyTv.setText("毕业院校：" + getIntent().getExtras().getString("school"));
         //TODO 爱好
@@ -208,7 +208,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         //TODO 我的心愿
         mPersonWishTv.setText("我的心愿：" + getIntent().getExtras().getString("wish"));
         //TODO 年收入
-        mPersonIncomeTv.setText("年收入：" + getIntent().getExtras().getString("income"));
+        mPersonIncomeTv.setText("年收入：" + getIntent().getExtras().getString("income")+"元");
 
 
         if (!TextUtils.isEmpty(userId)) {
@@ -430,7 +430,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                 list.add(new BasicNameValuePair("age", inputText));
                                 break;
                             case 7://设置身高
-                                list.add(new BasicNameValuePair("height", inputText));
+                                list.add(new BasicNameValuePair("height", inputText+"cm"));
                                 break;
                             case 8://设置毕业院校
                                 list.add(new BasicNameValuePair("school", inputText));
@@ -442,7 +442,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                 list.add(new BasicNameValuePair("wish", inputText));
                                 break;
                             case 11://设置年收入
-                                list.add(new BasicNameValuePair("income", inputText));
+                                list.add(new BasicNameValuePair("income", inputText+"元"));
                                 break;
                         }
                     } else {
