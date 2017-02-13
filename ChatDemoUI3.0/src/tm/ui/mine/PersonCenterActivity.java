@@ -192,23 +192,23 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String userId = sharedPre.getString("username", "");
         //TODO 账号
-        mPersonAccountTv.setText("账号：" + userId);
+        mPersonAccountTv.setText(userId);
         //TODO 居住地
-        mPersonResidenceTv.setText("居住地：" + getIntent().getExtras().getString("domicile"));
+        mPersonResidenceTv.setText(getIntent().getExtras().getString("domicile"));
         //TODO 职业
-        mPersonJobTv.setText("职业：" + getIntent().getExtras().getString("occupation"));
+        mPersonJobTv.setText(getIntent().getExtras().getString("occupation"));
         //TODO 年龄
-        mPersonAgeTv.setText("年龄：" + getIntent().getExtras().getString("age"));
+        mPersonAgeTv.setText(getIntent().getExtras().getString("age"));
         //TODO 身高
-        mPersonHeightTv.setText("身高：" + getIntent().getExtras().getString("height")+"cm");
+        mPersonHeightTv.setText(getIntent().getExtras().getString("height")+"cm");
         //TODO 毕业院校
-        mPersonAcademyTv.setText("毕业院校：" + getIntent().getExtras().getString("school"));
+        mPersonAcademyTv.setText(getIntent().getExtras().getString("school"));
         //TODO 爱好
-        mPersonHobbyTv.setText("兴趣爱好：" + getIntent().getExtras().getString("hobby"));
+        mPersonHobbyTv.setText(getIntent().getExtras().getString("hobby"));
         //TODO 我的心愿
-        mPersonWishTv.setText("我的心愿：" + getIntent().getExtras().getString("wish"));
+        mPersonWishTv.setText(getIntent().getExtras().getString("wish"));
         //TODO 年收入
-        mPersonIncomeTv.setText("年收入：" + getIntent().getExtras().getString("income")+"元");
+        mPersonIncomeTv.setText(getIntent().getExtras().getString("income")+"元");
 
 
         if (!TextUtils.isEmpty(userId)) {
@@ -427,11 +427,24 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                 list.add(new BasicNameValuePair("occupation", inputText));
                                 break;
                             case 6://设置年龄
-                                list.add(new BasicNameValuePair("age", inputText));
+                                boolean result=inputText.matches("[0-9]+");
+                                if(!result){
+                                    Toast.makeText(PersonCenterActivity.this, "年龄必须是纯数字", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    list.add(new BasicNameValuePair("age", inputText));
+                                }
                                 break;
                             case 7://设置身高
-                                list.add(new BasicNameValuePair("height", inputText+"cm"));
+                            {
+                                boolean resulta = inputText.matches("[0-9]+");
+                                if (!resulta) {
+                                    Toast.makeText(PersonCenterActivity.this, "身高必须是纯数字", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    list.add(new BasicNameValuePair("height", inputText));
+                                }
+
                                 break;
+                            }
                             case 8://设置毕业院校
                                 list.add(new BasicNameValuePair("school", inputText));
                                 break;
@@ -442,8 +455,16 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                 list.add(new BasicNameValuePair("wish", inputText));
                                 break;
                             case 11://设置年收入
-                                list.add(new BasicNameValuePair("income", inputText+"元"));
+                            {
+                                boolean resultb = inputText.matches("[0-9]+");
+                                if (!resultb) {
+                                    Toast.makeText(PersonCenterActivity.this, "年收入必须是纯数字", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    list.add(new BasicNameValuePair("income", inputText));
+                                }
+
                                 break;
+                            }
                         }
                     } else {
                         Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();

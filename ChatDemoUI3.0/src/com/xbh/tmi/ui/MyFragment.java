@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,6 +135,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.mine_person_center_tv:
                 bundle = new Bundle();
+                Log.e("Lking","个人信息"+mData.toString());
                 bundle.putString("headPath",headImgPath);
                 bundle.putString("signed", mData.get("caption"));
                 bundle.putString("name",myName_tv.getText().toString());
