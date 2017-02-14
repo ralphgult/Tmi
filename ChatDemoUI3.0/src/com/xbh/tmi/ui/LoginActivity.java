@@ -512,7 +512,7 @@ private boolean isOther = false;
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 						uid=map.get("userId")+"";
-						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"");
+						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"",map.get("nickname")+"");
 						LoadData();
 						hxlogin();
 					}else{
@@ -534,7 +534,7 @@ private boolean isOther = false;
 	 * @param context
 	 * @param username
 	 */
-	public static void saveLoginInfo(Context context, String username,String phone,String photo){
+	public static void saveLoginInfo(Context context, String username,String phone,String photo,String nickname){
 		//获取SharedPreferences对象
 		SharedPreferences sharedPre=context.getSharedPreferences("config", context.MODE_PRIVATE);
 		//获取Editor对象
@@ -544,6 +544,7 @@ private boolean isOther = false;
 		Log.e("info","phone===="+phone);
 		editor.putString("phone", phone);
 		editor.putString("photo", photo);
+		editor.putString("nickname", nickname);
 		//提交
 		editor.commit();
 	}
