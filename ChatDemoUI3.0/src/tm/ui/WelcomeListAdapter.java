@@ -98,7 +98,6 @@ public class WelcomeListAdapter extends BaseAdapter {
         final Map map = list.get(index);
         SharedPreferences sharedPre=context.getSharedPreferences("config",context.MODE_PRIVATE);
         final String username=sharedPre.getString("username", "");
-        String phone=sharedPre.getString("phone", "");
         if (view == null) {
             holder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.welcome_list_item,parent, false);
@@ -136,9 +135,7 @@ public class WelcomeListAdapter extends BaseAdapter {
         }else{
             holder.tv_distances.setText(map.get("distance")+"公里");
         }
-        if(phone.equals(map.get("uname")+"")){
-            saveLoginInfo(context,map.get("photo")+"");
-        }
+
         imageLoaders.loadImage(holder.img_pic, map.get("photo")+"");
         holder.img_add.setOnClickListener(new OnClickListener() {
 
@@ -173,13 +170,6 @@ public class WelcomeListAdapter extends BaseAdapter {
                         e.printStackTrace();
                     }
                 }
-
-//                finalHolder.img_guanzhu.setImageResource(R.drawable.tm_guanzhu_normal);
-//                List<NameValuePair> list = new ArrayList<NameValuePair>();
-//                list.add(new BasicNameValuePair("me",username ));
-//                list.add(new BasicNameValuePair("my", map.get("userid")+""));
-//                NetFactory.instance().commonHttpCilent(mhandle, context,
-//                        Config.RUL_ADD_FRIEND, list);
             }
         });
         holder.img_shipin.setOnClickListener(new OnClickListener() {
@@ -204,19 +194,6 @@ public class WelcomeListAdapter extends BaseAdapter {
         public ImageView img_add;
         public ImageView img_guanzhu;
         public ImageView img_shipin;
-    }
-    /**
-     * 使用SharedPreferences保存用户登录信息
-     */
-    public static void saveLoginInfo(Context context, String photo){
-        //获取SharedPreferences对象
-        SharedPreferences sharedPre=context.getSharedPreferences("config", context.MODE_PRIVATE);
-        //获取Editor对象
-        SharedPreferences.Editor editor=sharedPre.edit();
-        //设置参数
-        editor.putString("photo", photo);
-        //提交
-        editor.commit();
     }
 }
 
