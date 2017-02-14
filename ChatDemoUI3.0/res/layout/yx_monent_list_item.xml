@@ -59,17 +59,6 @@
         android:layout_marginLeft="65dp"
         android:layout_marginRight="20dp"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/yx_monment_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ellipsize="end"
-            android:gravity="top|left"
-            android:textColor="#4e4e4e"
-            android:textSize="16sp" />
-
         <ImageView
             android:id="@+id/yx_moment_single_imgae_iv"
             android:layout_width="200dp"
@@ -87,6 +76,15 @@
             android:numColumns="3"
             android:visibility="gone"
             android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/yx_monment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:gravity="top|left"
+            android:textColor="#4e4e4e"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout

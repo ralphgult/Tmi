@@ -81,8 +81,6 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private TextView mPersonIncomeTv;//设置年收入显示
 
 
-
-
     private TextView ok;
     private FaceWallAdapter mAdapter;
     private String[] pathList;
@@ -103,7 +101,6 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private Map<String, String> mData;
     private Handler mHandler;
     private String imagePath;
-
 
 
     @Override
@@ -195,26 +192,23 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String userId = sharedPre.getString("username", "");
         //TODO 账号
-        mPersonAccountTv.setText("账号："+userId);
+        mPersonAccountTv.setText(userId);
         //TODO 居住地
-        mPersonResidenceTv.setText("居住地："+userId);
+        mPersonResidenceTv.setText(getIntent().getExtras().getString("domicile"));
         //TODO 职业
-        mPersonJobTv.setText("职业："+userId);
+        mPersonJobTv.setText(getIntent().getExtras().getString("occupation"));
         //TODO 年龄
-        mPersonAgeTv.setText("年龄："+userId);
+        mPersonAgeTv.setText(getIntent().getExtras().getString("age"));
         //TODO 身高
-        mPersonHeightTv.setText("身高："+userId);
+        mPersonHeightTv.setText(getIntent().getExtras().getString("height")+"cm");
         //TODO 毕业院校
-        mPersonAcademyTv.setText("毕业院校："+userId);
+        mPersonAcademyTv.setText(getIntent().getExtras().getString("school"));
         //TODO 爱好
-        mPersonHobbyTv.setText("兴趣爱好："+userId);
+        mPersonHobbyTv.setText(getIntent().getExtras().getString("hobby"));
         //TODO 我的心愿
-        mPersonWishTv.setText("我的心愿："+userId);
+        mPersonWishTv.setText(getIntent().getExtras().getString("wish"));
         //TODO 年收入
-        mPersonIncomeTv.setText("年收入："+userId);
-
-
-
+        mPersonIncomeTv.setText(getIntent().getExtras().getString("income")+"元");
 
 
         if (!TextUtils.isEmpty(userId)) {
@@ -282,6 +276,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         mPersonResidenceRv.setOnClickListener(this);
         mPersonJobRv.setOnClickListener(this);
         mPersonAgeRv.setOnClickListener(this);
+        mPersonHeightRv.setOnClickListener(this);
         mPersonAcademyRv.setOnClickListener(this);
         mPersonHobbyRv.setOnClickListener(this);
         mPersonWishRv.setOnClickListener(this);
@@ -301,46 +296,46 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 break;
             case R.id.person_sign_rv:
 //                createSignDialog();
-                createDialog("请输入个性签名","3");
+                createDialog("请输入个性签名", 3);
                 break;
             case R.id.person_name_rv:
                 //TODO 设置昵称
-                createDialog("设置昵称","1");
+                createDialog("设置昵称", 1);
                 break;
             case R.id.person_account_rv:
-                Toast.makeText(this,"账号不可修改",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "账号不可修改", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.person_residence_rv:
                 //TODO 设置居住地
-                createDialog("设置居住地","4");
+                createDialog("设置居住地", 4);
                 break;
             case R.id.person_job_rv:
                 //TODO 设置职业
-                createDialog("设置职业","5");
+                createDialog("设置职业", 5);
                 break;
             case R.id.person_age_rv:
                 //TODO 设置年龄
-                createDialog("设置年龄","6");
+                createDialog("设置年龄", 6);
                 break;
             case R.id.person_height_rv:
                 //TODO 设置身高
-                createDialog("设置身高","7");
+                createDialog("设置身高", 7);
                 break;
             case R.id.person_academy_rv:
                 //TODO 设置毕业院校
-                createDialog("设置毕业院校","8");
+                createDialog("设置毕业院校", 8);
                 break;
             case R.id.person_hobby_rv:
                 //TODO 设置兴趣爱好
-                createDialog("设置兴趣爱好","9");
+                createDialog("设置兴趣爱好", 9);
                 break;
             case R.id.person_wish_rv:
                 //TODO 设置我的心愿
-                createDialog("设置我的心愿","10");
+                createDialog("设置我的心愿", 10);
                 break;
             case R.id.person_income_rv:
                 //TODO 设置年收入
-                createDialog("设置年收入","11");
+                createDialog("设置年收入", 11);
                 break;
 
             case R.id.person_center_head_rv:
@@ -394,116 +389,154 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         }
     }
 
-    private void createDialog(String hint,final String type) {
-
+    private void createDialog(String hint, final int type) {
         if (null == signDialog) {
             signDialog = (InputDialog) DialogFactory.createDialog(this, DialogFactory.DIALOG_TYPE_INPUT);
         }
-            signDialog.setEditTextHint(hint);
-            signDialog.setInputDialogListener(new InputDialog.InputDialogListener() {
-                @Override
-                public void inputDialogCancle() {
-                    signDialog.closeDialog();
-                }
+        signDialog.setEditTextHint(hint);
+        signDialog.setInputDialogListener(new InputDialog.InputDialogListener() {
+            @Override
+            public void inputDialogCancle() {
+                signDialog.closeDialog();
+            }
 
-                @Override
-                public void inputDialogSubmit(final String inputText) {
-                    if (!TextUtils.isEmpty(inputText)) {
-                        if (!NetworkUtil.isNetworkAvailable(PersonCenterActivity.this)) {
-                            Toast.makeText(PersonCenterActivity.this, "网络链接异常，请检查网络连接后重试...", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        List<NameValuePair> list = new ArrayList<NameValuePair>();
-                        SharedPreferences sharedPre = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
-                        String userId = sharedPre.getString("username", "");
-                        if (!TextUtils.isEmpty(userId)) {
-                            list.add(new BasicNameValuePair("userId", userId));
-                            //todo 接口设置type
-                            switch (type){
-                                case "1"://设置昵称
-                                {
-                                    list.add(new BasicNameValuePair("nickname", inputText));
-                                    break;
-                                }
-                                case "3"://个性签名
-                                {
-                                    list.add(new BasicNameValuePair("caption", inputText));
-                                    break;
-                                }
-//                                case "4"://设置昵称
-//                                {
-//                                    list.add(new BasicNameValuePair("nickname", inputText));
-//                                    break;
-//                                }
-
-                            }
-                        } else {
-                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        NetFactory
-                                .instance()
-                                .commonHttpCilent(
-                                        new Handler() {
-                                            @Override
-                                            public void handleMessage(Message msg) {
-                                                switch (msg.what) {
-                                                    case ConstantsHandler.EXECUTE_SUCCESS:
-                                                        Map map = (Map) msg.obj;
-                                                        Log.e("info", "map==" + map);
-                                                        String authId = map.get("authId") + "";
-                                                        if (authId.equals("1")) {
-                                                            signDialog.closeDialog();
-                                                            switch (type){
-                                                                case "1":
-                                                                {
-                                                                    mPersonNameTv.setText(inputText);
-                                                                    break;
-                                                                }
-                                                                case "3":
-                                                                {
-                                                                    mPersonSignTv.setText(inputText);
-                                                                    break;
-                                                                }
-                                                            }
-
-                                                            Toast.makeText(PersonCenterActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                                                        } else {
-                                                            Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                        break;
-                                                    case ConstantsHandler.EXECUTE_FAIL:
-                                                    case ConstantsHandler.ConnectTimeout:
-                                                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
-                                                        break;
-                                                }
-                                            }
-                                        }, PersonCenterActivity.this,
-                                        Config.URL_CHANGE_SIGN, list);
-                    } else {
-                        Toast.makeText(PersonCenterActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
+            @Override
+            public void inputDialogSubmit(final String inputText) {
+                if (!TextUtils.isEmpty(inputText)) {
+                    if (!NetworkUtil.isNetworkAvailable(PersonCenterActivity.this)) {
+                        Toast.makeText(PersonCenterActivity.this, "网络链接异常，请检查网络连接后重试...", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+                    List<NameValuePair> list = new ArrayList<NameValuePair>();
+                    SharedPreferences sharedPre = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
+                    String userId = sharedPre.getString("username", "");
+                    if (!TextUtils.isEmpty(userId)) {
+                        list.add(new BasicNameValuePair("userId", userId));
+                        //todo 接口设置type
+                        switch (type) {
+                            case 1://设置昵称
+                                list.add(new BasicNameValuePair("nickname", inputText));
+                                break;
+                            case 3://个性签名
+                                list.add(new BasicNameValuePair("caption", inputText));
+                                break;
+                            case 4://设置居住地
+                                list.add(new BasicNameValuePair("domicile", inputText));
+                                break;
+                            case 5://修改职业
+                                list.add(new BasicNameValuePair("occupation", inputText));
+                                break;
+                            case 6://设置年龄
+                                boolean result=inputText.matches("[0-9]+");
+                                if(!result){
+                                    Toast.makeText(PersonCenterActivity.this, "年龄必须是纯数字", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    list.add(new BasicNameValuePair("age", inputText));
+                                }
+                                break;
+                            case 7://设置身高
+                            {
+                                boolean resulta = inputText.matches("[0-9]+");
+                                if (!resulta) {
+                                    Toast.makeText(PersonCenterActivity.this, "身高必须是纯数字", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    list.add(new BasicNameValuePair("height", inputText));
+                                }
+
+                                break;
+                            }
+                            case 8://设置毕业院校
+                                list.add(new BasicNameValuePair("school", inputText));
+                                break;
+                            case 9://设置爱好
+                                list.add(new BasicNameValuePair("hobby", inputText));
+                                break;
+                            case 10://设置心愿
+                                list.add(new BasicNameValuePair("wish", inputText));
+                                break;
+                            case 11://设置年收入
+                            {
+                                boolean resultb = inputText.matches("[0-9]+");
+                                if (!resultb) {
+                                    Toast.makeText(PersonCenterActivity.this, "年收入必须是纯数字", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    list.add(new BasicNameValuePair("income", inputText));
+                                }
+
+                                break;
+                            }
+                        }
+                    } else {
+                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    NetFactory
+                            .instance()
+                            .commonHttpCilent(
+                                    new Handler() {
+                                        @Override
+                                        public void handleMessage(Message msg) {
+                                            switch (msg.what) {
+                                                case ConstantsHandler.EXECUTE_SUCCESS:
+                                                    Map map = (Map) msg.obj;
+                                                    Log.e("info", "map==" + map);
+                                                    String authId = map.get("authId") + "";
+                                                    if (authId.equals("1")) {
+                                                        signDialog.closeDialog();
+                                                        switch (type) {
+                                                            case 1:
+                                                                mPersonNameTv.setText(inputText);
+                                                                break;
+                                                            case 3:
+                                                                mPersonSignTv.setText(inputText);
+                                                                break;
+                                                            case 4:
+                                                                mPersonResidenceTv.setText(inputText);
+                                                                break;
+                                                            case 5:
+                                                                mPersonJobTv.setText(inputText);
+                                                                break;
+                                                            case 6:
+                                                                mPersonAgeTv.setText(inputText);
+                                                                break;
+                                                            case 7:
+                                                                mPersonHeightTv.setText(inputText+"cm");
+                                                                break;
+                                                            case 8:
+                                                                mPersonAcademyTv.setText(inputText);
+                                                                break;
+                                                            case 9:
+                                                                mPersonHobbyTv.setText(inputText);
+                                                                break;
+                                                            case 10:
+                                                                mPersonWishTv.setText(inputText);
+                                                                break;
+                                                            case 11:
+                                                                mPersonIncomeTv.setText(inputText+"元");
+                                                                break;
+                                                        }
+
+                                                        Toast.makeText(PersonCenterActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    break;
+                                                case ConstantsHandler.EXECUTE_FAIL:
+                                                case ConstantsHandler.ConnectTimeout:
+                                                    Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
+                                                    break;
+                                            }
+                                        }
+                                    }, PersonCenterActivity.this,
+                                    Config.URL_CHANGE_SIGN, list);
+                } else {
+                    Toast.makeText(PersonCenterActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
                 }
-            });
+            }
+        });
 
         signDialog.showDialog();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private class imageLoaderListener implements ImageLoaders.ImageLoaderListener {

@@ -69,10 +69,10 @@ public class AuctionDetailActivity extends Activity {
 
                     mDetailName.setText("商品名称:" + jsonObject.getString("name"));
                     mDetailNumber.setText("商品编号:" + jsonObject.getString("number"));
-                    mDetailPrice.setText("当前价格:" + jsonObject.getString("price")+"元");
+                    mDetailPrice.setText("当前价格:" + jsonObject.getString("price") + "元");
                     mPriceStr = jsonObject.getString("markup");
                     mDetailPriceUnit.setText("加价单位:" + mPriceStr + "元");
-                    mDetailPriceOrig.setText("直购价:" + jsonObject.getString("originalPrice")+"元");
+                    mDetailPriceOrig.setText("直购价:" + jsonObject.getString("originalPrice") + "元");
                     mDetailPriceNum.setText("出价" + jsonObject.getString("many") + "次");
                     mTimeRemained = Integer.parseInt(jsonObject.getString("residual"));
                     mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(mTimeRemained * 1000L));
@@ -106,6 +106,7 @@ public class AuctionDetailActivity extends Activity {
                 mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(timeRemaind));
                 mTimeCount = mTimeCount + 1000;
             }
+
             @Override
             public void onFinish() {
                 mDetailTime.setText("拍卖时间已过");
@@ -180,16 +181,16 @@ public class AuctionDetailActivity extends Activity {
 //                //Todo 出价接口
 //                Toast.makeText(AuctionDetailActivity.this, "手动出价一次，成功后....", Toast.LENGTH_SHORT).show();
 //                mDetailPriceNum.setText("出价加一次");
-if(isOnClick){
-    Toast.makeText(AuctionDetailActivity.this, "拍卖时间已过，不能出价", Toast.LENGTH_SHORT).show();
-}else{
-    new Thread(new Runnable() {
-        @Override
-        public void run() {
-            PersonManager.raiseAuctionPrice(handler, mShopDetailId, mPriceStr);
-        }
-    }).start();
-}
+                if (isOnClick) {
+                    Toast.makeText(AuctionDetailActivity.this, "拍卖时间已过，不能出价", Toast.LENGTH_SHORT).show();
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PersonManager.raiseAuctionPrice(handler, mShopDetailId, mPriceStr);
+                        }
+                    }).start();
+                }
 
 
             }

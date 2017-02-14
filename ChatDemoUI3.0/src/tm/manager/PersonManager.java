@@ -1224,7 +1224,7 @@ public class PersonManager {
                 String jsonStr = EntityUtils.toString(response.getEntity());
                 if (null != handler) {
                     Message msg = new Message();
-                    msg.what = 3002;
+                    msg.what = 1001;
                     msg.obj = jsonStr;
                     handler.sendMessage(msg);
                 }
