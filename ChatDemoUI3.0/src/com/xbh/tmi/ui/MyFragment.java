@@ -139,14 +139,53 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 bundle.putString("headPath",headImgPath);
                 bundle.putString("signed", mData.get("caption"));
                 bundle.putString("name",myName_tv.getText().toString());
-                bundle.putString("domicile",mData.get("domicile"));
-                bundle.putString("occupation",mData.get("occupation"));
-                bundle.putString("age",mData.get("age"));
-                bundle.putString("height",mData.get("height"));
-                bundle.putString("school",mData.get("school"));
-                bundle.putString("hobby",mData.get("hobby"));
-                bundle.putString("wish",mData.get("wish"));
-                bundle.putString("income",mData.get("income"));
+                String dom = mData.get("domicile");
+                if(TextUtils.isEmpty(dom)){
+                    dom = "请设置居住地";
+                }
+                bundle.putString("domicile",dom);
+
+                String occ = mData.get("occupation");
+                if(TextUtils.isEmpty(occ)){
+                    occ = "请设置职业";
+                }
+                bundle.putString("occupation",occ);
+
+                String age = mData.get("age");
+                if(TextUtils.isEmpty(age)){
+                    age = "请设置年龄";
+                }
+                bundle.putString("age",age);
+
+                String height = mData.get("height");
+                if(TextUtils.isEmpty(height)){
+                    height = "请设置身高";
+                }
+                bundle.putString("height",height);
+
+                String school = mData.get("school");
+                if(TextUtils.isEmpty(school)){
+                    school = "请设置毕业院校";
+                }
+                bundle.putString("school",school);
+
+                String hobby = mData.get("hobby");
+                if(TextUtils.isEmpty(hobby)){
+                    hobby = "请设置爱好";
+                }
+                bundle.putString("hobby",hobby);
+
+                String wish = mData.get("wish");
+                if(TextUtils.isEmpty(wish)){
+                    wish = "请设置我的心愿";
+                }
+                bundle.putString("wish",wish);
+
+                String income = mData.get("income");
+                if(TextUtils.isEmpty(income)){
+                    income = "请设置我的心愿";
+                }
+                bundle.putString("income",income);
                 ViewUtil.jumpToOtherActivity(this.getActivity(), PersonCenterActivity.class,bundle);
                 break;
             case R.id.mine_comp_center_tv:
