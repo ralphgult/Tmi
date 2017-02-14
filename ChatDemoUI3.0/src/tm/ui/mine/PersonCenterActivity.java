@@ -500,7 +500,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                                 mPersonAgeTv.setText(inputText);
                                                                 break;
                                                             case 7:
-                                                                mPersonHeightTv.setText(inputText);
+                                                                mPersonHeightTv.setText(inputText+"cm");
                                                                 break;
                                                             case 8:
                                                                 mPersonAcademyTv.setText(inputText);
@@ -512,7 +512,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                                 mPersonWishTv.setText(inputText);
                                                                 break;
                                                             case 11:
-                                                                mPersonIncomeTv.setText(inputText);
+                                                                mPersonIncomeTv.setText(inputText+"元");
                                                                 break;
                                                         }
 
