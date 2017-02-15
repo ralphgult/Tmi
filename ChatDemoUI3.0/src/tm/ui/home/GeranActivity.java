@@ -54,6 +54,17 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout yy_top2;
     private LinearLayout yy_top3;
     private LinearLayout tm_geren;
+    private LinearLayout tm_geren_info;
+    private TextView juzhudi;
+    private TextView zhiye;
+    private TextView age;
+    private TextView shenggao;
+    private TextView yuanxiao;
+    private TextView aihao;
+    private TextView xinyuan;
+    private TextView shouru;
+
+
     private TextView txt1;
     private TextView txt2;
     private TextView txt3;
@@ -192,7 +203,16 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         yy_top2 = (LinearLayout)findViewById(R.id.shouye_top2);
         yy_top3 = (LinearLayout)findViewById(R.id.shouye_top3);
         tm_geren = (LinearLayout)findViewById(R.id.tm_geren_ly);
-
+        //个人详情
+        tm_geren_info = (LinearLayout)findViewById(R.id.tm_geren_info_ly);
+        juzhudi=(TextView)findViewById(R.id.tm_geren_juzhudi_tv);
+        zhiye=(TextView)findViewById(R.id.tm_geren_zhiye_tv);
+        age=(TextView)findViewById(R.id.tm_geren_age_tv);
+        shenggao=(TextView)findViewById(R.id.tm_geren_height_tv);
+        yuanxiao=(TextView)findViewById(R.id.tm_geren_daxue_tv);
+        aihao=(TextView)findViewById(R.id.tm_geren_aihao_tv);
+        xinyuan=(TextView)findViewById(R.id.tm_geren_xinyuan_tv);
+        shouru=(TextView)findViewById(R.id.tm_geren_shouru_tv);
 
 
         txt1 = (TextView)findViewById(R.id.txt1);
@@ -331,6 +351,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         finish();
     }
     private void setData(Map map) {
+        tm_geren_info.setVisibility(View.VISIBLE);
         wwww.setVisibility(View.VISIBLE);
         tv_grqianming.setVisibility(View.VISIBLE);
         tv_qymc.setVisibility(View.GONE);
@@ -346,6 +367,48 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         try {
 //            JSONObject objects =new JSONObject(map.toString());
 //            uname=objects.optString("user_name");
+            //个人信息
+            if(map.containsKey("domicile")){
+                juzhudi.setText(map.get("domicile")+"");//居住地
+            }else{
+                juzhudi.setText("未设置");//居住地
+            }
+            if(map.containsKey("occupation")){
+                zhiye.setText(map.get("occupation")+"");//职业
+            }else{
+                zhiye.setText("未设置");//职业
+            }
+            if(map.containsKey("age")){
+                age.setText(map.get("age")+"");//年龄
+            }else{
+                age.setText("未设置");//年龄
+            }
+            if(map.containsKey("height")){
+                shenggao.setText(map.get("height")+"cm");//身高
+            }else{
+                shenggao.setText("未设置");//身高
+            }
+            if(map.containsKey("school")){
+                yuanxiao.setText(map.get("school")+"");//院校
+            }else{
+                yuanxiao.setText("未设置");//院校
+            }
+            if(map.containsKey("hobby")){
+                aihao.setText(map.get("hobby")+"");//爱好
+            }else{
+                aihao.setText("未设置");//爱好
+            }
+            if(map.containsKey("wish")){
+                xinyuan.setText(map.get("wish")+"");//心愿
+            }else{
+                xinyuan.setText("未设置");//心愿
+            }
+            if(map.containsKey("income")){
+                shouru.setText(map.get("income")+"元");//收入
+            }else{
+                shouru.setText("未设置");//收入
+            }
+
             uname=map.get("user_name")+"";
 //            imageLoaders.loadImage(top_head_img,objects.optString("photo") );
             imageLoaders.loadImage(top_head_img,map.get("photo")+"" );
@@ -364,10 +427,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
             }else{
                 tv_gxqm.setText("");
             }
-
-
-
-
 //            JSONArray news = objects.getJSONArray("rows");
             JSONArray news = new JSONArray(map.get("rows")+"");
 
@@ -475,6 +534,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         }
     }
     private void setData2(Map map) {
+        tm_geren_info.setVisibility(View.GONE);
         wwww.setVisibility(View.GONE);
         tv_qymc.setVisibility(View.VISIBLE);
         if(qstype==3){
