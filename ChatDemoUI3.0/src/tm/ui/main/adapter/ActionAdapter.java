@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.xbh.tmi.R;
+
 import java.util.List;
 
 import tm.ui.main.AuctionActivity;
@@ -27,7 +29,7 @@ public class ActionAdapter extends BaseAdapter {
     public ActionAdapter(Context context, List<Person> list) {
         this.list = list;
         this.layoutInflater = LayoutInflater.from(context);
-        imageLoaders = new ImageLoaders(context,new MyImageLoaderListener());
+        imageLoaders = new ImageLoaders(context, new MyImageLoaderListener());
     }
 
     @Override
@@ -70,7 +72,7 @@ public class ActionAdapter extends BaseAdapter {
             //将一个int类型的数值转换成时间格式
             long tempTime = Long.parseLong(list.get(position).getTime());
             viewHolder.text_time.setTextColor(Color.RED);
-            viewHolder.text_time.setText("剩余:"+ AuctionActivity.formatTime(tempTime));
+            viewHolder.text_time.setText("剩余:" + AuctionActivity.formatTime(tempTime * 1000));
         } else {
             viewHolder.text_time.setTextColor(Color.GRAY);
             viewHolder.text_time.setText("拍卖时间已过");
@@ -98,14 +100,14 @@ public class ActionAdapter extends BaseAdapter {
                         if (list == null || result == list.size()) {
                             break;
                         }
-                        sleep(1);
+                        sleep(1000);
                         for (Person person : list) {
                             if (!"拍卖时间已过".equals(person.getTime())) {
-                                if ("1".equals(person.getTime())) {
+                                if ("1000".equals(person.getTime())) {
                                     person.setTime("拍卖时间已过");
                                     result++;
                                 } else {
-                                    person.setTime((Integer.parseInt(person.getTime()) - 1) + "");
+                                    person.setTime(((Integer.parseInt(person.getTime()) - 1)) + "");
                                 }
                             }
                         }
@@ -118,7 +120,7 @@ public class ActionAdapter extends BaseAdapter {
         thread.start();
     }
 
-    class MyImageLoaderListener implements ImageLoaders.ImageLoaderListener{
+    class MyImageLoaderListener implements ImageLoaders.ImageLoaderListener {
         @Override
         public void onImageLoad(View v, Bitmap bmp, String url) {
             ((ImageView) v).setImageBitmap(bmp);

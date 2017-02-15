@@ -74,7 +74,7 @@ public class AuctionActivity extends Activity {
                         person.setPrice("当前价：RMB "+iconPrice[i]);
                         person.setPurch("直购价：RMB "+iconPurch[i]);
                         person.setBid("出价"+iconBid[i]+"次");
-                        person.setTime(iconTime[i]);
+                        person.setTime(Integer.valueOf(iconTime[i]) >= 0 ? iconTime[i] : "拍卖时间已过");
                         person.setId(String.valueOf(i));
                         list.add(person);
                     }

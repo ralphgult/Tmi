@@ -74,8 +74,7 @@ public class AuctionDetailActivity extends Activity {
                     mDetailPriceUnit.setText("加价单位:" + mPriceStr + "元");
                     mDetailPriceOrig.setText("直购价:" + jsonObject.getString("originalPrice") + "元");
                     mDetailPriceNum.setText("出价" + jsonObject.getString("many") + "次");
-                    mTimeRemained = Integer.parseInt(jsonObject.getString("residual"));
-                    mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(mTimeRemained * 1000L));
+                    mTimeRemained = Integer.parseInt(jsonObject.getString("residual")) * 1000;
                     mDetailText.setText(jsonObject.getString("details"));
                     JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs");
                     int size = jsonArray.length();
@@ -90,7 +89,12 @@ public class AuctionDetailActivity extends Activity {
                         }
                     }
                     imageLoaders.loadImage(mDetailImgs, imgPaths[0]);
-                    startTimer();
+                    if (mTimeRemained > 0) {
+                        mDetailTime.setText("拍卖时间已过");
+                    } else {
+                        mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(mTimeRemained));
+                        startTimer();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
