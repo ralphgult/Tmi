@@ -58,6 +58,7 @@ public class AuctionDetailActivity extends Activity {
     private int mTimeCount = 0;
 
     private CountDownTimer mTimer;
+    private String mCurrentStr;
     private String mPriceStr;
     Handler handler = new Handler() {
         @Override
@@ -69,12 +70,22 @@ public class AuctionDetailActivity extends Activity {
 
                     mDetailName.setText("商品名称:" + jsonObject.getString("name"));
                     mDetailNumber.setText("商品编号:" + jsonObject.getString("number"));
-                    mDetailPrice.setText("当前价格:" + jsonObject.getString("price") + "元");
+
+                    Toast.makeText(AuctionDetailActivity.this, "当前价格："+jsonObject.getString("price"), Toast.LENGTH_SHORT).show();
+                    mCurrentStr = jsonObject.getString("price");
+                    mDetailPrice.setText("当前价格:" + mCurrentStr + "元");
                     mPriceStr = jsonObject.getString("markup");
                     mDetailPriceUnit.setText("加价单位:" + mPriceStr + "元");
                     mDetailPriceOrig.setText("直购价:" + jsonObject.getString("originalPrice") + "元");
+
+                    Toast.makeText(AuctionDetailActivity.this, "出价次数："+jsonObject.getString("many"), Toast.LENGTH_SHORT).show();
                     mDetailPriceNum.setText("出价" + jsonObject.getString("many") + "次");
-                    mTimeRemained = Integer.parseInt(jsonObject.getString("residual")) * 1000;
+
+                    Toast.makeText(AuctionDetailActivity.this, "剩余时间："+jsonObject.getString("residual"), Toast.LENGTH_SHORT).show();
+                    int time = Math.abs(Integer.parseInt(jsonObject.getString("residual")));
+                    Log.e("Lking","详情剩余时间 = "+time);
+                    mTimeRemained = time * 1000;
+                    Log.e("Lking","详情剩余时间*1000 = "+(time* 1000));
                     mDetailText.setText(jsonObject.getString("details"));
                     JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs");
                     int size = jsonArray.length();
@@ -89,7 +100,8 @@ public class AuctionDetailActivity extends Activity {
                         }
                     }
                     imageLoaders.loadImage(mDetailImgs, imgPaths[0]);
-                    if (mTimeRemained > 0) {
+                    Log.e("Lking","时间显示 = "+mTimeRemained);
+                    if (mTimeRemained <= 0) {
                         mDetailTime.setText("拍卖时间已过");
                     } else {
                         mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(mTimeRemained));
@@ -98,6 +110,9 @@ public class AuctionDetailActivity extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }else if(msg.what == 1001){
+                networkRequest();
+                Toast.makeText(AuctionDetailActivity.this,"加价成功",Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -106,13 +121,16 @@ public class AuctionDetailActivity extends Activity {
         mTimer = new CountDownTimer(mTimeRemained, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
+                Log.e("Lking","时间.....");
                 int timeRemaind = mTimeRemained - mTimeCount;
                 mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(timeRemaind));
                 mTimeCount = mTimeCount + 1000;
+                isOnClick = false;
             }
 
             @Override
             public void onFinish() {
+                Log.e("Lking","时间已过");
                 mDetailTime.setText("拍卖时间已过");
                 isOnClick = true;
             }
@@ -191,7 +209,7 @@ public class AuctionDetailActivity extends Activity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            PersonManager.raiseAuctionPrice(handler, mShopDetailId, mPriceStr);
+                            PersonManager.raiseAuctionPrice(handler, mShopDetailId, mPriceStr,mCurrentStr);
                         }
                     }).start();
                 }

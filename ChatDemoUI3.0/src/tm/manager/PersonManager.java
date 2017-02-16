@@ -1209,13 +1209,14 @@ public class PersonManager {
     /**
      * 竞拍加价
      */
-    public static void raiseAuctionPrice(final Handler handler, final String id, final String price) {
+    public static void raiseAuctionPrice(final Handler handler, final String id, final String price,final String curr) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Config.URL_ADD_AUCTION_PRICVE);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
         try {
             reqEntity.addPart("id", new StringBody(id, Charset.forName("UTF-8")));
-            reqEntity.addPart("price", new StringBody(id, Charset.forName("UTF-8")));
+            reqEntity.addPart("price", new StringBody(curr, Charset.forName("UTF-8")));
+            reqEntity.addPart("markup", new StringBody(price, Charset.forName("UTF-8")));
             httppost.setEntity(reqEntity);
             HttpResponse response = httpclient.execute(httppost);
             int statusCode = response.getStatusLine().getStatusCode();
