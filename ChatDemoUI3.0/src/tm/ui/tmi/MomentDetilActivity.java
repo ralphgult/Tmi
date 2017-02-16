@@ -66,6 +66,7 @@ public class MomentDetilActivity extends Activity {
     private InputDialog mDialog;
     private String newReplay;
     private SharedPreferences sp;
+    private String reply;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -99,7 +100,7 @@ public class MomentDetilActivity extends Activity {
                     replyAdapter.resetData(replysList);
                     SysUtils.setListViewHight(replyList);
                     newReplay = reply.substring(0, reply.length() - 1) + "{\"userId\":" + sp.getString("username", "") +
-                            ",\"userName\":\"" + sp.getString("nickname", "") + "\",\"replyId\":0,\"comment\":\"" + (String) msg.obj + "\"}]";
+                            ",\"userName\":\"我\",\"replyId\":0,\"comment\":\"" + (String) msg.obj + "\"}]";
                     break;
                 default:
                     Toast.makeText(MomentDetilActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
@@ -107,7 +108,6 @@ public class MomentDetilActivity extends Activity {
             }
         }
     };
-    private String reply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,17 +224,17 @@ public class MomentDetilActivity extends Activity {
                 e.printStackTrace();
             }
         }
-        String nickName = sp.getString("nickname", "");
-        String name = getIntent().getExtras().getString("name");
-        if (!getIntent().getExtras().getString("name").equals(sp.getString("nickname", ""))) {
-            //不是自己 增加浏览量
-           new Thread(){
-               @Override
-               public void run() {
-                   PersonManager.uploadSeeStatus(getIntent().getStringExtra("momentId"));
-               }
-           };
-        }
+//        String nickName = sp.getString("nickname", "");
+//        String name = getIntent().getExtras().getString("name");
+//        if (!getIntent().getExtras().getString("name").equals(sp.getString("nickname", ""))) {
+//            //不是自己 增加浏览量
+//           new Thread(){
+//               @Override
+//               public void run() {
+//                   PersonManager.uploadSeeStatus(getIntent().getStringExtra("momentId"));
+//               }
+//           };
+//        }
     }
 
     class imageLoaderLinsters implements ImageLoaders.ImageLoaderListener {
