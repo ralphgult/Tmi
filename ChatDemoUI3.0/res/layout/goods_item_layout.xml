@@ -93,16 +93,6 @@
             android:gravity="center"
             android:textSize="18sp"
             android:text="预览"/>
-        <View style="@style/tm_common_divide_line_whitebg_height"/>
-        <TextView
-            android:id="@+id/goods_item_share"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:textColor="@color/common_bottom_bar_normal_bg"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:text="分享"/>
     </LinearLayout>
     <View style="@style/tm_common_divide_line_whitebg_width"/>
 </LinearLayout>
