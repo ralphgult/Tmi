@@ -2,6 +2,7 @@ package tm.ui.tmi.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,10 +91,11 @@ public class GoodsAdapter extends BaseAdapter {
             vh.head = (ImageView) view.findViewById(R.id.goods_item_head);
             vh.name = (TextView) view.findViewById(R.id.goods_item_name);
             vh.price = (TextView) view.findViewById(R.id.goods_item_price);
+            vh.org_price = (TextView) view.findViewById(R.id.goods_item_original_price);
             vh.num = (TextView) view.findViewById(R.id.goods_item_num);
             vh.time = (TextView) view.findViewById(R.id.goods_item_time);
             vh.see = (TextView) view.findViewById(R.id.goods_item_see);
-            vh.share = (TextView) view.findViewById(R.id.goods_item_share);
+//            vh.share = (TextView) view.findViewById(R.id.goods_item_share);
             vh.choice = (CheckBox) view.findViewById(R.id.goods_item_choice);
             view.setTag(vh);
         }else{
@@ -102,7 +104,8 @@ public class GoodsAdapter extends BaseAdapter {
         }
         loaders.loadImage(vh.head, dataList.get(position).get("imgs").split(",")[0]);
         vh.name.setText(dataList.get(position).get("goodName"));
-        vh.price.setText(dataList.get(position).get("price"));
+        vh.org_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        vh.org_price.setText("￥" +dataList.get(position).get("originalPrice"));
         vh.num.setText("销量：" + dataList.get(position).get("sales") + "  库存：" + dataList.get(position).get("count"));
         vh.price.setText("￥" + dataList.get(position).get("currentPrice"));
         vh.time.setText("添加时间：" + dataList.get(position).get("createDate"));
@@ -146,10 +149,11 @@ public class GoodsAdapter extends BaseAdapter {
         ImageView head;
         TextView name;
         TextView price;
+        TextView org_price;
         TextView num;
         TextView time;
         TextView see;
-        TextView share;
+//        TextView share;
         CheckBox choice;
     }
 }
