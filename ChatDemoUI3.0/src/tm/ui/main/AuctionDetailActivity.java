@@ -70,15 +70,11 @@ public class AuctionDetailActivity extends Activity {
 
                     mDetailName.setText("商品名称:" + jsonObject.getString("name"));
                     mDetailNumber.setText("商品编号:" + jsonObject.getString("number"));
-
-                    Toast.makeText(AuctionDetailActivity.this, "当前价格："+jsonObject.getString("price"), Toast.LENGTH_SHORT).show();
                     mCurrentStr = jsonObject.getString("price");
                     mDetailPrice.setText("当前价格:" + mCurrentStr + "元");
                     mPriceStr = jsonObject.getString("markup");
                     mDetailPriceUnit.setText("加价单位:" + mPriceStr + "元");
                     mDetailPriceOrig.setText("直购价:" + jsonObject.getString("originalPrice") + "元");
-
-                    Toast.makeText(AuctionDetailActivity.this, "出价次数："+jsonObject.getString("many"), Toast.LENGTH_SHORT).show();
                     mDetailPriceNum.setText("出价" + jsonObject.getString("many") + "次");
 
                     Toast.makeText(AuctionDetailActivity.this, "剩余时间："+jsonObject.getString("residual"), Toast.LENGTH_SHORT).show();
@@ -149,8 +145,10 @@ public class AuctionDetailActivity extends Activity {
 
     @Override
     protected void onStop() {
+        if (null != mTimer) {
+            mTimer.cancel();
+        }
         super.onStop();
-        mTimer.cancel();
     }
 
     private void getActivityIntent() {
