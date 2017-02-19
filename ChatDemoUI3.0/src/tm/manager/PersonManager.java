@@ -555,6 +555,11 @@ public class PersonManager {
                         }
                     }
                 }
+            } else {
+                if (null != handler) {
+                    Message msg = new Message();
+                    msg.what = 3002;
+                    handler.sendMessage(msg);}
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -766,7 +771,7 @@ public class PersonManager {
         SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         try {
             if (!TextUtils.isEmpty(addrMap.get("id"))) {
-                reqEntity.addPart("raId", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
+                reqEntity.addPart("raid", new StringBody(addrMap.get("id"), Charset.forName("UTF-8")));
                 reqEntity.addPart("isDefault", new StringBody(addrMap.get("default"), Charset.forName("UTF-8")));
             } else {
                 reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
@@ -1242,7 +1247,7 @@ public class PersonManager {
      */
     public static void deleteAddress(String addrId, Handler handler) {
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(Config.URL_DELETE_GOODS);
+        HttpPost httppost = new HttpPost(Config.URL_EDT_ADDRESS);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
         try {
             reqEntity.addPart("raId ", new StringBody(addrId, Charset.forName("UTF-8")));
@@ -1253,10 +1258,14 @@ public class PersonManager {
                 System.out.println("服务器正常响应.....");
                 HttpEntity resEntity = response.getEntity();
                 JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+                Log.e("info","object ==== " + object.toString());
                 if (null != handler) {
                     if (object.getInt("authId") > 0) {
                         if (null != handler) {
-                            handler.sendEmptyMessage(3001);
+                            Message msg = new Message();
+                            msg.what = 3001;
+                            msg.obj = addrId;
+                            handler.sendMessage(msg);
                         }
                     } else {
                         if (null != handler) {
