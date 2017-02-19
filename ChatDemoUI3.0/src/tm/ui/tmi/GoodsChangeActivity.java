@@ -85,16 +85,20 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                     mAdapter.resetData(mImgPathList);
                     break;
                 case 3001:
-                    mImgPathList.add((String)msg.obj);
+                    mImgPathList.remove("0");
+                    mImgPathList.add((String) msg.obj);
+                    if (mImgPathList.size() < 8) {
+                        mImgPathList.add("0");
+                    }
                     mImgIdList.add(String.valueOf(msg.arg1));
                     mAdapter.resetData(mImgPathList);
                     break;
                 case 4001:
                     Toast.makeText(GoodsChangeActivity.this, "删除商品成功", Toast.LENGTH_SHORT).show();
-                    ViewUtil.backToActivityForResult(GoodsChangeActivity.this,1,null);
+                    ViewUtil.backToActivityForResult(GoodsChangeActivity.this, 1, null);
                     break;
                 case 5001:
-                    mPd = ProgressDialog.show(GoodsChangeActivity.this,"添加商品","添加商品中，请稍后...");
+                    mPd = ProgressDialog.show(GoodsChangeActivity.this, "添加商品", "添加商品中，请稍后...");
                     break;
                 default:
                     Toast.makeText(GoodsChangeActivity.this, "系统繁忙，请稍后重试", Toast.LENGTH_SHORT).show();
@@ -139,6 +143,9 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 mImgIdList.add(imgIds);
             }
         }
+        if (mImgPathList.size() < 8) {
+            mImgPathList.add("0");
+        }
         mAdapter.resetData(mImgPathList);
         mPhoto_gv.setAdapter(mAdapter);
         mName_tv.setText(bundle.getString("goodName"));
@@ -167,11 +174,11 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         mUpdate_ly = (LinearLayout) findViewById(R.id.goods_detil_bottom);
         mAdd_tv = (TextView) findViewById(R.id.goods_detil_mange_add);
 
-        if(mIsUpdate){
+        if (mIsUpdate) {
             mUpdate_ly.setVisibility(View.VISIBLE);
             mAdd_tv.setVisibility(View.GONE);
             mTitle_tv.setText("修改商品");
-        }else{
+        } else {
             mUpdate_ly.setVisibility(View.GONE);
             mAdd_tv.setVisibility(View.VISIBLE);
             mTitle_tv.setText("添加商品");
@@ -246,23 +253,23 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 createDialog("请输入商品原价");
                 break;
             case R.id.goods_detil_delete:
-                new Thread(){
+                new Thread() {
                     @Override
                     public void run() {
-                        PersonManager.deleteGoods(getIntent().getExtras().getString("goodsId"),mHandler);
+                        PersonManager.deleteGoods(getIntent().getExtras().getString("goodsId"), mHandler);
                     }
                 }.start();
                 break;
             case R.id.goods_detil_mange_save:
-                    if (checkContent()) {
-                        mPd = ProgressDialog.show(this,"修改商品","修改商品中，请稍后...");
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                updateGoods();
-                            }
-                        }.start();
-                    }
+                if (checkContent()) {
+                    mPd = ProgressDialog.show(this, "修改商品", "修改商品中，请稍后...");
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            updateGoods();
+                        }
+                    }.start();
+                }
                 break;
             case R.id.goods_detil_mange_add:
                 if (checkContent()) {
@@ -387,7 +394,11 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 }
             }.start();
         } else {
+            mImgPathList.remove("0");
             mImgPathList.add(imagePath);
+            if (mImgPathList.size() < 8) {
+                mImgPathList.add("0");
+            }
             mAdapter.resetData(mImgPathList);
         }
     }
