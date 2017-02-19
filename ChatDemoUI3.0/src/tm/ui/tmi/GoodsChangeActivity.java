@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -22,13 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.mapapi.map.Text;
-import com.oohla.android.utils.NetworkUtil;
 import com.xbh.tmi.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -145,7 +141,9 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         }
         mAdapter.resetData(mImgPathList);
         mPhoto_gv.setAdapter(mAdapter);
-        mIntr_tv.setText(bundle.getString("goodName"));
+        mName_tv.setText(bundle.getString("goodName"));
+        mIntr_tv.setText(bundle.getString("goodProfiles"));
+        mOldPri_tv.setText(bundle.getString("originalPrice"));
         mPrice_tv.setText(bundle.getString("currentPrice"));
         mCount_tv.setText(bundle.getString("count"));
     }

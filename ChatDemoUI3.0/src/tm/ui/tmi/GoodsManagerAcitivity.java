@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.plus.model.people.Person;
 import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
@@ -252,6 +251,7 @@ public class GoodsManagerAcitivity extends Activity {
                     map.put("originalPrice",  obj.getString("originalPrice"));
                     map.put("sales", obj.getString("sales"));
                     map.put("count", obj.getString("count"));
+                    map.put("goodProfiles",obj.getString("goodProfiles"));
                     if (obj.getInt("type") == mType) {
                         mAllList.add(map);
                     }

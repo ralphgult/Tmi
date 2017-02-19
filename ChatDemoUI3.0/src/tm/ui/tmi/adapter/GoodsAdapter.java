@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xbh.tmi.R;
 
@@ -106,6 +105,7 @@ public class GoodsAdapter extends BaseAdapter {
         vh.num.setText("销量：" + dataList.get(position).get("sales") + "  库存：" + dataList.get(position).get("count"));
         vh.price.setText("￥" + dataList.get(position).get("currentPrice"));
         vh.time.setText("添加时间：" + dataList.get(position).get("createDate"));
+
         if(mIsChoice){
             vh.choice.setVisibility(View.VISIBLE);
         }else{
@@ -134,6 +134,7 @@ public class GoodsAdapter extends BaseAdapter {
                 bundle.putString("originalPrice",  dataList.get(position).get("originalPrice"));
                 bundle.putString("sales", dataList.get(position).get("sales"));
                 bundle.putString("count", dataList.get(position).get("count"));
+                bundle.putString("goodProfiles",dataList.get(position).get("goodProfiles"));
                 bundle.putInt("type", mType);
                 bundle.putBoolean("isUpdate",true);
                 ViewUtil.jumpToOherActivityForResult((GoodsManagerAcitivity)mContext, GoodsChangeActivity.class,bundle,1);
