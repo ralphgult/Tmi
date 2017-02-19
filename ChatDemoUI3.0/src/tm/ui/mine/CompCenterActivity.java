@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -181,6 +182,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
             }
         }
     };
+    private CountDownTimer mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,6 +332,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                     createReminDialog();
                     return;
                 }
+                startUploadTimer();
                 new Thread() {
                     @Override
                     public void run() {
@@ -479,5 +482,23 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
             });
         }
         mDialog.showDialog();
+    }
+
+    private void startUploadTimer(){
+        mTimer = new CountDownTimer(15000, 1000){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                if (null != pd) {
+                    pd.dismiss();
+                }
+                Toast.makeText(CompCenterActivity.this, "上传视频失败!", Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 }
