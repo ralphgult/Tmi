@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -157,7 +158,10 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                             Config.URL_GET_USRE_FACEWALL, list);
                     break;
                 case 6001:
-                    Toast.makeText(FarmerCenterActivity.this, "视频上传完成", Toast.LENGTH_SHORT).show();
+                    if (!isUploadVieoFail) {
+                        Toast.makeText(FarmerCenterActivity.this, "视频上传完成", Toast.LENGTH_SHORT).show();
+                        isUploadVieoFail = false;
+                    }
                 case 5001:
                     if (null != pd && pd.isShowing()) {
                         pd.dismiss();
@@ -176,6 +180,8 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     private PersonManager personManager;
     private InputDialog dialog;
     private CommonSelectImgPopupWindow mPopupWindow;
+    private CountDownTimer mTimer;
+    private boolean isUploadVieoFail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -318,6 +324,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                     createReminDialog();
                     return;
                 }
+                startUploadTimer();
                 new Thread() {
                     @Override
                     public void run() {
@@ -467,5 +474,24 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
             });
         }
         mDialog.showDialog();
+    }
+
+    private void startUploadTimer() {
+        mTimer = new CountDownTimer(15000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                if (null != pd) {
+                    pd.dismiss();
+                }
+                isUploadVieoFail = true;
+                Toast.makeText(FarmerCenterActivity.this, "上传视频失败!", Toast.LENGTH_SHORT).show();
+            }
+        }.start();
     }
 }
