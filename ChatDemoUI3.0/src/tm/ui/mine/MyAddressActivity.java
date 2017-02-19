@@ -2,6 +2,7 @@ package tm.ui.mine;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -49,7 +50,9 @@ public class MyAddressActivity extends Activity {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-               if(null != pd) pd.dismiss();
+                if (null != pd) {
+                    pd.dismiss();
+                }
                 switch (msg.what) {
                     case 1001:
                         try {
@@ -85,7 +88,7 @@ public class MyAddressActivity extends Activity {
                         mAdapter.resetData(mDatas);
                         break;
                     case 3001:
-
+                        getData();
                         break;
                     default:
                         Toast.makeText(MyAddressActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
@@ -111,7 +114,7 @@ public class MyAddressActivity extends Activity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isAdd", true);
-                ViewUtil.jumpToOtherActivity(MyAddressActivity.this, EditAddressActivity.class, bundle);
+                ViewUtil.jumpToOherActivityForResult(MyAddressActivity.this, EditAddressActivity.class, bundle,10000);
             }
         });
         getData();
@@ -124,9 +127,10 @@ public class MyAddressActivity extends Activity {
                 bundle.putString("name", map.get("name"));
                 bundle.putString("phone", map.get("phone"));
                 bundle.putString("content", map.get("addr"));
-                bundle.putString("default", map.get("default"));
+                String str = map.get("default");
+                bundle.putString("default", str.equals("1") ? str : "0");
                 bundle.putBoolean("isAdd", false);
-                ViewUtil.jumpToOtherActivity(MyAddressActivity.this, EditAddressActivity.class, bundle);
+                ViewUtil.jumpToOherActivityForResult(MyAddressActivity.this, EditAddressActivity.class, bundle,10000);
             }
         });
     }
@@ -152,4 +156,10 @@ public class MyAddressActivity extends Activity {
         }.start();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10000 && resultCode == 1000) {
+            getData();
+        }
+    }
 }

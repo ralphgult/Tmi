@@ -63,7 +63,7 @@ public class EditAddressActivity extends Activity implements View.OnClickListene
                             text = "修改地址成功";
                         }
                         Toast.makeText(EditAddressActivity.this, text, Toast.LENGTH_SHORT).show();
-                        ViewUtil.backToOtherActivity(EditAddressActivity.this);
+                        ViewUtil.backToActivityForResult(EditAddressActivity.this,1000, null);
                         break;
                     default:
                         Toast.makeText(EditAddressActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
