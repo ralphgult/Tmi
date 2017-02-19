@@ -3,6 +3,7 @@ package tm.ui.tmi;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,13 +23,14 @@ import android.widget.Toast;
 
 import com.xbh.tmi.R;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import tm.manager.PersonManager;
 import tm.ui.mine.CommonSelectImgPopupWindow;
 import tm.ui.tmi.adapter.ImageAdapter;
+import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 
@@ -130,7 +132,7 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
             case R.id.release_center_ok_tv://发表按钮
                 //输入框内容获取
                 content = mEditText.getText().toString();
-                if(TextUtils.isEmpty(content) && (null == imgPathList || imgPathList.size() == 1)){
+                if (TextUtils.isEmpty(content) && (null == imgPathList || imgPathList.size() == 1)) {
                     Toast.makeText(this, "请输入内容！", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -199,9 +201,15 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
                     Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                setAdapterData(imagePath);
+                imagePath = "/mnt/sdcard/ImageLoader/cache/images" + System.currentTimeMillis() + ".jpg";
+                Bundle bundle = data.getExtras();
+                Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式  
+                try {
+                    ImageUtil.saveBitmap(bitmap, imagePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-
         }
     }
 
@@ -248,14 +256,6 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
                     case R.id.yx_common_add_img_pupwindow_camera_tv:
                         //照相
                         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        imagePath = "/mnt/sdcard/ImageLoader/cache/imageslarge/" + System.currentTimeMillis() + ".jpg";
-                        File path1 = new File(imagePath).getParentFile();
-                        if (!path1.exists()) {
-                            path1.mkdirs();
-                        }
-                        File file = new File(imagePath);
-                        Uri mOutPutFileUri = Uri.fromFile(file);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutPutFileUri);
                         ReleaseFriendActivity.this.startActivityForResult(intent, CAMERA_REQUEST_CODE);
                         break;
                     case R.id.yx_common_add_img_pupwindow_local_tv:

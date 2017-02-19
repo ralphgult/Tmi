@@ -120,6 +120,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         if (mIsUpdate) {
             setData();
         } else {
+            mImgPathList.add("0");
             mAdapter.resetData(mImgPathList);
             mPhoto_gv.setAdapter(mAdapter);
         }
