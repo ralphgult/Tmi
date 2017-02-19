@@ -17,13 +17,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -344,6 +342,14 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                     Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                imagePath = "/mnt/sdcard/ImageLoader/cache/images" + System.currentTimeMillis() + ".jpg";
+                Bundle bundle = data.getExtras();
+                Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式  
+                try {
+                    ImageUtil.saveBitmap(bitmap, imagePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             if (requestCode == CHANGEHEAD_LOCAL || requestCode == CHANGEHEAD_CAMERA) {
@@ -424,14 +430,6 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                     case R.id.yx_common_add_img_pupwindow_camera_tv:
                         //照相
                         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        imagePath = "/mnt/sdcard/ImageLoader/cache/imageslarge/" + System.currentTimeMillis() + ".jpg";
-                        File path1 = new File(imagePath).getParentFile();
-                        if (!path1.exists()) {
-                            path1.mkdirs();
-                        }
-                        File file = new File(imagePath);
-                        Uri mOutPutFileUri = Uri.fromFile(file);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutPutFileUri);
                         FarmerCenterActivity.this.startActivityForResult(intent, type == CHANGE_FACE_WALL ? WALLFACE_CAMERA : CHANGEHEAD_CAMERA);
                         break;
                     case R.id.yx_common_add_img_pupwindow_local_tv:

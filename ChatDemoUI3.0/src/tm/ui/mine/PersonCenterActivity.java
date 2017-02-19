@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ import tm.manager.PersonManager;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
+import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
@@ -83,7 +85,6 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
 
     private TextView ok;
     private FaceWallAdapter mAdapter;
-    private String[] pathList;
     private ImageLoaders imageLoaders;
     private ImageView head_iv;
 
@@ -191,24 +192,24 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String userId = sharedPre.getString("username", "");
-        //TODO 账号
+        //账号
         mPersonAccountTv.setText(userId);
-        //TODO 居住地
+        //居住地
         mPersonResidenceTv.setText(getIntent().getExtras().getString("domicile"));
-        //TODO 职业
+        //职业
         mPersonJobTv.setText(getIntent().getExtras().getString("occupation"));
-        //TODO 年龄
+        //年龄
         mPersonAgeTv.setText(getIntent().getExtras().getString("age"));
-        //TODO 身高
-        mPersonHeightTv.setText(getIntent().getExtras().getString("height")+"cm");
-        //TODO 毕业院校
+        //身高
+        mPersonHeightTv.setText(getIntent().getExtras().getString("height") + "cm");
+        //毕业院校
         mPersonAcademyTv.setText(getIntent().getExtras().getString("school"));
-        //TODO 爱好
+        //爱好
         mPersonHobbyTv.setText(getIntent().getExtras().getString("hobby"));
-        //TODO 我的心愿
+        //我的心愿
         mPersonWishTv.setText(getIntent().getExtras().getString("wish"));
-        //TODO 年收入
-        mPersonIncomeTv.setText(getIntent().getExtras().getString("income")+"元");
+        //年收入
+        mPersonIncomeTv.setText(getIntent().getExtras().getString("income") + "元");
 
 
         if (!TextUtils.isEmpty(userId)) {
@@ -295,46 +296,45 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 ViewUtil.backToOtherActivity(this);
                 break;
             case R.id.person_sign_rv:
-//                createSignDialog();
                 createDialog("请输入个性签名", 3);
                 break;
             case R.id.person_name_rv:
-                //TODO 设置昵称
+                //设置昵称
                 createDialog("设置昵称", 1);
                 break;
             case R.id.person_account_rv:
                 Toast.makeText(this, "账号不可修改", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.person_residence_rv:
-                //TODO 设置居住地
+                //设置居住地
                 createDialog("设置居住地", 4);
                 break;
             case R.id.person_job_rv:
-                //TODO 设置职业
+                //设置职业
                 createDialog("设置职业", 5);
                 break;
             case R.id.person_age_rv:
-                //TODO 设置年龄
+                //设置年龄
                 createDialog("设置年龄", 6);
                 break;
             case R.id.person_height_rv:
-                //TODO 设置身高
+                //设置身高
                 createDialog("设置身高", 7);
                 break;
             case R.id.person_academy_rv:
-                //TODO 设置毕业院校
+                //设置毕业院校
                 createDialog("设置毕业院校", 8);
                 break;
             case R.id.person_hobby_rv:
-                //TODO 设置兴趣爱好
+                //设置兴趣爱好
                 createDialog("设置兴趣爱好", 9);
                 break;
             case R.id.person_wish_rv:
-                //TODO 设置我的心愿
+                //设置我的心愿
                 createDialog("设置我的心愿", 10);
                 break;
             case R.id.person_income_rv:
-                //TODO 设置年收入
+                //设置年收入
                 createDialog("设置年收入", 11);
                 break;
 
@@ -363,6 +363,14 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
                     Toast.makeText(this, "SD卡不可用", Toast.LENGTH_SHORT).show();
                     return;
+                }
+                imagePath = "/mnt/sdcard/ImageLoader/cache/images" + System.currentTimeMillis() + ".jpg";
+                Bundle bundle = data.getExtras();
+                Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式  
+                try {
+                    ImageUtil.saveBitmap(bitmap, imagePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -412,7 +420,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                     String userId = sharedPre.getString("username", "");
                     if (!TextUtils.isEmpty(userId)) {
                         list.add(new BasicNameValuePair("userId", userId));
-                        //todo 接口设置type
+                        //接口设置type
                         switch (type) {
                             case 1://设置昵称
                                 list.add(new BasicNameValuePair("nickname", inputText));
@@ -427,10 +435,10 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                 list.add(new BasicNameValuePair("occupation", inputText));
                                 break;
                             case 6://设置年龄
-                                boolean result=inputText.matches("[0-9]+");
-                                if(!result){
+                                boolean result = inputText.matches("[0-9]+");
+                                if (!result) {
                                     Toast.makeText(PersonCenterActivity.this, "年龄必须是纯数字", Toast.LENGTH_SHORT).show();
-                                }else{
+                                } else {
                                     list.add(new BasicNameValuePair("age", inputText));
                                 }
                                 break;
@@ -500,7 +508,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                                 mPersonAgeTv.setText(inputText);
                                                                 break;
                                                             case 7:
-                                                                mPersonHeightTv.setText(inputText+"cm");
+                                                                mPersonHeightTv.setText(inputText + "cm");
                                                                 break;
                                                             case 8:
                                                                 mPersonAcademyTv.setText(inputText);
@@ -512,7 +520,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                                 mPersonWishTv.setText(inputText);
                                                                 break;
                                                             case 11:
-                                                                mPersonIncomeTv.setText(inputText+"元");
+                                                                mPersonIncomeTv.setText(inputText + "元");
                                                                 break;
                                                         }
 
@@ -561,14 +569,6 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                     case R.id.yx_common_add_img_pupwindow_camera_tv:
                         //照相
                         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        imagePath = "/mnt/sdcard/ImageLoader/cache/imageslarge/" + System.currentTimeMillis() + ".jpg";
-                        File path1 = new File(imagePath).getParentFile();
-                        if (!path1.exists()) {
-                            path1.mkdirs();
-                        }
-                        File file = new File(imagePath);
-                        Uri mOutPutFileUri = Uri.fromFile(file);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutPutFileUri);
                         PersonCenterActivity.this.startActivityForResult(intent, type == CHANGE_FACE_WALL ? WALLFACE_CAMERA : CHANGEHEAD_CAMERA);
                         break;
                     case R.id.yx_common_add_img_pupwindow_local_tv:
