@@ -130,9 +130,9 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
             case R.id.release_center_ok_tv://发表按钮
                 //输入框内容获取
                 content = mEditText.getText().toString();
-                if(TextUtils.isEmpty(content) && (null == imgPathList || imgPathList.size() == 0)){
+                if(TextUtils.isEmpty(content) && (null == imgPathList || imgPathList.size() == 1)){
                     Toast.makeText(this, "请输入内容！", Toast.LENGTH_SHORT).show();
-                    break;
+                    return;
                 }
                 //不同的接口的调用
                 Thread thread = null;
