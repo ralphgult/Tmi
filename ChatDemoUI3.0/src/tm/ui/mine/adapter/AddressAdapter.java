@@ -2,7 +2,6 @@ package tm.ui.mine.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,9 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import tm.manager.PersonManager;
-import tm.ui.mine.EditAddressActivity;
 import tm.ui.mine.MyAddressActivity;
-import tm.utils.ViewUtil;
 
 /**
  * Created by RalphGult on 2016/10/20.
@@ -100,20 +97,6 @@ public class AddressAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 ((MyAddressActivity) mContext).deleteAddress(dataList.get(position).get("id"));
-            }
-        });
-        vh.edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<String, String> map = dataList.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putString("id", map.get("id"));
-                bundle.putString("name", map.get("name"));
-                bundle.putString("phone", map.get("phone"));
-                bundle.putString("content", map.get("addr"));
-                bundle.putString("default", map.get("default"));
-                bundle.putBoolean("isAdd", false);
-                ViewUtil.jumpToOtherActivity((MyAddressActivity) mContext, EditAddressActivity.class, bundle);
             }
         });
         return view;
