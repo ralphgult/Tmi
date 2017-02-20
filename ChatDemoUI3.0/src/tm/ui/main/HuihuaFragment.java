@@ -255,9 +255,11 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener ,Vi
                     float x = e2.getX() - e1.getX();
                     float y = e2.getY() - e1.getY();
 
-                    if (x > 0) {
+                    if (x > 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200) ) {
+                        Log.e("Lking "," y " +y);
                         doResult(RIGHT);
-                    } else if (x < 0) {
+                    } else if (x < 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200)) {
+                        Log.e("Lking "," y " +y);
                         doResult(LEFT);
                     }
                     return true;
