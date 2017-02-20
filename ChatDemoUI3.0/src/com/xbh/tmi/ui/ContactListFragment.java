@@ -20,8 +20,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -61,10 +63,13 @@ import tm.utils.ConstantsHandler;
 
 /**
  * contact list
- * 
+ *
  */
-public class ContactListFragment extends EaseContactListFragment {
-	
+public class ContactListFragment extends EaseContactListFragment implements View.OnTouchListener{
+    private GestureDetector gestureDetector;
+    final int RIGHT = 0;
+    final int LEFT = 1;
+
     private static final String TAG = ContactListFragment.class.getSimpleName();
     private ContactSyncListener contactSyncListener;
     private BlackListSyncListener blackListSyncListener;
@@ -100,8 +105,48 @@ public class ContactListFragment extends EaseContactListFragment {
         contentContainer.addView(loadingView);
 
         registerForContextMenu(listView);
+
+        listView.setOnTouchListener(this);
+        gestureDetector = new GestureDetector(getActivity(),onGestureListener);
     }
-    
+
+    private GestureDetector.OnGestureListener onGestureListener =
+            new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                       float velocityY) {
+                    float x = e2.getX() - e1.getX();
+                    float y = e2.getY() - e1.getY();
+
+                    if (x > 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200) ) {
+                        Log.e("Lking "," y " +y);
+                        doResult(RIGHT);
+                    } else if (x < 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200)) {
+                        Log.e("Lking "," y " +y);
+                        doResult(LEFT);
+                    }
+                    return true;
+                }
+            };
+
+    public void doResult(int action) {
+        switch (action) {
+            case RIGHT:
+                getFragmentManager().popBackStack();
+                Log.e("Lking","右滑+status = ");
+
+                Log.e("Lking","右滑完成，status = ");
+                break;
+
+            case LEFT:
+                Log.e("Lking","左滑+status = ");
+
+                Log.e("Lking","左滑完成，status = ");
+                break;
+
+        }
+    }
+
     @Override
     public void refresh() {
         //拉去好友列表
@@ -120,8 +165,8 @@ public class ContactListFragment extends EaseContactListFragment {
             applicationItem.hideUnreadMsgView();
         }
     }
-    
-    
+
+
     @SuppressWarnings("unchecked")
     @Override
     protected void setUpView() {
@@ -158,7 +203,8 @@ public class ContactListFragment extends EaseContactListFragment {
             }
         });
 
-        
+        listView.setOnTouchListener(this);
+
         // 进入添加好友页
         titleBar.getRightLayout().setOnClickListener(new OnClickListener() {
 
@@ -167,24 +213,24 @@ public class ContactListFragment extends EaseContactListFragment {
                 startActivity(new Intent(getActivity(), AddContactActivity.class));
             }
         });
-        
-        
+
+
         contactSyncListener = new ContactSyncListener();
         DemoHelper.getInstance().addSyncContactListener(contactSyncListener);
-        
+
         blackListSyncListener = new BlackListSyncListener();
         DemoHelper.getInstance().addSyncBlackListListener(blackListSyncListener);
-        
+
         contactInfoSyncListener = new ContactInfoSyncListener();
         DemoHelper.getInstance().getUserProfileManager().addSyncContactInfoListener(contactInfoSyncListener);
-        
+
         if (DemoHelper.getInstance().isContactsSyncedWithServer()) {
             loadingView.setVisibility(View.GONE);
         } else if (DemoHelper.getInstance().isSyncingContactsWithServer()) {
             loadingView.setVisibility(View.VISIBLE);
         }
     }
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -192,17 +238,17 @@ public class ContactListFragment extends EaseContactListFragment {
             DemoHelper.getInstance().removeSyncContactListener(contactSyncListener);
             contactSyncListener = null;
         }
-        
+
         if(blackListSyncListener != null){
             DemoHelper.getInstance().removeSyncBlackListListener(blackListSyncListener);
         }
-        
+
         if(contactInfoSyncListener != null){
             DemoHelper.getInstance().getUserProfileManager().removeSyncContactInfoListener(contactInfoSyncListener);
         }
     }
-    
-	
+
+
 	protected class HeaderItemClickListener implements OnClickListener{
 
         @Override
@@ -231,9 +277,9 @@ public class ContactListFragment extends EaseContactListFragment {
                 break;
             }
         }
-	    
+
 	}
-	
+
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -267,8 +313,8 @@ public class ContactListFragment extends EaseContactListFragment {
 
 	/**
 	 * 删除好友
-	 * 
-	 * @param toDeleteUser
+	 *
+	 * @param tobeDeleteUser
 	 */
 	public void deleteContact(final EaseUser tobeDeleteUser) {
 		String st1 = getResources().getString(R.string.deleting);
@@ -310,7 +356,7 @@ public class ContactListFragment extends EaseContactListFragment {
 		}).start();
 
 	}
-	
+
 	class ContactSyncListener implements DataSyncListener{
         @Override
         public void onSyncComplete(final boolean success) {
@@ -330,13 +376,13 @@ public class ContactListFragment extends EaseContactListFragment {
                                 loadingView.setVisibility(View.GONE);
                             }
                         }
-                        
+
                     });
                 }
             });
         }
     }
-    
+
     class BlackListSyncListener implements DataSyncListener{
 
         @Override
@@ -349,16 +395,16 @@ public class ContactListFragment extends EaseContactListFragment {
                 }
             });
         }
-        
+
     };
-    
+
     class ContactInfoSyncListener implements DataSyncListener{
 
         @Override
         public void onSyncComplete(final boolean success) {
             EMLog.d(TAG, "on contactinfo list sync success:" + success);
             getActivity().runOnUiThread(new Runnable() {
-                
+
                 @Override
                 public void run() {
                     loadingView.setVisibility(View.GONE);
@@ -368,7 +414,7 @@ public class ContactListFragment extends EaseContactListFragment {
                 }
             });
         }
-        
+
     }
     /**
      * 好友列表
@@ -451,5 +497,19 @@ public class ContactListFragment extends EaseContactListFragment {
             }
         }
     };
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                Log.e("Lking","滑动的监听事件");
+                return gestureDetector.onTouchEvent(event);
+            default:
+                Log.e("Lking","滑动的事件");
+                return gestureDetector.onTouchEvent(event);
+        }
+    }
+
+
 
 }
