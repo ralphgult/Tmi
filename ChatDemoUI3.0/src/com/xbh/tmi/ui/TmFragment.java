@@ -3,11 +3,16 @@ package com.xbh.tmi.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +28,13 @@ import tm.widget.zxing.activity.CaptureActivity;
 /**
  * Created by Administrator on 2016/8/21.
  */
-public class TmFragment extends Fragment implements View.OnClickListener {
+public class TmFragment extends Fragment implements View.OnClickListener,View.OnTouchListener{
+    private GestureDetector gestureDetector;
+    final int RIGHT = 0;
+    final int LEFT = 1;
+    int status = 1;
+    private ListView mTmiMoveTxtPer;
+
     private ImageView tm_title_personal_iv;//个人按钮
     private ImageView tm_title_comp_iv;//企业按钮
     private ImageView tm_title_farmer_iv;//三农按钮
@@ -62,9 +73,15 @@ public class TmFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initViews() {
+        gestureDetector = new GestureDetector(getActivity(),onGestureListener);
+
         tm_title_personal_iv = (ImageView) getActivity().findViewById(R.id.tm_top_person_iv);
         tm_title_comp_iv = (ImageView) getActivity().findViewById(R.id.tm_top_comp_iv);
         tm_title_farmer_iv = (ImageView) getActivity().findViewById(R.id.tm_top_farmer_iv);
+
+        mTmiMoveTxtPer = (ListView) getActivity().findViewById(R.id.tmi_move_per_txt);
+        mTmiMoveTxtPer.setOnTouchListener(this);
+
 
         tm_person_ly = (LinearLayout) getActivity().findViewById(R.id.tm_person_ly);
         tm_btn_person_notice_tv = (TextView) getActivity().findViewById(R.id.tm_person_notice_tv);
@@ -103,7 +120,51 @@ public class TmFragment extends Fragment implements View.OnClickListener {
 
         tabs = new ImageView[]{tm_title_personal_iv, tm_title_comp_iv, tm_title_farmer_iv};
         layouts = new LinearLayout[]{tm_person_ly, tm_comp_ly, tm_farmer_ly};
+
+
     }
+    private GestureDetector.OnGestureListener onGestureListener =
+            new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                       float velocityY) {
+                    float x = e2.getX() - e1.getX();
+                    float y = e2.getY() - e1.getY();
+
+                    if (x > 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200) ) {
+                        Log.e("Lking "," y " +y);
+                        doResult(RIGHT);
+                    } else if (x < 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200)) {
+                        Log.e("Lking "," y " +y);
+                        doResult(LEFT);
+                    }
+                    return true;
+                }
+            };
+
+    public void doResult(int action) {
+        switch (action) {
+            case RIGHT:
+                Log.e("Lking","右滑+status = "+status);
+                if (status <= 2) {
+                    status++;
+                    changeLayout(status - 1);
+                }
+                Log.e("Lking","右滑完成，status = "+status);
+                break;
+
+            case LEFT:
+                Log.e("Lking","左滑+status = "+status);
+                if (status > 1) {
+                    status--;
+                    changeLayout(status - 1);
+                }
+                Log.e("Lking","左滑完成，status = "+status);
+                break;
+
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -115,6 +176,8 @@ public class TmFragment extends Fragment implements View.OnClickListener {
                 for(int i = 0; i < 3; i++){
                     if(tabs[i].getId() == v.getId()){
                         changeLayout(i);
+                        status = i+1;
+                        Log.e("LKing","变换status = "+status);
                         return;
                     }
                 }
@@ -190,4 +253,15 @@ public class TmFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                Log.e("Lking","滑动的监听事件");
+                return gestureDetector.onTouchEvent(event);
+            default:
+                Log.e("Lking","滑动的事件");
+                return gestureDetector.onTouchEvent(event);
+        }
+    }
 }
