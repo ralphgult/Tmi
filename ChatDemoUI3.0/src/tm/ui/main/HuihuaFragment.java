@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -56,8 +58,12 @@ import tm.widget.pulltorefresh.PullToRefreshListView;
 /**
  * Created by Administrator on 2016/8/23.
  */
-public class HuihuaFragment extends Fragment implements View.OnClickListener {
+public class HuihuaFragment extends Fragment implements View.OnClickListener ,View.OnTouchListener{
 
+    private GestureDetector gestureDetector;
+    final int RIGHT = 0;
+    final int LEFT = 1;
+    int status = 1;
 
     private ImageView btn_1;
     private ImageView btn_2;
@@ -65,6 +71,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     private BdtsAdapter gridViewAdapter;
     private StationaryGridView huihua_gridview;
     private Button btn_search;
+    LinearLayout mMoveLayout;
     LinearLayout ll_top1;
     LinearLayout ll_top2;
     LinearLayout ll_top3;
@@ -106,6 +113,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_1://个人
+                status = 1;
                 btn_2.setImageResource(R.drawable.tm_qiye_norm);
                 btn_1.setImageResource(R.drawable.tm_geren_pressed);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
@@ -126,6 +134,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.btn_2://企业
+                status = 2;
+
                 btn_2.setImageResource(R.drawable.tm_qiye_pressed);
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
@@ -145,6 +155,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.btn_3://三农
+                status = 3;
                 btn_2.setImageResource(R.drawable.tm_qiye_norm);
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_pressed);
@@ -233,7 +244,126 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         refreshListView.setVisibility(View.VISIBLE);
         huihua_gridview.setVisibility(View.GONE);
 
+        gestureDetector = new GestureDetector(getActivity(),onGestureListener);
+    }
 
+    private GestureDetector.OnGestureListener onGestureListener =
+            new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                       float velocityY) {
+                    float x = e2.getX() - e1.getX();
+                    float y = e2.getY() - e1.getY();
+
+                    if (x > 0) {
+                        doResult(RIGHT);
+                    } else if (x < 0) {
+                        doResult(LEFT);
+                    }
+                    return true;
+                }
+            };
+
+    public void doResult(int action) {
+        switch (action) {
+            case RIGHT:
+                Log.e("Lking","右滑");
+                System.out.println("go right");
+                if(status ==1){
+                    status = 2;
+                    btn_2.setImageResource(R.drawable.tm_qiye_pressed);
+                    btn_1.setImageResource(R.drawable.tm_geren_normal);
+                    btn_3.setImageResource(R.drawable.tm_sannong_normal);
+                    txt3.setText("资讯");
+                    btn_search.setHint("关键词搜您想搜的企业商品/服务");
+                    zxtype=2;
+                    type=1;
+                    rjtype=2;
+                    if(stype==1){
+                        huihua_gridview.setVisibility(View.GONE);
+                        refreshListView.setVisibility(View.VISIBLE);
+                        LoadData3();
+                    }else if(stype==2){
+                        LoadData1();
+                    }else if(stype==3){
+                        LoadData2();
+                    }
+                }else if(status ==2){
+                    status = 3;
+                    btn_2.setImageResource(R.drawable.tm_qiye_norm);
+                    btn_1.setImageResource(R.drawable.tm_geren_normal);
+                    btn_3.setImageResource(R.drawable.tm_sannong_pressed);
+                    txt3.setText("扶植农业");
+                    btn_search.setHint("关键词搜您想搜的三农产品/服务");
+                    zxtype=3;
+                    type=2;
+                    rjtype=3;
+                    if(stype==1){
+//                    huihua_gridview.setVisibility(View.GONE);
+//                    refreshListView.setVisibility(View.VISIBLE);
+//                    LoadData3();
+                        huihua_gridview.setVisibility(View.VISIBLE);
+                        refreshListView.setVisibility(View.GONE);
+                        gridViewAdapter.resetDato(getNongyeData());
+                    }else if(stype==2){
+                        LoadData1();
+                    }else if(stype==3){
+                        LoadData2();
+                    }
+                }else if(status == 3){
+                }
+
+                break;
+
+            case LEFT:
+                Log.e("Lking","左滑");
+                if(status == 1){//个人，不处理
+
+                }else if(status == 2){//企业，滑到个人
+                    status = 1;
+
+                    btn_2.setImageResource(R.drawable.tm_qiye_norm);
+                    btn_1.setImageResource(R.drawable.tm_geren_pressed);
+                    btn_3.setImageResource(R.drawable.tm_sannong_normal);
+                    txt3.setText("本地特色");
+                    btn_search.setHint("关键词搜您想搜的附近美女/帅哥");
+                    zxtype=1;
+                    type=0;
+                    rjtype=1;
+                    if(stype==1){
+                        huihua_gridview.setVisibility(View.VISIBLE);
+                        refreshListView.setVisibility(View.GONE);
+                        gridViewAdapter.resetDato(getData());
+//                    LoadData1();
+                    }else if(stype==2){
+                        LoadData1();
+                    }else if(stype==3){
+                        LoadData2();
+                    }
+                }else if(status == 3 ){//三农，滑到企业
+                    status = 2;
+                    btn_2.setImageResource(R.drawable.tm_qiye_pressed);
+                    btn_1.setImageResource(R.drawable.tm_geren_normal);
+                    btn_3.setImageResource(R.drawable.tm_sannong_normal);
+                    txt3.setText("资讯");
+                    btn_search.setHint("关键词搜您想搜的企业商品/服务");
+                    zxtype=2;
+                    type=1;
+                    rjtype=2;
+                    if(stype==1){
+                        huihua_gridview.setVisibility(View.GONE);
+                        refreshListView.setVisibility(View.VISIBLE);
+                        LoadData3();
+                    }else if(stype==2){
+                        LoadData1();
+                    }else if(stype==3){
+                        LoadData2();
+                    }
+                }
+                System.out.println("go left");
+                break;
+
+        }
     }
     /**
      * 接口推荐数据
@@ -473,6 +603,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         btn_2.setOnClickListener(this);
         btn_3.setOnClickListener(this);
         btn_search.setOnClickListener(this);
+        lv_common.setOnTouchListener(this);
+        huihua_gridview.setOnTouchListener(this);
         ll_top1.setOnClickListener(this);
         ll_top2.setOnClickListener(this);
         ll_top3.setOnClickListener(this);
@@ -483,6 +615,18 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.xbh.tmi");    //只有持有相同的action的接受者才能接收此广播
         getActivity().registerReceiver(receiveBroadCast, filter);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                Log.e("Lking","滑动的监听事件");
+                return gestureDetector.onTouchEvent(event);
+            default:
+                Log.e("Lking","滑动的事件");
+                return gestureDetector.onTouchEvent(event);
+        }
     }
 
     /**
@@ -689,4 +833,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         }
 
     }
+
+
+
 }
