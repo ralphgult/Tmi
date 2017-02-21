@@ -17,7 +17,6 @@ import tm.widget.RKCloudChatTouchImageView;
 
 public class HeadBigActivity extends Activity {
     private RKCloudChatTouchImageView head_iv;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +29,13 @@ public class HeadBigActivity extends Activity {
             path = getIntent().getExtras().getString("filePath");
             head_iv.setImageBitmap(BitmapFactory.decodeFile(path));
         }
+
+        head_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewUtil.backToOtherActivity(HeadBigActivity.this);
+            }
+        });
     }
 
     private ImageLoaders imageLoaders = new ImageLoaders(this, new imageLoader());
