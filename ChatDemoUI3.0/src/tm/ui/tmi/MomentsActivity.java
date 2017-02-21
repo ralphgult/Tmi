@@ -240,7 +240,7 @@ public class MomentsActivity extends Activity {
             try {
                 JSONObject object = new JSONObject("{\"rows\":" + jsonMap.get("rows") + "}");
                 JSONArray array = object.getJSONArray("rows");
-                int size = Integer.valueOf(jsonMap.get("total"));
+                int size = array.length();
                 for (int i = 0; i < size; i++) {
                     StringBuffer sb = new StringBuffer();
                     map = new HashMap<String, String>();

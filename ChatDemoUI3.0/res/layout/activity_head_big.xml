@@ -8,6 +8,6 @@
     <tm.widget.RKCloudChatTouchImageView
         android:id="@+id/head_big_iv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
 </LinearLayout>

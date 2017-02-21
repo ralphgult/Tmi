@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.util.ImageUtils;
+import com.oohla.android.utils.StringUtil;
 import com.xbh.tmi.R;
 
 import java.io.IOException;
@@ -88,7 +90,7 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
         mAdapter = new ImageAdapter(this, true);
         imgPathList = new ArrayList<>();
         imgPathList.add("0");
-        imgpaths = new String[9];
+        imgpaths = new String[6];
         for (int i = 0; i < imgPathList.size(); i++) {
             imgpaths[i] = imgPathList.get(i);
         }
@@ -96,13 +98,13 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
     }
 
     public void setAdapterData(String imgPath) {
-        if (imgPathList.size() < 9) {
+        if (imgPathList.size() < 6) {
             imgPathList.add(imgPathList.size() - 1, imgPath);
         } else {
             imgPathList.remove(imgPathList.size() - 1);
             imgPathList.add(imgPath);
         }
-        imgpaths = new String[9];
+        imgpaths = new String[6];
         for (int i = 0; i < imgPathList.size(); i++) {
             imgpaths[i] = imgPathList.get(i);
         }
@@ -112,10 +114,10 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
 
     public void delAdapterData(String imgPath) {
         imgPathList.remove(imgPath);
-        if (imgPathList.size() == 8 && !imgPathList.contains("0")) {
+        if (imgPathList.size() == 6 && !imgPathList.contains("0")) {
             imgPathList.add("0");
         }
-        imgpaths = new String[9];
+        imgpaths = new String[6];
         for (int i = 0; i < imgPathList.size(); i++) {
             imgpaths[i] = imgPathList.get(i);
         }
@@ -209,6 +211,17 @@ public class ReleaseFriendActivity extends Activity implements View.OnClickListe
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                imgPathList.remove("0");
+                imgPathList.add(imagePath);
+                if (imgPathList.size() < 6) {
+                    imgPathList.add("0");
+                }
+                imgpaths = new String[6];
+                for (int i = 0; i < imgPathList.size(); i++) {
+                    imgpaths[i] = imgPathList.get(i);
+                }
+                mAdapter.resetData(imgpaths);
             }
         }
     }

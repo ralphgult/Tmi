@@ -165,7 +165,7 @@ public class WelcomeListAdapter extends BaseAdapter {
                 }else{
                     try {
                         EMClient.getInstance().contactManager().addContact(map.get("uname")+"", "赶紧加好友吧");
-                        Toast.makeText(context,"发送请求成功,等待对方验证",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"您已关注对方，请求配对！",Toast.LENGTH_SHORT).show();
                     } catch (HyphenateException e) {
                         e.printStackTrace();
                     }
