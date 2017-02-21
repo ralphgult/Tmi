@@ -709,75 +709,75 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener ,Vi
 
     public List<ResourcesBean> getData() {
         ArrayList<ResourcesBean> list = new ArrayList<ResourcesBean>();
-        ResourcesBean bean1 = new ResourcesBean();
-        bean1.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/G2JIXi.MaRldU5*1mXEjpcGa74dXM*A4wwxiimfeh5E!/b/dK0AAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean1 = new ResourcesBean();//美食
+        bean1.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/n*hiRuX9Jxyy54MuCz*A*6gaNwqO5dPCQC0zEPDJ7j4!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADByI!&rf=viewer_4";
         list.add(0, bean1);
 
-        ResourcesBean bean2 = new ResourcesBean();
-        bean2.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/PToIp.GUEDdga1ZCO4vGBQRcZ3nYdN5582owshml65Y!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean2 = new ResourcesBean();//娱乐
+        bean2.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/CpNVoci9TWCALfMOCGbUZNxZS*NDTEUpB7tQUwbgABA!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(1, bean2);
 
-        ResourcesBean bean3 = new ResourcesBean();
-        bean3.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/7Zq6mS*GFtLqJTUXmCjTBPG3eXJC77zUzoC3CDpnlMg!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean3 = new ResourcesBean();//旅游
+        bean3.mImagePath = "http://a2.qpic.cn/psb?/V12LbzOe2y8yLa/3vi*7YTCNvXfAWHgAOiyK4mVxcr0VeuNRevMC5rlkXc!/b/dBYAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(2, bean3);
 
-        ResourcesBean bean4 = new ResourcesBean();
-        bean4.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/Lw1ur0ZrdSvd5Jyu0fsdOwLsHhEDJOR3AsTD3vNePRU!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean4 = new ResourcesBean();//酒店
+        bean4.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/LCpkbqEc6xLF5CW8X9s8gmDXKfgNMchz0x6B24weMJI!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(3, bean4);
 
-        ResourcesBean bean5 = new ResourcesBean();
-        bean5.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/IwsKRkREf5O8IDH735G4AXQFed4llmfM7FE0QPT*tuE!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean5 = new ResourcesBean();//养生
+        bean5.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/0O8GbdgVm6teR2La11JEiMLe7KmfJNrJSMWwxKovHbA!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(4, bean5);
 
-        ResourcesBean bean6 = new ResourcesBean();
-        bean6.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/.nwVTsdxqqde9j9cr8qs*N.q3WY4Xvv3ZBFWgxAymH8!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean6 = new ResourcesBean();//教育
+        bean6.mImagePath = "http://a2.qpic.cn/psb?/V12LbzOe2y8yLa/QvWzDtJLE.awk.IeiKbZKzFBiRyc5.aPlps0RQBYl7U!/b/dN8AAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(5, bean6);
 
-        ResourcesBean bean7 = new ResourcesBean();
-        bean7.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/yhvdoaZ8xXXpvBccdSuQxm9aLW6F.MiRmNmBXjmbmQ0!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean7 = new ResourcesBean();//失物招领
+        bean7.mImagePath = "http://a2.qpic.cn/psb?/V12LbzOe2y8yLa/O9rXc1OTBeKdupjSALayME6ANYmZlwxNhnL*NTvDSH8!/b/dH4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(6, bean7);
 
-        ResourcesBean bean8 = new ResourcesBean();
-        bean8.mImagePath = "http://a2.qpic.cn/psb?/V14fxJhp0IQ0iR/fRqidEeRsQFYkqIQlIzOIPhC5KW2aEE2BKUseWWx0HY!/b/dLIAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean8 = new ResourcesBean();//拍卖共享
+        bean8.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/fYP7GPgIKpdSD6b*JgHI4wbG9NcP243xshmAc7qKafc!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(7, bean8);
         return list;
     }
     public List<ResourcesBean> getNongyeData() {
         ArrayList<ResourcesBean> list = new ArrayList<ResourcesBean>();
-        ResourcesBean bean1 = new ResourcesBean();
-        bean1.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/R6ayDnevKcEowPGmxNy1MSgMYFugs74eXZ7ngTZakvU!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean1 = new ResourcesBean();//苹果
+        bean1.mImagePath = "http://b169.photo.store.qq.com/psb?/V11UnAG03VjFP8/Kqe60mDcnFJoCeRbaMuFo6nXGXh0WbQU6cCGEnmL3o4!/b/dKkAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(0, bean1);
 
-        ResourcesBean bean2 = new ResourcesBean();
-        bean2.mImagePath = "http://a2.qpic.cn/psb?/V14fxJhp0IQ0iR/Ry4.yyi92vAcRs4*PJF1IgCnUOconjMwcZiu8D6JKVU!/b/dLIAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean2 = new ResourcesBean();//梨
+        bean2.mImagePath = "http://a3.qpic.cn/psb?/V12LbzOe2y8yLa/6QJooECpjNwrbuU3wLcmjCXl0WdyR275sCpNVko2lhE!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADByI!&rf=viewer_4";
         list.add(1, bean2);
 
-        ResourcesBean bean3 = new ResourcesBean();
-        bean3.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/e535vixbOqkQixBAOAP*gKONPtBaxOg4L4iqMdtT4c8!/b/dPYAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean3 = new ResourcesBean();//枣
+        bean3.mImagePath = "http://b288.photo.store.qq.com/psb?/V11UnAG03VjFP8/dBPYaPgqt2zMfa00RaE3KbySMimPNDn4Ajsg2uNW6AA!/b/dCABAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(2, bean3);
 
-        ResourcesBean bean4 = new ResourcesBean();
-        bean4.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/lK9XnnunQFmYUsR9S4xQlI4Kx21yOINcUuR4KnniPbc!/b/dPYAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean4 = new ResourcesBean();//桃子
+        bean4.mImagePath = "http://b248.photo.store.qq.com/psb?/V11UnAG03VjFP8/oHOxNIJoPHyspeFLHpsapDk097ILaPYoQs9P1wlkBJw!/b/dPgAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(3, bean4);
 
-        ResourcesBean bean5 = new ResourcesBean();
-        bean5.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/g7baWZGeJcq7CwkYWUcivVV5QvIQUXxaDXF4tZV44mE!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean5 = new ResourcesBean();//葡萄
+        bean5.mImagePath = "http://b287.photo.store.qq.com/psb?/V11UnAG03VjFP8/BZAhlOjtyxJMgKHs9chaOe3piVhhhLgOb97X27oPXqg!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(4, bean5);
 
-        ResourcesBean bean6 = new ResourcesBean();
-        bean6.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/nrqXFjYCJUPsLDdXLPddN*Lqjbj7peGEtpOjM0qmliA!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean6 = new ResourcesBean();//西瓜
+        bean6.mImagePath = "http://b177.photo.store.qq.com/psb?/V11UnAG03VjFP8/bvFWn1N4BoVW.IdE2kTaIaMUdFX*GOEfF1rAqN1bZVQ!/b/dLEAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(5, bean6);
 
-        ResourcesBean bean7 = new ResourcesBean();
-        bean7.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/lgEmmmjas3yvC2cP5IVe2a9Ohn6MN7f1*CFX4QjW9f8!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean7 = new ResourcesBean();//农林
+        bean7.mImagePath = "http://b288.photo.store.qq.com/psb?/V11UnAG03VjFP8/fr8aTV.VpKGqcVSJ8acaYSINTExDwOWqTqkKIK0To3o!/b/dCABAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(6, bean7);
 
-        ResourcesBean bean8 = new ResourcesBean();
-        bean8.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/3af8S*Ws2.jW6Y67ak1BbowAT3ywAc8x3Be70e6L*4Q!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean8 = new ResourcesBean();//畜牧
+        bean8.mImagePath = "http://b287.photo.store.qq.com/psb?/V11UnAG03VjFP8/.oj.wukX68JcVZ9nwgcD4lGwphimk7TjAOUDE2HPnts!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(7, bean8);
 
-        ResourcesBean bean9 = new ResourcesBean();
-        bean9.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/cLvep2OVUHO7eP*aeHvjyA2sG9DX8P*9AUgOn0jP0.s!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean9 = new ResourcesBean();//菜市
+        bean9.mImagePath = "http://b287.photo.store.qq.com/psb?/V11UnAG03VjFP8/Bc*gowycrqc75paI6qT5*ykjDdJ3PczlcB.ZgvRzHag!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADByI!&rf=viewer_4";
         list.add(8, bean9);
         return list;
     }
