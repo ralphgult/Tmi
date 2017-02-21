@@ -135,7 +135,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                         imgPath.add(object.getString("url"));
                                         idList.add(object.getInt("fsId"));
                                     }
-                                    if (imgPath.size() < 8) {
+                                    if (imgPath.size() < 6) {
                                         imgPath.add("0");
                                     }
                                 } else {

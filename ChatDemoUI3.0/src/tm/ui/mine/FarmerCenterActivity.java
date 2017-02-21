@@ -109,7 +109,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                                     imgList.add(object.getString("url"));
                                     idList.add(object.getInt("fsId"));
                                 }
-                                if (imgList.size() < 8) {
+                                if (imgList.size() < 6) {
                                     imgList.add("0");
                                 }
                             } else {
