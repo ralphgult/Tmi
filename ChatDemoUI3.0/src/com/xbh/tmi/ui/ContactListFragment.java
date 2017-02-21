@@ -106,7 +106,8 @@ public class ContactListFragment extends EaseContactListFragment implements View
 
         registerForContextMenu(listView);
 
-        listView.setOnTouchListener(this);
+        contentContainer.setOnTouchListener(this);
+//        listView.setOnTouchListener(this);
         gestureDetector = new GestureDetector(getActivity(),onGestureListener);
     }
 
