@@ -158,12 +158,6 @@ public class ConversationListFragment extends EaseConversationListFragment{
             }
         });
 
-        conversationListView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"aaaaaa",Toast.LENGTH_SHORT).show();
-            }
-        });
         //red packet code : 红包回执消息在会话列表最后一条消息的展示
 //        conversationListView.setConversationListHelper(new EaseConversationListHelper() {
 //            @Override
