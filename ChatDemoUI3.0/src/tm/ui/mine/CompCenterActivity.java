@@ -326,7 +326,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == REQUESTCODE_VEDIO) {
-                pd = ProgressDialog.show(this, "上传", "视频上传中，请稍后...");
+                pd = ProgressDialog.show(this, "上传", "视频上传中，请等待上传完成...");
                 if (!NetworkUtils.isWifi(this)) {
                     createReminDialog();
                     return;
