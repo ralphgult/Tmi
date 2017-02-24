@@ -135,13 +135,13 @@ public class ContactListFragment extends EaseContactListFragment implements View
             case RIGHT:
 
                 Log.e("Lking","右滑+status = ");
-
+                getFragmentManager().popBackStack();
                 Log.e("Lking","右滑完成，status = ");
                 break;
 
             case LEFT:
                 Log.e("Lking","左滑+status = ");
-                getFragmentManager().popBackStack();
+
                 Log.e("Lking","左滑完成，status = ");
                 break;
 

@@ -95,17 +95,17 @@ public class ConversationListFragment extends EaseConversationListFragment{
         switch (action) {
             case RIGHT:
                 Log.e("Lking","右滑+status = ");
-                if(!contactListFragment.isAdded()){
-                    getFragmentManager() .beginTransaction()
-                            .addToBackStack(null)  //将当前fragment加入到返回栈中
-                            .replace(R.id.fragment_container,contactListFragment).commit();
-                }
+
                 Log.e("Lking","右滑完成，status = ");
                 break;
 
             case LEFT:
                 Log.e("Lking","左滑+status = ");
-
+                if(!contactListFragment.isAdded()){
+                    getFragmentManager() .beginTransaction()
+                            .addToBackStack(null)  //将当前fragment加入到返回栈中
+                            .replace(R.id.fragment_container,contactListFragment).commit();
+                }
                 Log.e("Lking","左滑完成，status = ");
                 break;
 
