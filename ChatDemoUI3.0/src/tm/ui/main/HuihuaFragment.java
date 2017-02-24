@@ -268,8 +268,9 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener ,Vi
 
     public void doResult(int action) {
         switch (action) {
-            case RIGHT:
-                Log.e("Lking","右滑");
+            case LEFT:
+//            case RIGHT:
+                Log.e("Lking","左滑");
                 System.out.println("go right");
                 if(status ==1){
                     status = 2;
@@ -317,8 +318,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener ,Vi
 
                 break;
 
-            case LEFT:
-                Log.e("Lking","左滑");
+            case RIGHT:
+                Log.e("Lking","右滑");
                 if(status == 1){//个人，不处理
 
                 }else if(status == 2){//企业，滑到个人
