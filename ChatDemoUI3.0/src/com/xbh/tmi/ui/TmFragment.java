@@ -144,7 +144,7 @@ public class TmFragment extends Fragment implements View.OnClickListener,View.On
 
     public void doResult(int action) {
         switch (action) {
-            case RIGHT:
+            case LEFT:
                 Log.e("Lking","右滑+status = "+status);
                 if (status <= 2) {
                     status++;
@@ -153,7 +153,7 @@ public class TmFragment extends Fragment implements View.OnClickListener,View.On
                 Log.e("Lking","右滑完成，status = "+status);
                 break;
 
-            case LEFT:
+            case RIGHT:
                 Log.e("Lking","左滑+status = "+status);
                 if (status > 1) {
                     status--;
