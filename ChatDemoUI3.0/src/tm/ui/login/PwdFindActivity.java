@@ -234,7 +234,7 @@ public class PwdFindActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     isCheck = true;
                     SMSSDK.submitVerificationCode("+86", phone, ver);
-                    pd = ProgressDialog.show(this,"注册","注册中，请稍后...");
+                    pd = ProgressDialog.show(this,"找回密码","找回中，请稍后...");
                 }
                 break;
             case R.id.findpwd_getsms_tv:

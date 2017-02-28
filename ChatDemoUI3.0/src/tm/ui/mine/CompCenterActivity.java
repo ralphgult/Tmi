@@ -91,7 +91,6 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
     private String mVedioPath;
     private ProgressDialog pd;
     private RemindDialog mDialog;
-    private boolean isUploadVieoFail = false;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -113,7 +112,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                                     imgList.add(object.getString("url"));
                                     idList.add(object.getInt("fsId"));
                                 }
-                                if (imgList.size() < 8) {
+                                if (imgList.size() < 6) {
                                     imgList.add("0");
                                 }
                             } else {
@@ -165,10 +164,7 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                             Config.URL_GET_USRE_FACEWALL, list);
                     break;
                 case 6001:
-                    if (!isUploadVieoFail) {
                         Toast.makeText(CompCenterActivity.this, "视频上传完成", Toast.LENGTH_SHORT).show();
-                        isUploadVieoFail = false;
-                    }
                 case 5001:
                     if (null != pd && pd.isShowing()) {
                         pd.dismiss();
@@ -186,7 +182,6 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
             }
         }
     };
-    private CountDownTimer mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,12 +326,11 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == REQUESTCODE_VEDIO) {
-                pd = ProgressDialog.show(this, "上传", "视频上传中，请稍后...");
+                pd = ProgressDialog.show(this, "上传", "视频上传中，请等待上传完成...");
                 if (!NetworkUtils.isWifi(this)) {
                     createReminDialog();
                     return;
                 }
-                startUploadTimer();
                 new Thread() {
                     @Override
                     public void run() {
@@ -488,22 +482,4 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
         mDialog.showDialog();
     }
 
-    private void startUploadTimer(){
-        mTimer = new CountDownTimer(15000, 1000){
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                if (null != pd) {
-                    pd.dismiss();
-                }
-                isUploadVieoFail = true;
-                Toast.makeText(CompCenterActivity.this, "上传视频失败!", Toast.LENGTH_SHORT).show();
-            }
-        }.start();
-    }
 }

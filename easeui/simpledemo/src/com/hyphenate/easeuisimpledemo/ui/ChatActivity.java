@@ -37,7 +37,7 @@ public class ChatActivity extends EaseBaseActivity{
     protected void onNewIntent(Intent intent) {
         // enter to chat activity when click notification bar, here make sure only one chat activiy
         String username = intent.getStringExtra("userId");
-        if (toChatUsername.equals(username))
+        if (toChatUsername.equalsIgnoreCase(username))
             super.onNewIntent(intent);
         else {
             finish();

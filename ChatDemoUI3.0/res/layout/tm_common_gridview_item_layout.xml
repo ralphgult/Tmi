@@ -6,21 +6,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/tm_resouse_selector"
     android:gravity="center"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
     >
     <RelativeLayout
         android:id="@+id/image_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         android:gravity="center"
         android:layout_gravity="center"
         >
         <ImageView
             android:id="@+id/tm_image_iv"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:gravity="center"
             />
 

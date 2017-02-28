@@ -42,6 +42,7 @@ import java.util.Map;
  *
  */
 public class EaseConversationListFragment extends EaseBaseFragment{
+    protected FrameLayout mCovMoveLayout;
 	private final static int MSG_REFRESH = 2;
     protected EditText query;
     protected ImageButton clearSearch;
@@ -61,7 +62,8 @@ public class EaseConversationListFragment extends EaseBaseFragment{
 		}
     	
     };
-    
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_conversation_list, container, false);
@@ -79,12 +81,13 @@ public class EaseConversationListFragment extends EaseBaseFragment{
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         conversationListView = (EaseConversationList) getView().findViewById(R.id.list);
         haoyou=(ImageView)getView().findViewById(R.id.tm_top_haoyou_iv);
+        mCovMoveLayout=(FrameLayout)getView().findViewById(R.id.conver_move_layout);
         query = (EditText) getView().findViewById(R.id.query);
         // button to clear content in search bar
         clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
         errorItemContainer = (FrameLayout) getView().findViewById(R.id.fl_error_item);
     }
-    
+
     @Override
     protected void setUpView() {
 //        conversationList.addAll(loadConversationList());
@@ -127,14 +130,14 @@ public class EaseConversationListFragment extends EaseBaseFragment{
             }
         });
         
-        conversationListView.setOnTouchListener(new OnTouchListener() {
-            
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideSoftKeyboard();
-                return false;
-            }
-        });
+//        conversationListView.setOnTouchListener(new OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                hideSoftKeyboard();
+//                return false;
+//            }
+//        });
 
     }
     

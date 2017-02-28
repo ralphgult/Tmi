@@ -8,6 +8,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.media.ThumbnailUtils;
@@ -16,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,6 +80,8 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     private static final int MESSAGE_TYPE_RECV_RED_PACKET_ACK = 8;
     private static final int REQUEST_CODE_SEND_RED_PACKET = 16;
     private static final int ITEM_RED_PACKET = 16;
+    private String mUsername;
+    private String mUid;
     //end of red packet code
 
     /**
@@ -87,6 +91,9 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        SharedPreferences sharedPre=getActivity().getSharedPreferences("config",getActivity().MODE_PRIVATE);
+        mUsername=sharedPre.getString("phone", "");
+        mUid=sharedPre.getString("username", "");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -261,11 +268,17 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 //        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
 //        intent.putExtra("username", username);
 //        startActivity(intent);
+
         FriendDao fd=new FriendDao();
         FriendBean fb=fd.getLocalUserInfoByUserId(username);
         //聊天进入个人主页
         Intent intent = new Intent(getActivity(), GeranActivity.class);
-        intent.putExtra("id", fb.mUserID+"");
+        if(username.equalsIgnoreCase(mUsername)){
+            intent.putExtra("id", mUid);
+        }else{
+            intent.putExtra("id", fb.mUserID+"");
+        }
+
         startActivity(intent);
     }
     

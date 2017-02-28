@@ -41,6 +41,7 @@
 
         </LinearLayout>
     <!--个人界面按钮-->
+
     <LinearLayout
         android:id="@+id/tm_person_ly"
         android:layout_width="match_parent"
@@ -194,12 +195,13 @@
             android:textSize="16sp" />
 
         <View style="@style/tm_common_divide_line_whitebg" />
+
     </LinearLayout>
     <!--三农界面按钮-->
     <LinearLayout
         android:id="@+id/tm_farmer_ly"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -253,5 +255,10 @@
             android:textSize="16sp" />
 
         <View style="@style/tm_common_divide_line_whitebg" />
+
     </LinearLayout>
+    <ListView
+        android:id="@+id/tmi_move_per_txt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

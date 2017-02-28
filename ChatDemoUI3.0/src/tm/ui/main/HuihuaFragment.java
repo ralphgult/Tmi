@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -56,8 +58,12 @@ import tm.widget.pulltorefresh.PullToRefreshListView;
 /**
  * Created by Administrator on 2016/8/23.
  */
-public class HuihuaFragment extends Fragment implements View.OnClickListener {
+public class HuihuaFragment extends Fragment implements View.OnClickListener ,View.OnTouchListener{
 
+    private GestureDetector gestureDetector;
+    final int RIGHT = 0;
+    final int LEFT = 1;
+    int status = 1;
 
     private ImageView btn_1;
     private ImageView btn_2;
@@ -65,6 +71,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     private BdtsAdapter gridViewAdapter;
     private StationaryGridView huihua_gridview;
     private Button btn_search;
+    LinearLayout mMoveLayout;
     LinearLayout ll_top1;
     LinearLayout ll_top2;
     LinearLayout ll_top3;
@@ -106,6 +113,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_1://个人
+                status = 1;
                 btn_2.setImageResource(R.drawable.tm_qiye_norm);
                 btn_1.setImageResource(R.drawable.tm_geren_pressed);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
@@ -126,6 +134,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.btn_2://企业
+                status = 2;
+
                 btn_2.setImageResource(R.drawable.tm_qiye_pressed);
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_normal);
@@ -145,6 +155,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.btn_3://三农
+                status = 3;
                 btn_2.setImageResource(R.drawable.tm_qiye_norm);
                 btn_1.setImageResource(R.drawable.tm_geren_normal);
                 btn_3.setImageResource(R.drawable.tm_sannong_pressed);
@@ -233,7 +244,129 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         refreshListView.setVisibility(View.VISIBLE);
         huihua_gridview.setVisibility(View.GONE);
 
+        gestureDetector = new GestureDetector(getActivity(),onGestureListener);
+    }
 
+    private GestureDetector.OnGestureListener onGestureListener =
+            new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                       float velocityY) {
+                    float x = e2.getX() - e1.getX();
+                    float y = e2.getY() - e1.getY();
+
+                    if (x > 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200) ) {
+                        Log.e("Lking "," y " +y);
+                        doResult(RIGHT);
+                    } else if (x < 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200)) {
+                        Log.e("Lking "," y " +y);
+                        doResult(LEFT);
+                    }
+                    return true;
+                }
+            };
+
+    public void doResult(int action) {
+        switch (action) {
+            case LEFT:
+//            case RIGHT:
+                Log.e("Lking","左滑");
+                System.out.println("go right");
+                if(status ==1){
+                    status = 2;
+                    btn_2.setImageResource(R.drawable.tm_qiye_pressed);
+                    btn_1.setImageResource(R.drawable.tm_geren_normal);
+                    btn_3.setImageResource(R.drawable.tm_sannong_normal);
+                    txt3.setText("资讯");
+                    btn_search.setHint("关键词搜您想搜的企业商品/服务");
+                    zxtype=2;
+                    type=1;
+                    rjtype=2;
+                    if(stype==1){
+                        huihua_gridview.setVisibility(View.GONE);
+                        refreshListView.setVisibility(View.VISIBLE);
+                        LoadData3();
+                    }else if(stype==2){
+                        LoadData1();
+                    }else if(stype==3){
+                        LoadData2();
+                    }
+                }else if(status ==2){
+                    status = 3;
+                    btn_2.setImageResource(R.drawable.tm_qiye_norm);
+                    btn_1.setImageResource(R.drawable.tm_geren_normal);
+                    btn_3.setImageResource(R.drawable.tm_sannong_pressed);
+                    txt3.setText("扶植农业");
+                    btn_search.setHint("关键词搜您想搜的三农产品/服务");
+                    zxtype=3;
+                    type=2;
+                    rjtype=3;
+                    if(stype==1){
+//                    huihua_gridview.setVisibility(View.GONE);
+//                    refreshListView.setVisibility(View.VISIBLE);
+//                    LoadData3();
+                        huihua_gridview.setVisibility(View.VISIBLE);
+                        refreshListView.setVisibility(View.GONE);
+                        gridViewAdapter.resetDato(getNongyeData());
+                    }else if(stype==2){
+                        LoadData1();
+                    }else if(stype==3){
+                        LoadData2();
+                    }
+                }else if(status == 3){
+                }
+
+                break;
+
+            case RIGHT:
+                Log.e("Lking","右滑");
+                if(status == 1){//个人，不处理
+
+                }else if(status == 2){//企业，滑到个人
+                    status = 1;
+
+                    btn_2.setImageResource(R.drawable.tm_qiye_norm);
+                    btn_1.setImageResource(R.drawable.tm_geren_pressed);
+                    btn_3.setImageResource(R.drawable.tm_sannong_normal);
+                    txt3.setText("本地特色");
+                    btn_search.setHint("关键词搜您想搜的附近美女/帅哥");
+                    zxtype=1;
+                    type=0;
+                    rjtype=1;
+                    if(stype==1){
+                        huihua_gridview.setVisibility(View.VISIBLE);
+                        refreshListView.setVisibility(View.GONE);
+                        gridViewAdapter.resetDato(getData());
+//                    LoadData1();
+                    }else if(stype==2){
+                        LoadData1();
+                    }else if(stype==3){
+                        LoadData2();
+                    }
+                }else if(status == 3 ){//三农，滑到企业
+                    status = 2;
+                    btn_2.setImageResource(R.drawable.tm_qiye_pressed);
+                    btn_1.setImageResource(R.drawable.tm_geren_normal);
+                    btn_3.setImageResource(R.drawable.tm_sannong_normal);
+                    txt3.setText("资讯");
+                    btn_search.setHint("关键词搜您想搜的企业商品/服务");
+                    zxtype=2;
+                    type=1;
+                    rjtype=2;
+                    if(stype==1){
+                        huihua_gridview.setVisibility(View.GONE);
+                        refreshListView.setVisibility(View.VISIBLE);
+                        LoadData3();
+                    }else if(stype==2){
+                        LoadData1();
+                    }else if(stype==3){
+                        LoadData2();
+                    }
+                }
+                System.out.println("go left");
+                break;
+
+        }
     }
     /**
      * 接口推荐数据
@@ -473,6 +606,8 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         btn_2.setOnClickListener(this);
         btn_3.setOnClickListener(this);
         btn_search.setOnClickListener(this);
+        lv_common.setOnTouchListener(this);
+        huihua_gridview.setOnTouchListener(this);
         ll_top1.setOnClickListener(this);
         ll_top2.setOnClickListener(this);
         ll_top3.setOnClickListener(this);
@@ -483,6 +618,18 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.xbh.tmi");    //只有持有相同的action的接受者才能接收此广播
         getActivity().registerReceiver(receiveBroadCast, filter);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                Log.e("Lking","滑动的监听事件");
+                return gestureDetector.onTouchEvent(event);
+            default:
+                Log.e("Lking","滑动的事件");
+                return gestureDetector.onTouchEvent(event);
+        }
     }
 
     /**
@@ -563,75 +710,75 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
 
     public List<ResourcesBean> getData() {
         ArrayList<ResourcesBean> list = new ArrayList<ResourcesBean>();
-        ResourcesBean bean1 = new ResourcesBean();
-        bean1.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/G2JIXi.MaRldU5*1mXEjpcGa74dXM*A4wwxiimfeh5E!/b/dK0AAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean1 = new ResourcesBean();//美食
+        bean1.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/n*hiRuX9Jxyy54MuCz*A*6gaNwqO5dPCQC0zEPDJ7j4!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADByI!&rf=viewer_4";
         list.add(0, bean1);
 
-        ResourcesBean bean2 = new ResourcesBean();
-        bean2.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/PToIp.GUEDdga1ZCO4vGBQRcZ3nYdN5582owshml65Y!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean2 = new ResourcesBean();//娱乐
+        bean2.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/CpNVoci9TWCALfMOCGbUZNxZS*NDTEUpB7tQUwbgABA!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(1, bean2);
 
-        ResourcesBean bean3 = new ResourcesBean();
-        bean3.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/7Zq6mS*GFtLqJTUXmCjTBPG3eXJC77zUzoC3CDpnlMg!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean3 = new ResourcesBean();//旅游
+        bean3.mImagePath = "http://a2.qpic.cn/psb?/V12LbzOe2y8yLa/3vi*7YTCNvXfAWHgAOiyK4mVxcr0VeuNRevMC5rlkXc!/b/dBYAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(2, bean3);
 
-        ResourcesBean bean4 = new ResourcesBean();
-        bean4.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/Lw1ur0ZrdSvd5Jyu0fsdOwLsHhEDJOR3AsTD3vNePRU!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean4 = new ResourcesBean();//酒店
+        bean4.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/LCpkbqEc6xLF5CW8X9s8gmDXKfgNMchz0x6B24weMJI!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(3, bean4);
 
-        ResourcesBean bean5 = new ResourcesBean();
-        bean5.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/IwsKRkREf5O8IDH735G4AXQFed4llmfM7FE0QPT*tuE!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean5 = new ResourcesBean();//养生
+        bean5.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/0O8GbdgVm6teR2La11JEiMLe7KmfJNrJSMWwxKovHbA!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(4, bean5);
 
-        ResourcesBean bean6 = new ResourcesBean();
-        bean6.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/.nwVTsdxqqde9j9cr8qs*N.q3WY4Xvv3ZBFWgxAymH8!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean6 = new ResourcesBean();//教育
+        bean6.mImagePath = "http://a2.qpic.cn/psb?/V12LbzOe2y8yLa/QvWzDtJLE.awk.IeiKbZKzFBiRyc5.aPlps0RQBYl7U!/b/dN8AAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(5, bean6);
 
-        ResourcesBean bean7 = new ResourcesBean();
-        bean7.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/yhvdoaZ8xXXpvBccdSuQxm9aLW6F.MiRmNmBXjmbmQ0!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean7 = new ResourcesBean();//失物招领
+        bean7.mImagePath = "http://a2.qpic.cn/psb?/V12LbzOe2y8yLa/O9rXc1OTBeKdupjSALayME6ANYmZlwxNhnL*NTvDSH8!/b/dH4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(6, bean7);
 
-        ResourcesBean bean8 = new ResourcesBean();
-        bean8.mImagePath = "http://a2.qpic.cn/psb?/V14fxJhp0IQ0iR/fRqidEeRsQFYkqIQlIzOIPhC5KW2aEE2BKUseWWx0HY!/b/dLIAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean8 = new ResourcesBean();//拍卖共享
+        bean8.mImagePath = "http://a1.qpic.cn/psb?/V12LbzOe2y8yLa/fYP7GPgIKpdSD6b*JgHI4wbG9NcP243xshmAc7qKafc!/b/dG4BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(7, bean8);
         return list;
     }
     public List<ResourcesBean> getNongyeData() {
         ArrayList<ResourcesBean> list = new ArrayList<ResourcesBean>();
-        ResourcesBean bean1 = new ResourcesBean();
-        bean1.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/R6ayDnevKcEowPGmxNy1MSgMYFugs74eXZ7ngTZakvU!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean1 = new ResourcesBean();//苹果
+        bean1.mImagePath = "http://b169.photo.store.qq.com/psb?/V11UnAG03VjFP8/Kqe60mDcnFJoCeRbaMuFo6nXGXh0WbQU6cCGEnmL3o4!/b/dKkAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(0, bean1);
 
-        ResourcesBean bean2 = new ResourcesBean();
-        bean2.mImagePath = "http://a2.qpic.cn/psb?/V14fxJhp0IQ0iR/Ry4.yyi92vAcRs4*PJF1IgCnUOconjMwcZiu8D6JKVU!/b/dLIAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean2 = new ResourcesBean();//梨
+        bean2.mImagePath = "http://a3.qpic.cn/psb?/V12LbzOe2y8yLa/6QJooECpjNwrbuU3wLcmjCXl0WdyR275sCpNVko2lhE!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADByI!&rf=viewer_4";
         list.add(1, bean2);
 
-        ResourcesBean bean3 = new ResourcesBean();
-        bean3.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/e535vixbOqkQixBAOAP*gKONPtBaxOg4L4iqMdtT4c8!/b/dPYAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean3 = new ResourcesBean();//枣
+        bean3.mImagePath = "http://b288.photo.store.qq.com/psb?/V11UnAG03VjFP8/dBPYaPgqt2zMfa00RaE3KbySMimPNDn4Ajsg2uNW6AA!/b/dCABAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(2, bean3);
 
-        ResourcesBean bean4 = new ResourcesBean();
-        bean4.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/lK9XnnunQFmYUsR9S4xQlI4Kx21yOINcUuR4KnniPbc!/b/dPYAAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean4 = new ResourcesBean();//桃子
+        bean4.mImagePath = "http://b248.photo.store.qq.com/psb?/V11UnAG03VjFP8/oHOxNIJoPHyspeFLHpsapDk097ILaPYoQs9P1wlkBJw!/b/dPgAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(3, bean4);
 
-        ResourcesBean bean5 = new ResourcesBean();
-        bean5.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/g7baWZGeJcq7CwkYWUcivVV5QvIQUXxaDXF4tZV44mE!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean5 = new ResourcesBean();//葡萄
+        bean5.mImagePath = "http://b287.photo.store.qq.com/psb?/V11UnAG03VjFP8/BZAhlOjtyxJMgKHs9chaOe3piVhhhLgOb97X27oPXqg!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(4, bean5);
 
-        ResourcesBean bean6 = new ResourcesBean();
-        bean6.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/nrqXFjYCJUPsLDdXLPddN*Lqjbj7peGEtpOjM0qmliA!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean6 = new ResourcesBean();//西瓜
+        bean6.mImagePath = "http://b177.photo.store.qq.com/psb?/V11UnAG03VjFP8/bvFWn1N4BoVW.IdE2kTaIaMUdFX*GOEfF1rAqN1bZVQ!/b/dLEAAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(5, bean6);
 
-        ResourcesBean bean7 = new ResourcesBean();
-        bean7.mImagePath = "http://a1.qpic.cn/psb?/V14fxJhp0IQ0iR/lgEmmmjas3yvC2cP5IVe2a9Ohn6MN7f1*CFX4QjW9f8!/b/dCABAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean7 = new ResourcesBean();//农林
+        bean7.mImagePath = "http://b288.photo.store.qq.com/psb?/V11UnAG03VjFP8/fr8aTV.VpKGqcVSJ8acaYSINTExDwOWqTqkKIK0To3o!/b/dCABAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(6, bean7);
 
-        ResourcesBean bean8 = new ResourcesBean();
-        bean8.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/3af8S*Ws2.jW6Y67ak1BbowAT3ywAc8x3Be70e6L*4Q!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean8 = new ResourcesBean();//畜牧
+        bean8.mImagePath = "http://b287.photo.store.qq.com/psb?/V11UnAG03VjFP8/.oj.wukX68JcVZ9nwgcD4lGwphimk7TjAOUDE2HPnts!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADACU!&rf=viewer_4";
         list.add(7, bean8);
 
-        ResourcesBean bean9 = new ResourcesBean();
-        bean9.mImagePath = "http://a3.qpic.cn/psb?/V14fxJhp0IQ0iR/cLvep2OVUHO7eP*aeHvjyA2sG9DX8P*9AUgOn0jP0.s!/b/dB8BAAAAAAAA&bo=WgBaAAAAAAADACU!&rf=viewer_4";
+        ResourcesBean bean9 = new ResourcesBean();//菜市
+        bean9.mImagePath = "http://b287.photo.store.qq.com/psb?/V11UnAG03VjFP8/Bc*gowycrqc75paI6qT5*ykjDdJ3PczlcB.ZgvRzHag!/b/dB8BAAAAAAAA&bo=3ADcAAAAAAADByI!&rf=viewer_4";
         list.add(8, bean9);
         return list;
     }
@@ -689,4 +836,7 @@ public class HuihuaFragment extends Fragment implements View.OnClickListener {
         }
 
     }
+
+
+
 }

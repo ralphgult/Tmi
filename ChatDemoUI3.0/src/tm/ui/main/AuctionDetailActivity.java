@@ -54,8 +54,8 @@ public class AuctionDetailActivity extends Activity {
     private String imgPath;
     private ImageLoaders imageLoaders;
     private String mShopDetailId;
-    private int mTimeRemained;
-    private int mTimeCount = 0;
+    private long mTimeRemained;
+    private long mTimeCount = 0;
 
     private CountDownTimer mTimer;
     private String mCurrentStr;
@@ -77,11 +77,10 @@ public class AuctionDetailActivity extends Activity {
                     mDetailPriceOrig.setText("直购价:" + jsonObject.getString("originalPrice") + "元");
                     mDetailPriceNum.setText("出价" + jsonObject.getString("many") + "次");
 
-                    Toast.makeText(AuctionDetailActivity.this, "剩余时间："+jsonObject.getString("residual"), Toast.LENGTH_SHORT).show();
                     int time = Math.abs(Integer.parseInt(jsonObject.getString("residual")));
                     Log.e("Lking","详情剩余时间 = "+time);
-                    mTimeRemained = time * 1000;
-                    Log.e("Lking","详情剩余时间*1000 = "+(time* 1000));
+                    mTimeRemained = ((long)time) *1000;
+                    Log.e("Lking","详情剩余时间*1000 = "+mTimeRemained);
                     mDetailText.setText(jsonObject.getString("details"));
                     JSONArray jsonArray = jsonObject.getJSONArray("auctionImgs");
                     int size = jsonArray.length();
@@ -118,7 +117,7 @@ public class AuctionDetailActivity extends Activity {
             @Override
             public void onTick(long millisUntilFinished) {
                 Log.e("Lking","时间.....");
-                int timeRemaind = mTimeRemained - mTimeCount;
+                long timeRemaind = mTimeRemained - mTimeCount;
                 mDetailTime.setText("剩余时间:" + AuctionActivity.formatTime(timeRemaind));
                 mTimeCount = mTimeCount + 1000;
                 isOnClick = false;

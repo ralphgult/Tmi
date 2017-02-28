@@ -319,7 +319,7 @@ public class MainActivity extends BaseActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
 					if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
-							username.equals(ChatActivity.activityInstance.toChatUsername)) {
+							username.equalsIgnoreCase(ChatActivity.activityInstance.toChatUsername)) {
 					    String st10 = getResources().getString(R.string.have_you_removed);
 					    Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_LONG)
 					    .show();

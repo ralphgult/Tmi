@@ -53,7 +53,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private TextView myOrder_tv;
     private TextView myShopping_tv;
     private TextView myAddress_tv;
-    //    private TextView myMessage_tv;
+//    private TextView myMessage_tv;
     private TextView mUploadAuction_tv;
 
     private ImageView myHead_iv;
@@ -104,12 +104,13 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private void setData() {
         imageLoaders = new ImageLoaders(this.getActivity(), new imageLoaderListener());
         headImgPath = mData.get("photo");
-        //获取SharedPreferences对象
-        SharedPreferences sharedPre = getActivity().getSharedPreferences("config", getActivity().MODE_PRIVATE);
         if (!TextUtils.isEmpty(mHeadPathBefore) && !headImgPath.equals(mHeadPathBefore)) {
+            //获取SharedPreferences对象
+            SharedPreferences sharedPre=getActivity().getSharedPreferences("config", getActivity().MODE_PRIVATE);
             //获取Editor对象
-            SharedPreferences.Editor editor = sharedPre.edit();
-            editor.putString("photo", headImgPath);
+            SharedPreferences.Editor editor=sharedPre.edit();
+            editor.putString("phone", headImgPath);
+            Log.e("Lking","设置之后的photo = "+ headImgPath);
             editor.commit();
         }
         mHeadPathBefore = headImgPath;
@@ -120,14 +121,13 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         if (!TextUtils.isEmpty(mData.get("caption"))) {
             mySigned_tv.setText(mData.get("caption"));
         }
-        Log.e("info","headPath ====== " + sharedPre.getString("photo", ""));
     }
 
     class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
 
         @Override
         public void onImageLoad(View v, Bitmap bmp, String url) {
-            ((ImageView) v).setImageBitmap(bmp);
+            ((ImageView)v).setImageBitmap(bmp);
         }
     }
 
@@ -146,85 +146,85 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.mine_person_center_tv:
                 bundle = new Bundle();
-                Log.e("Lking", "个人信息" + mData.toString());
-                bundle.putString("headPath", headImgPath);
+                Log.e("Lking","个人信息"+mData.toString());
+                bundle.putString("headPath",headImgPath);
                 bundle.putString("signed", mData.get("caption"));
-                bundle.putString("name", myName_tv.getText().toString());
+                bundle.putString("name",myName_tv.getText().toString());
                 String dom = mData.get("domicile");
-                if (TextUtils.isEmpty(dom)) {
+                if(TextUtils.isEmpty(dom)){
                     dom = "请设置居住地";
                 }
-                bundle.putString("domicile", dom);
+                bundle.putString("domicile",dom);
 
                 String occ = mData.get("occupation");
-                if (TextUtils.isEmpty(occ)) {
+                if(TextUtils.isEmpty(occ)){
                     occ = "请设置职业";
                 }
-                bundle.putString("occupation", occ);
+                bundle.putString("occupation",occ);
 
                 String age = mData.get("age");
-                if (TextUtils.isEmpty(age)) {
+                if(TextUtils.isEmpty(age)){
                     age = "请设置年龄";
                 }
-                bundle.putString("age", age);
+                bundle.putString("age",age);
 
                 String height = mData.get("height");
-                if (TextUtils.isEmpty(height)) {
+                if(TextUtils.isEmpty(height)){
                     height = "请设置身高";
                 }
-                bundle.putString("height", height);
+                bundle.putString("height",height);
 
                 String school = mData.get("school");
-                if (TextUtils.isEmpty(school)) {
+                if(TextUtils.isEmpty(school)){
                     school = "请设置毕业院校";
                 }
-                bundle.putString("school", school);
+                bundle.putString("school",school);
 
                 String hobby = mData.get("hobby");
-                if (TextUtils.isEmpty(hobby)) {
+                if(TextUtils.isEmpty(hobby)){
                     hobby = "请设置爱好";
                 }
-                bundle.putString("hobby", hobby);
+                bundle.putString("hobby",hobby);
 
                 String wish = mData.get("wish");
-                if (TextUtils.isEmpty(wish)) {
+                if(TextUtils.isEmpty(wish)){
                     wish = "请设置我的心愿";
                 }
-                bundle.putString("wish", wish);
+                bundle.putString("wish",wish);
 
                 String income = mData.get("income");
-                if (TextUtils.isEmpty(income)) {
+                if(TextUtils.isEmpty(income)){
                     income = "请设置我的心愿";
                 }
-                bundle.putString("income", income);
-                ViewUtil.jumpToOtherActivity(this.getActivity(), PersonCenterActivity.class, bundle);
+                bundle.putString("income",income);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), PersonCenterActivity.class,bundle);
                 break;
             case R.id.mine_comp_center_tv:
                 bundle = new Bundle();
-                bundle.putString("comphead", mData.get("companyLogo"));
-                bundle.putString("compname", mData.get("companyName"));
+                bundle.putString("comphead",mData.get("companyLogo"));
+                bundle.putString("compname",mData.get("companyName"));
                 bundle.putString("compinter", mData.get("companyIntroduction"));
-                ViewUtil.jumpToOtherActivity(this.getActivity(), CompCenterActivity.class, bundle);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), CompCenterActivity.class,bundle);
                 break;
             case R.id.mine_farmer_center_tv:
                 bundle = new Bundle();
-                bundle.putString("farmhead", mData.get("farmLogo"));
-                bundle.putString("farmname", mData.get("farmName"));
+                bundle.putString("farmhead",mData.get("farmLogo"));
+                bundle.putString("farmname",mData.get("farmName"));
                 bundle.putString("farminter", mData.get("farmIntroduction"));
-                ViewUtil.jumpToOtherActivity(this.getActivity(), FarmerCenterActivity.class, bundle);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), FarmerCenterActivity.class,bundle);
                 break;
             case R.id.mine_my_order_tv:
                 ViewUtil.jumpToOtherActivity(this.getActivity(), MineOrderActivity.class);
                 break;
             case R.id.mine_my_shopping_tv:
 //                Toast.makeText(this.getActivity(), "正在调试中...", Toast.LENGTH_SHORT).show();
-                ViewUtil.jumpToOtherActivity(this.getActivity(), MySoppingActivity.class);
+                ViewUtil.jumpToOtherActivity(this.getActivity(),MySoppingActivity.class);
                 break;
             case R.id.mine_my_address_tv:
-                ViewUtil.jumpToOtherActivity(this.getActivity(), MyAddressActivity.class);
+                ViewUtil.jumpToOtherActivity(this.getActivity(),MyAddressActivity.class);
                 break;
             case R.id.mine_upload_auction_tv:
-                ViewUtil.jumpToOtherActivity(this.getActivity(), UploadAuctionActivity.class);
+                ViewUtil.jumpToOtherActivity(this.getActivity(),UploadAuctionActivity.class);
                 break;
             case R.id.fgt_mine_head_iv:
                 bundle = new Bundle();

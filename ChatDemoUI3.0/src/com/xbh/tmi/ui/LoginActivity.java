@@ -44,7 +44,6 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.tencent.connect.UserInfo;
-import com.tencent.connect.auth.QQAuth;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -319,7 +318,13 @@ private boolean isOther = false;
 			}
 		});
 		if (DemoHelper.getInstance().getCurrentUsernName() != null) {
-			usernameEditText.setText(DemoHelper.getInstance().getCurrentUsernName());
+			boolean result=DemoHelper.getInstance().getCurrentUsernName().matches("[0-9]+");
+			if(result){
+				usernameEditText.setText(DemoHelper.getInstance().getCurrentUsernName());
+			}else{
+				usernameEditText.setText("");
+			}
+
 		}
 	}
 
@@ -512,6 +517,7 @@ private boolean isOther = false;
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 						uid=map.get("userId")+"";
+						Log.e("Lking","photo = "+ map.get("photo"));
 						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"",map.get("nickname")+"");
 						LoadData();
 						hxlogin();
@@ -541,7 +547,6 @@ private boolean isOther = false;
 		SharedPreferences.Editor editor=sharedPre.edit();
 		//设置参数
 		editor.putString("username", username);
-		Log.e("info","phone===="+phone);
 		editor.putString("phone", phone);
 		editor.putString("photo", photo);
 		editor.putString("nickname", nickname);

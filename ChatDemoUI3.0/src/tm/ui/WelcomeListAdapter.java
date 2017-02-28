@@ -141,7 +141,7 @@ public class WelcomeListAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View arg0) {
-                if(username.equals(map.get("userid")+"")){
+                if(username.equalsIgnoreCase(map.get("userid")+"")){
                     Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -165,7 +165,7 @@ public class WelcomeListAdapter extends BaseAdapter {
                 }else{
                     try {
                         EMClient.getInstance().contactManager().addContact(map.get("uname")+"", "赶紧加好友吧");
-                        Toast.makeText(context,"发送请求成功,等待对方验证",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"您已关注对方，请求配对！",Toast.LENGTH_SHORT).show();
                     } catch (HyphenateException e) {
                         e.printStackTrace();
                     }

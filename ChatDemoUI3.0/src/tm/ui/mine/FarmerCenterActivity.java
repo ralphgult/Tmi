@@ -109,7 +109,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                                     imgList.add(object.getString("url"));
                                     idList.add(object.getInt("fsId"));
                                 }
-                                if (imgList.size() < 8) {
+                                if (imgList.size() < 6) {
                                     imgList.add("0");
                                 }
                             } else {
@@ -158,10 +158,7 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
                             Config.URL_GET_USRE_FACEWALL, list);
                     break;
                 case 6001:
-                    if (!isUploadVieoFail) {
                         Toast.makeText(FarmerCenterActivity.this, "视频上传完成", Toast.LENGTH_SHORT).show();
-                        isUploadVieoFail = false;
-                    }
                 case 5001:
                     if (null != pd && pd.isShowing()) {
                         pd.dismiss();
@@ -180,8 +177,6 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
     private PersonManager personManager;
     private InputDialog dialog;
     private CommonSelectImgPopupWindow mPopupWindow;
-    private CountDownTimer mTimer;
-    private boolean isUploadVieoFail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -319,12 +314,11 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == REQUESTCODE_VEDIO) {
-                pd = ProgressDialog.show(this, "上传", "视频上传中，请稍后...");
+                pd = ProgressDialog.show(this, "上传", "视频上传中，请等待上传完成...");
                 if (!NetworkUtils.isWifi(this)) {
                     createReminDialog();
                     return;
                 }
-                startUploadTimer();
                 new Thread() {
                     @Override
                     public void run() {
@@ -474,24 +468,5 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
             });
         }
         mDialog.showDialog();
-    }
-
-    private void startUploadTimer() {
-        mTimer = new CountDownTimer(15000, 1000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                if (null != pd) {
-                    pd.dismiss();
-                }
-                isUploadVieoFail = true;
-                Toast.makeText(FarmerCenterActivity.this, "上传视频失败!", Toast.LENGTH_SHORT).show();
-            }
-        }.start();
     }
 }
