@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,8 +50,12 @@ import tm.widget.StationaryGridView;
 /**
  * Created by Administrator on 2016/9/11.
  */
-public class GeranActivity extends BaseActivity implements View.OnClickListener{
-
+public class GeranActivity extends BaseActivity implements View.OnClickListener,View.OnTouchListener{
+    private GestureDetector gestureDetector;
+    final int RIGHT = 0;
+    final int LEFT = 1;
+    int status = 1;
+    private ScrollView mHuaScrollView;
 
     private LinearLayout yy_top1;
     private LinearLayout yy_top2;
@@ -120,6 +127,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     private ImageLoaders imageLoaders = new ImageLoaders(this,
             new imageLoaderListener());
 
+
     public class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
         @Override
         public void onImageLoad(View v, Bitmap bmp, String url) {
@@ -137,7 +145,104 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         init();
         setAdapter();
         LoadData();
+
+        mHuaScrollView = (ScrollView)findViewById(R.id.huadong_view);
+        mHuaScrollView.setOnTouchListener(this);
+        gestureDetector = new GestureDetector(this,onGestureListener);
     }
+
+    private GestureDetector.OnGestureListener onGestureListener =
+            new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                       float velocityY) {
+                    float x = e2.getX() - e1.getX();
+                    float y = e2.getY() - e1.getY();
+
+                    if (x > 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200) ) {
+                        Log.e("Lking "," y " +y);
+                        doResult(RIGHT);
+                    } else if (x < 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200)) {
+                        Log.e("Lking "," y " +y);
+                        doResult(LEFT);
+                    }
+                    return true;
+                }
+            };
+
+    public void doResult(int action) {
+        switch (action) {
+            case LEFT:
+//            case RIGHT:
+                Log.e("Lking","左滑");
+                System.out.println("go right");
+                if(status ==1){
+                    status = 2;
+
+                    qstype=2;
+                    txt2.setTextColor(Color.parseColor("#a161fb"));
+                    txt1.setTextColor(Color.parseColor("#8c8c8c"));
+                    txt3.setTextColor(Color.parseColor("#8c8c8c"));
+                    type=1;
+                    LoadData2();
+
+                }else if(status ==2){
+                    status = 3;
+
+                    qstype=3;
+                    txt3.setTextColor(Color.parseColor("#a161fb"));
+                    txt1.setTextColor(Color.parseColor("#8c8c8c"));
+                    txt2.setTextColor(Color.parseColor("#8c8c8c"));
+                    type=2;
+                    LoadData3();
+
+                }else if(status == 3){
+                }
+
+                break;
+
+            case RIGHT:
+                Log.e("Lking","右滑");
+                if(status == 1){//个人，不处理
+
+                }else if(status == 2){//企业，滑到个人
+                    status = 1;
+
+                    txt1.setTextColor(Color.parseColor("#a161fb"));
+                    txt2.setTextColor(Color.parseColor("#8c8c8c"));
+                    txt3.setTextColor(Color.parseColor("#8c8c8c"));
+                    type=0;
+                    LoadData();
+
+                }else if(status == 3 ){//三农，滑到企业
+                    status = 2;
+
+                    qstype=2;
+                    txt2.setTextColor(Color.parseColor("#a161fb"));
+                    txt1.setTextColor(Color.parseColor("#8c8c8c"));
+                    txt3.setTextColor(Color.parseColor("#8c8c8c"));
+                    type=1;
+                    LoadData2();
+
+                }
+                System.out.println("go left");
+                break;
+
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                Log.e("Lking","滑动的监听事件");
+                return gestureDetector.onTouchEvent(event);
+            default:
+                Log.e("Lking","滑动的事件");
+                return gestureDetector.onTouchEvent(event);
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -158,6 +263,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         });
     }
     private void init() {
+
+
         tv_name = (TextView)findViewById(R.id.yx_monent_top_name);
         tv_time = (TextView)findViewById(R.id.yx_monent_top_time);
         tv_look = (TextView)findViewById(R.id.yx_monent_content_look);
@@ -188,9 +295,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
         top_head_img = (ImageView) findViewById(R.id.yx_monent_top_head_img);//个人头像
         //店铺
         dianpu_gridview = (StationaryGridView)findViewById(R.id.tm_dianpu);
-
-
-
 
         tv_title = (TextView)findViewById(R.id.tm_shouye_top_tv);
         img_pic1 = (ImageView) findViewById(R.id.img_pic1);
@@ -241,6 +345,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.shouye_top1:
+                status = 1;
+
                 txt1.setTextColor(Color.parseColor("#a161fb"));
                 txt2.setTextColor(Color.parseColor("#8c8c8c"));
                 txt3.setTextColor(Color.parseColor("#8c8c8c"));
@@ -248,6 +354,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 LoadData();
                 break;
             case R.id.shouye_top2:
+                status = 2;
+
                 qstype=2;
                 txt2.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
@@ -256,6 +364,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
                 LoadData2();
                 break;
             case R.id.shouye_top3:
+                status = 3;
+
                 qstype=3;
                 txt3.setTextColor(Color.parseColor("#a161fb"));
                 txt1.setTextColor(Color.parseColor("#8c8c8c"));
