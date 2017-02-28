@@ -273,11 +273,6 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         FriendBean fb=fd.getLocalUserInfoByUserId(username);
         //聊天进入个人主页
         Intent intent = new Intent(getActivity(), GeranActivity.class);
-        Log.e("Lking","name :"+username+"  ==  "+mUsername);
-        Log.e("Lking","id :"+mUid);
-        Log.e("Lking","id :"+fb.mUserID);
-
-
         if(username.equalsIgnoreCase(mUsername)){
             intent.putExtra("id", mUid);
         }else{
