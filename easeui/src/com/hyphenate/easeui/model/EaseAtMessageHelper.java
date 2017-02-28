@@ -184,7 +184,7 @@ public class EaseAtMessageHelper {
                 
                 for(int i = 0; i < jsonArray.length(); i++){
                     String username = jsonArray.getString(i);
-                    if(username.equals(EMClient.getInstance().getCurrentUser())){
+                    if(username.equalsIgnoreCase(EMClient.getInstance().getCurrentUser())){
                         return true;
                     }
                 }

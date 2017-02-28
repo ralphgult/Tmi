@@ -47,6 +47,9 @@ public class EaseUserUtils {
         SharedPreferences sharedPre=context.getSharedPreferences("config",context.MODE_PRIVATE);
         String phone=sharedPre.getString("phone", "");
         String photo=sharedPre.getString("photo", "");
+        Log.e("Lking","聊天界面username = "+username);
+        Log.e("Lking","聊天界面phone = "+phone);
+        Log.e("Lking","聊天界面photo = "+photo);
         EaseUser user = getUserInfo(username);
         if(user != null && user.getAvatar() != null){
             try {
@@ -59,7 +62,7 @@ public class EaseUserUtils {
             }
         }else{
             try {
-            if(username.equals(phone)) {
+            if(username.equalsIgnoreCase(phone)) {
                 int avatarResId = Integer.parseInt(photo);
                 Glide.with(context).load(avatarResId).into(imageView);
             }else{

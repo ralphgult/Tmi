@@ -290,7 +290,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener{
 //                        Config.URL_GET_ADDFRIEND, list);
                 break;
             case R.id.tm_liaotian://聊天
-                if(username.equals(uid)){
+                if(username.equalsIgnoreCase(uid)){
                     Toast.makeText(this,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
                     return;
                 }

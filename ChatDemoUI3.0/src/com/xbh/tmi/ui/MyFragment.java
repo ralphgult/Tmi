@@ -110,6 +110,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             //获取Editor对象
             SharedPreferences.Editor editor=sharedPre.edit();
             editor.putString("phone", headImgPath);
+            Log.e("Lking","设置之后的photo = "+ headImgPath);
             editor.commit();
         }
         mHeadPathBefore = headImgPath;

@@ -102,7 +102,7 @@ public class BenditeseAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View arg0) {
-                if(username.equals(map.get("userid")+"")){
+                if(username.equalsIgnoreCase(map.get("userid")+"")){
                     Toast.makeText(context,"不能和自己聊天!",Toast.LENGTH_SHORT).show();
                     return;
                 }

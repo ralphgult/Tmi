@@ -517,6 +517,7 @@ private boolean isOther = false;
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 						uid=map.get("userId")+"";
+						Log.e("Lking","photo = "+ map.get("photo"));
 						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"",map.get("nickname")+"");
 						LoadData();
 						hxlogin();

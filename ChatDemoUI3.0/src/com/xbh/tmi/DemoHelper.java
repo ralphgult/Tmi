@@ -703,7 +703,7 @@ public class DemoHelper {
 		// You'd better cache it if you get it from your server
         Log.e("info","====getUserInfo====");
         EaseUser user = null;
-        if(username.equals(EMClient.getInstance().getCurrentUser()))
+        if(username.equalsIgnoreCase(EMClient.getInstance().getCurrentUser()))
             return getUserProfileManager().getCurrentUserInfo();
         user = getContactList().get(username);
         if(user == null && getRobotList() != null){
