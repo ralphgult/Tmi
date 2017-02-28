@@ -318,7 +318,13 @@ private boolean isOther = false;
 			}
 		});
 		if (DemoHelper.getInstance().getCurrentUsernName() != null) {
-			usernameEditText.setText(DemoHelper.getInstance().getCurrentUsernName());
+			boolean result=DemoHelper.getInstance().getCurrentUsernName().matches("[0-9]+");
+			if(result){
+				usernameEditText.setText(DemoHelper.getInstance().getCurrentUsernName());
+			}else{
+				usernameEditText.setText("");
+			}
+
 		}
 	}
 
