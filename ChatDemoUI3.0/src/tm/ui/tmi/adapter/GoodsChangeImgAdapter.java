@@ -2,6 +2,9 @@ package tm.ui.tmi.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -24,6 +27,7 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
     private ViewHolder vh;
     private Context mContext;
     private ImageLoaders imageLoaders;
+    private ModeDto modeDto;
 
     public GoodsChangeImgAdapter(Context context) {
         mContext = context;
@@ -41,6 +45,7 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
 
     public void resetData(List<String> picList) {
         mPicList = picList;
+        modeDto = new ModeDto();
         notifyDataSetChanged();
     }
 
@@ -72,16 +77,28 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
             view = convertView;
             vh = (ViewHolder) view.getTag();
         }
-        if (null != mPicList.get(position)) {
+        //防止第0位重复加载
+        if (position == 0 && modeDto.isHasFirstLoaded()) {
+            return view;
+        }
+        if (position == 0) {
+            modeDto.setHasFirstLoaded(true);
+        }
+        if (!TextUtils.isEmpty(mPicList.get(position))) {
             vh.pic.setVisibility(View.VISIBLE);
+            Log.e("info", "positon =============== " + position + " &&&&&&&& path ========= " + mPicList.get(position));
             if (!mPicList.get(position).equals("0")) {
                 vh.del.setVisibility(View.VISIBLE);
-                imageLoaders.loadImage(vh.pic,mPicList.get(position));
-            }else{
+                String imgPath = mPicList.get(position);
+                if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
+                    imageLoaders.loadImage(vh.pic, imgPath);
+                } else {
+                    vh.pic.setImageBitmap(BitmapFactory.decodeFile(imgPath));
+                }
+            } else {
                 vh.del.setVisibility(View.GONE);
-                vh.pic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.em_add_new));
-            }
-        }else{
+                vh.pic.setImageResource(R.drawable.em_add_new);            }
+        } else {
             vh.pic.setVisibility(View.GONE);
             vh.del.setVisibility(View.GONE);
         }
@@ -97,6 +114,17 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
     static class ViewHolder {
         ImageView pic;
         ImageView del;
+    }
+
+    class ModeDto {
+        private boolean hasFirstLoaded = false;
+        public boolean isHasFirstLoaded() {
+            return hasFirstLoaded;
+        }
+
+        public void setHasFirstLoaded(boolean hasFirstLoaded) {
+            this.hasFirstLoaded = hasFirstLoaded;
+        }
     }
 
     public List<String> getmPicList() {
