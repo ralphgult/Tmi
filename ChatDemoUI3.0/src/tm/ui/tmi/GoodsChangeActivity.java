@@ -80,6 +80,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                     ViewUtil.backToActivityForResult(GoodsChangeActivity.this, 1, intent);
                     break;
                 case 2001:
+
                     mImgPathList.remove(msg.arg1);
                     mImgIdList.remove(msg.arg1);
                     mAdapter.resetData(mImgPathList);
@@ -369,17 +370,24 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     }
 
     public void deleteImage(final int position) {
-        if (mIsUpdate) {
-            new Thread() {
-                @Override
-                public void run() {
-                    PersonManager.deleteGoodsImg(mImgIdList.get(position), position, mHandler);
-                }
-            }.start();
-        } else {
-            mImgPathList.remove(position);
-            mAdapter.resetData(mImgPathList);
+        if(mImgPathList.size() == 2){
+            Toast.makeText(this,"至少上传一张照片",Toast.LENGTH_SHORT).show();
+        }else{
+            if (mIsUpdate) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        PersonManager.deleteGoodsImg(mImgIdList.get(position), position, mHandler);
+                    }
+                }.start();
+            } else {
+                mImgPathList.remove(position);
+                mAdapter.resetData(mImgPathList);
+            }
         }
+
+
+
     }
 
     public void addImage() {

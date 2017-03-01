@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.xbh.tmi.R;
 
@@ -17,6 +18,8 @@ import java.util.List;
 
 import tm.ui.tmi.GoodsChangeActivity;
 import tm.utils.ImageLoaders;
+
+import static android.support.v4.view.PagerAdapter.POSITION_NONE;
 
 /**
  * Created by RalphGult on 2016/11/26.
@@ -47,6 +50,12 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
         mPicList = picList;
         modeDto = new ModeDto();
         notifyDataSetChanged();
+
+//        Log.e("Lking","新的list = "+picList);
+//        mPicList.clear();
+//        mPicList.addAll(picList);
+//        modeDto = new ModeDto();
+//        notifyDataSetChanged();
     }
 
     @Override
@@ -62,6 +71,10 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override
@@ -87,24 +100,43 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(mPicList.get(position))) {
             vh.pic.setVisibility(View.VISIBLE);
             Log.e("info", "positon =============== " + position + " &&&&&&&& path ========= " + mPicList.get(position));
+
             if (!mPicList.get(position).equals("0")) {
                 vh.del.setVisibility(View.VISIBLE);
-                String imgPath = mPicList.get(position);
-                if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
-                    imageLoaders.loadImage(vh.pic, imgPath);
-                } else {
-                    vh.pic.setImageBitmap(BitmapFactory.decodeFile(imgPath));
-                }
+                imageLoaders.loadImage(vh.pic,mPicList.get(position));
+                //todo 删除的时候，第一张删除不了
+//                if(position == 0){
+//                    ImageLoaders img = new ImageLoaders(mContext, new imageLoaderListener());
+//                    img.loadImage(vh.pic,mPicList.get(0));
+//                }else{
+//                    String imgPath = mPicList.get(position);
+//                    //清除缓存
+//                    vh.pic.refreshDrawableState();
+//                    if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
+//                        imageLoaders.loadImage(vh.pic, imgPath);
+//                    } else {
+//                        imageLoaders.clearCache();
+//                        vh.pic.setImageBitmap(BitmapFactory.decodeFile(imgPath));
+//                    }
+//                }
             } else {
-                vh.del.setVisibility(View.GONE);
-                vh.pic.setImageResource(R.drawable.em_add_new);            }
+                    Log.e("Lking","加载最后一张默认添加图");
+                    vh.del.setVisibility(View.GONE);
+                    vh.pic.refreshDrawableState();
+                    String imgPath = "http://a3.qpic.cn/psb?/V12LbzOe2y8yLa/oJb*vPALr.unNctTK6hPxNoOZCbIZ9eQwIvqqD0.1TE!/b/dIIBAAAAAAAA&bo=nQCgAAAAAAADBx8!&rf=viewer_4";
+                    imageLoaders.loadImage(vh.pic, imgPath);
+                }
         } else {
             vh.pic.setVisibility(View.GONE);
             vh.del.setVisibility(View.GONE);
         }
+
         vh.del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(position == 0){
+                    Toast.makeText(mContext,"控件缓存未清除，但是图片已替换，可点击放大查看",Toast.LENGTH_SHORT).show();
+                }
                 ((GoodsChangeActivity) mContext).deleteImage(position);
             }
         });
