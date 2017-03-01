@@ -134,7 +134,7 @@ public class GoodsChangeImgAdapter extends BaseAdapter {
         vh.del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position == 0){
+                if(position == 0 && mPicList.size()>=2){
                     Toast.makeText(mContext,"控件缓存未清除，但是图片已替换，可点击放大查看",Toast.LENGTH_SHORT).show();
                 }
                 ((GoodsChangeActivity) mContext).deleteImage(position);
