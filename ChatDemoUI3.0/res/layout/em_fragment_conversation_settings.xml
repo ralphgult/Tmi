@@ -5,12 +5,29 @@
     android:background="@color/common_bg"
     android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.hyphenate.easeui.widget.EaseTitleBar
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@drawable/tm_huihua_title_bar"
-        app:titleBarTitle="@string/set"
-        />
+        android:background="@drawable/tm_huihua_title_bar">
+
+        <ImageView
+            android:id="@+id/setting_frament_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ease_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="消息设置"
+            android:textColor="@color/background_white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,6 +68,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="10dip"
                 android:orientation="vertical" >
 
@@ -150,7 +168,7 @@
                         android:paddingLeft="10dip"
                         android:text="@string/shake"
                         android:textColor="@android:color/black"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:typeface="serif" />
 
                     <com.hyphenate.easeui.widget.EaseSwitchButton
@@ -168,6 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
+                    android:visibility="gone"
                     android:orientation="vertical" >
 
                     <TextView

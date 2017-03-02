@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,6 +40,8 @@ import com.xbh.tmi.Constant;
 import com.xbh.tmi.DemoHelper;
 import com.xbh.tmi.DemoModel;
 
+import tm.utils.ViewUtil;
+
 /**
  * settings screen
  * 
@@ -49,6 +52,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 	/**
 	 * new message notification
 	 */
+	private ImageView mSettingFramnet;
 	private RelativeLayout rl_switch_notification;
 	/**
 	 * sound
@@ -114,6 +118,13 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 		super.onActivityCreated(savedInstanceState);
 		if(savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
             return;
+		mSettingFramnet = (ImageView) getView().findViewById(R.id.setting_frament_back_iv);
+		mSettingFramnet.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ViewUtil.backToOtherActivity(getActivity());
+			}
+		});
 		rl_switch_notification = (RelativeLayout) getView().findViewById(R.id.rl_switch_notification);
 		rl_switch_sound = (RelativeLayout) getView().findViewById(R.id.rl_switch_sound);
 		rl_switch_vibrate = (RelativeLayout) getView().findViewById(R.id.rl_switch_vibrate);
