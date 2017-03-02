@@ -7,7 +7,8 @@
 
     <com.hyphenate.easeui.widget.EaseTitleBar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:background="@drawable/tm_huihua_title_bar"
         app:titleBarTitle="@string/set"
         />
 
@@ -24,6 +25,7 @@
                 android:id="@+id/ll_change"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
+                android:visibility="gone"
                 android:background="@drawable/em_btn_bottom_selector"
                 android:padding="10dip"
                 >
@@ -43,13 +45,12 @@
                 android:layout_height="1dip"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:visibility="gone"
                 android:background="@color/btn_gray_normal"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
                 android:layout_marginTop="10dip"
                 android:orientation="vertical" >
 
@@ -59,6 +60,7 @@
                     android:gravity="bottom|left"
                     android:paddingLeft="10dip"
                     android:text="@string/notify"
+                    android:textSize="14sp"
                     android:textColor="@color/btn_gray_pressed" />
 
                 <TextView
@@ -86,7 +88,7 @@
                         android:paddingLeft="10dip"
                         android:text="@string/newnotify"
                         android:textColor="@android:color/black"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:typeface="serif" />
 
                     <com.hyphenate.easeui.widget.EaseSwitchButton
@@ -101,8 +103,6 @@
                     android:id="@+id/textview1"
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
-                    android:layout_marginLeft="10dip"
-                    android:layout_marginRight="10dip"
                     android:background="#E6E6E6" />
 
                 <RelativeLayout
@@ -119,7 +119,7 @@
                         android:paddingLeft="10dip"
                         android:text="@string/voice"
                         android:textColor="@android:color/black"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:typeface="serif" />
 
                     <com.hyphenate.easeui.widget.EaseSwitchButton
@@ -134,8 +134,6 @@
                     android:id="@+id/textview2"
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
-                    android:layout_marginLeft="10dip"
-                    android:layout_marginRight="10dip"
                     android:background="#E6E6E6" />
 
                 <RelativeLayout
@@ -162,12 +160,13 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="#E6E6E6" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:layout_marginRight="10dip"
                     android:layout_marginTop="10dip"
                     android:orientation="vertical" >
 
@@ -177,6 +176,7 @@
                         android:gravity="bottom|left"
                         android:paddingLeft="10dip"
                         android:text="@string/chatset"
+                        android:textSize="14sp"
                         android:textColor="@color/btn_gray_pressed" />
 
                     <TextView
@@ -195,12 +195,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
                         android:text="@string/yangshengqi"
                         android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:typeface="serif" />
+                        android:textSize="16sp"
+                        android:typeface="serif"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
 
                     <com.hyphenate.easeui.widget.EaseSwitchButton
                         android:layout_width="wrap_content"
@@ -213,14 +215,13 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@color/btn_gray_normal" />
 
                 <LinearLayout
                     android:id="@+id/ll_black_list"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
+                    android:visibility="gone"
                     android:background="@drawable/em_btn_bottom_selector"
                     android:padding="10dip" >
 
@@ -238,6 +239,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
                     android:layout_marginLeft="10dp"
+                    android:visibility="gone"
                     android:layout_marginRight="10dp"
                     android:background="@color/btn_gray_normal" />
 
@@ -245,6 +247,7 @@
                     android:id="@+id/ll_user_profile"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
+                    android:visibility="gone"
                     android:background="@drawable/em_btn_bottom_selector"
                     android:padding="10dip" >
 
@@ -261,6 +264,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
+                    android:visibility="gone"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/btn_gray_normal" />
@@ -269,12 +273,14 @@
                     android:id="@+id/ll_diagnose"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
+                    android:visibility="gone"
                     android:background="@drawable/em_btn_bottom_selector"
                     android:padding="10dip" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="10dip"
                         android:text="@string/diagnose"
@@ -285,6 +291,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
+                    android:visibility="gone"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/btn_gray_normal" />
@@ -293,6 +300,7 @@
                     android:id="@+id/ll_set_push_nick"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
+                    android:visibility="gone"
                     android:background="@drawable/em_btn_bottom_selector"
                     android:padding="10dip" >
 
@@ -311,6 +319,7 @@
                 android:id="@+id/textview4"
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
+                android:visibility="gone"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:background="#E6E6E6" />
@@ -319,6 +328,7 @@
                 android:id="@+id/rl_switch_chatroom_owner_leave"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
+                android:visibility="gone"
                 android:background="@drawable/em_btn_bottom_selector"
                 android:padding="10dip" >
 
@@ -345,6 +355,7 @@
                 android:id="@+id/rl_switch_delete_msg_when_exit_group"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
+                android:visibility="gone"
                 android:background="@drawable/em_btn_bottom_selector"
                 android:padding="10dip" >
 
@@ -370,6 +381,7 @@
                 android:id="@+id/rl_switch_auto_accept_group_invitation"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
+                android:visibility="gone"
                 android:background="@drawable/em_btn_bottom_selector"
                 android:padding="10dip" >
 
@@ -395,6 +407,7 @@
                 android:id="@+id/rl_switch_adaptive_video_encode"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
+                android:visibility="gone"
                 android:background="@drawable/em_btn_bottom_selector"
                 android:padding="10dip" >
 
@@ -420,6 +433,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dip"
+                android:visibility="gone"
                 android:background="#ffffff"
                 android:orientation="vertical" >
 
@@ -427,10 +441,10 @@
                     android:id="@+id/btn_logout"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="10dip"
                     android:layout_marginRight="10dip"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/em_btn_style_alert_dialog_special"
                     android:text="@string/button_logout"
                     android:textColor="@android:color/white"

@@ -134,7 +134,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 		LinearLayout llChange = (LinearLayout) getView().findViewById(R.id.ll_change);
 		logoutBtn = (Button) getView().findViewById(R.id.btn_logout);
 		if(!TextUtils.isEmpty(EMClient.getInstance().getCurrentUser())){
-			logoutBtn.setText(getString(R.string.button_logout) + "(" + EMClient.getInstance().getCurrentUser() + ")");
+			logoutBtn.setText(getString(R.string.button_logout));
 		}
 
 		textview1 = (TextView) getView().findViewById(R.id.textview1);
