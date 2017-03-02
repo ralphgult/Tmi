@@ -37,6 +37,8 @@ public class ConversationListFragment extends EaseConversationListFragment{
 
     private TextView errorText;
     private ContactListFragment contactListFragment;
+    private InviteMessgeDao inviteMessgeDao;
+
     @Override
     protected void initView() {
         super.initView();
@@ -44,6 +46,14 @@ public class ConversationListFragment extends EaseConversationListFragment{
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
         contactListFragment = new ContactListFragment();
+        if(inviteMessgeDao == null){
+            inviteMessgeDao = new InviteMessgeDao(getActivity());
+        }
+        if(inviteMessgeDao.getUnreadMessagesCount() > 0){
+            haoyou.setImageDrawable(getResources().getDrawable(R.drawable.tm_huihua_haoyou_un)); //不会变形
+        }else{
+            haoyou.setImageDrawable(getResources().getDrawable(R.drawable.tm_huihua_haoyou_normal)); //不会变形
+        }
         haoyou.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

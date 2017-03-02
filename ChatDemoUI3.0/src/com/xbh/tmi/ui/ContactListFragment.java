@@ -160,6 +160,7 @@ public class ContactListFragment extends EaseContactListFragment implements View
         if(inviteMessgeDao == null){
             inviteMessgeDao = new InviteMessgeDao(getActivity());
         }
+        //红点显示
         if(inviteMessgeDao.getUnreadMessagesCount() > 0){
             applicationItem.showUnreadMsgView();
         }else{
