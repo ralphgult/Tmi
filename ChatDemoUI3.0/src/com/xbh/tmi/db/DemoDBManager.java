@@ -319,7 +319,7 @@ public class DemoDBManager {
         }
     }
     
-    synchronized int getUnreadNotifyCount(){
+    synchronized public int getUnreadNotifyCount(){
         int count = 0;
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         if(db.isOpen()){

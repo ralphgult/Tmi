@@ -53,6 +53,7 @@ import com.xbh.tmi.Constant;
 import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.DemoHelper;
 import com.xbh.tmi.R;
+import com.xbh.tmi.db.DemoDBManager;
 import com.xbh.tmi.db.InviteMessgeDao;
 import com.xbh.tmi.db.UserDao;
 import com.xbh.tmi.runtimepermissions.PermissionsManager;
@@ -362,14 +363,21 @@ public class MainActivity extends BaseActivity {
 	 */
 	public void updateUnreadLabel() {
 		int count = getUnreadMsgCountTotal();
-		if (count > 0) {
+		int countT = getUnreadMessagesCount();
+		if (count > 0 || countT > 0 ) {
+			if(count == 0){
+				count = 1;
+			}
 			unreadLabel.setText(String.valueOf(count));
 			unreadLabel.setVisibility(View.VISIBLE);
 		} else {
 			unreadLabel.setVisibility(View.INVISIBLE);
-		}
+	}
 	}
 
+	public int getUnreadMessagesCount(){
+		return DemoDBManager.getInstance().getUnreadNotifyCount();
+	}
 //	/**
 //	 * update the total unread count
 //	 */
