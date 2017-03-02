@@ -367,7 +367,7 @@ public class PersonManager {
         SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
         try {
             reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
-            reqEntity.addPart("type", new StringBody(String.valueOf(2), Charset.forName("UTF-8")));
+            reqEntity.addPart("type", new StringBody(String.valueOf(1), Charset.forName("UTF-8")));
             reqEntity.addPart("goodId", new StringBody(goodsId, Charset.forName("UTF-8")));
             reqEntity.addPart("file", new FileBody(ImageUtil.saveUploadImage("/mnt/sdcard/ImageLoader/cache/images" + File.separator + file.getName(), file.getPath())));
             httppost.setEntity(reqEntity);
