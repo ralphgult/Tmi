@@ -318,7 +318,13 @@ private boolean isOther = false;
 			}
 		});
 		if (DemoHelper.getInstance().getCurrentUsernName() != null) {
-			usernameEditText.setText(DemoHelper.getInstance().getCurrentUsernName());
+			boolean result=DemoHelper.getInstance().getCurrentUsernName().matches("[0-9]+");
+			if(result){
+				usernameEditText.setText(DemoHelper.getInstance().getCurrentUsernName());
+			}else{
+				usernameEditText.setText("");
+			}
+
 		}
 	}
 
@@ -511,6 +517,7 @@ private boolean isOther = false;
 					if(authId.endsWith("1")){
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 						uid=map.get("userId")+"";
+						Log.e("Lking","photo = "+ map.get("photo"));
 						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"",map.get("nickname")+"");
 						LoadData();
 						hxlogin();

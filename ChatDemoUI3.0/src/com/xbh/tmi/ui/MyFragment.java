@@ -62,6 +62,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private String headImgPath;
     private Map<String, String> mData;
     private ImageLoaders imageLoaders;
+    private String mHeadPathBefore;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -103,6 +104,16 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private void setData() {
         imageLoaders = new ImageLoaders(this.getActivity(), new imageLoaderListener());
         headImgPath = mData.get("photo");
+        if (!TextUtils.isEmpty(mHeadPathBefore) && !headImgPath.equals(mHeadPathBefore)) {
+            //获取SharedPreferences对象
+            SharedPreferences sharedPre=getActivity().getSharedPreferences("config", getActivity().MODE_PRIVATE);
+            //获取Editor对象
+            SharedPreferences.Editor editor=sharedPre.edit();
+            editor.putString("phone", headImgPath);
+            Log.e("Lking","设置之后的photo = "+ headImgPath);
+            editor.commit();
+        }
+        mHeadPathBefore = headImgPath;
         if (!TextUtils.isEmpty(headImgPath)) {
             imageLoaders.loadImage(myHead_iv, headImgPath);
         }

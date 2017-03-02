@@ -80,18 +80,14 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                     ViewUtil.backToActivityForResult(GoodsChangeActivity.this, 1, intent);
                     break;
                 case 2001:
+
                     mImgPathList.remove(msg.arg1);
                     mImgIdList.remove(msg.arg1);
                     mAdapter.resetData(mImgPathList);
                     break;
                 case 3001:
-                    mImgPathList.remove("0");
-                    mImgPathList.add((String) msg.obj);
-                    if (mImgPathList.size() < 8) {
-                        mImgPathList.add("0");
-                    }
                     mImgIdList.add(String.valueOf(msg.arg1));
-                    mAdapter.resetData(mImgPathList);
+                    setImageData();
                     break;
                 case 4001:
                     Toast.makeText(GoodsChangeActivity.this, "删除商品成功", Toast.LENGTH_SHORT).show();
@@ -120,7 +116,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         if (mIsUpdate) {
             setData();
         } else {
-            mImgPathList.add("0");
+            setImageData();
             mAdapter.resetData(mImgPathList);
             mPhoto_gv.setAdapter(mAdapter);
         }
@@ -144,9 +140,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 mImgIdList.add(imgIds);
             }
         }
-        if (mImgPathList.size() < 8) {
-            mImgPathList.add("0");
-        }
+        setImageData();
         mAdapter.resetData(mImgPathList);
         mPhoto_gv.setAdapter(mAdapter);
         mName_tv.setText(bundle.getString("goodName"));
@@ -194,7 +188,12 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                     GoodsChangeActivity.this.startActivityForResult(intent, PHOTO);
                 } else {
                     Bundle bundle = new Bundle();
-                    bundle.putString("path", mImgPathList.get(position));
+                    String imgPath = mImgPathList.get(position);
+                    if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
+                        bundle.putString("path", imgPath);
+                    } else {
+                        bundle.putString("filePath", imgPath);
+                    }
                     ViewUtil.jumpToOtherActivity(GoodsChangeActivity.this, HeadBigActivity.class, bundle);
                 }
             }
@@ -373,17 +372,24 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     }
 
     public void deleteImage(final int position) {
-        if (mIsUpdate) {
-            new Thread() {
-                @Override
-                public void run() {
-                    PersonManager.deleteGoodsImg(mImgIdList.get(position), position, mHandler);
-                }
-            }.start();
-        } else {
-            mImgPathList.remove(position);
-            mAdapter.resetData(mImgPathList);
+        if(mImgPathList.size() == 2){
+            Toast.makeText(this,"至少上传一张照片",Toast.LENGTH_SHORT).show();
+        }else{
+            if (mIsUpdate) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        PersonManager.deleteGoodsImg(mImgIdList.get(position), position, mHandler);
+                    }
+                }.start();
+            } else {
+                mImgPathList.remove(position);
+                mAdapter.resetData(mImgPathList);
+            }
         }
+
+
+
     }
 
     public void addImage() {
@@ -395,13 +401,21 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 }
             }.start();
         } else {
-            mImgPathList.remove("0");
-            mImgPathList.add(imagePath);
-            if (mImgPathList.size() < 8) {
-                mImgPathList.add("0");
-            }
-            mAdapter.resetData(mImgPathList);
+            setImageData();
         }
+    }
+
+    private void setImageData() {
+        if (mImgPathList.contains("0")) {
+            mImgPathList.remove("0");
+        }
+        if (!TextUtils.isEmpty(imagePath)) {
+            mImgPathList.add(imagePath);
+        }
+        if (mImgPathList.size() < 8) {
+            mImgPathList.add("0");
+        }
+        mAdapter.resetData(mImgPathList);
     }
 
     @Override

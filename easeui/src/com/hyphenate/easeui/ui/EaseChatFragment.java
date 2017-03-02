@@ -472,7 +472,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(getActivity().isFinishing() || !toChatUsername.equals(value.getId()))
+                        if(getActivity().isFinishing() || !toChatUsername.equalsIgnoreCase(value.getId()))
                             return;
                         pd.dismiss();
                         EMChatRoom room = EMClient.getInstance().chatroomManager().getChatRoom(toChatUsername);
@@ -566,7 +566,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             }
 
             // if the message is for current conversation
-            if (username.equals(toChatUsername)) {
+            if (username.equalsIgnoreCase(toChatUsername)) {
                 messageList.refreshSelectLast();
                 EaseUI.getInstance().getNotifier().vibrateAndPlayTone(message);
             } else {
@@ -962,7 +962,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             getActivity().runOnUiThread(new Runnable() {
 
                 public void run() {
-                    if (toChatUsername.equals(groupId)) {
+                    if (toChatUsername.equalsIgnoreCase(groupId)) {
                         Toast.makeText(getActivity(), R.string.you_are_group, 1).show();
                         getActivity().finish();
                     }
@@ -975,7 +975,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         	// prompt group is dismissed and finish this activity
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    if (toChatUsername.equals(groupId)) {
+                    if (toChatUsername.equalsIgnoreCase(groupId)) {
                         Toast.makeText(getActivity(), R.string.the_current_group, 1).show();
                         getActivity().finish();
                     }

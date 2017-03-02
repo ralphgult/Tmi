@@ -134,7 +134,7 @@ public class ConversationListFragment extends EaseConversationListFragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
-                if (username.equals(EMClient.getInstance().getCurrentUser()))
+                if (username.equalsIgnoreCase(EMClient.getInstance().getCurrentUser()))
                     Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, 0).show();
                 else {
                     // start chat acitivity

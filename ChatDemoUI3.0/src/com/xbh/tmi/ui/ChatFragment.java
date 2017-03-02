@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -272,7 +273,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         FriendBean fb=fd.getLocalUserInfoByUserId(username);
         //聊天进入个人主页
         Intent intent = new Intent(getActivity(), GeranActivity.class);
-        if(username.equals(mUsername)){
+        if(username.equalsIgnoreCase(mUsername)){
             intent.putExtra("id", mUid);
         }else{
             intent.putExtra("id", fb.mUserID+"");
