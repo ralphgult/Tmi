@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -196,6 +197,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 		}
 
 		// the speaker is switched on or not?
+		Log.e("Lking","bofang = "+ settingsModel.getSettingMsgSpeaker());
 		if (settingsModel.getSettingMsgSpeaker()) {
 		    speakerSwitch.openSwitch();
 		} else {
@@ -282,8 +284,9 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 			    settingsModel.setSettingMsgSpeaker(false);
 			} else {
 			    speakerSwitch.openSwitch();
-			    settingsModel.setSettingMsgVibrate(true);
+			    settingsModel.setSettingMsgSpeaker(true);
 			}
+			Log.e("Lking","设置bofang = "+ settingsModel.getSettingMsgSpeaker());
 			break;
 		case R.id.rl_switch_chatroom_owner_leave:
 		    if(ownerLeaveSwitch.isSwitchOpen()){
@@ -394,13 +397,13 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 	}
 
 	
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-    	super.onSaveInstanceState(outState);
-        if(((MainActivity)getActivity()).isConflict){
-        	outState.putBoolean("isConflict", true);
-        }else if(((MainActivity)getActivity()).getCurrentAccountRemoved()){
-        	outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
-        }
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//    	super.onSaveInstanceState(outState);
+//        if(((MainActivity)getActivity()).isConflict){
+//        	outState.putBoolean("isConflict", true);
+//        }else if(((MainActivity)getActivity()).getCurrentAccountRemoved()){
+//        	outState.putBoolean(Constant.ACCOUNT_REMOVED, true);
+//        }
+//    }
 }
