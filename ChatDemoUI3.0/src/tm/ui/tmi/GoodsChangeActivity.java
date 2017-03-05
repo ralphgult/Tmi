@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,8 +15,8 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,16 +30,16 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tm.manager.DpSpPxSwitch;
 import tm.manager.PersonManager;
 import tm.ui.mine.HeadBigActivity;
-import tm.ui.tmi.adapter.GoodsChangeImgAdapter;
+import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
 import tm.utils.dialog.DialogFactory;
 import tm.utils.dialog.InputDialog;
 
 public class GoodsChangeActivity extends Activity implements View.OnClickListener {
     private ImageView mBack_iv;
-    private GridView mPhoto_gv;
     private TextView mTitle_tv;
     private RelativeLayout mIntr_rv;
     private RelativeLayout mPrice_rv;
@@ -53,10 +55,28 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     private TextView mOldPri_tv;
     private LinearLayout mUpdate_ly;
     private TextView mAdd_tv;
+    private ImageView mImage_iv1;
+    private ImageView mImage_iv2;
+    private ImageView mImage_iv3;
+    private ImageView mImage_iv4;
+    private ImageView mImage_iv5;
+    private ImageView mImage_iv6;
+    private ImageView mImage_iv7;
+    private ImageView mImage_iv8;
+    private ImageView mImgDel_iv1;
+    private ImageView mImgDel_iv2;
+    private ImageView mImgDel_iv3;
+    private ImageView mImgDel_iv4;
+    private ImageView mImgDel_iv5;
+    private ImageView mImgDel_iv6;
+    private ImageView mImgDel_iv7;
+    private ImageView mImgDel_iv8;
+    private LinearLayout mImgs_line2;
 
     private List<String> mImgPathList;
+    private List<ImageView> mImgIvList;
+    private List<ImageView> mImgDelList;
     private int mType;
-    private GoodsChangeImgAdapter mAdapter;
     private static final int PHOTO = 2;
     private InputDialog dialog;
     private TextView mClickTextView;
@@ -64,6 +84,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     private boolean mIsUpdate;
     private String imagePath;
     private ProgressDialog mPd;
+    private ImageLoaders imageLoaders;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -83,7 +104,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
 
                     mImgPathList.remove(msg.arg1);
                     mImgIdList.remove(msg.arg1);
-                    mAdapter.resetData(mImgPathList);
+                    showImageList();
                     break;
                 case 3001:
                     mImgIdList.add(String.valueOf(msg.arg1));
@@ -102,22 +123,29 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
             }
         }
     };
+    private int widthView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_change);
-        mAdapter = new GoodsChangeImgAdapter(this);
         mType = getIntent().getExtras().getInt("type");
         mIsUpdate = getIntent().getExtras().getBoolean("isUpdate");
         mImgPathList = new ArrayList<>();
         mImgIdList = new ArrayList<>();
+        mImgIvList = new ArrayList<>();
+        mImgDelList = new ArrayList<>();
+        WindowManager manager = (WindowManager) this.getSystemService(WINDOW_SERVICE);
+        int widthWindow = manager.getDefaultDisplay().getWidth();
+        int dimenBig = DpSpPxSwitch.dp2px(this, 10);
+        int dimenSmall = DpSpPxSwitch.dp2px(this, 5);
+        widthView = (widthWindow - (dimenBig * 2) - (dimenSmall * 3)) / 4;
+        imageLoaders = new ImageLoaders(this, new imageLoaderListener());
         initViews();
         if (mIsUpdate) {
             setData();
         } else {
             setImageData();
-            mPhoto_gv.setAdapter(mAdapter);
         }
     }
 
@@ -140,8 +168,7 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
             }
         }
         setImageData();
-        mAdapter.resetData(mImgPathList);
-        mPhoto_gv.setAdapter(mAdapter);
+        showImageList();
         mName_tv.setText(bundle.getString("goodName"));
         mIntr_tv.setText(bundle.getString("goodProfiles"));
         mOldPri_tv.setText(bundle.getString("originalPrice"));
@@ -152,7 +179,42 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     public void initViews() {
         mBack_iv = (ImageView) findViewById(R.id.goods_detil_back_iv);
         mTitle_tv = (TextView) findViewById(R.id.goods_detil_title);
-        mPhoto_gv = (GridView) findViewById(R.id.goods_detil_gv);
+        mImage_iv1 = (ImageView) findViewById(R.id.goods_detil_change_imgs_1);
+        mImage_iv2 = (ImageView) findViewById(R.id.goods_detil_change_imgs_2);
+        mImage_iv3 = (ImageView) findViewById(R.id.goods_detil_change_imgs_3);
+        mImage_iv4 = (ImageView) findViewById(R.id.goods_detil_change_imgs_4);
+        mImage_iv5 = (ImageView) findViewById(R.id.goods_detil_change_imgs_5);
+        mImage_iv6 = (ImageView) findViewById(R.id.goods_detil_change_imgs_6);
+        mImage_iv7 = (ImageView) findViewById(R.id.goods_detil_change_imgs_7);
+        mImage_iv8 = (ImageView) findViewById(R.id.goods_detil_change_imgs_8);
+        mImgIvList.add(mImage_iv1);
+        mImgIvList.add(mImage_iv2);
+        mImgIvList.add(mImage_iv3);
+        mImgIvList.add(mImage_iv4);
+        mImgIvList.add(mImage_iv5);
+        mImgIvList.add(mImage_iv6);
+        mImgIvList.add(mImage_iv7);
+        mImgIvList.add(mImage_iv8);
+        for (ImageView view : mImgIvList) {
+            setImageWidthHeight(view);
+        }
+        mImgDel_iv1 = (ImageView) findViewById(R.id.goods_detil_change_img_del_1);
+        mImgDel_iv2 = (ImageView) findViewById(R.id.goods_detil_change_img_del_2);
+        mImgDel_iv3 = (ImageView) findViewById(R.id.goods_detil_change_img_del_3);
+        mImgDel_iv4 = (ImageView) findViewById(R.id.goods_detil_change_img_del_4);
+        mImgDel_iv5 = (ImageView) findViewById(R.id.goods_detil_change_img_del_5);
+        mImgDel_iv6 = (ImageView) findViewById(R.id.goods_detil_change_img_del_6);
+        mImgDel_iv7 = (ImageView) findViewById(R.id.goods_detil_change_img_del_7);
+        mImgDel_iv8 = (ImageView) findViewById(R.id.goods_detil_change_img_del_8);
+        mImgDelList.add(mImgDel_iv1);
+        mImgDelList.add(mImgDel_iv2);
+        mImgDelList.add(mImgDel_iv3);
+        mImgDelList.add(mImgDel_iv4);
+        mImgDelList.add(mImgDel_iv5);
+        mImgDelList.add(mImgDel_iv6);
+        mImgDelList.add(mImgDel_iv7);
+        mImgDelList.add(mImgDel_iv8);
+        mImgs_line2 = (LinearLayout) findViewById(R.id.goods_detil_change_imgs_line_2);
         mIntr_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_intr_rv);
         mPrice_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_price_rv);
         mCount_rv = (RelativeLayout) findViewById(R.id.goods_detil_change_count_rv);
@@ -178,25 +240,6 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
             mTitle_tv.setText("添加商品");
         }
 
-        mPhoto_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mAdapter.getmPicList().get(position) == "0") {
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    GoodsChangeActivity.this.startActivityForResult(intent, PHOTO);
-                } else {
-                    Bundle bundle = new Bundle();
-                    String imgPath = mImgPathList.get(position);
-                    if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
-                        bundle.putString("path", imgPath);
-                    } else {
-                        bundle.putString("filePath", imgPath);
-                    }
-                    ViewUtil.jumpToOtherActivity(GoodsChangeActivity.this, HeadBigActivity.class, bundle);
-                }
-            }
-        });
         mBack_iv.setOnClickListener(this);
         mIntr_rv.setOnClickListener(this);
         mPrice_rv.setOnClickListener(this);
@@ -206,6 +249,22 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         mDelete_tv.setOnClickListener(this);
         mSave_tv.setOnClickListener(this);
         mAdd_tv.setOnClickListener(this);
+        mImage_iv1.setOnClickListener(this);
+        mImage_iv2.setOnClickListener(this);
+        mImage_iv3.setOnClickListener(this);
+        mImage_iv4.setOnClickListener(this);
+        mImage_iv5.setOnClickListener(this);
+        mImage_iv6.setOnClickListener(this);
+        mImage_iv7.setOnClickListener(this);
+        mImage_iv8.setOnClickListener(this);
+        mImgDel_iv1.setOnClickListener(this);
+        mImgDel_iv2.setOnClickListener(this);
+        mImgDel_iv3.setOnClickListener(this);
+        mImgDel_iv4.setOnClickListener(this);
+        mImgDel_iv5.setOnClickListener(this);
+        mImgDel_iv6.setOnClickListener(this);
+        mImgDel_iv7.setOnClickListener(this);
+        mImgDel_iv8.setOnClickListener(this);
 
     }
 
@@ -280,6 +339,41 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                         }
                     }.start();
                 }
+                break;
+            case R.id.goods_detil_change_imgs_1:
+            case R.id.goods_detil_change_imgs_2:
+            case R.id.goods_detil_change_imgs_3:
+            case R.id.goods_detil_change_imgs_4:
+            case R.id.goods_detil_change_imgs_5:
+            case R.id.goods_detil_change_imgs_6:
+            case R.id.goods_detil_change_imgs_7:
+            case R.id.goods_detil_change_imgs_8:
+                int index = mImgIvList.indexOf(v);
+                if (index < mImgPathList.size() - 1) {
+                    Bundle bundle = new Bundle();
+                    String imgPath = mImgPathList.get(index);
+                    if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
+                        bundle.putString("path", imgPath);
+                    } else {
+                        bundle.putString("filePath", imgPath);
+                    }
+                    ViewUtil.jumpToOtherActivity(GoodsChangeActivity.this, HeadBigActivity.class, bundle);
+                } else if (index == mImgPathList.size() - 1) {
+                    Intent intent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    GoodsChangeActivity.this.startActivityForResult(intent, PHOTO);
+                }
+                break;
+            case R.id.goods_detil_change_img_del_1:
+            case R.id.goods_detil_change_img_del_2:
+            case R.id.goods_detil_change_img_del_3:
+            case R.id.goods_detil_change_img_del_4:
+            case R.id.goods_detil_change_img_del_5:
+            case R.id.goods_detil_change_img_del_6:
+            case R.id.goods_detil_change_img_del_7:
+            case R.id.goods_detil_change_img_del_8:
+                int position = mImgDelList.indexOf(v);
+                deleteImage(position);
                 break;
         }
     }
@@ -371,9 +465,9 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
     }
 
     public void deleteImage(final int position) {
-        if(mImgPathList.size() == 2){
-            Toast.makeText(this,"至少上传一张照片",Toast.LENGTH_SHORT).show();
-        }else{
+        if (mImgPathList.size() == 2) {
+            Toast.makeText(this, "至少上传一张照片", Toast.LENGTH_SHORT).show();
+        } else {
             if (mIsUpdate) {
                 new Thread() {
                     @Override
@@ -383,10 +477,9 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                 }.start();
             } else {
                 mImgPathList.remove(position);
-                mAdapter.resetData(mImgPathList);
+                showImageList();
             }
         }
-
 
 
     }
@@ -414,13 +507,53 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
         if (mImgPathList.size() < 8) {
             mImgPathList.add("0");
         }
-        mAdapter.resetData(mImgPathList);
+        showImageList();
     }
 
     @Override
     protected void onDestroy() {
         mImgPathList = null;
-        mAdapter = null;
         super.onDestroy();
+    }
+
+    private void setImageWidthHeight(ImageView view) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = widthView;
+        params.height = widthView;
+    }
+
+    private void showImageList() {
+        int size = mImgPathList.size();
+        for (int i = 0; i < size; i++) {
+            if (mImgPathList.get(i).equals("0")) {
+                //添加位
+                mImgIvList.get(i).setImageResource(R.drawable.em_add_new);
+            } else {
+                String pathStr = mImgPathList.get(i);
+                if (pathStr.startsWith("http://") || pathStr.startsWith("https://")) {
+                    imageLoaders.loadImage(mImgIvList.get(i), pathStr);
+                } else {
+                    mImgIvList.get(i).setImageBitmap(BitmapFactory.decodeFile(pathStr));
+                }
+            }
+        }
+        int sizeIv = mImgIvList.size();
+        for (int i = 0; i < sizeIv; i++) {
+            mImgIvList.get(i).setVisibility(i < size ? View.VISIBLE : View.INVISIBLE);
+            mImgDelList.get(i).setVisibility(i < size - 1 ? View.VISIBLE : View.GONE);
+        }
+        if (size <= 4) {
+            mImgs_line2.setVisibility(View.GONE);
+        } else {
+            mImgs_line2.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private class imageLoaderListener implements ImageLoaders.ImageLoaderListener {
+
+        @Override
+        public void onImageLoad(View v, Bitmap bmp, String url) {
+            ((ImageView) v).setImageBitmap(bmp);
+        }
     }
 }
