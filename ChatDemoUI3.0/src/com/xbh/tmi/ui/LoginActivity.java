@@ -135,7 +135,7 @@ private boolean isOther = false;
 						List<NameValuePair> Sinaparams = new ArrayList<NameValuePair>();
 						Sinaparams.add(new BasicNameValuePair("userName", mOtherUid));
 						Sinaparams.add(new BasicNameValuePair("userPassword", "123456"));
-						Sinaparams.add(new BasicNameValuePair("nickname",Username));
+						Sinaparams.add(new BasicNameValuePair("nickname",Username.trim()));
 						NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
 								Config.URL_REDGIST, Sinaparams);
 						break;
@@ -150,7 +150,7 @@ private boolean isOther = false;
 							List<NameValuePair> mWeChatParams = new ArrayList<NameValuePair>();
 							mWeChatParams.add(new BasicNameValuePair("userName", mOtherUid));
 							mWeChatParams.add(new BasicNameValuePair("userPassword", "123456"));
-							mWeChatParams.add(new BasicNameValuePair("nickname",nickname));
+							mWeChatParams.add(new BasicNameValuePair("nickname",nickname.trim()));
 							NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
 									Config.URL_REDGIST, mWeChatParams);
 						} catch (JSONException e) {
@@ -166,12 +166,12 @@ private boolean isOther = false;
 							String nickname = json.getString("nickname");//注册使用的昵称
 							//在这里进行微信登录*********************************************************************
 							mOtherUid = mStropenID;
-							List<NameValuePair> mWeChatParams = new ArrayList<NameValuePair>();
-							mWeChatParams.add(new BasicNameValuePair("userName", mOtherUid));
-							mWeChatParams.add(new BasicNameValuePair("userPassword", "123456"));
-							mWeChatParams.add(new BasicNameValuePair("nickname",nickname));
+							List<NameValuePair> mQQParams = new ArrayList<NameValuePair>();
+							mQQParams.add(new BasicNameValuePair("userName", mOtherUid.toLowerCase()));
+							mQQParams.add(new BasicNameValuePair("userPassword", "123456"));
+							mQQParams.add(new BasicNameValuePair("nickname",nickname.trim()));
 							NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
-									Config.URL_REDGIST, mWeChatParams);
+									Config.URL_REDGIST, mQQParams);
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
