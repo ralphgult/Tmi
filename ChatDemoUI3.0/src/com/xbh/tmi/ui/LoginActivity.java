@@ -135,7 +135,10 @@ private boolean isOther = false;
 						List<NameValuePair> Sinaparams = new ArrayList<NameValuePair>();
 						Sinaparams.add(new BasicNameValuePair("userName", mOtherUid));
 						Sinaparams.add(new BasicNameValuePair("userPassword", "123456"));
-						Sinaparams.add(new BasicNameValuePair("nickname",Username.trim()));
+
+						String strSinaNickName = Username.replaceAll("[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]", "");
+
+						Sinaparams.add(new BasicNameValuePair("nickname",strSinaNickName.trim()));
 						NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
 								Config.URL_REDGIST, Sinaparams);
 						break;
@@ -146,11 +149,16 @@ private boolean isOther = false;
 							JSONObject json = new JSONObject(str);
 							mOtherUid =json.getString("openid");//注册使用的账号
 							String nickname = json.getString("nickname");//注册使用的昵称
+
+							String strWeChatNickName = nickname.replaceAll("[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]", "");
+
+
+
 							//在这里进行微信登录*********************************************************************
 							List<NameValuePair> mWeChatParams = new ArrayList<NameValuePair>();
 							mWeChatParams.add(new BasicNameValuePair("userName", mOtherUid));
 							mWeChatParams.add(new BasicNameValuePair("userPassword", "123456"));
-							mWeChatParams.add(new BasicNameValuePair("nickname",nickname.trim()));
+							mWeChatParams.add(new BasicNameValuePair("nickname",strWeChatNickName.trim()));
 							NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
 									Config.URL_REDGIST, mWeChatParams);
 						} catch (JSONException e) {
@@ -169,7 +177,9 @@ private boolean isOther = false;
 							List<NameValuePair> mQQParams = new ArrayList<NameValuePair>();
 							mQQParams.add(new BasicNameValuePair("userName", mOtherUid.toLowerCase()));
 							mQQParams.add(new BasicNameValuePair("userPassword", "123456"));
-							mQQParams.add(new BasicNameValuePair("nickname",nickname.trim()));
+
+							String strQQNickName = nickname.replaceAll("[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]", "");
+							mQQParams.add(new BasicNameValuePair("nickname",strQQNickName.trim()));
 							NetFactory.instance().commonHttpCilent(mRegisHandler, LoginActivity.this,
 									Config.URL_REDGIST, mQQParams);
 						} catch (JSONException e) {
