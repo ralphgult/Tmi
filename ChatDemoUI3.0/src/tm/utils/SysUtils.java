@@ -8,6 +8,8 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
+
 public class SysUtils {
 	/**
 	 *
@@ -89,4 +91,11 @@ public class SysUtils {
         params.height = totalHeight + 15;
         view.setLayoutParams(params);
     }
+
+	public static String getTimeFormat(String format, long time) {
+		String timeFormat = null;
+		timeFormat = new SimpleDateFormat(format).format(time);
+		return timeFormat;
+	}
+
 }
