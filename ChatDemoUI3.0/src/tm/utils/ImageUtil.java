@@ -329,7 +329,7 @@ public class ImageUtil {
         Bitmap picBitmap = null;
         FileOutputStream fileOutputStream = null;
         if (with == 0 && height == 0) {
-            picBitmap = resizeBitmap(imagePath, 768, 1024);
+            picBitmap = resizeBitmap(imagePath, 720, 1280);
         } else {
             picBitmap = resizeBitmap(imagePath, with, height);
         }
