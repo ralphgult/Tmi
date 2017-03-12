@@ -16,6 +16,7 @@ import tm.utils.SysUtils;
 
 public class AlipayAPI {
 
+    public static String mDate;
     /**
      * @param activity
      * @param subject  商品名称
@@ -49,22 +50,22 @@ public class AlipayAPI {
     }
 
     private static String getRequestUrl(String subject, String body, String price) {
-        String orderInfo = "&app_id=2017030706101528";
+        String orderInfo = "app_id=2017030706101528";
         try {
             orderInfo += "&method=alipay.trade.app.pay";
 
             // 参数编码， 固定值
             orderInfo += "&charset=utf-8";
-
-            orderInfo += "&timestamp=" + URLEncoder.encode(SysUtils.getTimeFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis()), "UTF-8");
+            String date = URLEncoder.encode(mDate, "utf-8");
+            orderInfo += "&timestamp=" + date.replace("+", "%20");
 
             orderInfo += "&version=1.0";
 
             // 服务器异步通知页面路径
-            orderInfo += "&notify_url=" + "" + "http://hsaiqs.xicp.net:55176/CBDParkingMSs/order/pay" + "";
+            orderInfo += "&notify_url=" + "" + URLEncoder.encode("http://hsaiqs.xicp.net:55176/CBDParkingMSs/order/pay","utf-8");
             orderInfo += "&biz_content=" + URLEncoder.encode("{out_trade_no=" + getOutTradeNo() + ",subject=" + subject
                     + ",body=" + body + ",total_amount=" + price
-                    + ",timeout_express=30m,product_code=QUICK_MSECURITY_PAY,extend_params={}}", "UTF-8");
+                    + ",timeout_express=30m,product_code=QUICK_MSECURITY_PAY,extend_params={}}", "utf-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,14 +82,14 @@ public class AlipayAPI {
 //		// 签约卖家支付宝账号
 //		orderInfo += "&seller_id=" + "\"" + AlipayConfig.SELLER + "\"";
 
-        String orderInfo = "&app_id=2017030706101528";
+        String orderInfo = "app_id=2017030706101528";
 
         orderInfo += "&method=alipay.trade.app.pay";
 
         // 参数编码， 固定值
         orderInfo += "&charset=utf-8";
-
-        orderInfo += "&timestamp=" + SysUtils.getTimeFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis()) + "";
+        mDate = SysUtils.getTimeFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis());
+        orderInfo += "&timestamp=" + mDate;
 
         orderInfo += "&version=1.0";
 
@@ -97,7 +98,7 @@ public class AlipayAPI {
 
         orderInfo += "&biz_content={" + "out_trade_no=" + getOutTradeNo() + ",subject=" + subject
                 + ",body=" + body + ",total_amount=" + price
-                + ",timeout_express=30m,product_code=QUICK_MSECURITY_PAY,extend_params={}}";
+                + ",timeout_express=30m,product_code=QUICK_MSECURITY_PAY}";
 //		// 商户网站唯一订单号
 //		orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
 //
@@ -151,8 +152,9 @@ public class AlipayAPI {
      * get the sign type we use. 获取签名方式
      */
     private static String getSignType() {
-        return "sign_type=RSA2";
+        return "sign_type=RSA";
     }
+
 
     /**
      * get the out_trade_no for an order. 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
