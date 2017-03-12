@@ -1,6 +1,7 @@
 package tm.alipay;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
 
@@ -15,83 +16,107 @@ import tm.utils.SysUtils;
 
 public class AlipayAPI {
 
-	/**
-	 * @param activity
-	 * @param subject 商品名称
-	 * @param body 商品的详细描述
-	 * @param price 支付金额
-	 * @return
-	 */
-	public static String pay(Activity activity, String subject, String body, String price) {
-		
-		String orderInfo = getOrderInfo(subject, body, price); // 创建订单信息
+    /**
+     * @param activity
+     * @param subject  商品名称
+     * @param body     商品的详细描述
+     * @param price    支付金额
+     * @return
+     */
+    public static String pay(Activity activity, String subject, String body, String price) {
 
-		/**
-		 * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
-		 */
-		String sign = sign(orderInfo);
-		System.out.println("---sign--->" + sign);
-		try {
-			sign = URLEncoder.encode(sign, "UTF-8"); // 仅需对sign 做URL编码
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		/**
-		 * 完整的符合支付宝参数规范的订单信息
-		 */
-		final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
+        String orderInfo = getOrderInfo(subject, body, price); // 创建订单信息
 
-		PayTask alipay = new PayTask(activity);
-		String result = alipay.pay(payInfo, true); // 调用支付接口进行支付
-		
-		return result;
-	}
+        /**
+         * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
+         */
+        String sign = sign(orderInfo);
+        System.out.println("---sign--->" + sign);
+        try {
+            sign = URLEncoder.encode(sign, "UTF-8"); // 仅需对sign 做URL编码
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        /**
+         * 完整的符合支付宝参数规范的订单信息
+         */
+        final String payInfo = getRequestUrl(subject, body, price) + "&sign=" + sign + "&" + getSignType();
+        Log.e("info", "payInfo =========== " + payInfo);
+        PayTask alipay = new PayTask(activity);
+        String result = alipay.pay(payInfo, true); // 调用支付接口进行支付
 
-	/**
-	 * create the order info. 创建订单信息
-	 */
-	private static String getOrderInfo(String subject, String body, String price) {
+        return result;
+    }
+
+    private static String getRequestUrl(String subject, String body, String price) {
+        String orderInfo = "&app_id=2017030706101528";
+        try {
+            orderInfo += "&method=alipay.trade.app.pay";
+
+            // 参数编码， 固定值
+            orderInfo += "&charset=utf-8";
+
+            orderInfo += "&timestamp=" + URLEncoder.encode(SysUtils.getTimeFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis()), "UTF-8");
+
+            orderInfo += "&version=1.0";
+
+            // 服务器异步通知页面路径
+            orderInfo += "&notify_url=" + "" + "http://hsaiqs.xicp.net:55176/CBDParkingMSs/order/pay" + "";
+            orderInfo += "&biz_content=" + URLEncoder.encode("{out_trade_no=" + getOutTradeNo() + ",subject=" + subject
+                    + ",body=" + body + ",total_amount=" + price
+                    + ",timeout_express=30m,product_code=QUICK_MSECURITY_PAY,extend_params={}}", "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderInfo;
+    }
+
+    /**
+     * create the order info. 创建订单信息
+     */
+    private static String getOrderInfo(String subject, String body, String price) {
 
 //		// 签约合作者身份ID
 //		String orderInfo = "partner=" + "\"" + AlipayConfig.PARTNER  + "\"";
 //		// 签约卖家支付宝账号
 //		orderInfo += "&seller_id=" + "\"" + AlipayConfig.SELLER + "\"";
 
-		String orderInfo = "&app_id=2017030706101528";
+        String orderInfo = "&app_id=2017030706101528";
 
-		orderInfo +="&method=\"alipay.trade.app.pay\"";
+        orderInfo += "&method=alipay.trade.app.pay";
 
-		// 参数编码， 固定值
-		orderInfo += "&charset=\"utf-8\"";
+        // 参数编码， 固定值
+        orderInfo += "&charset=utf-8";
 
-		orderInfo +="&timestamp=" + SysUtils.getTimeFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis());
+        orderInfo += "&timestamp=" + SysUtils.getTimeFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis()) + "";
 
-		orderInfo +="&version=\"1.0\"";
+        orderInfo += "&version=1.0";
 
-		// 服务器异步通知页面路径
-		orderInfo += "&notify_url=" + "\"" + "http://121.196.244.27:3003/notify.htm" + "\"";
+        // 服务器异步通知页面路径
+        orderInfo += "&notify_url=" + "" + "http://hsaiqs.xicp.net:55176/CBDParkingMSs/order/pay" + "";
 
-		orderInfo +="&biz_content={" + "out_trade_no=" + getOutTradeNo() + ",subject=" + subject
-				+ ",body=" + body + ",total_amount=" + price
-				+ ",timeout_express=\"30m,product_code=QUICK_MSECURITY_PAY,extend_params={}}" ;
-
+        orderInfo += "&biz_content={" + "out_trade_no=" + getOutTradeNo() + ",subject=" + subject
+                + ",body=" + body + ",total_amount=" + price
+                + ",timeout_express=30m,product_code=QUICK_MSECURITY_PAY,extend_params={}}";
 //		// 商户网站唯一订单号
 //		orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
 //
 //		// 商品名称
 //		orderInfo += "&subject=" + "\"" + subject + "\"";
-//
+////
 //		// 商品详情
 //		orderInfo += "&body=" + "\"" + body + "\"";
-//
+////
 //		// 商品金额
-//		orderInfo += "&total_fee=" + "\"" + price + "\"";
+//		orderInfo += "&total_amount=" + "\"" + price + "\"";
 //
-////		// 服务接口名称， 固定值
-////		orderInfo += "&service=\"mobile.securitypay.pay\"";
+//		// 服务接口名称， 固定值
+//		orderInfo += "&service=\"mobile.securitypay.pay\"";
+
+        // 支付类型， 固定值
+//		orderInfo += "&payment_type=\"1\"";
 //
-////		// 支付类型， 固定值
-////		orderInfo += "&payment_type=\"1\"";
+//		orderInfo += "product_code=QUICK_MSECURITY_PAY";
 //
 //
 //		// 设置未付款交易的超时时间
@@ -104,43 +129,43 @@ public class AlipayAPI {
 //		// extern_token为经过快登授权获取到的alipay_open_id,带上此参数用户将使用授权的账户进行支付
 //		 orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
 
-		// 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
+        // 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
 //		orderInfo += "&return_url=\"m.alipay.com\"";
+//
+//		// 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
+//		 orderInfo += "&paymethod=\"expressGateway\"";
 
-		// 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
-		// orderInfo += "&paymethod=\"expressGateway\"";
+        return orderInfo;
+    }
 
-		return orderInfo;
-	}
+    /**
+     * sign the order info. 对订单信息进行签名
+     *
+     * @param content 待签名订单信息
+     */
+    private static String sign(String content) {
+        return SignUtils.sign(content, AlipayConfig.RSA_PRIVATE);
+    }
 
-	/**
-	 * sign the order info. 对订单信息进行签名
-	 *
-	 * @param content 待签名订单信息
-	 */
-	private static String sign(String content) {
-		return SignUtils.sign(content, AlipayConfig.RSA_PRIVATE);
-	}
+    /**
+     * get the sign type we use. 获取签名方式
+     */
+    private static String getSignType() {
+        return "sign_type=RSA2";
+    }
 
-	/**
-	 * get the sign type we use. 获取签名方式
-	 */
-	private static String getSignType() {
-		return "sign_type=\"RSA2\"";
-	}
+    /**
+     * get the out_trade_no for an order. 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
+     */
+    private static String getOutTradeNo() {
+        SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
+        Date date = new Date();
+        String key = format.format(date);
 
-	/**
-	 * get the out_trade_no for an order. 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
-	 */
-	private static String getOutTradeNo() {
-		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
-		Date date = new Date();
-		String key = format.format(date);
-
-		Random r = new Random();
-		key = key + r.nextInt();
-		key = key.substring(0, 15);
-		return key;
-	}
+        Random r = new Random();
+        key = key + r.nextInt();
+        key = key.substring(0, 15);
+        return key;
+    }
 
 }
