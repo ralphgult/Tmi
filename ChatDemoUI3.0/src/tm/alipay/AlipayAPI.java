@@ -42,6 +42,7 @@ public class AlipayAPI {
          * 完整的符合支付宝参数规范的订单信息
          */
         final String payInfo = getRequestUrl(subject, body, price) + "&sign=" + sign + "&" + getSignType();
+        Log.e("info", "orderInfo =========== " + orderInfo);
         Log.e("info", "payInfo =========== " + payInfo);
         PayTask alipay = new PayTask(activity);
         String result = alipay.pay(payInfo, true); // 调用支付接口进行支付
@@ -53,6 +54,7 @@ public class AlipayAPI {
         String orderInfo = "app_id=2017030706101528";
         try {
             orderInfo += "&method=alipay.trade.app.pay";
+            orderInfo += "&format=json";
 
             // 参数编码， 固定值
             orderInfo += "&charset=utf-8";
@@ -63,9 +65,9 @@ public class AlipayAPI {
 
             // 服务器异步通知页面路径
             orderInfo += "&notify_url=" + "" + URLEncoder.encode("http://hsaiqs.xicp.net:55176/CBDParkingMSs/order/pay","utf-8");
-            orderInfo += "&biz_content=" + URLEncoder.encode("{out_trade_no=" + getOutTradeNo() + ",subject=" + subject
-                    + ",body=" + body + ",total_amount=" + price
-                    + ",timeout_express=30m,product_code=QUICK_MSECURITY_PAY,extend_params={}}", "utf-8");
+            orderInfo += "&biz_content=" + URLEncoder.encode("{\"out_trade_no\":\"" + getOutTradeNo() + "\",\"subject\":\"" + subject
+                    + "\",\"body\":\"" + body + "\",\"total_amount\":\"" + price
+                    + "\",\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\"}", "utf-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,7 +87,7 @@ public class AlipayAPI {
         String orderInfo = "app_id=2017030706101528";
 
         orderInfo += "&method=alipay.trade.app.pay";
-
+        orderInfo += "&format=json";
         // 参数编码， 固定值
         orderInfo += "&charset=utf-8";
         mDate = SysUtils.getTimeFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis());
@@ -94,11 +96,11 @@ public class AlipayAPI {
         orderInfo += "&version=1.0";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "" + "http://hsaiqs.xicp.net:55176/CBDParkingMSs/order/pay" + "";
+        orderInfo += "&notify_url=" + "" + "http://hsaiqs.xicp.net:55176/CBDParkingMSs/order/pay";
 
-        orderInfo += "&biz_content={" + "out_trade_no=" + getOutTradeNo() + ",subject=" + subject
-                + ",body=" + body + ",total_amount=" + price
-                + ",timeout_express=30m,product_code=QUICK_MSECURITY_PAY}";
+        orderInfo += "&biz_content={" + "\"out_trade_no\":\"" + getOutTradeNo() + "\",\"subject\":\"" + subject
+                + "\",\"body\":\"" + body + "\",\"total_amount\":\"" + price
+                + "\",\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\"}";
 //		// 商户网站唯一订单号
 //		orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
 //
@@ -152,7 +154,7 @@ public class AlipayAPI {
      * get the sign type we use. 获取签名方式
      */
     private static String getSignType() {
-        return "sign_type=RSA";
+        return "sign_type=RSA2";
     }
 
 
