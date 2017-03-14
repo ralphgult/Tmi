@@ -70,7 +70,29 @@ public class GoodsImageAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("path", mImgPaths.get(position));
+
+                String []strs = new String [mImgPaths.size()];
+                int indexs =0;
+                for(int i=0;i<mImgPaths.size();i++){
+                    strs[i] = mImgPaths.get(i);
+                    if(strs[i].toString().equals("0")){
+                        indexs = i;
+                    }
+                }
+                if (indexs != 0) {
+                    String []ary = new String[strs.length - 1];
+                    System.arraycopy(strs, 0, ary, 0, indexs);
+                    System.arraycopy(strs, indexs + 1, ary, indexs, ary.length - indexs);
+                    bundle.putStringArray("path",ary);
+                }else{
+                    bundle.putStringArray("path",strs);
+                }
+
+
+
+                bundle.putStringArray("path",strs);
+                bundle.putInt("status", position);
+
                 ViewUtil.jumpToOtherActivity(((Activity) mContext), HeadBigActivity.class, bundle);
             }
         });

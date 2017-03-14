@@ -53,9 +53,7 @@ public class HeadBigActivity extends Activity implements View.OnTouchListener{
         Log.e("Lking","传过来的地址个数 = "+paths.length);
         for(int i=0;i<paths.length;i++){
             Log.e("Lking","传过来的地址 = "+paths[i].toString());
-            if(paths[i].toString().equals("0")){
-                index = i;
-            }
+
         }
 //        if(index == 0){
 //            imageLoaders.loadImage(head_iv,paths[0]);
@@ -66,11 +64,13 @@ public class HeadBigActivity extends Activity implements View.OnTouchListener{
 //        }
         if(paths.length>0){
             status = getIntent().getExtras().getInt("status");
+            head_iv.refreshDrawableState();
             imageLoaders.loadImage(head_iv,paths[status]);
             Log.e("LKing","传过来的地址下标 = "+status);
 
         }else if(!TextUtils.isEmpty(getIntent().getExtras().getString("filePath"))){
             String path = getIntent().getExtras().getString("filePath");
+            head_iv.refreshDrawableState();
             head_iv.setImageBitmap(BitmapFactory.decodeFile(path));
         }
 

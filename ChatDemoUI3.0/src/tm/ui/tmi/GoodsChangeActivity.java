@@ -353,7 +353,23 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                     Bundle bundle = new Bundle();
                     String imgPath = mImgPathList.get(index);
                     if (imgPath.startsWith("http://") || imgPath.startsWith("https://")) {
-                        bundle.putString("path", imgPath);
+                        String []strs = new String [mImgPathList.size()];
+                        int indexs =0;
+                        for(int i=0;i<mImgPathList.size();i++){
+                            strs[i] = mImgPathList.get(i);
+                            if(strs[i].toString().equals("0")){
+                                indexs = i;
+                            }
+                        }
+                        if (indexs != 0) {
+                            String []ary = new String[strs.length - 1];
+                            System.arraycopy(strs, 0, ary, 0, indexs);
+                            System.arraycopy(strs, indexs + 1, ary, indexs, ary.length - indexs);
+                            bundle.putStringArray("path",ary);
+                        }else{
+                            bundle.putStringArray("path",strs);
+                        }
+                        bundle.putInt("status", index);
                     } else {
                         bundle.putString("filePath", imgPath);
                     }

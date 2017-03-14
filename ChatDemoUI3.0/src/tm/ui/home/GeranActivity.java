@@ -158,17 +158,23 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
                 @Override
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                        float velocityY) {
-                    float x = e2.getX() - e1.getX();
-                    float y = e2.getY() - e1.getY();
+                    if(e1 == null || e2 == null){
+                        return false;
+                    }else{
+                        float x = e2.getX() - e1.getX();
+                        float y = e2.getY() - e1.getY();
 
-                    if (x > 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200) ) {
-                        Log.e("Lking "," y " +y);
-                        doResult(RIGHT);
-                    } else if (x < 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200)) {
-                        Log.e("Lking "," y " +y);
-                        doResult(LEFT);
+                        if (x > 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200) ) {
+                            Log.e("Lking "," y " +y);
+                            doResult(RIGHT);
+                        } else if (x < 0 && (Math.abs(x) > 200)&&(Math.abs(y) < 200)) {
+                            Log.e("Lking "," y " +y);
+                            doResult(LEFT);
+                        }
+                        return true;
                     }
-                    return true;
+
+
                 }
             };
 
@@ -422,7 +428,6 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
             case R.id.img_pic1:
                 Bundle bundle1 = new Bundle();
                 addPath();
-//                photoLength
                 String []str1 = new String[photoLength];
                 for(int i=0;i<photoLength;i++){
                     str1[i] = strPath[i];
@@ -616,6 +621,7 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
 
             if (photos != null && photos.length() != 0) {
                 photoLength = photos.length();
+                img_pic1.refreshDrawableState();
                 pic_ly.setVisibility(View.VISIBLE);
                 if (photos.length() <= 3) {
                     ll_pic2.setVisibility(View.GONE);
@@ -765,6 +771,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
             gridViewAdapter.resetDato(shangpinlist);
             JSONArray     photos = new JSONArray(top);
             if (photos != null && photos.length() != 0) {
+                photoLength = photos.length();
+                img_pic1.refreshDrawableState();
                 pic_ly.setVisibility(View.VISIBLE);
                 if (photos.length() <= 3) {
                     ll_pic2.setVisibility(View.GONE);

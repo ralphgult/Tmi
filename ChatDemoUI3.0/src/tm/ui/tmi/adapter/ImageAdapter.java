@@ -110,7 +110,27 @@ public class ImageAdapter extends BaseAdapter {
                     }else{
                         Bundle bundle = new Bundle();
                         if (mPicList[position].startsWith("http://") || mPicList[position].startsWith("https://")) {
-                            bundle.putString("path", mPicList[position]);
+
+
+                            int indexs =0;
+                            for(int i=0;i<mPicList.length;i++){
+                                if(mPicList[i].toString().equals("0")){
+                                    indexs = i;
+                                }
+                            }
+                            if (indexs != 0) {
+                                String []ary = new String[mPicList.length - 1];
+                                System.arraycopy(mPicList, 0, ary, 0, indexs);
+                                System.arraycopy(mPicList, indexs + 1, ary, indexs, ary.length - indexs);
+                                bundle.putStringArray("path",ary);
+                            }else{
+                                bundle.putStringArray("path",mPicList);
+                            }
+
+
+
+                            bundle.putStringArray("path",mPicList);
+                            bundle.putInt("status", position);
                         }else {
                             bundle.putString("filePath", mPicList[position]);
                         }

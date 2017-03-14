@@ -156,7 +156,7 @@ public class ImageLoaders {
 			Log.d(TAG, "Thread pool err, please check");
 			return;
 		}
-
+		v.refreshDrawableState();
 		// 将任务加入队列
 		mThreadPool.execute(new Runnable() {
 

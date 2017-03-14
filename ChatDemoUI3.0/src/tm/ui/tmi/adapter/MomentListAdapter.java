@@ -166,7 +166,9 @@ public class MomentListAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("path",pics);
+                        String []str = {pics};
+                        bundle.putStringArray("path",str);
+                        bundle.putInt("status",0);
                         ViewUtil.jumpToOtherActivity((Activity)mContext, HeadBigActivity.class, bundle);
                     }
                 });

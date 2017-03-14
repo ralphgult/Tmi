@@ -218,7 +218,9 @@ public class AuctionDetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("path", imgPath);
+                String []path = {imgPath};
+                bundle.putStringArray("path",path);
+                bundle.putInt("status",0);
                 ViewUtil.jumpToOtherActivity(AuctionDetailActivity.this, HeadBigActivity.class, bundle);
             }
         });

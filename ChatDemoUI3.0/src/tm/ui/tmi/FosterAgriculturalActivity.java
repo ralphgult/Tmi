@@ -161,7 +161,8 @@ public class FosterAgriculturalActivity extends Activity {
             public void onClick(View view) {
                 String str = strimgs[0];
                 Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
-                intent.putExtra("path", str);
+                intent.putExtra("path", strimgs);
+                intent.putExtra("status", 0);
                 startActivity(intent);
             }
         });
@@ -170,7 +171,8 @@ public class FosterAgriculturalActivity extends Activity {
             public void onClick(View view) {
                 String str = strimgs[1];
                 Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
-                intent.putExtra("path", str);
+                intent.putExtra("path", strimgs);
+                intent.putExtra("status", 1);
                 startActivity(intent);
             }
         });
@@ -179,7 +181,8 @@ public class FosterAgriculturalActivity extends Activity {
             public void onClick(View view) {
                 String str = strimgs[2];
                 Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
-                intent.putExtra("path", str);
+                intent.putExtra("path", strimgs);
+                intent.putExtra("status",2);
                 startActivity(intent);
             }
         });
@@ -188,7 +191,8 @@ public class FosterAgriculturalActivity extends Activity {
             public void onClick(View view) {
                 String str = strimgs[3];
                 Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
-                intent.putExtra("path", str);
+                intent.putExtra("path", strimgs);
+                intent.putExtra("status", 3);
                 startActivity(intent);
             }
         });
