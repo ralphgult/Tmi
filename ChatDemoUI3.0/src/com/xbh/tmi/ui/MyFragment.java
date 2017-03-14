@@ -226,7 +226,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             case R.id.mine_upload_auction_tv:
                 ViewUtil.jumpToOtherActivity(this.getActivity(),UploadAuctionActivity.class);
                 break;
-            case R.id.fgt_mine_head_iv:
+            case R.id.fgt_mine_head_iv://头像放大
                 bundle = new Bundle();
                 bundle.putString("path", headImgPath);
                 ViewUtil.jumpToOtherActivity(this.getActivity(), HeadBigActivity.class, bundle);
