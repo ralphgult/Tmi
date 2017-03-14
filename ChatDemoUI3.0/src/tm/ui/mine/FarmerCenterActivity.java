@@ -206,7 +206,24 @@ public class FarmerCenterActivity extends BaseActivity implements View.OnClickLi
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (!imgList.get(position).equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("path", imgList.get(position));
+                    String []path = new String[imgList.size()];
+                    int indexs =0;
+                    for(int i=0;i<imgList.size();i++){
+                        path[i] = imgList.get(i);
+                        if(path[i].toString().equals("0")){
+                            indexs = i;
+                        }
+                    }
+                    if (indexs != 0) {
+                        String []ary = new String[path.length - 1];
+                        System.arraycopy(path, 0, ary, 0, indexs);
+                        System.arraycopy(path, indexs + 1, ary, indexs, ary.length - indexs);
+                        bundle.putStringArray("path",ary);
+                    }else{
+                        bundle.putStringArray("path",path);
+                    }
+                    bundle.putInt("status",position);
+
                     ViewUtil.jumpToOtherActivity(FarmerCenterActivity.this, HeadBigActivity.class, bundle);
                 } else {
                     showPopupWindow(CHANGE_FACE_WALL);
