@@ -64,8 +64,13 @@ public class HeadBigActivity extends Activity implements View.OnTouchListener{
 //        }
         if(paths.length>0){
             status = getIntent().getExtras().getInt("status");
-            head_iv.refreshDrawableState();
-            imageLoaders.loadImage(head_iv,paths[status]);
+            if(paths.length == 1 ){
+                ImageLoaders image = new ImageLoaders(this, new imageLoader());
+                image.loadImage(head_iv,paths[status]);
+            }else{
+                head_iv.refreshDrawableState();
+                imageLoaders.loadImage(head_iv,paths[status]);
+            }
             Log.e("LKing","传过来的地址下标 = "+status);
 
         }else if(!TextUtils.isEmpty(getIntent().getExtras().getString("filePath"))){
@@ -124,9 +129,9 @@ public class HeadBigActivity extends Activity implements View.OnTouchListener{
     public void doResult(int action) {
         Log.e("Lking","滑动前的下标status = "+status);
         Log.e("Lking","滑动前的paths长度 = "+paths.length);
-        if(paths.length == 1){
-            return;
-        }
+//        if(paths.length == 1){
+//            return;
+//        }
         head_iv.refreshDrawableState();
         switch (action) {
             case RIGHT:
