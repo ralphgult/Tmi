@@ -228,7 +228,9 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fgt_mine_head_iv://头像放大
                 bundle = new Bundle();
-                bundle.putString("path", headImgPath);
+                String []path = {headImgPath};
+                bundle.putStringArray("path",path);
+                bundle.putInt("status",0);
                 ViewUtil.jumpToOtherActivity(this.getActivity(), HeadBigActivity.class, bundle);
                 break;
         }
