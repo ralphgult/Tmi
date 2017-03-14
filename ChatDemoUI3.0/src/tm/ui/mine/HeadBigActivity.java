@@ -50,19 +50,7 @@ public class HeadBigActivity extends Activity implements View.OnTouchListener{
 
 
         paths = getIntent().getExtras().getStringArray("path");
-        Log.e("Lking","传过来的地址个数 = "+paths.length);
-        for(int i=0;i<paths.length;i++){
-            Log.e("Lking","传过来的地址 = "+paths[i].toString());
-
-        }
-//        if(index == 0){
-//            imageLoaders.loadImage(head_iv,paths[0]);
-//        }else{
-//            ary = new String[paths.length-1];
-//            System.arraycopy(paths, 0, ary, 0, index);
-//            System.arraycopy(paths, index+1, ary, index, ary.length-index);
-//        }
-        if(paths.length>0){
+        if(null!=paths && paths.length>0){
             status = getIntent().getExtras().getInt("status");
             if(paths.length == 1 ){
                 ImageLoaders image = new ImageLoaders(this, new imageLoader());
@@ -127,11 +115,9 @@ public class HeadBigActivity extends Activity implements View.OnTouchListener{
             };
 
     public void doResult(int action) {
-        Log.e("Lking","滑动前的下标status = "+status);
-        Log.e("Lking","滑动前的paths长度 = "+paths.length);
-//        if(paths.length == 1){
-//            return;
-//        }
+        if(null == paths){
+            return;
+        }
         head_iv.refreshDrawableState();
         switch (action) {
             case RIGHT:
