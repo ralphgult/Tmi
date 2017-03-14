@@ -51,6 +51,8 @@ import tm.widget.StationaryGridView;
  * Created by Administrator on 2016/9/11.
  */
 public class GeranActivity extends BaseActivity implements View.OnClickListener,View.OnTouchListener{
+    String [] strPath = new String[6];
+    int photoLength;
     private GestureDetector gestureDetector;
     final int RIGHT = 0;
     final int LEFT = 1;
@@ -419,32 +421,69 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.img_pic1:
                 Bundle bundle1 = new Bundle();
-                bundle1.putString("path", picurl1);
+                addPath();
+//                photoLength
+                String []str1 = new String[photoLength];
+                for(int i=0;i<photoLength;i++){
+                    str1[i] = strPath[i];
+                }
+                bundle1.putStringArray("path",str1);
+                bundle1.putInt("status",0);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle1);
                 break;
             case R.id.img_pic2:
                 Bundle bundle2 = new Bundle();
-                bundle2.putString("path", picurl2);
+                addPath();
+                String []str2 = new String[photoLength];
+                for(int i=0;i<photoLength;i++){
+                    str2[i] = strPath[i];
+                }
+                bundle2.putStringArray("path", str2);
+                bundle2.putInt("status",1);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle2);
                 break;
             case R.id.img_pic3:
                 Bundle bundle3 = new Bundle();
-                bundle3.putString("path", picurl3);
+                addPath();
+                String []str3 = new String[photoLength];
+                for(int i=0;i<photoLength;i++){
+                    str3[i] = strPath[i];
+                }
+                bundle3.putStringArray("path", str3);
+                bundle3.putInt("status",2);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle3);
                 break;
             case R.id.img_pic4:
                 Bundle bundle4 = new Bundle();
-                bundle4.putString("path", picurl4);
+                addPath();
+                String []str4 = new String[photoLength];
+                for(int i=0;i<photoLength;i++){
+                    str4[i] = strPath[i];
+                }
+                bundle4.putStringArray("path", str4);
+                bundle4.putInt("status",3);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle4);
                 break;
             case R.id.img_pic5:
                 Bundle bundle5 = new Bundle();
-                bundle5.putString("path", picurl5);
+                addPath();
+                String []str5 = new String[photoLength];
+                for(int i=0;i<photoLength;i++){
+                    str5[i] = strPath[i];
+                }
+                bundle5.putStringArray("path", str5);
+                bundle5.putInt("status",4);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle5);
                 break;
             case R.id.img_pic6:
                 Bundle bundle6 = new Bundle();
-                bundle6.putString("path", picurl6);
+                addPath();
+                String []str6 = new String[photoLength];
+                for(int i=0;i<photoLength;i++){
+                    str6[i] = strPath[i];
+                }
+                bundle6.putStringArray("path", str6);
+                bundle6.putInt("status",5);
                 ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle6);
                 break;
             default:
@@ -452,6 +491,28 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
         }
 
     }
+
+    private void addPath() {
+        if(null != picurl1){
+            strPath[0] = picurl1;
+        }
+        if(null != picurl2){
+            strPath[1] = picurl2;
+        }
+        if(null != picurl3){
+            strPath[2] = picurl3;
+        }
+        if(null != picurl4){
+            strPath[3] = picurl4;
+        }
+        if(null != picurl5){
+            strPath[4] = picurl5;
+        }
+        if(null != picurl6){
+            strPath[5] = picurl6;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -551,7 +612,10 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
             }
 //            JSONArray photos = objects.getJSONArray("top");
             JSONArray photos = new JSONArray(map.get("top")+"");
+
+
             if (photos != null && photos.length() != 0) {
+                photoLength = photos.length();
                 pic_ly.setVisibility(View.VISIBLE);
                 if (photos.length() <= 3) {
                     ll_pic2.setVisibility(View.GONE);
