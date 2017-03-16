@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -116,6 +117,13 @@ public class FosterShopActivity extends Activity {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
+
+                        //TODO 生成订单（商户账号（买的谁的商品））
+                        String subject = name;//商品名字
+                        String body = name+sum+"件";//商品描述
+                        String total_fee = price;//价格
+                        Log.e("Lking","上传订单 = "+"商品名字："+subject+"；商品描述："+body+"；商品价格："+total_fee);
+
                         Toast.makeText(FosterShopActivity.this, "支付成功",
                                 Toast.LENGTH_SHORT).show();
                     } else {
@@ -145,6 +153,7 @@ public class FosterShopActivity extends Activity {
         @Override
         public void run() {
             String result = AlipayAPI.pay(FosterShopActivity.this,name,name+sum+"件",price);
+            Log.e("Lking","支付返回值 = "+result);
 //            String result = AlipayAPI.pay(ShoppingPayActivity.this, "测试的商品",
 //                    "测试商品的详细描述", "0.01");
             Message msg = new Message();
