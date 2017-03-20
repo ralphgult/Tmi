@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.oohla.android.utils.NetworkUtil;
+import com.oohla.android.utils.StringUtil;
 import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
@@ -81,6 +82,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private TextView mPersonWishTv;//设置我的心愿显示
     private RelativeLayout mPersonIncomeRv;//设置年收入布局
     private TextView mPersonIncomeTv;//设置年收入显示
+    private RelativeLayout mPersonAliAccountRv;//设置支付宝账号的布局
+    private TextView mPersonAliAccounttv;//设置支付宝账号的显示
 
 
     private TextView ok;
@@ -249,6 +252,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         mPersonWishTv = (TextView) findViewById(R.id.person_wish_tv);
         mPersonIncomeRv = (RelativeLayout) findViewById(R.id.person_income_rv);
         mPersonIncomeTv = (TextView) findViewById(R.id.person_income_tv);
+        mPersonAliAccountRv = (RelativeLayout) findViewById(R.id.person_aliaccon_rv);
+        mPersonAliAccounttv = (TextView) findViewById(R.id.person_aliaccon_tv);
 
         mPersonSignTv = (TextView) findViewById(R.id.person_sign_tv);
         ok = (TextView) findViewById(R.id.person_center_ok_tv);
@@ -298,6 +303,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         mPersonHobbyRv.setOnClickListener(this);
         mPersonWishRv.setOnClickListener(this);
         mPersonIncomeRv.setOnClickListener(this);
+        mPersonAliAccountRv.setOnClickListener(this);
         back.setOnClickListener(this);
     }
 
@@ -352,6 +358,9 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
             case R.id.person_income_rv:
                 //设置年收入
                 createDialog("设置年收入", 11);
+                break;
+            case R.id.person_aliaccon_tv:
+                createDialog("设置支付宝账号", 12);
                 break;
 
             case R.id.person_center_head_rv:
@@ -432,8 +441,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                         return;
                     }
                     List<NameValuePair> list = new ArrayList<NameValuePair>();
-                    SharedPreferences sharedPre = PersonCenterActivity.this.getSharedPreferences("config", PersonCenterActivity.this.MODE_PRIVATE);
-                    String userId = sharedPre.getString("username", "");
+                    String userId = ViewUtil.getCurrentUserId();
                     if (!TextUtils.isEmpty(userId)) {
                         list.add(new BasicNameValuePair("userId", userId));
                         //接口设置type
@@ -489,6 +497,13 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
 
                                 break;
                             }
+                            case 12:
+                                if (StringUtil.isNullOrEmpty(inputText)) {
+
+                                } else {
+                                    list.add(new BasicNameValuePair("aliPay", inputText));
+                                }
+                                break;
                         }
                     } else {
                         Toast.makeText(PersonCenterActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();

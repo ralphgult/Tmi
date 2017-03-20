@@ -197,7 +197,6 @@ public class AuctionDetailActivity extends Activity {
         mDetailBid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                //Todo 出价接口
 //                Toast.makeText(AuctionDetailActivity.this, "手动出价一次，成功后....", Toast.LENGTH_SHORT).show();
 //                mDetailPriceNum.setText("出价加一次");
                 if (isOnClick) {
