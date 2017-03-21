@@ -1342,5 +1342,42 @@ public class PersonManager {
             e.printStackTrace();
         }
     }
-
+//    URL_CREATE_ORSER
+public static void createOrder(String price, String goodsId, String time, Handler handler) {
+    HttpClient httpclient = new DefaultHttpClient();
+    try {
+        HttpPost httppost = new HttpPost(Config.URL_ADD_LOST_INFO);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        reqEntity.addPart("userId", new StringBody(sharedPre.getString("username", ""), Charset.forName("UTF-8")));
+        reqEntity.addPart("buyer_pay_amount", new StringBody(price, Charset.forName("UTF-8")));
+        reqEntity.addPart("goodsIds", new StringBody(goodsId, Charset.forName("UTF-8")));
+        reqEntity.addPart("gmt_payment", new StringBody(time, Charset.forName("UTF-8")));
+        httppost.setEntity(reqEntity);
+        HttpResponse response = httpclient.execute(httppost);
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode == HttpStatus.SC_OK) {
+            System.out.println("服务器正常响应.....");
+            HttpEntity resEntity = response.getEntity();
+            JSONObject object = new JSONObject(EntityUtils.toString(resEntity));//httpclient自带的工具类读取返回数据
+            if (null != handler) {
+                if (object.getInt("authId") > 0) {
+                    handler.sendEmptyMessage(3001);
+                } else {
+                    handler.sendEmptyMessage(3002);
+                }
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        if (null != handler) {
+            handler.sendEmptyMessage(UPLOAD_HEADICON_ERROR);
+        }
+    } finally {
+        try {
+            httpclient.getConnectionManager().shutdown();
+        } catch (Exception ignore) {
+        }
+    }
+}
 }

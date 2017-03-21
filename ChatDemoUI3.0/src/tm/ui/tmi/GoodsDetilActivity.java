@@ -30,6 +30,7 @@ import tm.manager.PersonManager;
 import tm.ui.mine.MySoppingActivity;
 import tm.ui.tmi.adapter.GoodsImageAdapter;
 import tm.utils.ImageLoaders;
+import tm.utils.SysUtils;
 import tm.utils.ViewUtil;
 import tm.widget.StationaryGridView;
 
@@ -108,6 +109,9 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
                     case 2001:
                         Toast.makeText(GoodsDetilActivity.this, "商品已添加至购物车", Toast.LENGTH_SHORT).show();
                         break;
+                    case 3002:
+                        Toast.makeText(GoodsDetilActivity.this, "订单生成失败", Toast.LENGTH_SHORT).show();
+                        break;
                     default:
                         Toast.makeText(GoodsDetilActivity.this, "系统繁忙，请稍后再试...", Toast.LENGTH_SHORT).show();
                         break;
@@ -155,7 +159,6 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.goods_chat_tv:
-                //TODO 跳转聊天
                 break;
             case R.id.goods_shopcar_tv:
                 new Thread() {
@@ -217,13 +220,13 @@ public class GoodsDetilActivity extends Activity implements View.OnClickListener
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
-
-                        //TODO 生成订单（商户账号（买的谁的商品））
-                        String subject = mName;//商品名字
-                        String body = mDetailStr;//商品描述
-                        String total_fee = mPrice;//价格
-                        Log.e("Lking","上传订单 = "+"商品名字："+subject+"；商品描述："+body+"；商品价格："+total_fee);
-
+                        //生成订单
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                PersonManager.createOrder(mPrice, mGoodsId, SysUtils.getTimeFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis()), mHandler);
+                            }
+                        };
                         Toast.makeText(GoodsDetilActivity.this, "支付成功",
                                 Toast.LENGTH_SHORT).show();
                     } else {
