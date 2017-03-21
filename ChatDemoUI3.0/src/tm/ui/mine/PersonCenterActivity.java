@@ -44,6 +44,7 @@ import java.util.Map;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.manager.PersonManager;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
@@ -276,7 +277,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                         bundle.putStringArray("path",path);
                     }
                     bundle.putInt("status",position);
-                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, HeadBigActivity.class, bundle);
+//                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, HeadBigActivity.class, bundle);
+                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, BigBackGroundActivity.class, bundle);
                 } else {
                     showPopupWindow(CHANGE_FACE_WALL);
                 }

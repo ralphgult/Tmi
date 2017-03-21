@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import tm.manager.PersonManager;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.HeadBigActivity;
 import tm.utils.ImageLoaders;
 import tm.utils.SysUtils;
@@ -169,7 +170,8 @@ public class MomentListAdapter extends BaseAdapter {
                         String []str = {pics};
                         bundle.putStringArray("path",str);
                         bundle.putInt("status",0);
-                        ViewUtil.jumpToOtherActivity((Activity)mContext, HeadBigActivity.class, bundle);
+//                        ViewUtil.jumpToOtherActivity((Activity)mContext, HeadBigActivity.class, bundle);
+                        ViewUtil.jumpToOtherActivity((Activity)mContext, BigBackGroundActivity.class, bundle);
                     }
                 });
             }

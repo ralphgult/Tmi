@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 
 import tm.manager.DpSpPxSwitch;
 import tm.manager.PersonManager;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.HeadBigActivity;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
@@ -373,7 +374,8 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
                     } else {
                         bundle.putString("filePath", imgPath);
                     }
-                    ViewUtil.jumpToOtherActivity(GoodsChangeActivity.this, HeadBigActivity.class, bundle);
+//                    ViewUtil.jumpToOtherActivity(GoodsChangeActivity.this, HeadBigActivity.class, bundle);
+                    ViewUtil.jumpToOtherActivity(GoodsChangeActivity.this, BigBackGroundActivity.class, bundle);
                 } else if (index == mImgPathList.size() - 1) {
                     Intent intent = new Intent(Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

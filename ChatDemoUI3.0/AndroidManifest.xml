@@ -672,6 +672,10 @@
             android:name="tm.ui.mine.ShoppingPayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="tm.ui.BigBackGroundActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

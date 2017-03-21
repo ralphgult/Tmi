@@ -38,6 +38,7 @@ import tm.db.dao.FriendDao;
 import tm.entity.DianpuBean;
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.home.Adapter.DianpuAdapter;
 import tm.ui.mine.HeadBigActivity;
 import tm.ui.tmi.GoodsDetilActivity;
@@ -434,7 +435,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
                 }
                 bundle1.putStringArray("path",str1);
                 bundle1.putInt("status",0);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle1);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle1);
+                ViewUtil.jumpToOtherActivity(this, BigBackGroundActivity.class, bundle1);
                 break;
             case R.id.img_pic2:
                 Bundle bundle2 = new Bundle();
@@ -445,7 +447,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
                 }
                 bundle2.putStringArray("path", str2);
                 bundle2.putInt("status",1);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle2);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle2);
+                ViewUtil.jumpToOtherActivity(this, BigBackGroundActivity.class, bundle2);
                 break;
             case R.id.img_pic3:
                 Bundle bundle3 = new Bundle();
@@ -456,7 +459,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
                 }
                 bundle3.putStringArray("path", str3);
                 bundle3.putInt("status",2);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle3);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle3);
+                ViewUtil.jumpToOtherActivity(this, BigBackGroundActivity.class, bundle3);
                 break;
             case R.id.img_pic4:
                 Bundle bundle4 = new Bundle();
@@ -467,7 +471,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
                 }
                 bundle4.putStringArray("path", str4);
                 bundle4.putInt("status",3);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle4);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle4);
+                ViewUtil.jumpToOtherActivity(this, BigBackGroundActivity.class, bundle4);
                 break;
             case R.id.img_pic5:
                 Bundle bundle5 = new Bundle();
@@ -478,7 +483,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
                 }
                 bundle5.putStringArray("path", str5);
                 bundle5.putInt("status",4);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle5);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle5);
+                ViewUtil.jumpToOtherActivity(this, BigBackGroundActivity.class, bundle5);
                 break;
             case R.id.img_pic6:
                 Bundle bundle6 = new Bundle();
@@ -489,7 +495,8 @@ public class GeranActivity extends BaseActivity implements View.OnClickListener,
                 }
                 bundle6.putStringArray("path", str6);
                 bundle6.putInt("status",5);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle6);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle6);
+                ViewUtil.jumpToOtherActivity(this, BigBackGroundActivity.class, bundle6);
                 break;
             default:
                 break;
