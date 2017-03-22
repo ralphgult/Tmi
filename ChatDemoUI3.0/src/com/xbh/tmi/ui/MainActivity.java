@@ -20,14 +20,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -59,9 +65,26 @@ import com.xbh.tmi.db.UserDao;
 import com.xbh.tmi.runtimepermissions.PermissionsManager;
 import com.xbh.tmi.runtimepermissions.PermissionsResultAction;
 
-import java.util.List;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import tm.http.Config;
+import tm.http.NetFactory;
+import tm.manager.PersonManager;
 import tm.ui.main.HuihuaFragment;
+import tm.ui.mine.PersonCenterActivity;
+import tm.utils.ConstantsHandler;
+import tm.utils.ImageUtil;
+import tm.utils.SysUtils;
 
 @SuppressLint("NewApi")
 public class MainActivity extends BaseActivity {
@@ -80,7 +103,14 @@ public class MainActivity extends BaseActivity {
 	public boolean isConflict = false;
 	// user account was removed
 	private boolean isCurrentAccountRemoved = false;
-	
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+
+			}
+		}
+	};
 
 	/**
 	 * check if current user account was remove
@@ -117,6 +147,67 @@ public class MainActivity extends BaseActivity {
 		}
 		setContentView(R.layout.em_activity_main);
 		// runtime permission for android 6.0, just require all permissions here for simple
+
+
+		SharedPreferences sp = getSharedPreferences("sp_demo", Context.MODE_PRIVATE);
+		int age = sp.getInt("head", 0);
+		final String headPath = "/mnt/sdcard/" + "head"+".jpg";
+		switch (age){
+			case 2://微博
+				new Thread() {
+					@Override
+					public void run() {
+						SharedPreferences sharedPre = MainActivity.this.getSharedPreferences("config", MainActivity.this.MODE_PRIVATE);
+						String userId = sharedPre.getString("username", "");
+						PersonManager.SubmitPost(new File(headPath), userId, 1, mHandler);
+
+						SharedPreferences sp = getSharedPreferences("sp_demo", Context.MODE_PRIVATE);
+						SharedPreferences.Editor editor = sp.edit();
+						editor.putInt("head", 20);
+						editor.commit();
+					}
+				}.start();
+				break;
+			case 3://微信
+				new Thread() {
+					@Override
+					public void run() {
+						SharedPreferences sharedPre = MainActivity.this.getSharedPreferences("config", MainActivity.this.MODE_PRIVATE);
+						String userId = sharedPre.getString("username", "");
+						PersonManager.SubmitPost(new File(headPath), userId, 1, mHandler);
+
+						SharedPreferences sp = getSharedPreferences("sp_demo", Context.MODE_PRIVATE);
+						SharedPreferences.Editor editor = sp.edit();
+						editor.putInt("head", 30);
+						editor.commit();
+				}
+				}.start();
+				break;
+			case 4://QQ
+				new Thread() {
+					@Override
+					public void run() {
+						SharedPreferences sharedPre = MainActivity.this.getSharedPreferences("config", MainActivity.this.MODE_PRIVATE);
+						String userId = sharedPre.getString("username", "");
+						PersonManager.SubmitPost(new File(headPath), userId, 1, mHandler);
+
+						SharedPreferences sp = getSharedPreferences("sp_demo", Context.MODE_PRIVATE);
+						SharedPreferences.Editor editor = sp.edit();
+						editor.putInt("head", 40);
+						editor.commit();
+					}
+				}.start();
+				break;
+			default:
+				Log.e("Lking","已经设置过了，不在重新设置");
+				break;
+		}
+
+
+
+
+
+
 		requestPermissions();
 
 		initView();

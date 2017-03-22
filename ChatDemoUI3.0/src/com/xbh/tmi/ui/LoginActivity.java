@@ -20,6 +20,8 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -62,6 +64,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +89,8 @@ import tm.ui.login.RegistActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ViewTools;
 import tm.utils.ViewUtil;
+
+import static com.hyphenate.easeui.utils.EaseUserUtils.getHttpBitmap;
 
 /**
  * 登录界面
@@ -121,6 +132,9 @@ public class LoginActivity extends BaseActivity {
 
 private boolean isWeiXin = false;
 private boolean isOther = false;
+	private String SinePath;//微博头像
+	private String WeChatPath;//微信头像
+	private String QQPath;//QQ头像
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -132,6 +146,28 @@ private boolean isOther = false;
 						Platform obj = (Platform)msg.obj;
 						mOtherUid = obj.getDb().getUserId();
 						String Username = obj.getDb().getUserName();
+						//////////////////////////////////////////////////////////////////
+						SinePath = obj.getDb().getUserIcon();
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								Bitmap mSineBitmap = getHttpBitmap(SinePath);//从网络获取图片
+								savePicture(mSineBitmap);//保存图片到SD卡
+
+								SharedPreferences mSinesp = getSharedPreferences("sp_demo", Context.MODE_PRIVATE);
+								int age = mSinesp.getInt("head", 0);
+								if(age!=0&&age!=20) {
+									SharedPreferences.Editor editor = mSinesp.edit();
+									editor.putInt("head", 2);
+									editor.commit();
+								}
+							}
+						}).start();
+
+
+
+
+						Log.e("Lking info","微博头像 = "+SinePath);
 						List<NameValuePair> Sinaparams = new ArrayList<NameValuePair>();
 						Sinaparams.add(new BasicNameValuePair("userName", mOtherUid));
 						Sinaparams.add(new BasicNameValuePair("userPassword", "123456"));
@@ -149,11 +185,32 @@ private boolean isOther = false;
 							JSONObject json = new JSONObject(str);
 							mOtherUid =json.getString("openid");//注册使用的账号
 							String nickname = json.getString("nickname");//注册使用的昵称
+							////////////////////////////////////////////////////////////////////////////////////////////////////
+							WeChatPath = json.getString("headimgurl");
+							new Thread(new Runnable() {
+								@Override
+								public void run() {
+									Bitmap mWeChatBitmap = getHttpBitmap(WeChatPath);//从网络获取图片
+									savePicture(mWeChatBitmap);//保存图片到SD卡
+									SharedPreferences mWeChatsp = getSharedPreferences("sp_demo", Context.MODE_PRIVATE);
+									int age = mWeChatsp.getInt("head", 0);
+									if(age==0||age!=30){
+										SharedPreferences.Editor editor = mWeChatsp.edit();
+										editor.putInt("head", 3);
+										editor.commit();
+									}
+
+
+
+								}
+							}).start();
+							Log.e("Lking info","微信头像 = "+WeChatPath);
+
+
+
+
 
 							String strWeChatNickName = nickname.replaceAll("[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]", "");
-
-
-
 							//在这里进行微信登录*********************************************************************
 							List<NameValuePair> mWeChatParams = new ArrayList<NameValuePair>();
 							mWeChatParams.add(new BasicNameValuePair("userName", mOtherUid));
@@ -171,6 +228,26 @@ private boolean isOther = false;
 						try {
 							String str = String.valueOf(msg.obj);
 							JSONObject json = new JSONObject(str);
+							/////////////////////////////////////////////////////////////////////////
+							QQPath = json.getString("figureurl_qq_2");//QQ头像
+							Log.e("Lking info","QQ头像 = "+QQPath);
+							new Thread(new Runnable() {
+								@Override
+								public void run() {
+									Bitmap mQQBitmap = getHttpBitmap(QQPath);//从网络获取图片
+									savePicture(mQQBitmap);//保存图片到SD卡
+
+									SharedPreferences mQQsp = getSharedPreferences("sp_demo", Context.MODE_PRIVATE);
+									int age = mQQsp.getInt("head", 0);
+									if(age==0||age!=40) {
+										SharedPreferences.Editor editor = mQQsp.edit();
+										editor.putInt("head", 4);
+										editor.commit();
+									}
+								}
+							}).start();
+
+
 							String nickname = json.getString("nickname");//注册使用的昵称
 							//在这里进行微信登录*********************************************************************
 							mOtherUid = mStropenID;
@@ -833,5 +910,46 @@ private boolean isOther = false;
 		} catch (JSONException e) {
 		}
 
+	}
+
+
+
+	public Bitmap getHttpBitmap(String url)
+	{
+		Bitmap bitmap = null;
+		try
+		{
+			URL pictureUrl = new URL(url);
+			InputStream in = pictureUrl.openStream();
+			bitmap = BitmapFactory.decodeStream(in);
+			in.close();
+		} catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return bitmap;
+	}
+
+	public void savePicture(Bitmap bitmap)
+	{
+		String pictureName = "/mnt/sdcard/" + "head"+".jpg";
+		File file = new File(pictureName);
+		FileOutputStream out;
+		try
+		{
+			out = new FileOutputStream(file);
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
