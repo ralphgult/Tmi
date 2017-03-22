@@ -33,7 +33,7 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 //这里修改apk文件名
-                def fileName = "tmsousou1.0.1.apk"
+                def fileName = "tmsousou1.0.2.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
@@ -87,4 +87,5 @@ dependencies {
     //    compile ('com.anthonycr.grant:permissions:1.0'){
     //        exclude module: 'support-v4'
     //    }
+//    compile 'com.facebook.fresco:fresco:0.10.0'
 }
