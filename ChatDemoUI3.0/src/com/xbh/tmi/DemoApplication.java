@@ -19,6 +19,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.easemob.redpacketsdk.RedPacket;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,6 +51,10 @@ public class DemoApplication extends Application {
 		RedPacket.getInstance().initContext(applicationContext);
 		RedPacket.getInstance().setDebugMode(true);
 		//end of red packet code
+
+		ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+				.createDefault(getApplicationContext());
+		ImageLoader.getInstance().init(configuration);
 	}
 
 	public static DemoApplication getInstance() {

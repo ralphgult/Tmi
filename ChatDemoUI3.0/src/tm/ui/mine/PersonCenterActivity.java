@@ -46,6 +46,7 @@ import java.util.Map;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.manager.PersonManager;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
@@ -64,8 +65,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
     private TextView mPersonSignTv;//设置个人签名显示
     private RelativeLayout mPersonNameRv;//设置昵称布局
     private TextView mPersonNameTv;//设置昵称显示
-    private RelativeLayout mPersonAccountRv;//设置账号布局
-    private TextView mPersonAccountTv;//设置账号显示
+//    private RelativeLayout mPersonAccountRv;//设置账号布局
+//    private TextView mPersonAccountTv;//设置账号显示
     private RelativeLayout mPersonResidenceRv;//设置居住地布局
     private TextView mPersonResidenceTv;//设置居住地显示
 
@@ -196,8 +197,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String userId = sharedPre.getString("username", "");
-        //账号
-        mPersonAccountTv.setText(userId);
+//        //账号
+//        mPersonAccountTv.setText(userId);
         //居住地
         mPersonResidenceTv.setText(getIntent().getExtras().getString("domicile"));
         //职业
@@ -234,8 +235,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         mPersonSignRv = (RelativeLayout) findViewById(R.id.person_sign_rv);
         mPersonNameRv = (RelativeLayout) findViewById(R.id.person_name_rv);
         mPersonNameTv = (TextView) findViewById(R.id.person_name_tv);
-        mPersonAccountRv = (RelativeLayout) findViewById(R.id.person_account_rv);
-        mPersonAccountTv = (TextView) findViewById(R.id.person_account_tv);
+//        mPersonAccountRv = (RelativeLayout) findViewById(R.id.person_account_rv);
+//        mPersonAccountTv = (TextView) findViewById(R.id.person_account_tv);
 
         mPersonResidenceRv = (RelativeLayout) findViewById(R.id.person_residence_rv);
         mPersonResidenceTv = (TextView) findViewById(R.id.person_residence_tv);
@@ -282,7 +283,8 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                         bundle.putStringArray("path",path);
                     }
                     bundle.putInt("status",position);
-                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, HeadBigActivity.class, bundle);
+//                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, HeadBigActivity.class, bundle);
+                    ViewUtil.jumpToOtherActivity(PersonCenterActivity.this, BigBackGroundActivity.class, bundle);
                 } else {
                     showPopupWindow(CHANGE_FACE_WALL);
                 }
@@ -295,7 +297,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         yanzhi.setOnClickListener(this);
         mPersonSignRv.setOnClickListener(this);
         mPersonNameRv.setOnClickListener(this);
-        mPersonAccountRv.setOnClickListener(this);
+//        mPersonAccountRv.setOnClickListener(this);
         mPersonResidenceRv.setOnClickListener(this);
         mPersonJobRv.setOnClickListener(this);
         mPersonAgeRv.setOnClickListener(this);
@@ -325,9 +327,9 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 //设置昵称
                 createDialog("设置昵称", 1);
                 break;
-            case R.id.person_account_rv:
-                Toast.makeText(this, "账号不可修改", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.person_account_rv:
+//                Toast.makeText(this, "账号不可修改", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.person_residence_rv:
                 //设置居住地
                 createDialog("设置居住地", 4);

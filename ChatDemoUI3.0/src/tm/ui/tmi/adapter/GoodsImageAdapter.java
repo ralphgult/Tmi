@@ -13,6 +13,7 @@ import com.xbh.tmi.R;
 
 import java.util.List;
 
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.HeadBigActivity;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
@@ -93,7 +94,8 @@ public class GoodsImageAdapter extends BaseAdapter {
                 bundle.putStringArray("path",strs);
                 bundle.putInt("status", position);
 
-                ViewUtil.jumpToOtherActivity(((Activity) mContext), HeadBigActivity.class, bundle);
+//                ViewUtil.jumpToOtherActivity(((Activity) mContext), HeadBigActivity.class, bundle);
+                ViewUtil.jumpToOtherActivity(((Activity) mContext), BigBackGroundActivity.class, bundle);
             }
         });
         return view;

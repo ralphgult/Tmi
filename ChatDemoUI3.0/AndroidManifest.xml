@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xbh.tmi"
-    android:versionCode="2"
-    android:versionName="1.0.1">
+    android:versionCode="3"
+    android:versionName="1.0.2">
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -670,6 +670,10 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="tm.ui.mine.ShoppingPayActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="tm.ui.BigBackGroundActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>

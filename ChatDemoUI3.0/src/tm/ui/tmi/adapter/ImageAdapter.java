@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.xbh.tmi.R;
 
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.HeadBigActivity;
 import tm.ui.tmi.MomentsActivity;
 import tm.ui.tmi.ReleaseFriendActivity;
@@ -134,7 +135,8 @@ public class ImageAdapter extends BaseAdapter {
                         }else {
                             bundle.putString("filePath", mPicList[position]);
                         }
-                        ViewUtil.jumpToOtherActivity((Activity) mContext, HeadBigActivity.class,bundle);
+//                        ViewUtil.jumpToOtherActivity((Activity) mContext, HeadBigActivity.class,bundle);
+                        ViewUtil.jumpToOtherActivity((Activity) mContext, BigBackGroundActivity.class,bundle);
                     }
                 }
             });

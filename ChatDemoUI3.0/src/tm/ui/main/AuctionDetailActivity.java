@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import tm.manager.PersonManager;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.HeadBigActivity;
 import tm.utils.ImageLoaders;
 import tm.utils.ViewUtil;
@@ -220,7 +221,8 @@ public class AuctionDetailActivity extends Activity {
                 String []path = {imgPath};
                 bundle.putStringArray("path",path);
                 bundle.putInt("status",0);
-                ViewUtil.jumpToOtherActivity(AuctionDetailActivity.this, HeadBigActivity.class, bundle);
+//                ViewUtil.jumpToOtherActivity(AuctionDetailActivity.this, HeadBigActivity.class, bundle);
+                ViewUtil.jumpToOtherActivity(AuctionDetailActivity.this, BigBackGroundActivity.class, bundle);
             }
         });
         mDetailImg01.setOnClickListener(new View.OnClickListener() {

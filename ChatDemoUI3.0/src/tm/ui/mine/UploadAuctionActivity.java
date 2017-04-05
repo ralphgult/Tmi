@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tm.manager.PersonManager;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.adapter.UploadImageAdapter;
 import tm.utils.ImageUtil;
 import tm.utils.SysUtils;
@@ -118,7 +119,8 @@ public class UploadAuctionActivity extends Activity implements View.OnClickListe
                 if (!imgList.get(position).equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("filePath", imgList.get(position));
-                    ViewUtil.jumpToOtherActivity(UploadAuctionActivity.this, HeadBigActivity.class, bundle);
+//                    ViewUtil.jumpToOtherActivity(UploadAuctionActivity.this, HeadBigActivity.class, bundle);
+                    ViewUtil.jumpToOtherActivity(UploadAuctionActivity.this, BigBackGroundActivity.class, bundle);
                 } else {
                     showPopupWindow();
                 }

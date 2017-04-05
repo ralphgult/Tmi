@@ -48,6 +48,7 @@ import java.util.Map;
 import tm.http.Config;
 import tm.http.NetFactory;
 import tm.manager.PersonManager;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.adapter.FaceWallAdapter;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
@@ -258,7 +259,8 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                     }
                     bundle.putInt("status",position);
 //                    bundle.putString("path", imgList.get(position));
-                    ViewUtil.jumpToOtherActivity(CompCenterActivity.this, HeadBigActivity.class, bundle);
+//                    ViewUtil.jumpToOtherActivity(CompCenterActivity.this, HeadBigActivity.class, bundle);
+                    ViewUtil.jumpToOtherActivity(CompCenterActivity.this, BigBackGroundActivity.class, bundle);
                 } else {
                     showPopupWindow(CHANGE_FACE_WALL);
                 }
@@ -323,7 +325,8 @@ public class CompCenterActivity extends BaseActivity implements View.OnClickList
                 Bundle bundle = new Bundle();
                 bundle.putString("path", "");
                 bundle.putString("filePath", Constant.QRCODE_FILE_PATH);
-                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle);
+//                ViewUtil.jumpToOtherActivity(this, HeadBigActivity.class, bundle);
+                ViewUtil.jumpToOtherActivity(this, BigBackGroundActivity.class, bundle);
                 break;
             case R.id.comp_center_vedio_rv:
                 Intent intent = new Intent();

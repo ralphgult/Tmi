@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import tm.alipay.AlipayAPI;
 import tm.manager.PersonManager;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.HeadBigActivity;
 import tm.utils.ConstantsHandler;
 import tm.utils.ImageLoaders;
@@ -160,7 +161,8 @@ public class FosterAgriculturalActivity extends Activity {
             @Override
             public void onClick(View view) {
                 String str = strimgs[0];
-                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+//                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+                Intent intent = new Intent(FosterAgriculturalActivity.this, BigBackGroundActivity.class);
                 intent.putExtra("path", strimgs);
                 intent.putExtra("status", 0);
                 startActivity(intent);
@@ -170,7 +172,8 @@ public class FosterAgriculturalActivity extends Activity {
             @Override
             public void onClick(View view) {
                 String str = strimgs[1];
-                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+//                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+                Intent intent = new Intent(FosterAgriculturalActivity.this, BigBackGroundActivity.class);
                 intent.putExtra("path", strimgs);
                 intent.putExtra("status", 1);
                 startActivity(intent);
@@ -180,7 +183,8 @@ public class FosterAgriculturalActivity extends Activity {
             @Override
             public void onClick(View view) {
                 String str = strimgs[2];
-                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+//                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+                Intent intent = new Intent(FosterAgriculturalActivity.this, BigBackGroundActivity.class);
                 intent.putExtra("path", strimgs);
                 intent.putExtra("status",2);
                 startActivity(intent);
@@ -190,7 +194,8 @@ public class FosterAgriculturalActivity extends Activity {
             @Override
             public void onClick(View view) {
                 String str = strimgs[3];
-                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+//                Intent intent = new Intent(FosterAgriculturalActivity.this, HeadBigActivity.class);
+                Intent intent = new Intent(FosterAgriculturalActivity.this, BigBackGroundActivity.class);;
                 intent.putExtra("path", strimgs);
                 intent.putExtra("status", 3);
                 startActivity(intent);

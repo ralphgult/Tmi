@@ -146,9 +146,8 @@
             </RelativeLayout>
 
             <View style="@style/tm_common_divide_line_whitebg_width" />
-
             <RelativeLayout
-                android:id="@+id/person_account_rv"
+                android:id="@+id/person_aliaccon_rv"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/background_white"
@@ -158,26 +157,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="账号"
+                    android:text="支付宝账号"
                     android:textColor="#4e4e4e"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/person_account_tv"
+                    android:id="@+id/person_aliaccon_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/person_account_iv"
+                    android:layout_toLeftOf="@+id/person_aliaccon_iv"
                     android:ellipsize="end"
                     android:gravity="right"
                     android:maxLength="15"
                     android:maxLines="1"
-                    android:text="账号不可修改"
+                    android:text="设置支付宝账号"
                     android:textColor="#4f4f4f"
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:id="@+id/person_account_iv"
+                    android:id="@+id/person_aliaccon_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
@@ -538,45 +537,7 @@
                     android:layout_margin="15dp"
                     android:src="@drawable/youxue_common_btn_icon_arrow" />
             </RelativeLayout>
-            <View style="@style/tm_common_divide_line_whitebg_width" />
-            <RelativeLayout
-                android:id="@+id/person_aliaccon_rv"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/background_white"
-                android:paddingLeft="15dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="支付宝账号"
-                    android:textColor="#4e4e4e"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/person_aliaccon_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/person_aliaccon_iv"
-                    android:ellipsize="end"
-                    android:gravity="right"
-                    android:maxLength="15"
-                    android:maxLines="1"
-                    android:text="设置支付宝账号"
-                    android:textColor="#4f4f4f"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/person_aliaccon_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="15dp"
-                    android:src="@drawable/youxue_common_btn_icon_arrow" />
-            </RelativeLayout>
             <View style="@style/tm_common_divide_line_whitebg_width" />
         </LinearLayout>
     </ScrollView>

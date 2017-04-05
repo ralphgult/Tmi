@@ -28,6 +28,7 @@ import java.util.Map;
 
 import tm.http.Config;
 import tm.http.NetFactory;
+import tm.ui.BigBackGroundActivity;
 import tm.ui.mine.CompCenterActivity;
 import tm.ui.mine.FarmerCenterActivity;
 import tm.ui.mine.HeadBigActivity;
@@ -231,7 +232,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 String []path = {headImgPath};
                 bundle.putStringArray("path",path);
                 bundle.putInt("status",0);
-                ViewUtil.jumpToOtherActivity(this.getActivity(), HeadBigActivity.class, bundle);
+//                ViewUtil.jumpToOtherActivity(this.getActivity(), HeadBigActivity.class, bundle);
+                ViewUtil.jumpToOtherActivity(this.getActivity(), BigBackGroundActivity.class, bundle);
                 break;
         }
 
