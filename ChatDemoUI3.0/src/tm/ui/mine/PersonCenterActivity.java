@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.oohla.android.utils.NetworkUtil;
 import com.oohla.android.utils.StringUtil;
+import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 
 import org.apache.http.NameValuePair;
@@ -359,7 +360,7 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                 //设置年收入
                 createDialog("设置年收入", 11);
                 break;
-            case R.id.person_aliaccon_tv:
+            case R.id.person_aliaccon_rv:
                 createDialog("设置支付宝账号", 12);
                 break;
 
@@ -553,6 +554,12 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
                                                             case 11:
                                                                 mPersonIncomeTv.setText(inputText + "元");
                                                                 break;
+                                                            case 12:
+                                                                SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+                                                                SharedPreferences.Editor editor = sharedPre.edit();
+                                                                editor.putString("aliAccount", inputText);
+                                                                editor.commit();
+                                                                mPersonAliAccounttv.setText(inputText);
                                                         }
 
                                                         Toast.makeText(PersonCenterActivity.this, "修改成功", Toast.LENGTH_SHORT).show();

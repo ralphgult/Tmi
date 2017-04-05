@@ -3,6 +3,7 @@ package tm.ui.tmi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.oohla.android.utils.StringUtil;
+import com.xbh.tmi.DemoApplication;
 import com.xbh.tmi.R;
 
 import java.util.ArrayList;
@@ -427,6 +430,12 @@ public class GoodsChangeActivity extends Activity implements View.OnClickListene
 
 
     private boolean checkContent() {
+        SharedPreferences sharedPre = DemoApplication.applicationContext.getSharedPreferences("config", DemoApplication.applicationContext.MODE_PRIVATE);
+        String aliPayAccount = sharedPre.getString("aliAccount","");
+        if(StringUtil.isNullOrEmpty(aliPayAccount)){
+            Toast.makeText(this, "还未设置收款支付宝账号，请到个人中心内完善资料", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (null == mImgPathList || mImgPathList.size() == 0) {
             Toast.makeText(this, "请选择商品图片", Toast.LENGTH_SHORT).show();
             return false;
