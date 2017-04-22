@@ -215,6 +215,11 @@ public class PersonCenterActivity extends Activity implements View.OnClickListen
         mPersonWishTv.setText(getIntent().getExtras().getString("wish"));
         //年收入
         mPersonIncomeTv.setText(getIntent().getExtras().getString("income") + "元");
+        //支付宝
+        String aliAccount = sharedPre.getString("aliAccount", "");
+        if (!StringUtil.isNullOrEmpty(aliAccount)) {
+            mPersonAliAccounttv.setText(sharedPre.getString("aliAccount",""));
+        }
 
 
         if (!TextUtils.isEmpty(userId)) {
