@@ -605,7 +605,7 @@ private boolean isOther = false;
 						Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
 						uid=map.get("userId")+"";
 						Log.e("Lking","photo = "+ map.get("photo"));
-						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"",map.get("nickname")+"");
+						saveLoginInfo(LoginActivity.this,uid,map.get("userName")+"",map.get("photo")+"",map.get("nickname")+"", map.get("aliPay") + "");
 						LoadData();
 						hxlogin();
 					}else{
@@ -627,7 +627,7 @@ private boolean isOther = false;
 	 * @param context
 	 * @param username
 	 */
-	public static void saveLoginInfo(Context context, String username,String phone,String photo,String nickname){
+	public static void saveLoginInfo(Context context, String username,String phone,String photo,String nickname,String aliPay){
 		//获取SharedPreferences对象
 		SharedPreferences sharedPre=context.getSharedPreferences("config", context.MODE_PRIVATE);
 		//获取Editor对象
@@ -637,6 +637,7 @@ private boolean isOther = false;
 		editor.putString("phone", phone);
 		editor.putString("photo", photo);
 		editor.putString("nickname", nickname);
+		editor.putString("aliAccount", aliPay);
 		//提交
 		editor.commit();
 	}
