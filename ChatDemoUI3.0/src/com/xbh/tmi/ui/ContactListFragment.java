@@ -17,6 +17,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -202,10 +203,15 @@ public class ContactListFragment extends EaseContactListFragment implements View
 //                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
                 FriendDao fd=new FriendDao();
                 FriendBean  fb=fd.getLocalUserInfoByUserId(username);
-                //好友列表进入个人主页
-                Intent intent = new Intent(getActivity(), GeranActivity.class);
-                intent.putExtra("id", fb.mUserID+"");
-                startActivity(intent);
+                if(null == fb || TextUtils.isEmpty(fb.mUserID+"")){
+                    return;
+                }else{
+                    //好友列表进入个人主页
+                    Intent intent = new Intent(getActivity(), GeranActivity.class);
+                    intent.putExtra("id", fb.mUserID+"");
+                    startActivity(intent);
+                }
+
 
             }
         });
